@@ -1,0 +1,35 @@
+{
+  "name": "lktweb",
+  "version": "1.0.0",
+  "description": "/* Date of creation : 2024-07-16 writer           : wooyong.lee@lkterritory.com notice           : LKT Framework WEB UI Directory and File Descriptions:     LKTWeb/         : 프로젝트 루트 디렉토리     ├── src/        : 프로젝트 소스 파일     │   ├── css/    : CSS 파일 디렉토리     │   ├── js/     : Javascript 파일 디렉토리     │   ├── views/  : HTML 파일 디렉토리     ├── assets/     : 이미지 및 폰트 같은 정적 파일을 관리하는 디렉토리     │   ├── images/ : 이미지 파일 디렉토리     │   └── fonts/  : 폰트 파일 디렉토리     └── README.md   : 프로젝트 개요 및 사용 설명서를 포함한 마트다운 파일 */",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --mode development" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lkterritory/LKTWeb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lkterritory/LKTWeb/issues"
+  },
+  "homepage": "https://github.com/lkterritory/LKTWeb#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "devextreme": "^24.1.6",
+    "devextreme-aspnet-data": "^5.0.0-beta",
+    "devextreme-quill": "^1.7.1",
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  }
+}

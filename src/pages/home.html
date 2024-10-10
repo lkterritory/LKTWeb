@@ -1,0 +1,25 @@
+<div>
+  <h1></h1>
+  <p></p>
+
+  <!-- DevExpress DataGrid 예시 -->
+  <div id="gridContainer"></div>
+
+  <script>
+    $(function () {
+      // DevExpress DataGrid 초기화
+      $("#gridContainer").dxDataGrid({
+        dataSource: [
+          {name: "John", age: 30},
+          {name: "Jane", age: 25},
+          {name: "Alice", age: 28}
+        ],
+        columns: [
+          {dataField: "name", caption: "Name"},
+          {dataField: "age", caption: "Age"}
+        ],
+        showBorders: true
+      });
+    });
+  </script>
+</div>

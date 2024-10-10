@@ -1,0 +1,17 @@
+{
+ "Type": "report",
+ "Body": {
+   "Name": "Body",
+   "Type": "section",
+   "ReportItems": [
+    {
+       "Type": "textbox",
+       "Name": "textbox1",
+       "Style": { "FontSize": "18pt" },
+       "Value": "Hello, ActiveReportsJS Viewer",
+       "Height": "10in"
+    }
+  ]
+},
+ "Name": "Report"
+}
