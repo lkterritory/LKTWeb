@@ -1,0 +1,186 @@
+var selected_device;
+var devices = [];
+let socket;
+
+// function setup() {
+//   //Get the default device from the application as a first step. Discovery takes longer to complete.
+//   BrowserPrint.getDefaultDevice(
+//     "printer",
+//     function (device) {
+//       //Add device to list of devices and to html select element
+//       selected_device = device;
+//       devices.push(device);
+//       // 20230511 조형근 - 현재 선택 된 디바이스 정보 보려면 selected_device 에서 참고하면 됩니다.
+//       // 아래 주석은 차후 지울 예정
+//       // var html_select = document.getElementById("selected_device");
+//       // var option = document.createElement("option");
+//       // option.text = device.name;
+//       // html_select.add(option);
+
+//       //Discover any other devices available to the application
+//       BrowserPrint.getLocalDevices(
+//         function (device_list) {
+//           for (var i = 0; i < device_list.length; i++) {
+//             //Add device to list of devices and to html select element
+//             var device = device_list[i];
+//             if (!selected_device || device.uid != selected_device.uid) {
+//               devices.push(device);
+//               // 20230511 조형근 - 현재 선택 된 디바이스 정보 보려면 selected_device 에서 참고하면 됩니다.
+//               // 아래 주석은 차후 지울 예정
+//               // var option = document.createElement("option");
+//               // option.text = device.name;
+//               // option.value = device.uid;
+//               // html_select.add(option);
+//             }
+//           }
+//         },
+//         function () {
+//           console.log("Error getting local devices");
+//         },
+//         "printer"
+//       );
+//     },
+//     function (error) {
+//       console.log(error);
+//     }
+//   );
+//   console.log("call Zebra config");
+// }
+
+function setup() {
+  try {
+    BrowserPrint.getLocalDevices(
+      function (device_list) {
+        for (var i = 0; i < device_list.length; i++) {
+          var device = device_list[i];
+          console.log(device);
+        }
+        devices = device_list;
+      },
+      function () {
+        console.log("Error getting local devices");
+      },
+      "printer"
+    );
+  } catch (e) {
+    console.log("Error setup", e);
+  }
+  return devices;
+}
+function getConfig() {
+  BrowserPrint.getApplicationConfiguration(
+    function (config) {
+      console.log(JSON.stringify(config));
+    },
+    function (error) {
+      console.log(JSON.stringify(new BrowserPrint.ApplicationConfiguration()));
+    }
+  );
+}
+
+// function writeToSelectedPrinter(dataToWrite) {
+//   selected_device.send(dataToWrite, undefined, errorCallback);
+// }
+function writeToSelectedPrinter(param, dataToWrite) {
+  var device = null;
+  if (!param) {
+    console.log("인자가 비어있습니다.", param);
+    return false;
+  }
+
+  for (var i = 0; i < devices.length; i++) {
+    if (
+      (param.toUpperCase() === "USB" && devices[i].connection === "usb") || // param 명칭이 "USB"이고 연결된 USB가 있을경우
+      devices[i].name === param || // param 명칭과 프린트 명이 같은 경우
+      (devices[i].uid && devices[i].uid.indexOf(param) > -1) // param 명칭과 IpAddress 같은 경우
+    ) {
+      device = devices[i];
+      break;
+    }
+  }
+
+  if (!device) {
+    console.log("해당 프린터를 찾을 수 없습니다.", param);
+    return false;
+  }
+
+  device.send(dataToWrite, successCallback, errorCallback);
+}
+
+// successMessage : {}
+var successCallback = function (successMessage) {
+  console.log("Success");
+};
+
+var readCallback = function (readData) {
+  if (readData === undefined || readData === null || readData === "") {
+    console.log("No Response from Device");
+  } else {
+    console.log(readData);
+  }
+};
+var errorCallback = function (errorMessage) {
+  console.log("Error: " + errorMessage);
+};
+function readFromSelectedPrinter() {
+  selected_device.read(readCallback, errorCallback);
+}
+function getDeviceCallback(deviceList) {
+  console.log("Devices: \n" + JSON.stringify(deviceList, null, 4));
+}
+
+function sendImage(imageUrl) {
+  url = window.location.href.substring(
+    0,
+    window.location.href.lastIndexOf("/")
+  );
+  url = url + "/" + imageUrl;
+  selected_device.convertAndSendFile(url, undefined, errorCallback);
+}
+function sendFile(fileUrl) {
+  url = window.location.href.substring(
+    0,
+    window.location.href.lastIndexOf("/")
+  );
+  url = url + "/" + fileUrl;
+  selected_device.sendFile(url, undefined, errorCallback);
+}
+function onDeviceSelected(selected) {
+  for (var i = 0; i < devices.length; ++i) {
+    if (selected.value == devices[i].uid) {
+      selected_device = devices[i];
+      return;
+    }
+  }
+}
+
+// window.onload = setup;
+// window.onload = setupWs;
+
+const zebra = {
+  getConfig,
+  writeToSelectedPrinter,
+  readFromSelectedPrinter,
+  getDeviceCallback,
+  sendImage,
+  sendFile,
+  onDeviceSelected,
+  setup
+};
+
+// TEST Reference
+// <span style="padding-right:50px; font-size:200%">Zebra Browser Print Test Page</span><br/>
+// <span style="font-size:75%">This page must be loaded from a web server to function properly.</span><br><br>
+// Selected Device: <select id="selected_device" onchange=onDeviceSelected(this);></select> <!--  <input type="button" value="Change" onclick="changeDevice();">--> <br/><br/>
+// <input type="button" value="Get Application Configuration" onclick="getConfig()"><br/><br/>
+// <input type="button" value="Send Config Label" onclick="writeToSelectedPrinter('~wc')"><br/><br/>
+// <input type="button" value="Send ZPL Label" onclick="writeToSelectedPrinter('^XA^FO200,200^A0N36,36^FDTest Label^FS^XZ')"><br/><br/>
+// <input type="button" value="Get Status" onclick="writeToSelectedPrinter('~hs'); readFromSelectedPrinter()"><br/><br/>
+// <input type="button" value="Get Local Devices" onclick="BrowserPrint.getLocalDevices(getDeviceCallback, errorCallback);"><br/><br/>
+// <input type="text" name="write_text" id="write_text"><input type="button" value="Write" onclick="writeToSelectedPrinter(document.getElementById('write_text').value)"><br/><br/>
+// <input type="button" value="Read" onclick="readFromSelectedPrinter()"><br/><br/>
+// <input type="button" value="Send BMP" onclick="sendImage('Zebra_logobox.bmp');"><br/><br/>
+// <input type="button" value="Send JPG" onclick="sendImage('ZebraGray.jpg');"><br/><br/>
+// <input type="button" value="Send File" onclick="sendFile('wc.zpl');"><br/><br/>
+
+export default zebra;
