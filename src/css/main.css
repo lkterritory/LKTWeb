@@ -1,0 +1,93 @@
+/* 전체 컨테이너 및 레이아웃 */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.side-menu {
+  width: 250px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-menu ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.side-menu .submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.side-menu ul li:hover .submenu {
+  display: block;
+}
+
+.tab-container {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.tab {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: #cccccc;
+}
+
+.tab .close-tab {
+  color: red;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+/* 메뉴 기본 스타일 */
+#sideMenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+.submenu {
+  list-style: none;
+  position: absolute;
+  left: 150px; /* 오른쪽에 나타나게 설정 */
+  top: 0;
+  display: none;
+  background-color: #0056b3;
+  padding: 0;
+}
+
+.submenu-item {
+  padding: 10px;
+  color: white;
+}
+
+.submenu-item a {
+  color: white;
+  text-decoration: none;
+}
