@@ -1,65 +1,43 @@
+// login.js
+
+import api from "../../js/api"; // api.js 전체를 객체로 불러옴
+
 $(document).ready(function () {
-  // Dark theme 여부 설정 (기본 설정)
-  const darkTheme = true;
+  const loginBtn = $("#loginBtn");
+  const errorPopup = $("#errorPopup");
 
-  // 유저명 입력 필드
-  $("#usernameField").dxTextBox({
-    placeholder: "Username",
-    showClearButton: true,
-    valueChangeEvent: "keyup",
-    onValueChanged: function (e) {
-      const value = e.value;
-      console.log("Username: " + value);
-    }
-  });
+  function closePopup() {
+    errorPopup.addClass("hidden");
+  }
 
-  // 비밀번호 입력 필드
-  $("#passwordField").dxTextBox({
-    placeholder: "Password",
-    mode: "password",
-    showClearButton: true,
-    onValueChanged: function (e) {
-      const value = e.value;
-      console.log("Password: " + value);
-    }
-  });
+  loginBtn.on("click", function () {
+    // const username = $("#username").val();
+    // const password = $("#password").val();
 
-  // 로그인 버튼
-  $("#loginButton").dxButton({
-    text: "Sign In",
-    type: "success",
-    width: "100%",
-    onClick: function () {
-      const username = $("#usernameField")
-        .dxTextBox("instance")
-        .option("value");
-      const password = $("#passwordField")
-        .dxTextBox("instance")
-        .option("value");
+    // // 입력값 유효성 검사
+    // if (!username || !password) {
+    //   errorPopup.removeClass("hidden");
+    //   return;
+    // }
 
-      // 로그인 로직 (여기에 AJAX 요청을 추가할 수 있음)
-      if (username && password) {
-        console.log("Logging in with Username:", username);
-        console.log("Logging in with Password:", password);
-        // 로그인 API 호출 부분
-        $.ajax({
-          url: "/api/login",
-          method: "POST",
-          data: {
-            username: username,
-            password: password
-          },
-          success: function (response) {
-            alert("Login successful");
-            // 로그인 성공 시 처리 로직 추가
-          },
-          error: function () {
-            alert("Login failed");
-          }
-        });
-      } else {
-        alert("Please enter both username and password");
-      }
-    }
+    window.location.href = "../../../index.html";
+    return;
+
+    // 로그인 API 호출
+    api
+      .login(username, password)
+      .done(function (response) {
+        if (response.success) {
+          // 로그인 성공 시 대시보드로 이동
+          window.location.href = "../../views/dashboard.html";
+        } else {
+          // 로그인 실패 시 팝업 표시
+          errorPopup.removeClass("hidden");
+        }
+      })
+      .fail(function () {
+        // 에러 발생 시 처리
+        errorPopup.removeClass("hidden");
+      });
   });
 });

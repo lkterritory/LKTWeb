@@ -1,46 +1,80 @@
-/* 전체 컨테이너 및 레이아웃 */
+/* 기본 스타일 */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
 .container {
   display: flex;
-  height: 100vh;
+  height: 100%;
 }
 
 .side-menu {
   width: 250px;
   background-color: #007bff;
   color: white;
-  padding: 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .side-menu ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .side-menu ul li {
-  padding: 10px;
+  padding: 15px 20px;
   cursor: pointer;
+  border-bottom: 1px solid #006fe6;
 }
 
-.side-menu .submenu {
+.side-menu ul li:hover {
+  background-color: #0056b3;
+}
+
+.side-menu ul .submenu {
   display: none;
+  list-style: none;
   padding-left: 20px;
+  background-color: #0056b3;
 }
 
-.side-menu ul li:hover .submenu {
-  display: block;
+.side-menu ul .submenu li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #004a99;
+}
+
+.side-menu ul .submenu li:hover {
+  background-color: #003f7a;
 }
 
 .tab-container {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow: auto;
+}
+
+.tab-header {
+  display: flex;
   background-color: #f1f1f1;
   padding: 10px;
+  justify-content: flex-start; /* 탭을 가로로 정렬 */
 }
 
 .tab {
-  display: inline-block;
-  padding: 5px 10px;
+  padding: 10px 15px;
   background-color: #e0e0e0;
   margin-right: 5px;
   cursor: pointer;
+  position: relative;
+  display: inline-block; /* 탭을 가로로 표시 */
 }
 
 .tab.active {
@@ -48,46 +82,51 @@
 }
 
 .tab .close-tab {
+  position: absolute;
+  top: 5px;
+  right: 5px;
   color: red;
-  margin-left: 10px;
   cursor: pointer;
 }
 
-.main-content {
+.content {
   padding: 20px;
 }
 
-/* 메뉴 기본 스타일 */
-#sideMenu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu-item {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  position: relative;
-}
-
-.submenu {
-  list-style: none;
-  position: absolute;
-  left: 150px; /* 오른쪽에 나타나게 설정 */
-  top: 0;
+.hidden {
   display: none;
-  background-color: #0056b3;
-  padding: 0;
 }
 
-.submenu-item {
-  padding: 10px;
-  color: white;
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .side-menu {
+    width: 60px;
+  }
+
+  .side-menu ul li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .side-menu ul li:hover .submenu {
+    display: block;
+    position: absolute;
+    left: 60px;
+    top: 0;
+    width: 180px;
+  }
+
+  .submenu {
+    display: block;
+  }
 }
 
-.submenu-item a {
-  color: white;
-  text-decoration: none;
+@media (min-width: 769px) {
+  .side-menu {
+    width: 250px;
+  }
+
+  .side-menu ul li:hover .submenu {
+    display: block;
+  }
 }

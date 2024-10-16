@@ -1,0 +1,782 @@
+@import "./font.scss";
+
+// $dp__border_radius: none !default;
+// $dp__cell_border_radius: none !default;
+
+// 공통 속성 정의
+:root {
+  .non-translate-child {
+    --top-height: 64px;
+  }
+  .translate-child {
+    --top-height: 0px;
+  }
+
+  --login-form-min-margin: 102px;
+  --frame-padding-top: 19px;
+  --frame-padding-bottom: 19px;
+  --frame-padding-left: 56px; // side bar width 고려한 padding (absolute)
+  --side-nav-hover-width: 170px;
+  --logo-height: 48px;
+  --avatar-height: 50px;
+  // --side-logo-height: calc(var(--logo-height) + 100px);
+  --side-logo-height: 15%;
+  // --side-avatar-height: calc(var(--avatar-height) + 100px);
+  --side-avatar-height: 16%;
+  // --side-popover-height: 120px;
+  --side-popover-height: 13%;
+  --search-form-item-height: 55px;
+  --grid-footer-height: 47px;
+
+  .dp__theme_light {
+    --dp-title-input: #ffffff;
+    --dp-background-color: #ffffff;
+    --dp-header-text-color: #333333;
+    --dp-text-color: #333333;
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #212121;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #1976d2;
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-border-color: #ddd;
+    --dp-menu-border-color: #1a63e4; // 캘린더 가장자리 border color
+    --dp-border-color-hover: #aaaeb7;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: #76d275;
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #ff6f60;
+    --dp-highlight-color: rgba(25, 118, 210, 0.1);
+  }
+  .dp__theme_dark {
+    --dp-title-input: #333333;
+    --dp-background-color: #3f444b;
+    --dp-header-text-color: #666666;
+    --dp-text-color: #ffffff;
+    --dp-hover-color: #484848;
+    --dp-hover-text-color: #ffffff;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #ffbc32;
+    --dp-primary-text-color: #232930;
+    --dp-secondary-color: #a9a9a9;
+    --dp-border-color: #2d2d2d;
+    --dp-menu-border-color: #ffbc32;
+    --dp-border-color-hover: #aaaeb7;
+    --dp-disabled-color: #737373;
+    --dp-scroll-bar-background: #212121;
+    --dp-scroll-bar-color: #484848;
+    --dp-success-color: #00701a;
+    --dp-success-color-disabled: #428f59;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #e53935;
+    --dp-highlight-color: rgba(0, 92, 178, 0.2);
+  }
+}
+
+// 스크롤
+.theme-scroll {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(var(--v-theme-scrollbar-track), 1);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(var(--v-theme-scrollbar-thumb), 1);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    // background: #555;
+  }
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: "Spoqa Han Sans Neo";
+}
+
+.dark {
+  // sidebar
+  .text-sidebar-nav-item-color {
+    opacity: 1;
+  }
+
+  // top
+  .text-top-icon {
+    opacity: 1;
+  }
+
+  // tags
+  .text-tags {
+    opacity: 1;
+  }
+}
+
+.classic {
+  // 사이드 메뉴 펼칠 시 (lail + 메뉴 컨텐츠) width 적용
+  .sub-menu.v-navigation-drawer--is-hovering,
+  .sub-menu.active-open {
+    // width: auto !important;
+    width: var(--side-nav-hover-width) !important;
+  }
+
+  .sub-menu.child-open {
+    width: auto !important;
+  }
+
+  // 사이드 메뉴 호버링에 대한 메인 content 사이즈 조정
+  .main.slide-left {
+    padding-left: var(--side-nav-hover-width);
+  }
+
+  // vuetify 내장 nav inner right border 제거
+  .v-navigation-drawer--left {
+    border-right-width: inherit;
+  }
+
+  // 좌측 사이드 메뉴 길이 정의
+  .sub-menu {
+    border-right: none !important;
+    border: none !important;
+
+    .side-depth {
+      color: rgba(var(--v-theme-sidebar-nav-title-color), 1);
+    }
+
+    .side-depth:not(.hidden-active) {
+      .side-depth-active {
+        color: rgba(var(--v-theme-side-active-text), 1) !important; // 아이콘
+        .v-list-item-title {
+          position: relative;
+          color: rgba(var(--v-theme-side-active-text), 1) !important; // 폰트
+        }
+        .v-list-item__overlay {
+          background: rgba(var(--v-theme-side-active), 1) !important;
+          opacity: 1;
+        }
+      }
+    }
+
+    .side-depth.hidden-active {
+      // rail 닫힌 상태 아이콘 안보이게
+      display: none;
+    }
+
+    .side-depth-item {
+      color: rgba(var(--v-theme-sidebar-nav-item-color), 1); // 아이콘
+      .side-depth-active {
+        .v-list-item-title {
+          background: rgba(var(--v-theme-side-active-item), 1) !important;
+          opacity: 1;
+        }
+      }
+    }
+
+    top: var(--frame-padding-top) !important;
+    height: calc(
+      100% - var(--frame-padding-top) - var(--frame-padding-bottom)
+    ) !important;
+
+    .v-list-item-title {
+      // 서브메뉴 텍스트 폰트
+      font-family: "Spoqa Han Sans Neo";
+      font-size: 22px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.36;
+      letter-spacing: 1.1px;
+      text-align: left;
+    }
+
+    i {
+      opacity: unset;
+    }
+
+    .side-menu-height {
+      height: calc(
+        100vh - var(--side-logo-height) - var(--side-avatar-height) -
+          var(--side-popover-height) - var(--frame-padding-top) -
+          var(--frame-padding-bottom)
+      );
+    }
+    .logo-height {
+      height: var(--side-logo-height);
+    }
+    .avatar-height {
+      height: var(--side-avatar-height);
+    }
+
+    .side-popover {
+      height: var(--side-popover-height);
+      width: 100%;
+    }
+  }
+
+  .inner-content {
+    // 컨텐츠 heigh 안잡히면 컨텐츠 내용이 화면 밖으로 벗어남
+    height: calc(100vh - var(--top-height) - 240px);
+  }
+  .half {
+    height: calc(50% - 4px);
+  }
+
+  .app-contents {
+    min-height: 100vh;
+  }
+
+  // custom btn loader
+  .btn-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+
+  .border-color {
+    border-color: rgba(var(--v-theme-border-color), 1);
+  }
+
+  .btn-border-color {
+    border-color: rgba(var(--v-theme-btn-border-color), 1);
+  }
+
+  .dashboard-body {
+    background: rgba(var(--v-theme-dashboard-bg), 1);
+    color: rgba(var(--v-theme-dashboard-text), 1);
+  }
+}
+// .classic {
+//   .search-form {
+//     padding: 8px 20px 0 20px;
+//   }
+// }
+// .modal-popup {
+//   .modal-form {
+//     padding: 8px 20px;
+//   }
+// }
+.classic,
+.modal-popup {
+  .search-form,
+  .modal-form {
+    height: 100%; // calc(var(--search-form-item-height) + 41px); 차후 검색영역 접기/펴기 개발 시 fixed size로 지정 해야함
+    padding: 8px 20px;
+
+    .v-field__input,
+    .v-field__field {
+      height: var(--search-form-item-height);
+      --v-input-padding-top: 7px;
+      --v-field-padding-bottom: 7px;
+    }
+    .v-select__selection-text {
+      margin-top: 4px;
+    }
+    .v-label.v-field-label {
+      top: 7px;
+    }
+
+    .v-card-title {
+      padding-bottom: 0px;
+    }
+
+    .v-field__append-inner,
+    .v-field__clearable {
+      padding-top: 0px;
+      align-items: center;
+    }
+
+    .v-input__prepend,
+    .v-input__append {
+      // 검색조건 라벨 내장 padding css 제거
+      /* display: flex; */
+      padding-top: 0px;
+
+      label {
+        // 검색조건 라벨 내장 투명도 css 삭제
+        opacity: 1;
+      }
+    }
+
+    // 검색조건 내에서 v-text-field 의 variant 옵션 아래 해당하는 옵션들 내장 padding 제거
+    .v-field--variant-plain.v-field,
+    .v-field--variant-underlined.v-field {
+      --v-field-padding-start: 0px;
+      --v-field-padding-end: 0px;
+      --v-field-padding-top: 0px;
+      --v-field-padding-bottom: 0px;
+    }
+
+    .search-item {
+      background-color: rgba(var(--v-theme-item-bg), 1);
+      border: 1px solid rgba(var(--v-theme-border-color), 1);
+    }
+    .modal-item {
+      background-color: rgba(var(--v-theme-popup-item-bg), 1);
+      border: 1px solid rgba(var(--v-theme-popup-item-border), 1);
+    }
+    .search-item,
+    .modal-item {
+      padding: 0 12px;
+      height: var(--search-form-item-height);
+
+      label,
+      span,
+      input,
+      i {
+        // 검색영역 검색조건 폰트
+        font-family: "Spoqa Han Sans Neo";
+        font-size: 23px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.3;
+        letter-spacing: 1.15px;
+        text-align: left;
+      }
+    }
+    .search-item {
+      color: rgba(var(--v-theme-search-item-text), 1);
+    }
+    .modal-item {
+      color: rgba(var(--v-theme-popup-item-text), 1);
+    }
+    .search-item-divider {
+      border-right: 1px solid rgba(var(--v-theme-border-color), 1);
+      padding-right: 12px;
+    }
+
+    .modal-item-divider {
+      border-right: 1px solid rgba(var(--v-theme-popup-item-border), 1);
+      padding-right: 12px;
+    }
+
+    // 검색영역 버튼 스타일
+    .v-btn.v-btn--density-default {
+      width: 155px;
+      height: var(--search-form-item-height);
+      margin-left: 15px;
+      padding: 16px 57px 18px 58px;
+      // border-radius: 15px;
+      // background-color: #1a63e4;
+    }
+
+    // 검색영역 버튼 텍스트 폰트
+    .v-btn__content {
+      width: 40px;
+      height: 21px;
+      font-family: "Spoqa Han Sans Neo";
+      font-size: 23px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.3;
+      letter-spacing: 1.15px;
+    }
+
+    // 검색영역 datePicker
+    .dp__input {
+      border: none;
+      height: 100%;
+      padding-left: 0px;
+      background-color: rgba(var(--v-theme-item-bg), 1);
+    }
+    .dp__main {
+      margin-top: -1px;
+    }
+    .dp__input_wrap {
+      svg {
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .item-textarea {
+    color: rgba(var(--v-theme-popup-item-text), 1);
+    background-color: rgba(var(--v-theme-popup-item-bg), 1);
+    border: 1px solid rgba(var(--v-theme-popup-item-border), 1);
+    padding: 0 12px;
+  }
+}
+.modal-popup {
+  .v-card {
+    background-color: rgba(var(--v-theme-popup-bg), 1) !important;
+    border: solid 1px rgba(var(--v-theme-popup-border), 1);
+  }
+
+  .modal-form {
+    padding: 0px;
+  }
+  .top-tool-bar {
+    padding-top: 67px;
+    padding-left: 50px;
+    padding-bottom: 23px;
+    background-color: rgba(var(--v-theme-popup-bg), 1) !important;
+    .v-toolbar__content {
+      height: 35px !important;
+    }
+    .v-toolbar-title,
+    .v-toolbar-title__placeholder {
+      height: 100%;
+    }
+
+    span {
+      font-size: 35px;
+      font-weight: bold;
+      line-height: 1;
+      letter-spacing: 1.75px;
+      text-align: left;
+      color: rgba(var(--v-theme-popup-title), 1);
+    }
+  }
+  .v-container {
+    padding: 20px 52px;
+    margin: 0;
+  }
+
+  // 팝업 하단 버튼
+  .v-btn__content {
+    z-index: 1;
+  }
+  .grp-btn {
+    padding: 0;
+    margin-top: 23px;
+    border: solid 1px rgba(var(--v-theme-popup-btn-border), 1);
+
+    .v-btn {
+      height: 85.5px;
+      font-size: 24px;
+    }
+  }
+}
+.cancel-btn {
+  color: rgba(var(--v-theme-cancel-btn-text), 1);
+}
+.excute-btn {
+  color: rgba(var(--v-theme-excute-btn-text), 1);
+}
+.cancel-btn .v-btn__underlay {
+  background-color: rgba(var(--v-theme-cancel-btn-bg), 1) !important;
+}
+.excute-btn .v-btn__underlay {
+  background-color: rgba(var(--v-theme-excute-btn-bg), 1) !important;
+}
+// 팝업 하단 버튼
+.chart-title {
+  width: 50% !important;
+  margin: 0 auto !important;
+  text-align: center;
+}
+// 달력
+.dp__menu {
+  border: 4px solid var(--dp-menu-border-color) !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+.dp__month_year_row {
+  width: 330px;
+  height: 60px !important;
+  object-fit: contain;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: var(--dp-menu-border-color);
+}
+.dp__calendar_header_item {
+  padding: 23px !important;
+}
+.dp__cell_inner {
+  padding: 22px !important;
+}
+.select-input {
+  color: var(--dp-title-input) !important;
+  opacity: 1;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 1.5px;
+}
+.custom-icon {
+  color: var(--dp-title-input) !important;
+}
+.custom-month-year-component {
+  font-size: 20px;
+  padding-left: 23px;
+}
+.custom-month-year-component select:nth-child(1) {
+  padding-right: 10px;
+}
+.icons span:nth-child(1) {
+  padding-right: 33px;
+}
+.v-img__img {
+  position: relative;
+}
+.dp__arrow_top {
+  display: none;
+}
+.dp__calendar_header_separator {
+  display: none;
+}
+.dp__calendar_header {
+  color: var(--dp-header-text-color) !important;
+}
+.dp__calendar_item {
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  font-family: Spoqa Han Sans Neo;
+}
+// 달력
+
+//
+.basic-text {
+  text-align: center;
+}
+.yellow-text {
+  text-align: center;
+  color: rgba(var(--v-theme-first-item), 1);
+}
+.checker-items {
+  background-color: rgba(var(--v-theme-checker-items), 1);
+}
+.checker-items-text {
+  color: rgba(var(--v-theme-checker-items-text), 1);
+}
+.check-left-top-item {
+  border: 1px solid rgba(var(--v-theme-border-color), 1);
+}
+.checker-wrap-items {
+  border: 1px solid rgba(var(--v-theme-border-color), 1);
+}
+.checker-top-text {
+  height: 73%;
+  padding: 0;
+  color: rgba(var(--v-theme-checker-items-text), 1);
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+  background-color: rgba(var(--v-theme-checker-items), 1);
+}
+.checker-top-text.font60 {
+  font-size: 60px;
+}
+.checker-top-text.font40 {
+  font-size: 40px;
+}
+.mach-header {
+  color: rgba(var(--v-theme-mach-header-text), 1);
+  background-color: rgba(var(--v-theme-mach-header), 1);
+}
+.mach-items {
+  border: 1px solid rgba(var(--v-theme-border-color), 1);
+}
+.field-box-item {
+  background-color: rgba(var(--v-theme-field-box-item-bg), 1);
+  border: 1px solid rgba(var(--v-theme-border-color), 1);
+  border-radius: 15px;
+}
+// 키오스크
+.kiosk-top-items {
+  border: 1px solid rgba(var(--v-theme-border-color), 1);
+}
+.kiosk-top-title {
+  font-size: 23px;
+  color: rgba(var(--v-theme-grid-header-text), 1) !important;
+}
+.kiosk-top-text {
+  padding: 0;
+  height: 74%;
+  font-size: 80px;
+  color: rgba(var(--v-theme-checker-items-text), 1);
+  background-color: rgba(var(--v-theme-checker-items), 1);
+}
+// 키오스크 도넛
+.cdc-text {
+  text-align: center;
+  color: rgba(var(--v-theme-first-item), 1) !important;
+}
+.cdc-filler {
+  background-color: rgba(var(--v-theme-first-item), 1) !important;
+}
+.cdc-overlay {
+  background-color: rgba(var(--v-theme-checker-items), 1) !important;
+}
+
+.buttons-pagination > * {
+  margin: 0 5px 0 5px;
+}
+
+.sortType-icon {
+  display: none !important;
+}
+
+.classes-notify {
+  // styling
+  margin: 0 5px 5px;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+
+  // default (blue)
+  background: #44a4fc;
+  border-left: 5px solid #187fe7;
+
+  // style for title line
+  .notification-title {
+    /*...*/
+  }
+
+  // style for content
+  .notification-content {
+    /*...*/
+  }
+}
+
+.light {
+  // style of the notification light theme
+  .classes-notify {
+    &.success {
+      background: #68cd86;
+      border-left-color: #42a85f;
+    }
+
+    &.warn {
+      background: #ffb648;
+      border-left-color: #f48a06;
+    }
+
+    &.info {
+      /*...*/
+    }
+
+    &.error {
+      background: #e54d42;
+      border-left-color: #b82e24;
+    }
+  }
+}
+
+// style of the notification dark theme
+.dark {
+  .classes-notify {
+    &.success {
+      background: #68cd86;
+      border-left-color: #42a85f;
+    }
+
+    &.warn {
+      background: #ffb648;
+      border-left-color: #f48a06;
+    }
+
+    &.info {
+      /*...*/
+    }
+
+    &.error {
+      background: #e54d42;
+      border-left-color: #b82e24;
+    }
+  }
+}
+
+// 인쇄 시 Header,Footer 제거
+@media print {
+  @page {
+    margin: 0;
+  }
+  body {
+    margin: 1.6cm;
+  }
+  // 가로인쇄
+  // @page {
+  //   size: landscape;
+  // }
+}
+
+.alert-pop,
+.confirm-pop {
+  font-family: "Spoqa Han Sans Neo";
+
+  .v-card-subtitle {
+    font-size: 32px;
+  }
+  .top-part {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    padding: 10px 15px;
+  }
+  .alert-title {
+    font-size: 35px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.86;
+    letter-spacing: 1.75px;
+    color: rgba(var(--v-theme-alert-card-text), 1);
+  }
+  .message {
+    font-size: 24px !important;
+    font-weight: normal !important;
+    font-stretch: normal !important;
+    font-style: normal !important;
+    line-height: 1.25 !important;
+    letter-spacing: 1.2px !important;
+    color: rgba(var(--v-theme-alert-card-text), 1);
+    white-space: pre-wrap;
+  }
+  .btn-grp {
+    height: 85.5px;
+
+    .btnCancel {
+      flex: 1;
+      font-size: 24px;
+      border-top: 1px solid rgba(var(--v-theme-border-color), 0.4);
+    }
+
+    .btnExcute {
+      flex: 1;
+      font-size: 24px;
+      border-top: 1px solid rgba(var(--v-theme-bg-alert-excute-bg), 0.4);
+      color: rgba(var(--v-theme-alert-excute-text), 1) !important;
+    }
+  }
+  .normal {
+    border-bottom: 1px solid#006ecd;
+    color: #006ecd;
+  }
+  .warning {
+    border-bottom: 1px solid #ff9700;
+    color: #ff9700;
+  }
+  .error {
+    border-bottom: 1px solid #ef151e;
+    color: #ef151e;
+  }
+
+  // alert, confirm 기본 height
+  .v-card {
+    height: 100%;
+    padding-top: 10%;
+  }
+}
+
+.mobile {
+  height: 100%;
+  .sub-menu {
+    margin-top: 5px;
+    height: calc(100vh - 10px) !important;
+  }
+}

@@ -1,45 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Login tmp</title>
-    <link
-      rel="stylesheet"
-      href="../../lib/devexpress/css/dx.light.css" />
+    <title>Login</title>
     <link
       rel="stylesheet"
       href="./login.css" />
-    <script src="../../lib/devexpress/js/jquery.min.js"></script>
-    <script src="../../lib/devexpress/js/dx.all.js"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <div
-      id="loginContainer"
-      class="login-container">
-      <div class="login-bg-img d-flex justify-center align-center">
-        <div
-          id="loginLayout"
-          class="login-layout d-flex justify-center align-center">
-          <div
-            id="loginCard"
-            class="login-card">
-            <div
-              id="loginBody"
-              class="login-body">
-              <div class="login-form">
-                <div id="usernameField"></div>
-                <div id="passwordField"></div>
-                <div id="loginButton"></div>
-              </div>
-            </div>
+    <div class="login-container">
+      <div class="login-box">
+        <form
+          id="loginForm"
+          onsubmit="return false;">
+          <div class="input-container">
+            <i class="dx-icon dx-icon-user"></i>
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              required />
           </div>
-        </div>
+          <div class="input-container">
+            <i class="dx-icon dx-icon-lock"></i>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required />
+          </div>
+          <button
+            type="button"
+            id="loginBtn"
+            class="login-btn">
+            Sign in
+          </button>
+        </form>
       </div>
     </div>
 
-    <script src="./login.js"></script>
+    <!-- Error popup -->
+    <div
+      id="errorPopup"
+      class="error-popup hidden">
+      <div class="error-message">
+        <p>로그인 실패</p>
+        <span>계정을 입력하십시오</span>
+        <button onclick="closePopup()">확인</button>
+      </div>
+    </div>
+
+    <!-- login.js 스크립트 추가 -->
+
+    <script
+      type="module"
+      src="./login.js"></script>
   </body>
 </html>

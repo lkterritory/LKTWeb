@@ -1,0 +1,50 @@
+/* 전체 레이아웃 설정 */
+.work-order-content {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* 필터 영역 레이아웃 설정 */
+#filterForm {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#workDateContainer,
+#workBatchContainer,
+#buttonsContainer {
+  margin-right: 15px;
+}
+
+.dx-button {
+  margin-right: 10px;
+}
+
+#buttonsContainer .dx-button {
+  margin-bottom: 10px;
+}
+
+/* 작업지시 그리드 레이아웃 */
+#workOrderGrid {
+  margin-top: 20px;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  #filterForm {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #workDateContainer,
+  #workBatchContainer,
+  #buttonsContainer {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  .dx-button {
+    width: 100%;
+  }
+}

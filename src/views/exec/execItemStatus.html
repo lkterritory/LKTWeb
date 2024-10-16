@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <!-- <link
+      rel="stylesheet"
+      href="./src/lib/devextreme/css/dx.light.css" />
+    <script src="./src/lib/devextreme/js/jquery.min.js"></script>
+    <script src="./src/lib/devextreme/js/dx.all.js"></script> -->
+    <title>상품별 작업현황</title>
+  </head>
+  <body>
+    <div id="searchForm">
+      <!-- 검색 조건 -->
+      <div class="dx-field">
+        <label for="workDate">작업일자:</label>
+        <div id="workDate"></div>
+      </div>
+      <div class="dx-field">
+        <label for="workBatch">작업차수:</label>
+        <div id="workBatch"></div>
+      </div>
+      <!-- 검색 버튼 -->
+      <div class="dx-field">
+        <button id="searchBtn">조회</button>
+      </div>
+    </div>
+
+    <div id="gridContainer"></div>
+
+    <script>
+      $(function () {
+        // 날짜 필드 설정
+        $("#workDate").dxDateBox({
+          value: new Date(),
+          displayFormat: "yyyy-MM-dd",
+          onValueChanged: function (data) {
+            // 날짜 선택 시 처리
+          }
+        });
+
+        // MultiSelectBox 설정
+        $("#workBatch").dxSelectBox({
+          dataSource: ["1차", "2차", "3차"],
+          value: "1차",
+          onValueChanged: function (data) {
+            // 작업차수 선택 시 처리
+          }
+        });
+
+        // 검색 버튼 클릭 이벤트
+        $("#searchBtn").dxButton({
+          text: "조회",
+          onClick: function () {
+            // 조회 버튼 클릭 시 처리
+            loadGridData();
+          }
+        });
+
+        // 그리드 데이터 로드
+        function loadGridData() {
+          $("#gridContainer").dxDataGrid({
+            dataSource: [
+              {
+                workDate: "2023-02-01",
+                workBatch: "1차",
+                facilitiesName: "설비1"
+              },
+              {
+                workDate: "2023-02-02",
+                workBatch: "2차",
+                facilitiesName: "설비2"
+              }
+            ],
+            columns: [
+              {dataField: "workDate", caption: "작업일자", width: 150},
+              {dataField: "workBatch", caption: "작업차수", width: 100},
+              {dataField: "facilitiesName", caption: "설비명", width: 200}
+            ],
+            showBorders: true,
+            paging: {enabled: true, pageSize: 10}
+          });
+        }
+
+        // 초기 그리드 데이터 로드
+        loadGridData();
+      });
+    </script>
+  </body>
+</html>
