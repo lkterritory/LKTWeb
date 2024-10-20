@@ -104,7 +104,7 @@ $(document).ready(function () {
   // 콘텐츠 로드 함수
   function loadContent(view) {
     $.ajax({
-      url: `./src/views/${view}`,
+      url: `./src/views/${view}?timestamp=` + Date.now(),
       method: "GET",
       success: function (data) {
         $("#mainContent").html(data); // 로드한 콘텐츠를 표시

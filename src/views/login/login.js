@@ -1,6 +1,4 @@
-// login.js
-
-import api from "../../js/api"; // api.js 전체를 객체로 불러옴
+import api from "../../js/api.js";
 
 $(document).ready(function () {
   const loginBtn = $("#loginBtn");
@@ -20,20 +18,66 @@ $(document).ready(function () {
     //   return;
     // }
 
-    window.location.href = "../../../index.html";
-    return;
+    // window.location.href = "../../../index.html";
+    // return;
+
+    let reqParam = {
+      lktHeader: {
+        type: "REQUEST",
+        call: "PATCH.ONEGATE.SERVER",
+        status: 0,
+        message: "",
+        encryption: "",
+        centerCode: "",
+        clientCode: "",
+        warehouseCode: ""
+      },
+      lktBody: [
+        {
+          publicAddress: "192.168.10.3",
+          internalAddress: "192.168.10.3",
+          connectionType: "TEST"
+        }
+      ]
+    };
 
     // 로그인 API 호출
     api
-      .login(username, password)
+      .server(reqParam)
       .done(function (response) {
-        if (response.success) {
-          // 로그인 성공 시 대시보드로 이동
-          window.location.href = "../../views/dashboard.html";
-        } else {
-          // 로그인 실패 시 팝업 표시
-          errorPopup.removeClass("hidden");
-        }
+        // alert(JSON.stringify(response));
+
+        reqParam = {
+          lktHeader: {
+            type: "REQUEST",
+            call: "PAGE.ONEGATEA.LOGIN",
+            status: 0,
+            message: "",
+            encryption: "",
+            centerCode: "LKT",
+            clientCode: "LKT",
+            warehouseCode: "LKT"
+          },
+          lktBody: [
+            {
+              userName: "LKT",
+              password: "QUJDREU=",
+              connectionType: "TEST",
+              serverGroup: "SPC#GFC"
+            }
+          ]
+        };
+
+        api
+          .login(reqParam)
+          .done(function (response) {
+            // 로그인 성공 시 대시보드로 이동
+            window.location.href = "../../../index.html";
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            errorPopup.removeClass("hidden");
+          });
       })
       .fail(function () {
         // 에러 발생 시 처리

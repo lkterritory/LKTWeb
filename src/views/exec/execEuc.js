@@ -1,35 +1,47 @@
 $(document).ready(function () {
-  // 사이드 메뉴 클릭 이벤트 처리
-  $(".menu-item").click(function () {
-    let view = $(this).data("view");
-    loadContent(view);
+  // 왼쪽 그리드에 데이터를 로드
+  $("#leftGrid").dxDataGrid({
+    dataSource: [
+      {name: "피킹 리스트 목록(연락처)"},
+      {name: "미작업 피킹 리스트 목록"},
+      {name: "피킹 리스트 목록"}
+    ],
+    columns: ["name"],
+    showBorders: true,
+    onRowClick: function (e) {
+      // 클릭한 항목에 따라 오른쪽 그리드의 데이터를 로드
+      loadRightGrid(e.data.name);
+    }
   });
 
-  // 콘텐츠 로드 함수
-  function loadContent(view) {
-    $.ajax({
-      url: `./src/views/${view}`,
-      method: "GET",
-      success: function (data) {
-        $("#mainContent").html(data); // 콘텐츠 표시
-      },
-      error: function () {
-        $("#mainContent").html("Error loading content");
-      }
+  // 오른쪽 그리드 로드 함수
+  function loadRightGrid(type) {
+    let dataSource = [];
+    if (type === "피킹 리스트 목록(연락처)") {
+      dataSource = [{field1: "연락처1"}, {field1: "연락처2"}];
+    } else if (type === "미작업 피킹 리스트 목록") {
+      dataSource = [{field1: "미작업1"}, {field1: "미작업2"}];
+    } else {
+      dataSource = [{field1: "리스트1"}, {field1: "리스트2"}];
+    }
+
+    $("#rightGrid").dxDataGrid({
+      dataSource: dataSource,
+      columns: ["field1"],
+      showBorders: true
     });
   }
 
-  // 페이지네이션 버튼 클릭 이벤트 처리
-  $("#prevBtn").click(function () {
-    alert("PREV clicked");
+  // 페이지네이션 및 내보내기 버튼 기능 추가
+  $("#prevButton").on("click", function () {
+    alert("이전 페이지");
   });
 
-  $("#nextBtn").click(function () {
-    alert("NEXT clicked");
+  $("#nextButton").on("click", function () {
+    alert("다음 페이지");
   });
 
-  // 내보내기 버튼 클릭 이벤트 처리
-  $("#sendBtn").click(function () {
-    alert("데이터를 내보냈습니다.");
+  $("#exportButton").on("click", function () {
+    alert("내보내기 기능");
   });
 });

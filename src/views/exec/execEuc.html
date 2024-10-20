@@ -8,51 +8,23 @@
     <title>EUC 목록</title>
     <link
       rel="stylesheet"
-      href="./src/views/exec/execEuc.css" />
+      href="./src/views/exec/execEuc.css?a=1133" />
   </head>
   <body>
     <div class="euc-container">
-      <div class="side-menu">
-        <ul>
-          <li
-            class="menu-item"
-            data-view="eucContactList.html">
-            피킹 리스트 목록(연락처)
-          </li>
-          <li
-            class="menu-item"
-            data-view="eucUnworkedList.html">
-            미작업 피킹 리스트 목록
-          </li>
-          <li
-            class="menu-item"
-            data-view="eucPickingList.html">
-            피킹 리스트 목록
-          </li>
-        </ul>
+      <div class="euc-left-grid">
+        <div id="leftGrid"></div>
       </div>
-      <div class="content-area">
-        <div
-          id="mainContent"
-          class="main-content">
-          <p>데이터가 없습니다.</p>
-        </div>
+      <div class="euc-right-grid">
+        <div id="rightGrid"></div>
         <div class="pagination">
-          <button
-            id="prevBtn"
-            disabled>
-            &lt; PREV
-          </button>
-          <button id="nextBtn">NEXT &gt;</button>
+          <button id="prevButton">PREV</button>
+          <button id="nextButton">NEXT</button>
+          <button id="exportButton">내보내기</button>
         </div>
-        <button
-          id="sendBtn"
-          class="send-btn">
-          내보내기
-        </button>
       </div>
     </div>
 
-    <script src="./src/views/exec/execEuc.js"></script>
+    <script src="./src/views/exec/execEuc.js?a=3"></script>
   </body>
 </html>

@@ -1,3 +1,7 @@
+//import apiWcs from "/src/js/apiWcs.js";
+
+import apiWcs from "../../js/apiWcs.js";
+
 $(function () {
   // DateBox - 출고일자 선택
   $("#workDateContainer").dxDateBox({
@@ -20,6 +24,8 @@ $(function () {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
+      loadWorkOrderData();
+
       const buttonId = e.component.option("text");
       if (buttonId === "조회") {
         loadWorkOrderData();
@@ -49,8 +55,8 @@ $(function () {
       {dataField: "description", caption: "설명"},
       {dataField: "equipmentType", caption: "설비종류"},
       {dataField: "equipmentName", caption: "설비명"},
-      {dataField: "orderCount", caption: "주문건수"},
-      {dataField: "productCount", caption: "상품건수"}
+      {dataField: "totalOrderCount", caption: "주문건수"},
+      {dataField: "totalSkuCount", caption: "상품건수"}
     ],
     showBorders: true,
     paging: {
@@ -65,28 +71,44 @@ $(function () {
 
   // 데이터 로드 함수
   function loadWorkOrderData() {
-    // 여기에 서버 API 콜을 통해 데이터를 가져오는 로직을 추가
-    const sampleData = [
-      {
-        workDate: "2024-10-16",
-        workBatch: "1차",
-        description: "설명1",
-        equipmentType: "설비1",
-        equipmentName: "설비명1",
-        orderCount: 5,
-        productCount: 20
-      },
-      {
-        workDate: "2024-10-17",
-        workBatch: "2차",
-        description: "설명2",
-        equipmentType: "설비2",
-        equipmentName: "설비명2",
-        orderCount: 10,
-        productCount: 40
-      }
-    ];
+    apiWcs
+      .operation({})
+      .done(function (response) {
+        // 로그인 성공 시 대시보드로 이동
 
-    $("#workOrderGrid").dxDataGrid("instance").option("dataSource", sampleData);
+        const sampleData = response.lktBody;
+        $("#workOrderGrid")
+          .dxDataGrid("instance")
+          .option("dataSource", sampleData);
+      })
+      .fail(function () {
+        // 에러 발생 시 처리
+        alert("error");
+        errorPopup.removeClass("hidden");
+      });
+
+    // 여기에 서버 API 콜을 통해 데이터를 가져오는 로직을 추가
+    // const sampleData = [
+    //   {
+    //     workDate: "2024-10-16",
+    //     workBatch: "1차",
+    //     description: "설명1",
+    //     equipmentType: "설비1",
+    //     equipmentName: "설비명1",
+    //     orderCount: 5,
+    //     productCount: 20
+    //   },
+    //   {
+    //     workDate: "2024-10-17",
+    //     workBatch: "2차",
+    //     description: "설명2",
+    //     equipmentType: "설비2",
+    //     equipmentName: "설비명2",
+    //     orderCount: 10,
+    //     productCount: 40
+    //   }
+    // ];
+
+    // $("#workOrderGrid").dxDataGrid("instance").option("dataSource", sampleData);
   }
 });

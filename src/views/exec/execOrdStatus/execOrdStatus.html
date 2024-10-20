@@ -1,0 +1,31 @@
+<link
+  rel="stylesheet"
+  href="./src/views/exec/execOrdStatus/execOrdStatus.css?a=1" />
+<script src="./src/views/exec/execOrdStatus/execOrdStatus.js"></script>
+
+<div class="order-status-container">
+  <div class="filter-section">
+    <label for="workDate">출고일자</label>
+    <input
+      type="date"
+      id="workDate" />
+
+    <label for="workNum">작업차수</label>
+    <select id="workNum">
+      <option value="1">1차</option>
+      <option value="2">2차</option>
+      <option value="3">3차</option>
+    </select>
+
+    <button id="searchBtn">조회</button>
+  </div>
+
+  <div class="grid-container">
+    <div
+      id="orderGrid1"
+      class="order-grid"></div>
+    <div
+      id="orderGrid2"
+      class="order-grid"></div>
+  </div>
+</div>
