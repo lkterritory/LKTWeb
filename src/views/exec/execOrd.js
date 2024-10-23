@@ -56,7 +56,22 @@ $(function () {
       {dataField: "equipmentType", caption: "설비종류"},
       {dataField: "equipmentName", caption: "설비명"},
       {dataField: "totalOrderCount", caption: "주문건수"},
-      {dataField: "totalSkuCount", caption: "상품건수"}
+      {dataField: "totalSkuCount", caption: "상품건수"},
+
+      {dataField: "totalPlanQuantity", caption: "낱개수량"},
+      {dataField: "totalWorkOrderCount", caption: "상품건수"},
+      {dataField: "totalSkuCount", caption: "작업주문건수"},
+      {dataField: "totalWorkQuantity", caption: "작업낱개수량"},
+      {dataField: "totalWorkSkuCount", caption: "작업품목수량"},
+      {dataField: "totalPersnet", caption: "진행율"},
+
+      {dataField: "statusName", caption: "상태"},
+
+      {dataField: "addWho", caption: "지시자"},
+      {dataField: "addDtm", caption: "지시일자"},
+
+      {dataField: "modWho", caption: "완료자"},
+      {dataField: "modDtm", caption: "완료일자"}
     ],
     showBorders: true,
     paging: {
@@ -68,6 +83,24 @@ $(function () {
       showInfo: true
     }
   });
+
+  // {
+  //   text: this.$t("wcs.exec.execOrd.completeDttm"), // 완료일시
+  //   value: "modDtm",
+  //   align: "center",
+  //   width: 240,
+  //   sortable: false,
+  //   formatter: (value) => {
+  //     return common.dateToStr(value);
+  //   }
+  // },
+  // {
+  //   text: this.$t("wcs.exec.execOrd.completeWho"), // 완료자
+  //   value: "modWho",
+  //   align: "left",
+  //   width: 120,
+  //   sortable: false
+  // }
 
   // 데이터 로드 함수
   function loadWorkOrderData() {

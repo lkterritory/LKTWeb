@@ -7,9 +7,10 @@
     {
       "title": "작업정보",
       "submenus": [
-        {"title": "작업지시", "view": "exec/execOrd.html?a=3"},
+        {"title": "작업지시", "view": "exec/execOrd.html"},
 
-        {"title": "EUC", "view": "exec/execEuc.html?a=3"}
+        {"title": "EUC", "view": "exec/execEuc/execEuc.html"},
+        {"title": "보고서", "view": "exec/execReport/execReport.html"}
       ]
     },
     {
