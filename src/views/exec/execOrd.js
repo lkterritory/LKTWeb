@@ -1,8 +1,8 @@
 //import apiWcs from "/src/js/apiWcs.js";
 
-import apiWcs from "../../js/apiWcs.js";
+import apiWcs from "../../js/apiWcs.js?a=1";
 
-$(function () {
+$(document).ready(function () {
   // DateBox - 출고일자 선택
   $("#workDateContainer").dxDateBox({
     type: "date",
@@ -59,8 +59,7 @@ $(function () {
       {dataField: "totalSkuCount", caption: "상품건수"},
 
       {dataField: "totalPlanQuantity", caption: "낱개수량"},
-      {dataField: "totalWorkOrderCount", caption: "상품건수"},
-      {dataField: "totalSkuCount", caption: "작업주문건수"},
+
       {dataField: "totalWorkQuantity", caption: "작업낱개수량"},
       {dataField: "totalWorkSkuCount", caption: "작업품목수량"},
       {dataField: "totalPersnet", caption: "진행율"},
@@ -84,31 +83,35 @@ $(function () {
     }
   });
 
-  // {
-  //   text: this.$t("wcs.exec.execOrd.completeDttm"), // 완료일시
-  //   value: "modDtm",
-  //   align: "center",
-  //   width: 240,
-  //   sortable: false,
-  //   formatter: (value) => {
-  //     return common.dateToStr(value);
-  //   }
-  // },
-  // {
-  //   text: this.$t("wcs.exec.execOrd.completeWho"), // 완료자
-  //   value: "modWho",
-  //   align: "left",
-  //   width: 120,
-  //   sortable: false
-  // }
-
   // 데이터 로드 함수
   function loadWorkOrderData() {
-    apiWcs
-      .operation({})
-      .done(function (response) {
-        // 로그인 성공 시 대시보드로 이동
+    alert("c");
 
+    var obj = {
+      lktHeader: {
+        type: "REQUEST",
+        call: "PAGE.OUTBOUNDS.WCS.ORDERS",
+        status: 0,
+        message: "",
+        authentication:
+          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
+        userName: "LKT",
+        centerCode: "LKT",
+        clientCode: "LKT",
+        warehouseCode: "LKT"
+      },
+      lktBody: [
+        {
+          workDate: "2024-02-17"
+        }
+      ]
+    };
+
+    var encoded = btoa(JSON.stringify(obj));
+
+    apiWcs
+      .wcsOperation(encoded)
+      .done(function (response) {
         const sampleData = response.lktBody;
         $("#workOrderGrid")
           .dxDataGrid("instance")
@@ -119,29 +122,5 @@ $(function () {
         alert("error");
         errorPopup.removeClass("hidden");
       });
-
-    // 여기에 서버 API 콜을 통해 데이터를 가져오는 로직을 추가
-    // const sampleData = [
-    //   {
-    //     workDate: "2024-10-16",
-    //     workBatch: "1차",
-    //     description: "설명1",
-    //     equipmentType: "설비1",
-    //     equipmentName: "설비명1",
-    //     orderCount: 5,
-    //     productCount: 20
-    //   },
-    //   {
-    //     workDate: "2024-10-17",
-    //     workBatch: "2차",
-    //     description: "설명2",
-    //     equipmentType: "설비2",
-    //     equipmentName: "설비명2",
-    //     orderCount: 10,
-    //     productCount: 40
-    //   }
-    // ];
-
-    // $("#workOrderGrid").dxDataGrid("instance").option("dataSource", sampleData);
   }
 });

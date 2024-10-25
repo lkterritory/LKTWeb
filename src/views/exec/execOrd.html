@@ -1,65 +1,52 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>작업지시</title>
+<link
+  rel="stylesheet"
+  href="./src/views/exec/execOrd.css" />
+<!-- Custom JS -->
+<script
+  type="module"
+  src="./src/views/exec/execOrd.js?a=3"></script>
 
-    <link
-      rel="stylesheet"
-      href="./src/views/exec/execOrd.css" />
-  </head>
-  <body>
-    <div class="work-order-content">
-      <div id="filterForm">
-        <div id="workDateContainer"></div>
-        <div id="workBatchContainer"></div>
-        <div id="buttonsContainer">
-          <button
-            id="btnSearch"
-            class="dx-button">
-            조회
-          </button>
-          <button
-            id="btnOrderReceive"
-            class="dx-button">
-            주문수신
-          </button>
-          <button
-            id="btnPlan"
-            class="dx-button">
-            작업계획
-          </button>
-          <button
-            id="btnManualChange"
-            class="dx-button">
-            메뉴얼 변경
-          </button>
-          <button
-            id="btnWorkOrder"
-            class="dx-button">
-            작업지시
-          </button>
-          <button
-            id="btnEquipComplete"
-            class="dx-button">
-            설비완료
-          </button>
-          <button
-            id="btnDayClose"
-            class="dx-button">
-            일마감
-          </button>
-        </div>
-      </div>
-      <div id="workOrderGrid"></div>
+<div class="work-order-content">
+  <div id="filterForm">
+    <div id="workDateContainer"></div>
+    <div id="workBatchContainer"></div>
+    <div id="buttonsContainer">
+      <button
+        id="btnSearch"
+        class="dx-button">
+        조회
+      </button>
+      <button
+        id="btnOrderReceive"
+        class="dx-button">
+        주문수신
+      </button>
+      <button
+        id="btnPlan"
+        class="dx-button">
+        작업계획
+      </button>
+      <button
+        id="btnManualChange"
+        class="dx-button">
+        메뉴얼 변경
+      </button>
+      <button
+        id="btnWorkOrder"
+        class="dx-button">
+        작업지시
+      </button>
+      <button
+        id="btnEquipComplete"
+        class="dx-button">
+        설비완료
+      </button>
+      <button
+        id="btnDayClose"
+        class="dx-button">
+        일마감
+      </button>
     </div>
-
-    <!-- Custom JS -->
-    <script
-      type="module"
-      src="./src/views/exec/execOrd.js?a=3"></script>
-  </body>
-</html>
+  </div>
+  <div id="workOrderGrid"></div>
+</div>

@@ -1,36 +1,164 @@
+import apiCommon from "../../../js/apiCommon.js?";
+
 $(document).ready(function () {
-  // 왼쪽 그리드 설정
-  $("#leftGrid").dxDataGrid({
-    dataSource: [{list: "테스트1"}], // 데이터 소스 설정
-    columns: [{dataField: "list", caption: "EUC 목록"}],
-    showBorders: true,
-    paging: {
-      enabled: false // 페이지 기능 비활성화
-    },
-    onRowClick: function (e) {
-      const selectedRowData = e.data;
-      showDynamicPopup(selectedRowData);
+  //loadData();
+  loadDataProc(null);
+  //loadDetailData();
+
+  function loadData() {
+    var obj = {
+      lktHeader: {
+        type: "REQUEST",
+        call: "PAGE.PATCH.CORES.USER",
+        status: 0,
+        message: "",
+        authentication:
+          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
+        userName: "LKT",
+        centerCode: "LKT",
+        clientCode: "LKT",
+        warehouseCode: "LKT"
+      },
+      lktBody: [{}]
+    };
+
+    var encoded = btoa(JSON.stringify(obj));
+
+    apiCommon
+      .enduserComputing(encoded)
+      .done(function (response) {})
+      //loadData(response.lktBody);
+      .fail(function () {
+        // 에러 발생 시 처리
+        alert("error");
+      });
+  }
+
+  function loadDataDeatil() {
+    var obj = {
+      lktHeader: {
+        type: "REQUEST",
+        call: "PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE",
+        status: 0,
+        message: "",
+        authentication:
+          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
+        userName: "LKT",
+        centerCode: "LKT",
+        clientCode: "LKT",
+        warehouseCode: "LKT"
+      },
+      lktBody: [
+        {
+          centerCode: "HYN",
+          clientCode: "HY",
+          whrehouseCode: "HYN",
+          procedureCode: "SP_LKTPUB_SAMPLE"
+        }
+      ]
+    };
+    var encoded = btoa(JSON.stringify(obj));
+    apiCommon
+      .enduserComputingExecute(encoded)
+      .done(function (response) {})
+
+      .fail(function () {
+        alert("error");
+      });
+  }
+
+  function loadDataProc(aParam) {
+    if (aParam == null) {
+      aParam = [
+        {
+          macroCode: "SP_EUC_LIST",
+          macroName: "EUC 목록 조회",
+          parameters: [
+            {
+              parameterCode: "P_WORK_BATCH",
+              parameterName: "출고차수",
+              parameterPlaceholder: "출고차수",
+              parameterDesc: "출고차수"
+            },
+            {
+              parameterCode: "P_WORK_DATE",
+              parameterName: "출고일자",
+              parameterPlaceholder: "출고일자",
+              parameterDesc: "출고일자 (yyyymmdd)"
+            }
+          ]
+        }
+      ];
     }
-  });
+
+    // 왼쪽 그리드 설정
+    $("#leftGrid").dxDataGrid({
+      dataSource: aParam, // 데이터 소스 설정
+      selection: {
+        mode: "single" // 단일 셀렉션 모드
+      },
+      columns: [{dataField: "macroName", caption: "EUC 목록 조회"}],
+      showBorders: true,
+      paging: {
+        enabled: false // 페이지 기능 비활성화
+      },
+      onRowClick: function (e) {
+        const selectedRowData = e.data;
+        showDynamicPopup(selectedRowData);
+        //alert(selectedRowData);
+      }
+    });
+  }
+
+  function loadDataDetailProc(aParam) {
+    if (aParam == null) {
+      aParam = [
+        {rst1: "test1", rst2: "테스트1"},
+        {rst1: "test2", rst2: "테스트2"}
+      ];
+
+      // 오른쪽 그리드 초기화
+      $("#rightGrid").dxDataGrid({
+        dataSource: aParam, // 데이터 소스 설정
+        columns: [
+          {dataField: "rst1", caption: "rst2"},
+          {dataField: "rst2", caption: "rst2"}
+        ],
+        selection: {
+          mode: "single" // 단일 셀렉션 모드
+        },
+        showBorders: true,
+        paging: {
+          pageSize: 10
+        },
+        pager: {
+          showPageSizeSelector: true,
+          allowedPageSizes: [10, 25, 50],
+          showInfo: true
+        }
+      });
+    }
+  }
 
   // 동적 입력란 팝업 함수
   function showDynamicPopup(rowData) {
     // 입력란 배열을 동적으로 생성
-    const formItems = [
-      {
-        dataField: "completionDate",
-        label: {text: "완료일자"},
-        editorType: "dxDateBox",
-        editorOptions: {
-          displayFormat: "yyyy-MM-dd"
-        }
-      }
-    ];
+
+    let formItems = [];
+
+    for (const itm of rowData.parameters) {
+      let ftim = {
+        dataField: "parameterCode",
+        label: {text: itm.parameterName},
+        editorType: "dxTextBox"
+      };
+      formItems.push(ftim);
+    }
 
     // 팝업 생성
     $("#dynamicPopup")
       .dxPopup({
-        title: rowData.title,
+        title: rowData.macroName,
         visible: true,
         width: 400,
         height: 300,
@@ -48,27 +176,10 @@ $(document).ready(function () {
             .dxButton({
               text: "실행",
               onClick: function () {
-                // alert("실행되었습니다");
-
+                // euc 실행
+                //loadDataDeatil();
+                loadDataDetailProc(null);
                 $("#dynamicPopup").dxPopup("hide");
-
-                // 오른쪽 그리드 초기화
-                $("#rightGrid").dxDataGrid({
-                  dataSource: [
-                    {rst1: "test1", rst2: "테스트1"},
-                    {rst1: "test2", rst2: "테스트2"}
-                  ], // 데이터 소스 설정
-                  columns: [{dataField: "rst1", caption: "RST1"}],
-                  showBorders: true,
-                  paging: {
-                    pageSize: 10
-                  },
-                  pager: {
-                    showPageSizeSelector: true,
-                    allowedPageSizes: [10, 25, 50],
-                    showInfo: true
-                  }
-                });
               }
             });
 
@@ -84,16 +195,6 @@ $(document).ready(function () {
       })
       .dxPopup("show");
   }
-
-  // 오른쪽 그리드 설정
-  $("#rightGrid").dxDataGrid({
-    dataSource: [], // 데이터 소스 설정
-    columns: [],
-    showBorders: true,
-    paging: {
-      enabled: false // 페이지 기능 비활성화
-    }
-  });
 
   // 내보내기 버튼 클릭 이벤트
   $("#exportButton").dxButton({
