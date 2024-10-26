@@ -1,4 +1,4 @@
-import api from "../../js/api.js";
+import api from "../../js/api/api.js";
 
 $(document).ready(function () {
   const loginBtn = $("#loginBtn");

@@ -1,4 +1,4 @@
-import apiWcs from "../../../js/apiWcs";
+import apiWcs from "../../../js/api/apiWcs";
 
 $(document).ready(function () {
   loadDataProc();
@@ -445,3 +445,12 @@ $(document).ready(function () {
     });
   });
 });
+
+function onCreate() {}
+
+function onActive() {}
+
+export default {
+  onCreate,
+  onActive
+};

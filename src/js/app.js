@@ -1,3 +1,14 @@
+// 각 화면의 모듈을 정의하는 객체
+// const viewModules = {
+//   "exec/execOrd": () => import("../views/exec/execOrd/execOrd.js"),
+//   "exec/execEuc": () => import("../views/exec/execEuc/execEuc.js")
+//   // 다른 화면에 대해 추가
+// };
+
+let moduleTarget = {};
+
+// exec/execOrd/execOrd.html
+
 $(document).ready(function () {
   const loadedTabs = {}; // 탭 로드 상태를 저장하는 객체
 
@@ -15,19 +26,29 @@ $(document).ready(function () {
     $("#sideMenu").html(menuHtml);
 
     // 서브메뉴 클릭 이벤트 처리
-    $(".submenu-item").click(function () {
+    $(".submenu-item").click(async function () {
       let view = $(this).data("view");
       let tabTitle = $(this).text();
+
+      const importedModule = await import(
+        "../views/" + view.replace(".html", ".js?timestamp=" + Date.now())
+      );
+      alert("../views/" + view.replace(".html", ".js"));
+      moduleTarget = importedModule.default || importedModule;
 
       // 이미 로드된 탭인지 확인 (중복 방지)
       if (loadedTabs[view]) {
         // 탭 활성화만 하고 새로 로드하지 않음
         activateTab(view);
+        moduleTarget.onActive();
       } else {
         // 탭이 로드되지 않았으면 로드 및 활성화
         addTab(tabTitle, view);
         loadedTabs[view] = true; // 탭 로드 상태 기록
       }
+
+      //alert(execOrd);
+      // execOrd.onActive();
     });
   });
 
@@ -63,6 +84,7 @@ $(document).ready(function () {
       method: "GET",
       success: function (data) {
         $("#mainContent").html(data); // 로드한 콘텐츠를 표시
+        moduleTarget.onCreate();
       },
       error: function () {
         $("#mainContent").html("Error loading content");

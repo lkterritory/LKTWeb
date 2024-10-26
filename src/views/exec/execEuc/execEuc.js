@@ -1,7 +1,6 @@
 import apiCommon from "../../../js/apiCommon.js?";
 
-$(document).ready(function () {
-  //loadData();
+function onCreate() {
   loadDataProc(null);
   //loadDetailData();
 
@@ -218,4 +217,11 @@ $(document).ready(function () {
         });
     }
   });
-});
+}
+
+function onActive() {}
+
+export default {
+  onCreate,
+  onActive
+};

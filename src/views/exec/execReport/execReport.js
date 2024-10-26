@@ -219,3 +219,12 @@ $(document).ready(function () {
     }
   });
 });
+
+function onCreate() {}
+
+function onActive() {}
+
+export default {
+  onCreate,
+  onActive
+};

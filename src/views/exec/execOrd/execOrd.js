@@ -1,8 +1,47 @@
-//import apiWcs from "/src/js/apiWcs.js";
+// import apiWcs from "/src/js/apiWcs.js";
 
-import apiWcs from "../../js/apiWcs.js?a=1";
+import apiWcs from "../../../js/api/apiWcs.js?a=1";
 
-$(document).ready(function () {
+// 데이터 로드 함수
+function loadWorkOrderData() {
+  var obj = {
+    lktHeader: {
+      type: "REQUEST",
+      call: "PAGE.OUTBOUNDS.WCS.ORDERS",
+      status: 0,
+      message: "",
+      authentication:
+        "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
+      userName: "LKT",
+      centerCode: "LKT",
+      clientCode: "LKT",
+      warehouseCode: "LKT"
+    },
+    lktBody: [
+      {
+        workDate: "2024-02-17"
+      }
+    ]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .wcsOperation(encoded)
+    .done(function (response) {
+      const sampleData = response.lktBody;
+      $("#workOrderGrid")
+        .dxDataGrid("instance")
+        .option("dataSource", sampleData);
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      alert("error");
+      errorPopup.removeClass("hidden");
+    });
+}
+
+function onCreate() {
   // DateBox - 출고일자 선택
   $("#workDateContainer").dxDateBox({
     type: "date",
@@ -83,44 +122,14 @@ $(document).ready(function () {
     }
   });
 
-  // 데이터 로드 함수
-  function loadWorkOrderData() {
-    alert("c");
+  loadWorkOrderData();
+}
 
-    var obj = {
-      lktHeader: {
-        type: "REQUEST",
-        call: "PAGE.OUTBOUNDS.WCS.ORDERS",
-        status: 0,
-        message: "",
-        authentication:
-          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
-        userName: "LKT",
-        centerCode: "LKT",
-        clientCode: "LKT",
-        warehouseCode: "LKT"
-      },
-      lktBody: [
-        {
-          workDate: "2024-02-17"
-        }
-      ]
-    };
+function onActive() {
+  loadWorkOrderData();
+}
 
-    var encoded = btoa(JSON.stringify(obj));
-
-    apiWcs
-      .wcsOperation(encoded)
-      .done(function (response) {
-        const sampleData = response.lktBody;
-        $("#workOrderGrid")
-          .dxDataGrid("instance")
-          .option("dataSource", sampleData);
-      })
-      .fail(function () {
-        // 에러 발생 시 처리
-        alert("error");
-        errorPopup.removeClass("hidden");
-      });
-  }
-});
+export default {
+  onCreate,
+  onActive
+};
