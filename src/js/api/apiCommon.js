@@ -2,6 +2,166 @@
 
 const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
 
+// 상품정보 start
+function coresSkusGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/skus?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresSkusAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/skus",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+
+function coresSkusEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/skus",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+// 상품정보 end
+
+// 로케이션정보 start
+function coresLocationGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/locations?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresLocationAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/locations",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+
+function coresLocationEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/locations",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+// 로케이션정보 end
+
+// 권한정보 start
+function coresAuthGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/permission-settings?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresAuthAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/permission-settings",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+
+function coresAuthEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/permission-settings",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+// 권한정보 end
+
+// 지점정보 start
+function coresStoresGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/stores?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresStoresAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/stores",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+
+function coresStoresEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/stores",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+// 지점정보 end
+
+// 사용자정보 start
+function coresUsersGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/users?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresUsersAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/users",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+
+function coresUsersEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "cores/users",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: {param}
+  });
+}
+// 사용자정보 end
+
 // EUC 조회
 function enduserComputing(param) {
   return $.ajax({
@@ -51,5 +211,20 @@ export default {
   enduserComputing,
   enduserComputingExecute,
   reportViewer,
-  reportViewerExecute
+  reportViewerExecute,
+  coresSkusGet,
+  coresSkusAdd,
+  coresSkusEdit,
+  coresLocationGet,
+  coresLocationAdd,
+  coresLocationEdit,
+  coresAuthGet,
+  coresAuthAdd,
+  coresAuthEdit,
+  coresStoresGet,
+  coresStoresAdd,
+  coresStoresEdit,
+  coresUsersGet,
+  coresUsersAdd,
+  coresUsersEdit
 };

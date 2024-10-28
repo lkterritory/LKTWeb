@@ -1,4 +1,4 @@
-import apiCommon from "../../../js/apiCommon.js?";
+import apiCommon from "../../../js/api/apiCommon.js?";
 
 $(document).ready(function () {
   //loadData();

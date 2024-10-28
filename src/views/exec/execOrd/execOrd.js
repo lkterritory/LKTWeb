@@ -1,31 +1,19 @@
 // import apiWcs from "/src/js/apiWcs.js";
 
 import apiWcs from "../../../js/api/apiWcs.js?a=1";
+import lktUtil from "../../../js/util/lktUtil";
 
 // 데이터 로드 함수
 function loadWorkOrderData() {
   var obj = {
-    lktHeader: {
-      type: "REQUEST",
-      call: "PAGE.OUTBOUNDS.WCS.ORDERS",
-      status: 0,
-      message: "",
-      authentication:
-        "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
-      userName: "LKT",
-      centerCode: "LKT",
-      clientCode: "LKT",
-      warehouseCode: "LKT"
-    },
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
         workDate: "2024-02-17"
       }
     ]
   };
-
   var encoded = btoa(JSON.stringify(obj));
-
   apiWcs
     .wcsOperation(encoded)
     .done(function (response) {

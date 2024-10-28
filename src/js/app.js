@@ -9,7 +9,15 @@ let moduleTarget = {};
 
 // exec/execOrd/execOrd.html
 
+function checkSession() {
+  if (Cookies.get("login") != "true") {
+    window.location.href = "./src/views/login/login.html";
+  }
+}
+
 $(document).ready(function () {
+  checkSession();
+
   const loadedTabs = {}; // 탭 로드 상태를 저장하는 객체
 
   // menu.json을 로드하고 사이드 메뉴 생성
@@ -51,51 +59,53 @@ $(document).ready(function () {
       // execOrd.onActive();
     });
   });
-
-  // 탭을 추가하고 콘텐츠를 로드하는 함수
-  function addTab(tabTitle, view) {
-    // 중복된 탭이 있는지 확인
-    if ($(`.tab[data-view="${view}"]`).length === 0) {
-      const tabHtml = `
-        <div class="tab" data-view="${view}">
-          ${tabTitle}
-          <span class="close-tab" onclick="removeTab('${view}')">x</span>
-        </div>
-      `;
-      $("#tabContainer").append(tabHtml);
-    }
-
-    // 탭 클릭 시 해당 HTML 파일 로드
-    loadContent(view);
-  }
-
-  // 탭 활성화 함수
-  function activateTab(view) {
-    // 탭 및 콘텐츠를 활성화
-    $(".tab").removeClass("active");
-    $(`.tab[data-view="${view}"]`).addClass("active");
-    loadContent(view); // 이미 로드된 탭의 내용을 보여줌
-  }
-
-  // 콘텐츠 로드 함수
-  function loadContent(view) {
-    $.ajax({
-      url: `./src/views/${view}?timestamp=` + Date.now(),
-      method: "GET",
-      success: function (data) {
-        $("#mainContent").html(data); // 로드한 콘텐츠를 표시
-        moduleTarget.onCreate();
-      },
-      error: function () {
-        $("#mainContent").html("Error loading content");
-      }
-    });
-  }
-
-  // 탭을 닫는 함수
-  function removeTab(view) {
-    $(`.tab[data-view="${view}"]`).remove();
-    $("#mainContent").html(""); // 탭을 닫으면 내용을 지웁니다.
-    delete loadedTabs[view]; // 탭 로드 상태 삭제
-  }
 });
+
+// 탭을 추가하고 콘텐츠를 로드하는 함수
+function addTab(tabTitle, view) {
+  // 중복된 탭이 있는지 확인
+  if ($(`.tab[data-view="${view}"]`).length === 0) {
+    const tabHtml = `
+      <div class="tab" data-view="${view}">
+        ${tabTitle}
+        <span class="close-tab" onclick="removeTab('${view}')">x</span>
+      </div>
+    `;
+    $("#tabContainer").append(tabHtml);
+  }
+
+  // 탭 클릭 시 해당 HTML 파일 로드
+  loadContent(view);
+}
+
+// 탭 활성화 함수
+function activateTab(view) {
+  // 탭 및 콘텐츠를 활성화
+  $(".tab").removeClass("active");
+  $(`.tab[data-view="${view}"]`).addClass("active");
+
+  loadContent(view); // 이미 로드된 탭의 내용을 보여줌
+}
+
+// 콘텐츠 로드 함수
+function loadContent(view) {
+  $.ajax({
+    url: `./src/views/${view}?timestamp=` + Date.now(),
+    method: "GET",
+    success: function (data) {
+      $("#mainContent").html(data); // 로드한 콘텐츠를 표시
+      moduleTarget.onCreate();
+    },
+    error: function () {
+      $("#mainContent").html("Error loading content");
+    }
+  });
+}
+
+// 탭을 닫는 함수
+window.removeTab = function (view) {
+  alert("dd");
+  $(`.tab[data-view="${view}"]`).remove();
+  $("#mainContent").html(""); // 탭을 닫으면 내용을 지웁니다.
+  delete loadedTabs[view]; // 탭 로드 상태 삭제
+};

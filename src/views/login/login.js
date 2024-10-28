@@ -1,4 +1,5 @@
 import api from "../../js/api/api.js";
+import lktStorate from "../../js/util/lktStorage.js";
 
 $(document).ready(function () {
   const loginBtn = $("#loginBtn");
@@ -9,17 +10,7 @@ $(document).ready(function () {
   }
 
   loginBtn.on("click", function () {
-    // const username = $("#username").val();
-    // const password = $("#password").val();
-
-    // // 입력값 유효성 검사
-    // if (!username || !password) {
-    //   errorPopup.removeClass("hidden");
-    //   return;
-    // }
-
-    // window.location.href = "../../../index.html";
-    // return;
+    // server API 호출
 
     let reqParam = {
       lktHeader: {
@@ -41,27 +32,40 @@ $(document).ready(function () {
       ]
     };
 
-    // 로그인 API 호출
     api
       .server(reqParam)
       .done(function (response) {
-        // alert(JSON.stringify(response));
+        if (response.lktBody.length == 0) {
+          response.lktBody[0] = {
+            authentication:
+              "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
+          };
+        }
 
+        // 있어도 조회 안됨 //임시 auth
+        response.lktBody[0] = {
+          authentication:
+            "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
+        };
+
+        lktStorate.setServerInfo(response.lktBody[0]);
+
+        // login API 호출
         reqParam = {
           lktHeader: {
             type: "REQUEST",
             call: "PAGE.ONEGATEA.LOGIN",
             status: 0,
             message: "",
-            encryption: "",
+            encryption: response.lktBody[0],
             centerCode: "LKT",
             clientCode: "LKT",
             warehouseCode: "LKT"
           },
           lktBody: [
             {
-              userName: "LKT",
-              password: "QUJDREU=",
+              userName: $("#username").val(),
+              password: btoa($("#password").val()),
               connectionType: "TEST",
               serverGroup: "SPC#GFC"
             }
@@ -71,7 +75,20 @@ $(document).ready(function () {
         api
           .login(reqParam)
           .done(function (response) {
-            // 로그인 성공 시 대시보드로 이동
+            if (response.lktBody.length == 0) {
+              response.lktBody[0] = {
+                centerCode: "LKT",
+                clientCode: "LKT",
+                warehouseCode: "LKT",
+                userId: "LKT",
+                userName: "LKT NAME"
+              };
+            }
+
+            lktStorate.setLoginInfo(response.lktBody[0]);
+            // alert(JSON.stringify(response.lktBody[0]));
+            // alert(JSON.stringify(lktStorate.getLoginInfo()));
+
             window.location.href = "../../../index.html";
           })
           .fail(function () {
