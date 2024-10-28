@@ -13,7 +13,7 @@ function workbatch(param) {
   });
 }
 
-// 작업지시
+// 작업지시 start
 function wcsOperation(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/operation?id=" + param,
@@ -23,6 +23,37 @@ function wcsOperation(param) {
     data: {}
   });
 }
+
+function wcsOperationPlan(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/operation/plan",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+function wcsOperationStart(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/operation/start",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+function wcsOperationStart(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/operation/start",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+// 작업지시 end
 
 // 주문별작업현황
 function statusOrders(param) {

@@ -12,6 +12,7 @@ $(document).ready(function () {
   loginBtn.on("click", function () {
     // server API 호출
 
+    alert("dd");
     let reqParam = {
       lktHeader: {
         type: "REQUEST",
@@ -35,6 +36,7 @@ $(document).ready(function () {
     api
       .server(reqParam)
       .done(function (response) {
+        alert("dd2");
         if (response.lktBody.length == 0) {
           response.lktBody[0] = {
             authentication:
@@ -75,6 +77,7 @@ $(document).ready(function () {
         api
           .login(reqParam)
           .done(function (response) {
+            alert("dd3");
             if (response.lktBody.length == 0) {
               response.lktBody[0] = {
                 centerCode: "LKT",
@@ -88,6 +91,8 @@ $(document).ready(function () {
             lktStorate.setLoginInfo(response.lktBody[0]);
             // alert(JSON.stringify(response.lktBody[0]));
             // alert(JSON.stringify(lktStorate.getLoginInfo()));
+
+            Cookies.set("login", "true");
 
             window.location.href = "../../../index.html";
           })
