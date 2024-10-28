@@ -44,9 +44,9 @@ function wcsOperationStart(param) {
   });
 }
 
-function wcsOperationStart(param) {
+function wcsOperationcCompleted(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/wcs/operation/start",
+    url: baseUrlWcs + "/outbounds/wcs/operation/completed",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
@@ -54,6 +54,50 @@ function wcsOperationStart(param) {
   });
 }
 // 작업지시 end
+
+// 검수 start
+function wcsInspectionsList(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/inspections?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+function wcsInspectionsConfirm(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/inspections",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+function wcswcsInspectionsCompletion(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/inspections/completion",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+// 검수 end
+
+// 중분류 start
+function wcsMiddleCategories(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/middle-categories?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+// 중분류 end
 
 // 주문별작업현황
 function statusOrders(param) {
@@ -130,5 +174,9 @@ export default {
   statusSkus,
   statusSkusDetail,
   statusEquipment,
-  statusEquipmentDetail
+  statusEquipmentDetail,
+
+  wcsInspectionsList,
+  wcsInspectionsConfirm,
+  wcswcsInspectionsCompletion
 };

@@ -1,0 +1,29 @@
+.checker-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.checker-header,
+.summary-group,
+.barcode-section,
+.inspection-options,
+.grid-section {
+  margin-bottom: 20px;
+}
+
+.summary-group,
+.inspection-options {
+  display: flex;
+  gap: 10px;
+}
+
+.barcode-section label {
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.grid-section {
+  margin-top: 20px;
+}
