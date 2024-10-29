@@ -176,6 +176,8 @@ export default {
   statusEquipment,
   statusEquipmentDetail,
 
+  wcsMiddleCategories,
+
   wcsInspectionsList,
   wcsInspectionsConfirm,
   wcswcsInspectionsCompletion

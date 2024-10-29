@@ -1,25 +1,28 @@
 <link
   rel="stylesheet"
-  href="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.css?a=1" />
+  href="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.css?b=1" />
+
 <script
   type="module"
-  src="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.js"></script>
+  src="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.js?b=1"></script>
 
-<div class="main-container">
-  <div class="input-section">
-    <label for="productCode">상품코드</label>
+<div class="inspection-container">
+  <div class="header-inputs">
+    <label>상품코드</label>
     <input
+      id="skuCode"
       type="text"
-      id="productCode"
-      placeholder="상품코드를 입력하세요" />
+      placeholder="상품코드를 입력해주세요"
+      class="product-code-input" />
+    <label>작업차수</label>
+    <div id="workDateContainer"></div>
+    <div class="stats">
+      <span>입수: 0</span>
+      <span>미처리: 0</span>
+      <span>전체진행: 0 / 0</span>
+    </div>
   </div>
-
-  <div class="summary-section">
-    <div class="summary-item">입수: 0</div>
-    <div class="summary-item">전체진행: 0 / 0</div>
+  <div class="sorter-box-container">
+    <div id="dynamicBoxContainer"></div>
   </div>
-
-  <div
-    class="dynamic-section"
-    id="dynamicSection"></div>
 </div>
