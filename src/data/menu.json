@@ -1,6 +1,10 @@
 {
   "menuItems": [
     {
+      "title": "기본",
+      "submenus": [{"title": "상황판", "view": "dash/dash.html"}]
+    },
+    {
       "title": "기준정보",
       "submenus": [
         {"title": "상품정보", "view": "mast/mastItem/mastItem.html"},
