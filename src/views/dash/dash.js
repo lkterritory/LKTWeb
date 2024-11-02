@@ -1,3 +1,13 @@
+let apiCommon;
+let lktUtil;
+
+if (!window.apiCommonModule || !window.lktUtilModule) {
+  window.apiCommonModule = import(
+    `../../../js/api/apiCommon.js?t=${Date.now()}`
+  );
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
 function onCreate() {
   const data = [
     {title: "냉동 1블럭", progress: 91, sku: 184, pcs: 2218},
@@ -52,6 +62,8 @@ function onCreate() {
 }
 
 function onActive() {}
+
+function searchList() {}
 
 export default {
   onCreate,

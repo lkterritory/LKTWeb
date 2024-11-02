@@ -1,14 +1,5 @@
-// 각 화면의 모듈을 정의하는 객체
-// const viewModules = {
-//   "exec/execOrd": () => import("../views/exec/execOrd/execOrd.js"),
-//   "exec/execEuc": () => import("../views/exec/execEuc/execEuc.js")
-//   // 다른 화면에 대해 추가
-// };
-
 let moduleTarget = {};
-let loadedTabs = {}; // 탭 로드 상태를 저장하는 객체
-
-// exec/execOrd/execOrd.html
+let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 
 function checkSession() {
   if (Cookies.get("login") != "true") {
@@ -40,52 +31,58 @@ $(document).ready(function () {
       const importedModule = await import(
         "../views/" + view.replace(".html", ".js?t=" + Date.now())
       );
-      alert("../views/" + view.replace(".html", ".js"));
       moduleTarget = importedModule.default || importedModule;
 
-      // 이미 로드된 탭인지 확인 (중복 방지)
+      // 이미 로드된 탭인지 확인
       if (loadedTabs[view]) {
-        // 탭 활성화만 하고 새로 로드하지 않음
-        // alert(JSON.stringify(loadedTabs));
         activateTab(view);
         moduleTarget.onActive();
       } else {
-        // alert(JSON.stringify(loadedTabs));
-        // 탭이 로드되지 않았으면 로드 및 활성화
         addTab(tabTitle, view);
-        loadedTabs[view] = true; // 탭 로드 상태 기록
+        loadContent(view);
       }
-
-      //alert(execOrd);
-      // execOrd.onActive();
     });
   });
 });
 
-// 탭을 추가하고 콘텐츠를 로드하는 함수
+// 탭을 추가하는 함수
+// function addTab(tabTitle, view) {
+//   if ($(`.tab[data-view="${view}"]`).length === 0) {
+//     $(".tab").removeClass("last").addClass("middle");
+
+//     const tabHtml = `
+//       <div class="tab" data-view="${view}" onclick="activateTab('${view}')">
+//         ${tabTitle}
+//         <span class="close-tab" onclick="removeTab('${view}'); event.stopPropagation();">x</span>
+//       </div>
+//     `;
+//     $("#tabContainer").append(tabHtml);
+//   }
+// }
+
+// // 탭을 추가하는 함수
 function addTab(tabTitle, view) {
-  // 중복된 탭이 있는지 확인
+  // 탭이 이미 있는지 확인
   if ($(`.tab[data-view="${view}"]`).length === 0) {
+    // 모든 탭에서 last 클래스를 제거하고 middle 클래스를 추가
+    $(".tab").removeClass("last").addClass("middle");
+
+    // 새로운 탭이 마지막이므로 last 클래스를 추가
     const tabHtml = `
-      <div class="tab" data-view="${view}">
+      <div class="tab last" data-view="${view}" onclick="activateTab('${view}')">
         ${tabTitle}
-        <span class="close-tab" onclick="removeTab('${view}')">x</span>
+        <span class="close-tab" onclick="event.stopPropagation(); removeTab('${view}')"> X </span>
       </div>
     `;
+
+    // 탭 컨테이너에 추가
     $("#tabContainer").append(tabHtml);
+
+    // 처음 탭일 경우 start 클래스를 추가하고 middle 클래스를 제거
+    if ($(".tab").length === 1) {
+      $(".tab").removeClass("middle").addClass("start");
+    }
   }
-
-  // 탭 클릭 시 해당 HTML 파일 로드
-  loadContent(view);
-}
-
-// 탭 활성화 함수
-function activateTab(view) {
-  // 탭 및 콘텐츠를 활성화
-  $(".tab").removeClass("active");
-  $(`.tab[data-view="${view}"]`).addClass("active");
-
-  loadContent(view); // 이미 로드된 탭의 내용을 보여줌
 }
 
 // 콘텐츠 로드 함수
@@ -94,7 +91,13 @@ function loadContent(view) {
     url: `./src/views/${view}?t=` + Date.now(),
     method: "GET",
     success: function (data) {
-      $("#mainContent").html(data); // 로드한 콘텐츠를 표시
+      const contentId = view.replace(/\//g, "-").replace(".html", "");
+      const contentHtml = `<div id="${contentId}" class="content-view" style="display: block;">${data}</div>`;
+      $("#mainContent").append(contentHtml);
+
+      activateTab(view); // 첫 로드 시에도 탭을 활성화하고 show() 처리
+      loadedTabs[view] = {content: data}; // 로드된 콘텐츠를 캐싱
+
       moduleTarget.onCreate();
     },
     error: function () {
@@ -103,12 +106,34 @@ function loadContent(view) {
   });
 }
 
+// 탭 활성화 함수
+window.activateTab = function (view) {
+  // .html을 제거한 id 생성
+
+  const contentId = view.replace(/\//g, "-").replace(".html", "");
+
+  $(".tab").removeClass("active");
+  $(".content-view").hide(); // 모든 콘텐츠를 숨기고
+
+  $(`.tab[data-view="${view}"]`).addClass("active");
+  $(`#${contentId}`).show(); // 선택된 콘텐츠만 표시
+};
+
 // 탭을 닫는 함수
 window.removeTab = function (view) {
-  alert("dd");
+  const contentId = view.replace(/\//g, "-").replace(".html", "");
   $(`.tab[data-view="${view}"]`).remove();
-  $("#mainContent").html(""); // 탭을 닫으면 내용을 지웁니다.
-  delete loadedTabs[view]; // 탭 로드 상태 삭제
+  $(`#${contentId}`).remove(); // 콘텐츠를 DOM에서 삭제
+  delete loadedTabs[view]; // 캐시에서 삭제
 
-  alert(JSON.stringify(loadedTabs));
+  // 이전 탭을 찾아서 활성화
+  const lastTab = $(".tab").last(); // 마지막 탭을 선택
+
+  if (lastTab.length) {
+    const lastView = lastTab.data("view"); // 마지막 탭의 뷰 정보를 가져옴
+
+    activateTab(lastView); // 마지막 탭 활성화
+  } else {
+    $("#mainContent").empty(); // 탭이 하나도 없으면 콘텐츠 영역 비우기
+  }
 };

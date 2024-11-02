@@ -1,4 +1,4 @@
-import api from "../../js/api/api.js";
+import api from "../../js/api/api.js?a=1";
 import lktStorate from "../../js/util/lktStorage.js";
 
 $(document).ready(function () {
@@ -36,7 +36,7 @@ $(document).ready(function () {
     api
       .server(reqParam)
       .done(function (response) {
-        alert("dd2");
+        // alert("dd2");
         if (response.lktBody.length == 0) {
           response.lktBody[0] = {
             authentication:
@@ -77,7 +77,7 @@ $(document).ready(function () {
         api
           .login(reqParam)
           .done(function (response) {
-            alert("dd3");
+            // alert("dd3");
             if (response.lktBody.length == 0) {
               response.lktBody[0] = {
                 centerCode: "LKT",

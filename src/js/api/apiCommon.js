@@ -1,35 +1,35 @@
 // api.js
 
 const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
-$.ajaxSetup({
-  beforeSend: function (jqXHR, settings) {
-    $("#networkPopup")
-      .dxPopup({
-        title: "로딩중...",
-        visible: true,
-        width: 300,
-        height: 100,
-        contentTemplate: function (contentElement) {
-          const formInstance = $("<div>")
-            .appendTo(contentElement)
-            .dxForm({
-              formData: {},
-              items: []
-            })
-            .dxForm("instance");
-        }
-      })
-      .dxPopup("show");
+// $.ajaxSetup({
+//   beforeSend: function (jqXHR, settings) {
+//     $("#networkPopup")
+//       .dxPopup({
+//         title: "로딩중...",
+//         visible: true,
+//         width: 300,
+//         height: 100,
+//         contentTemplate: function (contentElement) {
+//           const formInstance = $("<div>")
+//             .appendTo(contentElement)
+//             .dxForm({
+//               formData: {},
+//               items: []
+//             })
+//             .dxForm("instance");
+//         }
+//       })
+//       .dxPopup("show");
 
-    // 임시 강제닫기
-    setTimeout(function () {
-      $("#networkPopup").dxPopup("hide");
-    }, 1);
-  },
-  complete: function (jqXHR, textStatus) {
-    $("#networkPopup").dxPopup("hide");
-  }
-});
+//     // 임시 강제닫기
+//     setTimeout(function () {
+//       $("#networkPopup").dxPopup("hide");
+//     }, 1);
+//   },
+//   complete: function (jqXHR, textStatus) {
+//     $("#networkPopup").dxPopup("hide");
+//   }
+// });
 
 // 상품정보 start
 function coresSkusGet(param) {
