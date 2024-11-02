@@ -1,4 +1,4 @@
-import lktStorate from "./lktStorage";
+import lktStorate from "./lktStorage.js";
 
 const lktUtil = {
   lktPayload: {

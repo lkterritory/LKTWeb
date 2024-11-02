@@ -1,7 +1,5 @@
-// import apiWcs from "/src/js/apiWcs.js";
-
 import apiWcs from "../../../js/api/apiWcs.js?a=1";
-import lktUtil from "../../../js/util/lktUtil";
+import lktUtil from "../../../js/util/lktUtil.js";
 
 // 데이터 로드 함수
 function loadWorkOrderData() {
@@ -51,23 +49,124 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      loadWorkOrderData();
+      const selectedDate = $("#workDateContainer")
+        .dxDateBox("instance")
+        .option("value");
+      const selectedBatch = $("#workBatchContainer")
+        .dxSelectBox("instance")
+        .option("value");
 
       const buttonId = e.component.option("text");
       if (buttonId === "조회") {
         loadWorkOrderData();
-      } else if (buttonId === "주문수신") {
-        // 주문수신 로직
-      } else if (buttonId === "작업계획") {
-        // 작업계획 로직
-      } else if (buttonId === "메뉴얼 변경") {
-        // 메뉴얼 변경 로직
-      } else if (buttonId === "작업지시") {
-        // 작업지시 로직
-      } else if (buttonId === "설비완료") {
-        // 설비완료 로직
-      } else if (buttonId === "일마감") {
-        // 일마감 로직
+      } else if (buttonId === "계획생성") {
+        // 계획생성
+        var obj = {
+          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+          lktBody: [
+            {
+              workDate: selectedDate,
+              workBatch: selectedBatch
+            }
+          ]
+        };
+        var encoded = btoa(JSON.stringify(obj));
+        apiWcs
+          .wcsOperationPlan(encoded)
+          .done(function (response) {
+            const sampleData = response.lktBody;
+            $("#workOrderGrid")
+              .dxDataGrid("instance")
+              .option("dataSource", sampleData);
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
+          });
+      } else if (buttonId === "작업시작") {
+        // 작업시작
+        var obj = {
+          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+          lktBody: []
+        };
+        var encoded = btoa(JSON.stringify(obj));
+        apiWcs
+          .wcsOperationStart(encoded)
+          .done(function (response) {
+            const sampleData = response.lktBody;
+            $("#workOrderGrid")
+              .dxDataGrid("instance")
+              .option("dataSource", sampleData);
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
+          });
+      } else if (buttonId === "차수 작업완료") {
+        // 차수 작업완료
+
+        const selectedData = workOrderGrid.getSelectedRowsData();
+
+        var obj = {
+          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+          lktBody: []
+        };
+        var encoded = btoa(JSON.stringify(obj));
+        apiWcs
+          .wcsOperationcCompleted(encoded)
+          .done(function (response) {
+            const sampleData = response.lktBody;
+            $("#workOrderGrid")
+              .dxDataGrid("instance")
+              .option("dataSource", sampleData);
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
+          });
+      } else if (buttonId === "전체 작업완료") {
+        //전체 작업완료
+        var obj = {
+          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+          lktBody: []
+        };
+        var encoded = btoa(JSON.stringify(obj));
+        apiWcs
+          .wcsOperationcClosing(encoded)
+          .done(function (response) {
+            const sampleData = response.lktBody;
+            $("#workOrderGrid")
+              .dxDataGrid("instance")
+              .option("dataSource", sampleData);
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
+          });
+      } else if (buttonId === "작업취소") {
+        // 작업취소
+        var obj = {
+          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+          lktBody: []
+        };
+        var encoded = btoa(JSON.stringify(obj));
+        apiWcs
+          .wcsOperationcCancel(encoded)
+          .done(function (response) {
+            const sampleData = response.lktBody;
+            $("#workOrderGrid")
+              .dxDataGrid("instance")
+              .option("dataSource", sampleData);
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
+          });
       }
     },
     width: "100px"
@@ -107,6 +206,9 @@ function onCreate() {
       showPageSizeSelector: true,
       allowedPageSizes: [10, 25, 50],
       showInfo: true
+    },
+    selection: {
+      mode: "single"
     }
   });
 

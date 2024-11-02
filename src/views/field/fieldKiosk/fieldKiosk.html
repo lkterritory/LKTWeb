@@ -1,0 +1,51 @@
+<link
+  rel="stylesheet"
+  href="./src/views/field/fieldKiosk/fieldKiosk.css?a=1" />
+
+<div class="kiosk-container">
+  <div class="header">
+    <div class="title">DAS 냉동 2블럭</div>
+    <button class="settings-btn">설정</button>
+  </div>
+
+  <div class="summary">
+    <div class="summary-item">
+      <div class="label">주문</div>
+      <div class="value">
+        <span class="current">1</span>/<span class="total">48</span>
+      </div>
+    </div>
+    <div class="summary-item">
+      <div class="label">품목</div>
+      <div class="value">
+        <span class="current">177</span>/<span class="total">193</span>
+      </div>
+    </div>
+    <div class="summary-item">
+      <div class="label">PCS</div>
+      <div class="value">
+        <span class="current">1,948</span>/<span class="total">2,211</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar-container">
+    <div
+      id="progressBar"
+      class="progress-bar"></div>
+    <div class="progress-label">91%</div>
+  </div>
+
+  <div class="barcode-section">
+    <label for="barcode">바코드</label>
+    <input
+      type="text"
+      id="barcode"
+      placeholder="바코드를 스캔해주세요"
+      disabled />
+  </div>
+
+  <div class="data-grid-container">
+    <div id="orderGrid"></div>
+  </div>
+</div>

@@ -1,6 +1,15 @@
-// 데이터 로드 함수
-import apiCommon from "../../../js/api/apiCommon";
-import lktUtil from "../../../js/util/lktUtil";
+let apiCommon;
+let lktUtil;
+
+if (!window.apiCommonModule || !window.lktUtilModule) {
+  window.apiCommonModule = import(
+    `../../../js/api/apiCommon.js?t=${Date.now()}`
+  );
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
+apiCommon = (await window.apiCommonModule).default;
+lktUtil = (await window.lktUtilModule).default;
 
 // 데이터 로드 함수
 function loadData() {

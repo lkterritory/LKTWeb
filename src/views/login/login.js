@@ -12,7 +12,7 @@ $(document).ready(function () {
   loginBtn.on("click", function () {
     // server API 호출
 
-    alert("dd");
+    // alert("dd");
     let reqParam = {
       lktHeader: {
         type: "REQUEST",

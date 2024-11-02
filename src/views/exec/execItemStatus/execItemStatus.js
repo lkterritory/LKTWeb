@@ -1,4 +1,4 @@
-import apiWcs from "../../../js/api/apiWcs";
+import apiWcs from "../../../js/api/apiWcs.js";
 
 $(document).ready(function () {
   loadDataProc();

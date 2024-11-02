@@ -1,5 +1,5 @@
-let serverInfo = null;
-let loginInfo = null;
+let lkt_serverInfo = null;
+let lkt_loginInfo = null;
 
 const lktStorate = {
   // server: {
@@ -17,19 +17,19 @@ const lktStorate = {
 
   setServerInfo(param) {
     localStorage.setItem("serverInfo", JSON.stringify(param));
-    serverInfo = param;
+    lkt_serverInfo = param;
   },
   getServerInfo() {
-    if (serverInfo != null) return serverInfo;
+    if (lkt_serverInfo != null) return lkt_serverInfo;
     return JSON.parse(localStorage.getItem("serverInfo"));
   },
 
   setLoginInfo(param) {
     localStorage.setItem("loginInfo", JSON.stringify(param));
-    loginInfo = param;
+    lkt_loginInfo = param;
   },
   getLoginInfo() {
-    if (loginInfo != null) return loginInfo;
+    if (lkt_loginInfo != null) return lkt_loginInfo;
     return JSON.parse(localStorage.getItem("loginInfo"));
   }
 };

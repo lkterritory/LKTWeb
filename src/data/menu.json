@@ -44,11 +44,15 @@
       "submenus": [
         {
           "title": "검수",
-          "view": "exec/execChecker/execChecker.html"
+          "view": "field/fieldChecker/fieldChecker.html"
         },
         {
           "title": "중분류",
           "view": "field/fieldMiddleCategory/fieldMiddleCategory.html"
+        },
+        {
+          "title": "키오스크",
+          "view": "field/fieldKiosk/fieldKiosk.html"
         }
       ]
     }

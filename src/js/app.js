@@ -6,6 +6,7 @@
 // };
 
 let moduleTarget = {};
+let loadedTabs = {}; // 탭 로드 상태를 저장하는 객체
 
 // exec/execOrd/execOrd.html
 
@@ -17,8 +18,6 @@ function checkSession() {
 
 $(document).ready(function () {
   checkSession();
-
-  const loadedTabs = {}; // 탭 로드 상태를 저장하는 객체
 
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json", function (data) {
@@ -39,7 +38,7 @@ $(document).ready(function () {
       let tabTitle = $(this).text();
 
       const importedModule = await import(
-        "../views/" + view.replace(".html", ".js?timestamp=" + Date.now())
+        "../views/" + view.replace(".html", ".js?t=" + Date.now())
       );
       alert("../views/" + view.replace(".html", ".js"));
       moduleTarget = importedModule.default || importedModule;
@@ -47,9 +46,11 @@ $(document).ready(function () {
       // 이미 로드된 탭인지 확인 (중복 방지)
       if (loadedTabs[view]) {
         // 탭 활성화만 하고 새로 로드하지 않음
+        // alert(JSON.stringify(loadedTabs));
         activateTab(view);
         moduleTarget.onActive();
       } else {
+        // alert(JSON.stringify(loadedTabs));
         // 탭이 로드되지 않았으면 로드 및 활성화
         addTab(tabTitle, view);
         loadedTabs[view] = true; // 탭 로드 상태 기록
@@ -90,7 +91,7 @@ function activateTab(view) {
 // 콘텐츠 로드 함수
 function loadContent(view) {
   $.ajax({
-    url: `./src/views/${view}?timestamp=` + Date.now(),
+    url: `./src/views/${view}?t=` + Date.now(),
     method: "GET",
     success: function (data) {
       $("#mainContent").html(data); // 로드한 콘텐츠를 표시
@@ -108,4 +109,6 @@ window.removeTab = function (view) {
   $(`.tab[data-view="${view}"]`).remove();
   $("#mainContent").html(""); // 탭을 닫으면 내용을 지웁니다.
   delete loadedTabs[view]; // 탭 로드 상태 삭제
+
+  alert(JSON.stringify(loadedTabs));
 };

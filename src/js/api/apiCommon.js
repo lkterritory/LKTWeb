@@ -1,11 +1,40 @@
 // api.js
 
 const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
+$.ajaxSetup({
+  beforeSend: function (jqXHR, settings) {
+    $("#networkPopup")
+      .dxPopup({
+        title: "로딩중...",
+        visible: true,
+        width: 300,
+        height: 100,
+        contentTemplate: function (contentElement) {
+          const formInstance = $("<div>")
+            .appendTo(contentElement)
+            .dxForm({
+              formData: {},
+              items: []
+            })
+            .dxForm("instance");
+        }
+      })
+      .dxPopup("show");
+
+    // 임시 강제닫기
+    setTimeout(function () {
+      $("#networkPopup").dxPopup("hide");
+    }, 1);
+  },
+  complete: function (jqXHR, textStatus) {
+    $("#networkPopup").dxPopup("hide");
+  }
+});
 
 // 상품정보 start
 function coresSkusGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/skus?id=" + param,
+    url: baseUrlCommon + "/cores/skus?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -15,21 +44,21 @@ function coresSkusGet(param) {
 
 function coresSkusAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/skus",
+    url: baseUrlCommon + "/cores/skus",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 
 function coresSkusEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/skus",
+    url: baseUrlCommon + "/cores/skus",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 // 상품정보 end
@@ -37,7 +66,7 @@ function coresSkusEdit(param) {
 // 로케이션정보 start
 function coresLocationGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/locations?id=" + param,
+    url: baseUrlCommon + "/cores/locations?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -47,21 +76,21 @@ function coresLocationGet(param) {
 
 function coresLocationAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/locations",
+    url: baseUrlCommon + "/cores/locations",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 
 function coresLocationEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/locations",
+    url: baseUrlCommon + "/cores/locations",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 // 로케이션정보 end
@@ -69,7 +98,7 @@ function coresLocationEdit(param) {
 // 권한정보 start
 function coresAuthGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/permission-settings?id=" + param,
+    url: baseUrlCommon + "/cores/permission-settings?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -79,17 +108,17 @@ function coresAuthGet(param) {
 
 function coresAuthAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/permission-settings",
+    url: baseUrlCommon + "/cores/permission-settings",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 
 function coresAuthEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/permission-settings",
+    url: baseUrlCommon + "/cores/permission-settings",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
@@ -101,7 +130,7 @@ function coresAuthEdit(param) {
 // 지점정보 start
 function coresStoresGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/stores?id=" + param,
+    url: baseUrlCommon + "/cores/stores?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -111,7 +140,7 @@ function coresStoresGet(param) {
 
 function coresStoresAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/stores",
+    url: baseUrlCommon + "/cores/stores",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
@@ -121,7 +150,7 @@ function coresStoresAdd(param) {
 
 function coresStoresEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/stores",
+    url: baseUrlCommon + "/cores/stores",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
@@ -133,7 +162,7 @@ function coresStoresEdit(param) {
 // 사용자정보 start
 function coresUsersGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/users?id=" + param,
+    url: baseUrlCommon + "/cores/users?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -143,7 +172,7 @@ function coresUsersGet(param) {
 
 function coresUsersAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/users",
+    url: baseUrlCommon + "/cores/users",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
@@ -153,7 +182,7 @@ function coresUsersAdd(param) {
 
 function coresUsersEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "cores/users",
+    url: baseUrlCommon + "/cores/users",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",

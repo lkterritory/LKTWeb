@@ -2,6 +2,36 @@
 
 const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
 
+$.ajaxSetup({
+  beforeSend: function (jqXHR, settings) {
+    $("#networkPopup")
+      .dxPopup({
+        title: "로딩중...",
+        visible: true,
+        width: 300,
+        height: 100,
+        contentTemplate: function (contentElement) {
+          const formInstance = $("<div>")
+            .appendTo(contentElement)
+            .dxForm({
+              formData: {},
+              items: []
+            })
+            .dxForm("instance");
+        }
+      })
+      .dxPopup("show");
+
+    // 임시 강제닫기
+    setTimeout(function () {
+      $("#networkPopup").dxPopup("hide");
+    }, 1);
+  },
+  complete: function (jqXHR, textStatus) {
+    $("#networkPopup").dxPopup("hide");
+  }
+});
+
 // 작업차수
 function workbatch(param) {
   return $.ajax({
@@ -14,6 +44,7 @@ function workbatch(param) {
 }
 
 // 작업지시 start
+// 작업조회
 function wcsOperation(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/operation?id=" + param,
@@ -24,6 +55,7 @@ function wcsOperation(param) {
   });
 }
 
+// 작업계획
 function wcsOperationPlan(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/operation/plan",
@@ -34,6 +66,7 @@ function wcsOperationPlan(param) {
   });
 }
 
+// 작업시작
 function wcsOperationStart(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/operation/start",
@@ -44,10 +77,33 @@ function wcsOperationStart(param) {
   });
 }
 
+// 차수완료
 function wcsOperationcCompleted(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/operation/completed",
-    method: "POST",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+// 전체완료
+function wcsOperationcClosing(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/operation/closing",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+// 작업취소
+function wcsOperationcCancel(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/wcs/operation/cancel",
+    method: "PATCH",
     dataType: "json",
     contentType: "application/json",
     data: param
@@ -165,10 +221,50 @@ function statusEquipmentDetail(param) {
   });
 }
 
-// 모듈을 객체처럼 내보내기
+// 상황판
+function dashboardsOverallStatus(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/dashboards/overall-status?id=" + +param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+// 표시기 전체 상황판
+function dashboardspPickToLightStatus(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbounds/dashboards/pick-to-light-status?id=" + +param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+// 표시기 호기별 상황판
+function dashboardsPickToLightInstances(param) {
+  return $.ajax({
+    url:
+      baseUrlWcs + "/outbounds/dashboards/pick-to-light-instances?id=" + +param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
 export default {
   workbatch,
+
   wcsOperation,
+  wcsOperationPlan,
+  wcsOperationStart,
+  wcsOperationcCompleted,
+  wcsOperationcClosing,
+  wcsOperationcCancel,
+
   statusOrders,
   statusOrderDetail,
   statusSkus,
@@ -180,5 +276,9 @@ export default {
 
   wcsInspectionsList,
   wcsInspectionsConfirm,
-  wcswcsInspectionsCompletion
+  wcswcsInspectionsCompletion,
+
+  dashboardsOverallStatus,
+  dashboardspPickToLightStatus,
+  dashboardsPickToLightInstances
 };

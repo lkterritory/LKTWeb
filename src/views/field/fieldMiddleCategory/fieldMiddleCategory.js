@@ -1,5 +1,5 @@
-import apiWcs from "../../../js/api/apiWcs";
-import lktUtil from "../../../js/util/lktUtil";
+import apiWcs from "../../../js/api/apiWcs.js";
+import lktUtil from "../../../js/util/lktUtil.js";
 
 function onCreate() {
   // DateBox - 작업차수 선택

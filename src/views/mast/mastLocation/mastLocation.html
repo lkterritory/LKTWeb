@@ -1,9 +1,6 @@
 <link
   rel="stylesheet"
   href="./src/views/mast/mastItem/mastLocation.css" />
-<script
-  type="module"
-  src="./src/views/mast/mastItem/mastLocation.js?a=7"></script>
 
 <div class="work-order-content">
   <div id="filterForm">
@@ -13,10 +10,17 @@
       id="singleInput"
       placeholder="검색" />
     <button
-      id="searchBtn"
-      class="dx-button">
+      id="btnSearch"
+      class="dx-button btnSearch">
       조회
+    </button>
+    <button
+      id="btnAdd"
+      class="dx-button btnSearch">
+      추가
     </button>
   </div>
   <div id="workOrderGrid"></div>
+
+  <div id="dynamicPopup"></div>
 </div>
