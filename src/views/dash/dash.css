@@ -1,14 +1,25 @@
+.dashboard-container {
+  padding-top: 20px;
+}
+
 #dashboard {
   display: flex;
   flex-wrap: wrap;
   gap: 20px; /* 카드 사이의 간격 */
   justify-content: left; /* 중앙 정렬 */
+
+  align-content: flex-start;
 }
 
 .dashboard-card {
   flex: 0;
   flex-direction: column;
-  /* min-width: 500px;
+
+  height: 220px;
+  margin-bottom: 40px;
+}
+
+/* min-width: 500px;
   max-width: 500px;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -16,10 +27,12 @@
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 200px; */
-}
 
 .card-title {
+  margin-left: 10px;
   flex-shrink: 0;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .card-content {
@@ -40,6 +53,8 @@
   align-items: center;
 
   flex-direction: row;
+
+  margin-top: 10px;
 }
 
 .card-stats {
@@ -67,11 +82,11 @@
   color: #000000;
 
   width: 40px;
-  padding-left: 5px;
   flex-shrink: 0;
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center; /* 가로 가운데 정렬 */
 
   background-color: #ffffff;
 

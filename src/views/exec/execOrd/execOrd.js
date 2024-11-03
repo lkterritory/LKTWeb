@@ -1,5 +1,13 @@
-import apiWcs from "../../../js/api/apiWcs.js?a=1";
-import lktUtil from "../../../js/util/lktUtil.js";
+let apiWcs;
+let lktUtil;
+
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
+apiWcs = (await window.apiWcsModule).default;
+lktUtil = (await window.lktUtilModule).default;
 
 // 데이터 로드 함수
 function loadWorkOrderData() {
@@ -53,6 +61,10 @@ function onCreate() {
 
   // 버튼 이벤트 처리
   $(".dx-button").dxButton({
+    // elementAttr: {
+    //   style: "background-color: #ff5722; color: #ffffff; border-color: #ff5722;"
+    // },
+
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
@@ -63,7 +75,10 @@ function onCreate() {
         .dxSelectBox("instance")
         .option("value");
 
-      const buttonId = e.component.option("text");
+      //loadWorkOrderData();
+
+      const buttonId = $(e.element).data("id");
+      alert(buttonId);
       if (buttonId === "조회") {
         loadWorkOrderData();
       } else if (buttonId === "계획생성") {
@@ -77,14 +92,33 @@ function onCreate() {
             }
           ]
         };
-        var encoded = btoa(JSON.stringify(obj));
+
+        var obj = btoa(JSON.stringify(obj)); // 테스트
         apiWcs
-          .wcsOperationPlan(encoded)
+          .wcsOperationPlan(JSON.stringify(obj))
           .done(function (response) {
-            const sampleData = response.lktBody;
-            $("#workOrderGrid")
-              .dxDataGrid("instance")
-              .option("dataSource", sampleData);
+            if (response.lktHeader.resultCode != "200") {
+              $("#networkPopup")
+                .dxPopup({
+                  title:
+                    response.lktHeader.resultCode +
+                    "\r\n" +
+                    response.lktHeader.resultMessage,
+                  visible: true,
+                  width: 300,
+                  height: 100,
+                  contentTemplate: function (contentElement) {
+                    const formInstance = $("<div>")
+                      .appendTo(contentElement)
+                      .dxForm({
+                        formData: {},
+                        items: []
+                      })
+                      .dxForm("instance");
+                  }
+                })
+                .dxPopup("show");
+            }
           })
           .fail(function () {
             // 에러 발생 시 처리
@@ -97,9 +131,9 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: []
         };
-        var encoded = btoa(JSON.stringify(obj));
+
         apiWcs
-          .wcsOperationStart(encoded)
+          .wcsOperationStart(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
             $("#workOrderGrid")
@@ -113,16 +147,15 @@ function onCreate() {
           });
       } else if (buttonId === "차수 작업완료") {
         // 차수 작업완료
-
-        const selectedData = workOrderGrid.getSelectedRowsData();
+        alert("ddd");
 
         var obj = {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: []
         };
-        var encoded = btoa(JSON.stringify(obj));
+
         apiWcs
-          .wcsOperationcCompleted(encoded)
+          .wcsOperationcCompleted(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
             $("#workOrderGrid")
@@ -140,9 +173,9 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: []
         };
-        var encoded = btoa(JSON.stringify(obj));
+
         apiWcs
-          .wcsOperationcClosing(encoded)
+          .wcsOperationcClosing(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
             $("#workOrderGrid")
@@ -160,9 +193,9 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: []
         };
-        var encoded = btoa(JSON.stringify(obj));
+
         apiWcs
-          .wcsOperationcCancel(encoded)
+          .wcsOperationcCancel(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
 
@@ -323,35 +356,26 @@ function onCreate() {
       }
     ],
 
+    paging: {enabled: false},
     showBorders: true,
     scrolling: {
-      mode: "horizontal", // 가로 스크롤 활성화
-      showScrollbar: "always" // 스크롤바 항상 표시
+      mode: "standard" // or "virtual" | "infinite"
     },
     selection: {
       mode: "single"
     },
     columnAutoWidth: true,
-    rowAlternationEnabled: true, // 짝수 Row 음영
     allowColumnResizing: true, // 컬럼 사이즈 조절 여부
     headerFilter: {
       visible: true // 헤더 필터 드롭다운을 표시
     }
-    // paging: {
-    //   pageSize: 10
-    // },
-    // pager: {
-    //   showPageSizeSelector: true,
-    //   allowedPageSizes: [10, 25, 50],
-    //   showInfo: true
-    // }
   });
 
-  loadWorkOrderData();
+  //loadWorkOrderData();
 }
 
 function onActive() {
-  loadWorkOrderData();
+  //loadWorkOrderData();
 }
 
 export default {

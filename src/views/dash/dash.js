@@ -9,27 +9,7 @@ if (!window.apiCommonModule || !window.lktUtilModule) {
 function onCreate() {
   // Progress Bar 설정
 
-  let data = [
-    // {title: "냉동 1블럭", progress: 91, sku: 184, pcs: 2218},
-    // {title: "냉동 2블럭", progress: 91, sku: 177, pcs: 1948},
-    // {title: "냉동 3블럭", progress: 92, sku: 184, pcs: 2600},
-    // {title: "냉동 4블럭", progress: 89, sku: 168, pcs: 1993},
-    // {title: "냉동 5블럭", progress: 92, sku: 173, pcs: 1925},
-    // {title: "냉동 6블럭", progress: 85, sku: 179, pcs: 2046},
-    // {title: "냉동 7블럭", progress: 87, sku: 181, pcs: 2206},
-    // {title: "냉동 8블럭", progress: 81, sku: 166, pcs: 2035},
-    // {title: "냉동 9블럭", progress: 76, sku: 149, pcs: 1697}
-    // {
-    //   facilitiesCode: "냉동 1블럭",
-    //   totalOrderCount: 90,
-    //   workOrderCount: 9,
-    //   totalSkuCount: 80,
-    //   workSkuCount: 30,
-    //   totalPcs: 200,
-    //   workPcs: 150,
-    //   progress: 91
-    // }
-  ];
+  let data = [];
 
   for (let i = 0; i < 9; i++) {
     let dataTmp = {
@@ -47,7 +27,6 @@ function onCreate() {
     data.push(dataTmp);
   }
 
-  alert(JSON.stringify(data));
   data.forEach((item, index) => {
     //alert("index" + index);
     const card = $(`
@@ -80,6 +59,7 @@ function onCreate() {
           </div>
         </div>
       </div>
+            <div class="gauge-container_mask"></div>
             <div id="gaugeContainer${index}" class="gauge-container"></div>
           </div>
         </div>
@@ -225,7 +205,10 @@ function createText(x, y, fontSize, textAnchor, content) {
   return text;
 }
 
-function onActive() {}
+function onActive() {
+  //   alert("dd");
+  //   onCreate();
+}
 
 function searchList() {}
 

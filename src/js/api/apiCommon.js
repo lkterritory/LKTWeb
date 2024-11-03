@@ -1,6 +1,8 @@
 // api.js
 
 const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
+// const baseUrlCommon = "http://10.150.26.150:4132";
+
 // $.ajaxSetup({
 //   beforeSend: function (jqXHR, settings) {
 //     $("#networkPopup")

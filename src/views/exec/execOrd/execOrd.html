@@ -1,6 +1,6 @@
 <link
   rel="stylesheet"
-  href="./src/views/exec/execOrd/execOrd.css?b=1" />
+  href="./src/views/exec/execOrd/execOrd.css?b=20" />
 
 <div class="work-order-content">
   <div id="filterForm">
@@ -13,32 +13,38 @@
     <div id="buttonsContainer">
       <button
         id="btnSearch"
-        class="dx-button">
+        class="dx-button btntype-c"
+        data-id="조회">
         조회
       </button>
       <button
         id="btnOrderReceive"
-        class="dx-button">
+        class="dx-button btntype-c"
+        data-id="계획생성">
         계획생성
       </button>
       <button
         id="btnPlan"
-        class="dx-button">
+        class="dx-button btntype-a"
+        data-id="작업시작">
         작업시작
       </button>
       <button
         id="btnManualChange"
-        class="dx-button">
+        class="dx-button btntype-b"
+        data-id="차수 작업완료">
         차수 작업완료
       </button>
       <button
         id="btnWorkOrder"
-        class="dx-button">
+        class="dx-button btntype-b"
+        data-id="전체 작업완료">
         전체 작업완료
       </button>
       <button
         id="btnEquipComplete"
-        class="dx-button">
+        class="dx-button btntype-b"
+        data-id="작업취소">
         작업취소
       </button>
     </div>

@@ -5,7 +5,14 @@
   margin-right: 15px;
 }
 
-.dx-button {
+#workOrderGrid {
+  height: 100%;
+}
+.dx-datagrid {
+  color: #333;
+  line-height: inherit;
+  height: calc(100vh - 190px);
+  overflow-y: scroll;
 }
 
 #buttonsContainer {
@@ -19,6 +26,60 @@
 
 #buttonsContainer .dx-button:first-child {
   margin-left: 0; /* 첫 번째 버튼은 왼쪽 간격 없음 */
+}
+
+#workOrderGrid {
+  height: 100%;
+}
+
+/* 선택된 행의 배경 색상을 변경 */
+.dx-row .dx-selection {
+  background-color: #0000c2 !important; /* 원하는 색상으로 변경 */
+  color: #ffffff; /* 선택된 행의 텍스트 색상 */
+}
+
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td {
+  background-color: #0000c2 !important; /* 원하는 색상으로 변경 */
+  color: #ffffff; /* 선택된 행의 텍스트 색상 */
+}
+
+.dx-datagrid-rowsview .dx-row {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+/* 기본 타입의 모든 dx-button 스타일 변경 */
+.dx-button.dx-button-default {
+  /* background-color: #ffffff;
+  color: #7189a6; 
+  border-color: #dbe9f9 !important; */
+}
+
+/* 호버 시 색상 */
+.dx-button.dx-button-default:hover {
+  /* background-color: #eeeeee; */
+}
+
+/* 기본 타입의 모든 dx-button 스타일 변경 */
+.btntype-a {
+  background-color: #90be3b !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-b {
+  background-color: #20aac5 !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-c {
+  background-color: #ffffff !important;
+  color: #7189a6 !important;
+  border-color: #dbe9f9 !important;
 }
 
 /* 반응형 스타일 */

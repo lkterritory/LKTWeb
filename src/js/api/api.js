@@ -1,6 +1,7 @@
 // api.js
 
 const baseUrl = "http://lkt0dev00.cafe24.com:1129";
+// const baseUrl = "http://10.150.26.150:1129";
 
 // $.ajaxSetup({
 //   beforeSend: function (jqXHR, settings) {
