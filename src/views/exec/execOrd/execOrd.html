@@ -1,11 +1,15 @@
 <link
   rel="stylesheet"
-  href="./src/views/exec/execOrd/execOrd.css" />
+  href="./src/views/exec/execOrd/execOrd.css?b=1" />
 
 <div class="work-order-content">
   <div id="filterForm">
-    <div id="workDateContainer"></div>
-    <div id="workBatchContainer"></div>
+    <div
+      id="workDateContainer"
+      class="filter-item"></div>
+    <div
+      id="workBatchContainer"
+      class="filter-item"></div>
     <div id="buttonsContainer">
       <button
         id="btnSearch"
@@ -39,5 +43,7 @@
       </button>
     </div>
   </div>
-  <div id="workOrderGrid"></div>
+  <div id="contentForm">
+    <div id="workOrderGrid"></div>
+  </div>
 </div>

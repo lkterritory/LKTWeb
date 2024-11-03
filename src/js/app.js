@@ -92,7 +92,7 @@ function loadContent(view) {
     method: "GET",
     success: function (data) {
       const contentId = view.replace(/\//g, "-").replace(".html", "");
-      const contentHtml = `<div id="${contentId}" class="content-view" style="display: block;">${data}</div>`;
+      const contentHtml = `<div id="${contentId}" class="content-view" style="display: flex;">${data}</div>`;
       $("#mainContent").append(contentHtml);
 
       activateTab(view); // 첫 로드 시에도 탭을 활성화하고 show() 처리

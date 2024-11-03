@@ -1,9 +1,3 @@
-/* 전체 레이아웃 설정 */
-.work-order-content {
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
 #filterForm {
   display: flex;
   align-items: center;

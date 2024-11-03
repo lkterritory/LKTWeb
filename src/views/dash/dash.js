@@ -2,10 +2,8 @@ let apiCommon;
 let lktUtil;
 
 if (!window.apiCommonModule || !window.lktUtilModule) {
-  window.apiCommonModule = import(
-    `../../../js/api/apiCommon.js?t=${Date.now()}`
-  );
-  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+  window.apiCommonModule = import(`../../js/api/apiCommon.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../js/util/lktUtil.js?t=${Date.now()}`);
 }
 
 function onCreate() {
@@ -23,42 +21,95 @@ function onCreate() {
 
   data.forEach((item, index) => {
     const card = $(`
-          <div class="dashboard-card">
-            <div class="card-title">${item.title}</div>
-            <div id="gaugeContainer${index}" class="gauge-container"></div>
+        <div class="dashboard-card">
+        <span>${item.title}</span>
+          <div class="card-content">
             <div class="card-stats">
-              <p>SKU: ${item.sku}</p>
-              <p>PCS: ${item.pcs}</p>
+              <div class="stat-row">
+                <span class="stat-label">지점</span>
+                <span class="stat-value">3</span>
+                <span class="stat-max">48</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">SKU</span>
+                <span class="stat-value">${item.sku}</span>
+                <span class="stat-max">201</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">PCS</span>
+                <span class="stat-value">${item.pcs}</span>
+                <span class="stat-max">2,567</span>
+              </div>
             </div>
+            <div id="gaugeContainer${index}" class="gauge-container"></div>
           </div>
-        `);
+        </div>
+      `);
+
     $("#dashboard").append(card);
 
-    $(`#gaugeContainer${index}`).dxCircularGauge({
+    $(".gauge-container").dxCircularGauge({
+      value: 91,
+      rangeContainer: {
+        backgroundColor: "none",
+        ranges: []
+      },
       scale: {
         startValue: 0,
         endValue: 100,
-        tickInterval: 20,
+        tick: {
+          visible: false
+        },
         label: {
-          customizeText(arg) {
-            return `${arg.valueText}`;
-          }
+          visible: false
         }
       },
-      rangeContainer: {
-        ranges: [
-          {startValue: 0, endValue: 60, color: "#e0e0e0"},
-          {startValue: 60, endValue: 80, color: "#ffb400"},
-          {startValue: 80, endValue: 100, color: "#3ba4dc"}
-        ]
-      },
-      value: item.progress,
       valueIndicator: {
-        type: "rectangleNeedle",
-        color: "#3ba4dc"
+        type: "rangeBar",
+        color: "#3a80f6",
+        offset: 5,
+        size: 15
+      },
+      geometry: {
+        startAngle: 0,
+        endAngle: 360
+      },
+      centerTemplate: (gauge, container) => {
+        // 루트 요소에 텍스트 추가
+        const rect = createRect(50, 0, "transparent");
+        const text = createText(10, 200, 12, "start", gauge.value());
+        // alert(text);
+        container.appendChild(rect);
+        container.appendChild(text);
       }
     });
   });
+}
+
+function createRect(width, height, fill) {
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+
+  rect.setAttribute("x", 0);
+  rect.setAttribute("y", 0);
+  rect.setAttribute("width", width);
+  rect.setAttribute("height", height);
+  rect.setAttribute("fill", fill);
+
+  return rect;
+}
+
+function createText(x, y, fontSize, textAnchor, content) {
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
+  text.setAttribute("x", x);
+  text.setAttribute("y", y);
+  text.setAttribute("fill", "#000");
+  text.setAttribute("text-anchor", textAnchor);
+  text.setAttribute("font-size", fontSize);
+
+  text.textContent = content;
+
+  return text;
 }
 
 function onActive() {}

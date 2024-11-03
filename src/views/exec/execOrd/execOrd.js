@@ -15,7 +15,12 @@ function loadWorkOrderData() {
   apiWcs
     .wcsOperation(encoded)
     .done(function (response) {
-      const sampleData = response.lktBody;
+      let sampleData = response.lktBody;
+
+      for (let i = 0; i < 10; i++) {
+        sampleData.push(response.lktBody[0]);
+      }
+
       $("#workOrderGrid")
         .dxDataGrid("instance")
         .option("dataSource", sampleData);
@@ -158,6 +163,7 @@ function onCreate() {
           .wcsOperationcCancel(encoded)
           .done(function (response) {
             const sampleData = response.lktBody;
+
             $("#workOrderGrid")
               .dxDataGrid("instance")
               .option("dataSource", sampleData);
@@ -172,44 +178,166 @@ function onCreate() {
     width: "100px"
   });
 
+  let headerCss = {
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "text-align": "center"
+  };
   // DataGrid - 작업지시 정보
   $("#workOrderGrid").dxDataGrid({
     dataSource: [], // 서버에서 데이터를 가져와서 할당
     columns: [
-      {dataField: "workDate", caption: "작업일자"},
-      {dataField: "workBatch", caption: "작업차수"},
-      {dataField: "description", caption: "설명"},
-      {dataField: "equipmentType", caption: "설비종류"},
-      {dataField: "equipmentName", caption: "설비명"},
-      {dataField: "totalOrderCount", caption: "주문건수"},
-      {dataField: "totalSkuCount", caption: "상품건수"},
+      {
+        dataField: "workDate",
+        caption: "작업일자",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("작업일자"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "workBatch",
+        caption: "작업차수",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "equipmentType",
+        caption: "설비종류",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("설비종류"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "equipmentName",
+        caption: "설비명",
+        minWidth: 90,
 
-      {dataField: "totalPlanQuantity", caption: "낱개수량"},
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "totalOrderCount",
+        caption: "주문건수",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("주문건수"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "totalSkuCount",
+        caption: "상품건수",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("상품건수"); // 헤더 가운데 정렬
+        }
+      },
 
-      {dataField: "totalWorkQuantity", caption: "작업낱개수량"},
-      {dataField: "totalWorkSkuCount", caption: "작업품목수량"},
-      {dataField: "totalPersnet", caption: "진행율"},
+      {
+        dataField: "totalPlanQuantity",
+        caption: "낱개수량",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("낱개수량"); // 헤더 가운데 정렬
+        }
+      },
 
-      {dataField: "statusName", caption: "상태"},
+      {
+        dataField: "totalWorkQuantity",
+        caption: "작업낱개수량",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "totalWorkSkuCount",
+        caption: "작업품목수량",
+        minWidth: 90,
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "totalPersnet",
+        caption: "진행율",
 
-      {dataField: "addWho", caption: "지시자"},
-      {dataField: "addDtm", caption: "지시일자"},
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("진행율"); // 헤더 가운데 정렬
+        }
+      },
 
-      {dataField: "modWho", caption: "완료자"},
-      {dataField: "modDtm", caption: "완료일자"}
+      {
+        dataField: "statusName",
+        caption: "상태",
+
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
+        }
+      },
+
+      {
+        dataField: "addWho",
+        caption: "지시자",
+
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("지시자"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "addDtm",
+        caption: "지시일자",
+
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("지시일자"); // 헤더 가운데 정렬
+        }
+      },
+
+      {
+        dataField: "modWho",
+        caption: "완료자",
+
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("완료자"); // 헤더 가운데 정렬
+        }
+      },
+      {
+        dataField: "modDtm",
+        caption: "완료일자",
+
+        headerCellTemplate: function (headerCell) {
+          headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
+        }
+      }
     ],
+
     showBorders: true,
-    paging: {
-      pageSize: 10
-    },
-    pager: {
-      showPageSizeSelector: true,
-      allowedPageSizes: [10, 25, 50],
-      showInfo: true
+    scrolling: {
+      mode: "horizontal", // 가로 스크롤 활성화
+      showScrollbar: "always" // 스크롤바 항상 표시
     },
     selection: {
       mode: "single"
+    },
+    columnAutoWidth: true,
+    rowAlternationEnabled: true, // 짝수 Row 음영
+    allowColumnResizing: true, // 컬럼 사이즈 조절 여부
+    headerFilter: {
+      visible: true // 헤더 필터 드롭다운을 표시
     }
+    // paging: {
+    //   pageSize: 10
+    // },
+    // pager: {
+    //   showPageSizeSelector: true,
+    //   allowedPageSizes: [10, 25, 50],
+    //   showInfo: true
+    // }
   });
 
   loadWorkOrderData();
