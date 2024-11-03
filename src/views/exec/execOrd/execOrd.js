@@ -17,9 +17,11 @@ function loadWorkOrderData() {
     .done(function (response) {
       let sampleData = response.lktBody;
 
-      for (let i = 0; i < 10; i++) {
-        sampleData.push(response.lktBody[0]);
-      }
+      // for (let i = 0; i < 10; i++) {
+      //   sampleData.push(response.lktBody[0]);
+      // }
+
+      // sampleData.push({workDate: "1234"});
 
       $("#workOrderGrid")
         .dxDataGrid("instance")
@@ -224,6 +226,7 @@ function onCreate() {
       {
         dataField: "totalOrderCount",
         caption: "주문건수",
+        allowFiltering: false,
         minWidth: 90,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("주문건수"); // 헤더 가운데 정렬
@@ -232,6 +235,7 @@ function onCreate() {
       {
         dataField: "totalSkuCount",
         caption: "상품건수",
+        allowFiltering: false,
         minWidth: 90,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("상품건수"); // 헤더 가운데 정렬
@@ -241,6 +245,7 @@ function onCreate() {
       {
         dataField: "totalPlanQuantity",
         caption: "낱개수량",
+        allowFiltering: false,
         minWidth: 90,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("낱개수량"); // 헤더 가운데 정렬
@@ -250,6 +255,7 @@ function onCreate() {
       {
         dataField: "totalWorkQuantity",
         caption: "작업낱개수량",
+        allowFiltering: false,
         minWidth: 90,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
@@ -258,6 +264,7 @@ function onCreate() {
       {
         dataField: "totalWorkSkuCount",
         caption: "작업품목수량",
+        allowFiltering: false,
         minWidth: 90,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
@@ -266,7 +273,7 @@ function onCreate() {
       {
         dataField: "totalPersnet",
         caption: "진행율",
-
+        allowFiltering: false,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("진행율"); // 헤더 가운데 정렬
         }
@@ -292,7 +299,7 @@ function onCreate() {
       {
         dataField: "addDtm",
         caption: "지시일자",
-
+        allowFiltering: false,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("지시일자"); // 헤더 가운데 정렬
         }
@@ -309,7 +316,7 @@ function onCreate() {
       {
         dataField: "modDtm",
         caption: "완료일자",
-
+        allowFiltering: false,
         headerCellTemplate: function (headerCell) {
           headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
         }
