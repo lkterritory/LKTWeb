@@ -28,6 +28,7 @@
   flex-direction: column;
   gap: 10px;
   width: 60%;
+  flex-shrink: 0;
 }
 
 .stat-row {
@@ -64,4 +65,5 @@
   width: 100px;
   height: 100px;
   position: relative;
+  flex-grow: 1; /* 남은 공간을 모두 차지 */
 }
