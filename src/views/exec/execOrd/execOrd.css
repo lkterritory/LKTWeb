@@ -70,8 +70,20 @@
   border-color: #dbe9f9 !important;
 }
 
+.btntype-a:hover {
+  background-color: #7fad2a !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
 .btntype-b {
   background-color: #20aac5 !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-b:hover {
+  background-color: #0f99b4 !important; /* 버튼 배경 색상 */
   color: #ffffff !important; /* 버튼 텍스트 색상 */
   border-color: #dbe9f9 !important;
 }
@@ -79,6 +91,12 @@
 .btntype-c {
   background-color: #ffffff !important;
   color: #7189a6 !important;
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-c:hover {
+  background-color: #eeeeee !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
   border-color: #dbe9f9 !important;
 }
 
