@@ -9,11 +9,13 @@
     <link
       rel="stylesheet"
       href="./login.css" />
-    <!-- jQuery 추가 -->
-    <script src="../../../src/lib/devextreme/js/jquery.min.js"></script>
-    <script src="../../../src/lib/devextreme/js/dx.all.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-    <script src="../../../src/lib/js.cookie.min.js"></script>
+
+    <script src="../../lib/devextreme/js/jquery.min.js"></script>
+    <script src="../../lib/js.cookie.min.js"></script>
+    <script src="../../lib/devextreme/js/dx.all.js"></script>
+
+    <script src="../../lib/exceljs.min.js"></script>
+    <script src="../../lib/FileSaver.min.js"></script>
   </head>
   <body>
     <div class="login-container">
@@ -47,30 +49,11 @@
       </div>
     </div>
 
-    <!-- Error popup -->
-    <div
-      id="errorPopup"
-      class="error-popup hidden">
-      <div class="error-message">
-        <p>로그인 실패</p>
-        <span>계정을 입력하십시오</span>
-        <button onclick="closePopup()">확인</button>
-      </div>
-    </div>
-
     <div id="networkPopup"></div>
-
-    <script src="../../lib/devextreme/js/jquery.min.js"></script>
-    <script src="../../lib/devextreme/js/dx.all.js"></script>
-
-    <script src="../../lib/exceljs.min.js"></script>
-    <script src="../../lib/FileSaver.min.js"></script>
-
-    <script src="../../lib/js.cookie.min.js"></script>
+    <div id="errorPopup"></div>
 
     <script src="../../views/common/popup.js"></script>
 
-    <!-- login.js 스크립트 추가 -->
     <script src="../../lib/js.cookie.min.js"></script>
     <script
       type="module"

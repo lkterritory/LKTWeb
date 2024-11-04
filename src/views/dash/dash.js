@@ -6,10 +6,10 @@ if (!window.apiCommonModule || !window.lktUtilModule) {
   window.lktUtilModule = import(`../../js/util/lktUtil.js?t=${Date.now()}`);
 }
 
+let data = [];
 function onCreate() {
   // Progress Bar 설정
-
-  let data = [];
+  data = [];
 
   for (let i = 0; i < 9; i++) {
     let dataTmp = {
@@ -140,9 +140,18 @@ function onCreate() {
 
     $("#gaugeContainer" + index).dxCircularGauge({
       value: item.progress,
+      //   rangeContainer: {
+      //     backgroundColor: "red",
+      //     ranges: [{startValue: 0, endValue: 30, color: "#3a80f6"}] // 채워진 부분 색상]
+      //   },
+
       rangeContainer: {
-        backgroundColor: "none",
-        ranges: []
+        backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
+        width: 20, // rangeContainer의 두께 설정
+        ranges: [
+          {startValue: 0, endValue: 56, color: "#3a80f6"}, // 채워진 부분의 색상
+          {startValue: 56, endValue: 100, color: "#e0e0e0"} // 비워진 부분의 색상
+        ]
       },
 
       scale: {
@@ -155,10 +164,12 @@ function onCreate() {
           visible: false
         }
       },
+
+      //valueIndicator: "none",
       valueIndicator: {
-        type: "rangeBar",
+        type: "none",
         color: "#3a80f6",
-        offset: 5,
+        offset: 10000,
         size: 20
       },
 
@@ -206,11 +217,17 @@ function createText(x, y, fontSize, textAnchor, content) {
 }
 
 function onActive() {
-  //   alert("dd");
-  //   onCreate();
+  //alert("dd");
+  //onCreate();
+  //$(".gauge-container").dxCircularGauge("instance").render();
+  //   for (let i = 0; i < data.length; i++) {
+  //     $("#gaugeContainer" + i)
+  //       .dxCircularGauge("instance")
+  //       .render();
+  //   }
 }
 
-function searchList() {}
+//$(window).on("resize", resizeGauge);
 
 export default {
   onCreate,

@@ -1,13 +1,20 @@
-import api from "../../js/api/api.js?a=1";
-import lktStorate from "../../js/util/lktStorage.js";
+let api;
+let lktStorate;
+
+if (!window.apiModule || !window.lktStorateModule) {
+  window.apiModule = import(`../../js/api/api.js?t=${Date.now()}`);
+  window.lktStorateModule = import(
+    `../../js/util/lktStorage.js?t=${Date.now()}`
+  );
+}
+
+api = (await window.apiModule).default;
+lktStorate = (await window.lktStorateModule).default;
 
 $(document).ready(function () {
   const loginBtn = $("#loginBtn");
-  const errorPopup = $("#errorPopup");
 
-  function closePopup() {
-    errorPopup.addClass("hidden");
-  }
+  //  showErrorPop();
 
   loginBtn.on("click", function () {
     // server API 호출
@@ -98,12 +105,35 @@ $(document).ready(function () {
           })
           .fail(function () {
             // 에러 발생 시 처리
-            errorPopup.removeClass("hidden");
           });
       })
       .fail(function () {
         // 에러 발생 시 처리
-        errorPopup.removeClass("hidden");
       });
   });
 });
+
+function showErrorPop() {
+  $("#errorPopup")
+    .dxPopup({
+      title: "오류",
+      visible: true,
+      width: 300,
+      height: 100,
+      contentTemplate: function (contentElement) {
+        const formInstance = $("<div>")
+          .appendTo(contentElement)
+          .dxForm({
+            formData: {},
+            items: []
+          })
+          .dxForm("instance");
+      }
+    })
+    .dxPopup("show");
+
+  // 임시 강제닫기
+  setTimeout(function () {
+    $("#errorPopup").dxPopup("hide");
+  }, 1);
+}

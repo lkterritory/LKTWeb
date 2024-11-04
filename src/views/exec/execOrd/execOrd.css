@@ -51,6 +51,18 @@
   border-bottom: 1px solid #dddddd;
 }
 
+.dx-datagrid-borders
+  > .dx-datagrid-rowsview.dx-last-row-border
+  tbody:last-child
+  > .dx-data-row:nth-last-child(2),
+.dx-datagrid-borders
+  > .dx-datagrid-rowsview.dx-last-row-border
+  tbody:last-child
+  > .dx-data-row:nth-last-child(2)
+  > td {
+  border-bottom-width: 1px;
+}
+
 /* 기본 타입의 모든 dx-button 스타일 변경 */
 .dx-button.dx-button-default {
   /* background-color: #ffffff;

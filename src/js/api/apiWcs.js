@@ -3,35 +3,35 @@
 const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
 // const baseUrlWcs = "http://10.150.26.150:2014";
 
-// $.ajaxSetup({
-//   beforeSend: function (jqXHR, settings) {
-//     $("#networkPopup")
-//       .dxPopup({
-//         title: "로딩중...",
-//         visible: true,
-//         width: 300,
-//         height: 100,
-//         contentTemplate: function (contentElement) {
-//           const formInstance = $("<div>")
-//             .appendTo(contentElement)
-//             .dxForm({
-//               formData: {},
-//               items: []
-//             })
-//             .dxForm("instance");
-//         }
-//       })
-//       .dxPopup("show");
+$.ajaxSetup({
+  beforeSend: function (jqXHR, settings) {
+    $("#networkPopup")
+      .dxPopup({
+        title: "로딩중...",
+        visible: true,
+        width: 300,
+        height: 100,
+        contentTemplate: function (contentElement) {
+          const formInstance = $("<div>")
+            .appendTo(contentElement)
+            .dxForm({
+              formData: {},
+              items: []
+            })
+            .dxForm("instance");
+        }
+      })
+      .dxPopup("show");
 
-//     // 임시 강제닫기
-//     setTimeout(function () {
-//       $("#networkPopup").dxPopup("hide");
-//     }, 1);
-//   },
-//   complete: function (jqXHR, textStatus) {
-//     $("#networkPopup").dxPopup("hide");
-//   }
-// });
+    // 임시 강제닫기
+    setTimeout(function () {
+      $("#networkPopup").dxPopup("hide");
+    }, 1);
+  },
+  complete: function (jqXHR, textStatus) {
+    $("#networkPopup").dxPopup("hide");
+  }
+});
 
 // 작업차수
 function workbatch(param) {

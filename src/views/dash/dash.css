@@ -111,10 +111,9 @@
 }
 
 .gauge-container {
-  /* width: 100px;
-  height: 100px;
-  position: relative; */
-  flex-grow: 1; /* 남은 공간을 모두 차지 */
+  width: 180px;
+  height: 300px;
+  position: relative;
 }
 
 .progress-bar-container {
