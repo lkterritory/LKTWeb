@@ -1,454 +1,360 @@
-import apiWcs from "../../../js/api/apiWcs.js";
+let apiWcs;
+let lktUtil;
 
-$(document).ready(function () {
-  loadDataProc();
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
 
-  function loadData() {
-    var obj = {
-      lktHeader: {
-        type: "REQUEST",
-        call: "PAGE.OUTBOUNDS.STATUS.EQUIPMENT",
-        status: 0,
-        message: "",
-        authentication:
-          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
-        userName: "LKT",
-        centerCode: "LKT",
-        clientCode: "LKT",
-        warehouseCode: "LKT"
-      },
-      lktBody: [
-        {
-          workDate: "2024-02-17"
-        }
-      ]
-    };
+apiWcs = (await window.apiWcsModule).default;
+lktUtil = (await window.lktUtilModule).default;
 
-    var encoded = btoa(JSON.stringify(obj));
+const idPrefix = "#exec-execItemStatus-execItemStatus ";
 
-    apiWcs
-      .statusEquipment(encoded)
-      .done(function (response) {})
-      //loadDataProc(response.lktBody);
-      .fail(function () {
-        // 에러 발생 시 처리
-        alert("error");
-      });
-  }
+let dtBoxWork;
+let selBoxBatch;
+let workOrderGrid;
+let workOrderGridDetail;
 
-  function loadDataDeatil() {
-    var obj = {
-      lktHeader: {
-        type: "REQUEST",
-        call: "PAGE.OUTBOUNDS.STATUS.EQUIPMENT.DETAIL",
-        status: 0,
-        message: "",
-        authentication:
-          "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==",
-        userName: "LKT",
-        centerCode: "LKT",
-        clientCode: "LKT",
-        warehouseCode: "LKT"
-      },
-      lktBody: [
-        {
-          workDate: "2024-02-17",
-          workBatch: "001",
-          equipmentCode: "111"
-        }
-      ]
-    };
-    var encoded = btoa(JSON.stringify(obj));
-    apiWcs
-      .statusEquipmentDetail(encoded)
-      .done(function (response) {})
+function onCreate() {
+  // DateBox - 출고일자 선택
+  dtBoxWork = $(idPrefix + "#dtBoxWork")
+    .dxDateBox({
+      type: "date",
+      displayFormat: "yyyy-MM-dd",
+      value: new Date(),
+      width: "200px"
+    })
+    .dxDateBox("instance");
+  //new Date(dtBoxWork.option("value")).toISOString().split("T")[0];
 
-      .fail(function () {
-        alert("error");
-      });
-  }
+  // SelectBox - 작업차수 선택
+  selBoxBatch = $(idPrefix + "#selBoxBatch")
+    .dxSelectBox({
+      items: ["1차", "2차", "3차"],
+      placeholder: "작업차수 선택",
+      value: null,
+      width: "200px"
+    })
+    .dxSelectBox("instance");
 
-  function loadDataProc(aParam) {
-    if (aParam == null) {
-      aParam = [
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002948",
-          skuCode: "8000470",
-          skuName: "8000470",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 1,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 1,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:18",
-          modDtm: "2023-07-04 14:27:18"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002948",
-          skuCode: "8000470",
-          skuName: "8000470",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 1,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 1,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:18",
-          modDtm: "2023-07-04 14:27:18"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          skuCode: "8000450",
-          skuName: "8000450",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          skuCode: "8000454",
-          skuName: "8000454",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          skuCode: "8000454",
-          skuName: "8000454",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          skuCode: "8000454",
-          skuName: "8000454",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002950",
-          skuCode: "8000450",
-          skuName: "8000450",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 12,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 12,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:44",
-          modDtm: "2023-07-04 14:27:44"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002950",
-          skuCode: "8000454",
-          skuName: "8000454",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:44",
-          modDtm: "2023-07-04 14:27:44"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002950",
-          skuCode: "8000454",
-          skuName: "8000454",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 10,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 10,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:44",
-          modDtm: "2023-07-04 14:27:44"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002951",
-          skuCode: "8000465",
-          skuName: "8000465",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 4,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 4,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:47",
-          modDtm: "2023-07-04 14:27:47"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002951",
-          skuCode: "8000465",
-          skuName: "8000465",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 2,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 2,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:47",
-          modDtm: "2023-07-04 14:27:47"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002951",
-          skuCode: "8000468",
-          skuName: "8000468",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 1,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 1,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:47",
-          modDtm: "2023-07-04 14:27:47"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002952",
-          skuCode: "8000470",
-          skuName: "8000470",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 1,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 1,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:51",
-          modDtm: "2023-07-04 14:27:51"
-        },
-        {
-          workDate: "2023-06-15",
-          workBatch: "2000002952",
-          skuCode: "8000493",
-          skuName: "8000493",
-          totalPlanOrderCount: 1,
-          totalPlanQuantity: 4,
-          totalWorkOrderCount: 1,
-          totalWorkQuantity: 4,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:51",
-          modDtm: "2023-07-04 14:27:51"
-        }
-      ];
-    }
+  // 버튼 이벤트 처리
+  $(idPrefix + "#btnSearch").dxButton({
+    stylingMode: "contained",
+    type: "default",
+    onClick: function (e) {
+      searchList();
+    },
+    width: "100px"
+  });
 
-    $("#orderGrid1").dxDataGrid({
-      dataSource: aParam, // 데이터 소스 설정
-      selection: {
-        mode: "single" // 단일 셀렉션 모드
-      },
+  let headerCss = {
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "text-align": "center"
+  };
+  // DataGrid
+  workOrderGrid = $(idPrefix + "#workOrderGrid")
+    .dxDataGrid({
+      dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
-        {dataField: "workDate", caption: "작업일자"},
-        {dataField: "workBatch", caption: "작업차수"},
-        {dataField: "skuCode", caption: "상품코드"},
-        {dataField: "skuName", caption: "상품명"},
-        {dataField: "totalPlanOrderCount", caption: "예정주문"},
-        {dataField: "totalPlanQuantity", caption: "예정수량"},
-        {dataField: "totalWorkOrderCount", caption: "작업주문"},
-        {dataField: "totalWorkQuantity", caption: "작업수량"},
-        // {dataField: "statusCode", caption: "설비코드"},
-        {dataField: "statusName", caption: "상태"},
-        {dataField: "addDtm", caption: "지시일자"},
-        {dataField: "modDtm", caption: "완료일자"}
+        {
+          dataField: "workDate",
+          caption: "작업일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업일자"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "workBatch",
+          caption: "작업차수",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "skuCode",
+          caption: "상품코드",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "skuName",
+          caption: "상품명",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상품명"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "totalPlanOrderCount",
+          caption: "예정주문",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("예정주문"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "totalPlanQuantity",
+          caption: "예정수량",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("예정수량"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "totalWorkOrderCount",
+          caption: "작업주문",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업주문"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "totalWorkQuantity",
+          caption: "작업수량",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업수량"); // 헤더 가운데 정렬
+          }
+        },
+
+        {
+          dataField: "statusName",
+          caption: "상태",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "addDtm",
+          caption: "지시일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("지시일자"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "modDtm",
+          caption: "완료일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
+          }
+        }
       ],
+
+      paging: {enabled: false},
       showBorders: true,
-      paging: {
-        enabled: false // 페이지 기능 비활성화
+      scrolling: {
+        mode: "standard" // or "virtual" | "infinite"
+      },
+      selection: {
+        mode: "single"
+      },
+      columnAutoWidth: true,
+      allowColumnResizing: true, // 컬럼 사이즈 조절 여부
+      headerFilter: {
+        visible: true // 헤더 필터 드롭다운을 표시
       },
       onRowClick: function (e) {
+        alert("??");
         const selectedRowData = e.data;
-
-        //loadDataDeatil(selectedRowData);
-
-        loadDataDetailProc(null);
-        //alert(selectedRowData);
+        searchListDetail(selectedRowData);
       }
-    });
-  }
+    })
+    .dxDataGrid("instance");
 
-  function loadDataDetailProc(aParam) {
-    if (aParam == null) {
-      aParam = [
+  workOrderGridDetail = $(idPrefix + "#workOrderGridDetail")
+    .dxDataGrid({
+      dataSource: [], // 서버에서 데이터를 가져와서 할당
+      columns: [
         {
-          facilitiesCode: "DAS",
-          facilitiesName: "DAS",
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          orderNumber: "2100061116",
-          skuCode: "8000454",
-          skuName: "8000454",
-          planQty: 10,
-          pickQty: 0,
-          tallyQty: 0,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
+          dataField: "facilitiesCode",
+          caption: "설비코드",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("설비코드"); // 헤더 가운데 정렬
+          }
         },
         {
-          facilitiesCode: "DAS",
-          facilitiesName: "DAS",
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          orderNumber: "2100061117",
-          skuCode: "8000454",
-          skuName: "8000454",
-          planQty: 10,
-          pickQty: 0,
-          tallyQty: 0,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
+          dataField: "facilitiesName",
+          caption: "설비명",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
+          }
         },
         {
-          facilitiesCode: "DAS",
-          facilitiesName: "DAS",
-          workDate: "2023-06-15",
-          workBatch: "2000002949",
-          orderNumber: "2100061120",
-          skuCode: "8000454",
-          skuName: "8000454",
-          planQty: 10,
-          pickQty: 0,
-          tallyQty: 0,
-          statusCode: "10",
-          statusName: "10",
-          addDtm: "2023-07-04 14:27:39",
-          modDtm: "2023-07-04 14:27:39"
+          dataField: "workDate",
+          caption: "작업일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업일자"); // 헤더 가운데 정렬
+          }
         },
         {
-          facilitiesCode: "DAS",
-          facilitiesName: "DAS",
-          workDate: "2023-06-15",
-          workBatch: "2000002950",
-          orderNumber: "2100061114",
-          skuCode: "8000454",
-          skuName: "8000454",
-          planQty: 10,
-          pickQty: 0,
-          tallyQty: 0,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:44",
-          modDtm: "2023-07-04 14:27:44"
+          dataField: "workBatch",
+          caption: "작업차수",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
+          }
         },
         {
-          facilitiesCode: "DAS",
-          facilitiesName: "DAS",
-          workDate: "2023-06-15",
-          workBatch: "2000002950",
-          orderNumber: "2100061115",
-          skuCode: "8000454",
-          skuName: "8000454",
-          planQty: 10,
-          pickQty: 0,
-          tallyQty: 0,
-          statusCode: "01",
-          statusName: "01",
-          addDtm: "2023-07-04 14:27:44",
-          modDtm: "2023-07-04 14:27:44"
+          dataField: "orderNumber",
+          caption: "주문번호",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("주문번호"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "skuCode",
+          caption: "상품코드",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "skuName",
+          caption: "상품명",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상품명"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "planQty",
+          caption: "예정수량",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("예정수량"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "pickQty",
+          caption: "작업수량",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업수량"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "tallyQty",
+          caption: "검수수량",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("검수수량"); // 헤더 가운데 정렬
+          }
+        },
+
+        {
+          dataField: "statusName",
+          caption: "상태",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "addDtm",
+          caption: "지시일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("지시일자"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "modDtm",
+          caption: "완료일자",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
+          }
         }
-      ];
+      ],
 
-      $("#orderGrid2").dxDataGrid({
-        dataSource: aParam, // 데이터 소스 설정
-        columns: [
-          {dataField: "facilitiesCode", caption: "설비코드"},
-          {dataField: "facilitiesName", caption: "설비명"},
-          {dataField: "workDate", caption: "작업일자"},
-          {dataField: "workBatch", caption: "작업차수"},
-          {dataField: "orderNumber", caption: "주문번호"},
-          {dataField: "skuCode", caption: "상품코드"},
-          {dataField: "skuName", caption: "상품명"},
-          {dataField: "planQty", caption: "예정수량"},
-          {dataField: "pickQty", caption: "작업수량"},
-          {dataField: "tallyQty", caption: "검수수량"},
-          // {dataField: "statusCode", caption: "rst2"},
-          {dataField: "statusName", caption: "상태"},
-          {dataField: "addDtm", caption: "지시일자"},
-          {dataField: "modDtm", caption: "완료일자"}
-        ],
-        showBorders: true,
-        paging: {
-          pageSize: 10
-        },
-        selection: {
-          mode: "single" // 단일 셀렉션 모드
-        },
-        pager: {
-          showPageSizeSelector: true,
-          allowedPageSizes: [10, 25, 50],
-          showInfo: true
-        }
-      });
-    }
-  }
-
-  // $("#orderGrid2").dxDataGrid({
-  //   dataSource: [],
-  //   paging: {pageSize: 5},
-  //   pager: {
-  //     showPageSizeSelector: true,
-  //     allowedPageSizes: [5, 10],
-  //     showInfo: true
-  //   },
-  //   columns: []
-  // });
-
-  // 조회 버튼 클릭 이벤트
-  $("#searchBtn").click(function () {
-    $("#orderGrid1").dxDataGrid({
-      // dataSource: orders
-    });
-
-    $("#orderGrid2").dxDataGrid({
-      // dataSource: []
-    });
-  });
-});
-
-function onCreate() {}
+      paging: {enabled: false},
+      showBorders: true,
+      scrolling: {
+        mode: "standard" // or "virtual" | "infinite"
+      },
+      selection: {
+        mode: "single"
+      },
+      columnAutoWidth: true,
+      allowColumnResizing: true, // 컬럼 사이즈 조절 여부
+      headerFilter: {
+        visible: true // 헤더 필터 드롭다운을 표시
+      }
+    })
+    .dxDataGrid("instance");
+}
 
 function onActive() {}
+
+function searchList() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        workDate: new Date(dtBoxWork.option("value"))
+          .toISOString()
+          .split("T")[0],
+        workBatch: selBoxBatch.option("value")
+      }
+    ]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .statusSkus(encoded)
+    .done(function (response) {
+      let sampleData = response.lktBody;
+
+      workOrderGrid.option("dataSource", sampleData);
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      alert("error");
+      errorPopup.removeClass("hidden");
+    });
+}
+
+function searchListDetail(row) {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        workDate: row.workDate,
+        workBatch: row.workBatch,
+        orderNumber: row.orderNumber
+      }
+    ]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiWcs
+    .statusSkusDetail(encoded)
+    .done(function (response) {
+      let sampleData = response.lktBody;
+
+      workOrderGridDetail.option("dataSource", sampleData);
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      alert("error");
+      errorPopup.removeClass("hidden");
+    });
+}
 
 export default {
   onCreate,

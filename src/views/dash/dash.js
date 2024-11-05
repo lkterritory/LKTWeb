@@ -138,19 +138,17 @@ function onCreate() {
       });
     }
 
+    let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
+    let perRest = 100 - per;
     $("#gaugeContainer" + index).dxCircularGauge({
       value: item.progress,
-      //   rangeContainer: {
-      //     backgroundColor: "red",
-      //     ranges: [{startValue: 0, endValue: 30, color: "#3a80f6"}] // 채워진 부분 색상]
-      //   },
 
       rangeContainer: {
         backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
         width: 20, // rangeContainer의 두께 설정
         ranges: [
-          {startValue: 0, endValue: 56, color: "#3a80f6"}, // 채워진 부분의 색상
-          {startValue: 56, endValue: 100, color: "#e0e0e0"} // 비워진 부분의 색상
+          {startValue: 0, endValue: per, color: "#3a80f6"}, // 채워진 부분의 색상
+          {startValue: 56, endValue: perRest, color: "#e0e0e0"} // 비워진 부분의 색상
         ]
       },
 

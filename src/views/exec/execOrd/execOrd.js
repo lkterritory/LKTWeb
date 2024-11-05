@@ -9,86 +9,52 @@ if (!window.apiWcsModule || !window.lktUtilModule) {
 apiWcs = (await window.apiWcsModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
-// 데이터 로드 함수
-function loadWorkOrderData() {
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [
-      {
-        workDate: "2024-02-17"
-      }
-    ]
-  };
-  var encoded = btoa(JSON.stringify(obj));
-  apiWcs
-    .wcsOperation(encoded)
-    .done(function (response) {
-      let sampleData = response.lktBody;
+let dtBoxWork;
+let selBoxBatch;
 
-      // for (let i = 0; i < 10; i++) {
-      //   sampleData.push(response.lktBody[0]);
-      // }
-
-      // sampleData.push({workDate: "1234"});
-
-      $("#workOrderGrid")
-        .dxDataGrid("instance")
-        .option("dataSource", sampleData);
-    })
-    .fail(function () {
-      // 에러 발생 시 처리
-      alert("error");
-      errorPopup.removeClass("hidden");
-    });
-}
+const idPrefix = "#exec-execOrd-execOrd ";
 
 function onCreate() {
   // DateBox - 출고일자 선택
-  $("#workDateContainer").dxDateBox({
-    type: "date",
-    displayFormat: "yyyy-MM-dd",
-    value: new Date(),
-    width: "200px"
-  });
+  dtBoxWork = $(idPrefix + "#dtBoxWork")
+    .dxDateBox({
+      type: "date",
+      displayFormat: "yyyy-MM-dd",
+      value: new Date(),
+      width: "200px"
+    })
+    .dxDateBox("instance");
+  //new Date(dtBoxWork.option("value")).toISOString().split("T")[0];
 
   // SelectBox - 작업차수 선택
-  $("#workBatchContainer").dxSelectBox({
-    items: ["1차", "2차", "3차"],
-    placeholder: "작업차수 선택",
-    value: null,
-    width: "200px"
-  });
+  selBoxBatch = $(idPrefix + "#selBoxBatch")
+    .dxSelectBox({
+      items: ["1차", "2차", "3차"],
+      placeholder: "작업차수 선택",
+      value: null,
+      width: "200px"
+    })
+    .dxSelectBox("instance");
 
   // 버튼 이벤트 처리
-  $(".dx-button").dxButton({
-    // elementAttr: {
-    //   style: "background-color: #ff5722; color: #ffffff; border-color: #ff5722;"
-    // },
-
+  $(idPrefix + ".dx-button").dxButton({
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      const selectedDate = $("#workDateContainer")
-        .dxDateBox("instance")
-        .option("value");
-      const selectedBatch = $("#workBatchContainer")
-        .dxSelectBox("instance")
-        .option("value");
-
-      //loadWorkOrderData();
-
       const buttonId = $(e.element).data("id");
       alert(buttonId);
       if (buttonId === "조회") {
-        loadWorkOrderData();
+        searchList();
       } else if (buttonId === "계획생성") {
         // 계획생성
         var obj = {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
             {
-              workDate: selectedDate,
-              workBatch: selectedBatch
+              workDate: new Date(dtBoxWork.option("value"))
+                .toISOString()
+                .split("T")[0],
+              workBatch: selBoxBatch.option("value")
             }
           ]
         };
@@ -136,7 +102,7 @@ function onCreate() {
           .wcsOperationStart(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
-            $("#workOrderGrid")
+            $(idPrefix + "#workOrderGrid")
               .dxDataGrid("instance")
               .option("dataSource", sampleData);
           })
@@ -158,7 +124,7 @@ function onCreate() {
           .wcsOperationcCompleted(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
-            $("#workOrderGrid")
+            $(idPrefix + "#workOrderGrid")
               .dxDataGrid("instance")
               .option("dataSource", sampleData);
           })
@@ -178,7 +144,7 @@ function onCreate() {
           .wcsOperationcClosing(JSON.stringify(obj))
           .done(function (response) {
             const sampleData = response.lktBody;
-            $("#workOrderGrid")
+            $(idPrefix + "#workOrderGrid")
               .dxDataGrid("instance")
               .option("dataSource", sampleData);
           })
@@ -199,7 +165,7 @@ function onCreate() {
           .done(function (response) {
             const sampleData = response.lktBody;
 
-            $("#workOrderGrid")
+            $(idPrefix + "#workOrderGrid")
               .dxDataGrid("instance")
               .option("dataSource", sampleData);
           })
@@ -220,7 +186,7 @@ function onCreate() {
     "text-align": "center"
   };
   // DataGrid - 작업지시 정보
-  $("#workOrderGrid").dxDataGrid({
+  $(idPrefix + "#workOrderGrid").dxDataGrid({
     dataSource: [], // 서버에서 데이터를 가져와서 할당
     columns: [
       {
@@ -370,12 +336,40 @@ function onCreate() {
       visible: true // 헤더 필터 드롭다운을 표시
     }
   });
-
-  //loadWorkOrderData();
 }
 
-function onActive() {
-  //loadWorkOrderData();
+function onActive() {}
+
+function searchList() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        workDate: "2024-02-17"
+      }
+    ]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiWcs
+    .wcsOperation(encoded)
+    .done(function (response) {
+      let sampleData = response.lktBody;
+
+      // for (let i = 0; i < 10; i++) {
+      //   sampleData.push(response.lktBody[0]);
+      // }
+
+      // sampleData.push({workDate: "1234"});
+
+      $(idPrefix + "#workOrderGrid")
+        .dxDataGrid("instance")
+        .option("dataSource", sampleData);
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      alert("error");
+      errorPopup.removeClass("hidden");
+    });
 }
 
 export default {

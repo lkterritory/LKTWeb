@@ -1,19 +1,37 @@
 <link
   rel="stylesheet"
-  href="./src/views/mast/mastItem/mastStore.css" />
+  href="./src/views/mast/mastStore/mastStore.css?a=1" />
 
 <div class="work-order-content">
   <div id="filterForm">
-    <label for="singleInput">검색</label>
-    <input
-      type="text"
-      id="singleInput"
-      placeholder="검색" />
-    <button
-      id="searchBtn"
-      class="dx-button">
-      조회
-    </button>
+    <div
+      id="txtBoxSearch"
+      class="filter-item"></div>
+
+    <div id="buttonsContainer">
+      <button
+        id="btnSearch"
+        class="dx-button btntype-c"
+        data-id="조회">
+        조회
+      </button>
+      <button
+        id="btnAdd"
+        class="dx-button btntype-c hidden"
+        data-id="추가">
+        추가
+      </button>
+      <button
+        id="btnDel"
+        class="dx-button btntype-c hidden"
+        data-id="삭제">
+        삭제
+      </button>
+    </div>
   </div>
-  <div id="workOrderGrid"></div>
+  <div id="contentForm">
+    <div
+      id="workOrderGrid"
+      class="workOrderGrid"></div>
+  </div>
 </div>

@@ -16,10 +16,10 @@ $.ajaxSetup({
             .appendTo(contentElement)
             .dxForm({
               formData: {},
-              items: []
+              items: [],
             })
             .dxForm("instance");
-        }
+        },
       })
       .dxPopup("show");
 
@@ -30,7 +30,7 @@ $.ajaxSetup({
   },
   complete: function (jqXHR, textStatus) {
     $("#networkPopup").dxPopup("hide");
-  }
+  },
 });
 
 // 작업차수
@@ -40,7 +40,7 @@ function workbatch(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
@@ -52,7 +52,7 @@ function wcsOperation(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
@@ -63,7 +63,7 @@ function wcsOperationPlan(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
@@ -74,7 +74,7 @@ function wcsOperationStart(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
@@ -85,7 +85,7 @@ function wcsOperationcCompleted(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
@@ -96,7 +96,7 @@ function wcsOperationcClosing(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
@@ -107,7 +107,7 @@ function wcsOperationcCancel(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 // 작업지시 end
@@ -119,7 +119,7 @@ function wcsInspectionsList(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
@@ -129,17 +129,17 @@ function wcsInspectionsConfirm(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 
-function wcswcsInspectionsCompletion(param) {
+function wcsInspectionsCompletion(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbounds/wcs/inspections/completion",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 // 검수 end
@@ -151,7 +151,7 @@ function wcsMiddleCategories(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: param,
   });
 }
 // 중분류 end
@@ -159,88 +159,88 @@ function wcsMiddleCategories(param) {
 // 주문별작업현황
 function statusOrders(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/orders?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/orders?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 주문별작업현황(상세)
 function statusOrderDetail(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/orders/detail?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/orders/detail?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 상품별작업현황
 function statusSkus(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/skus?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/skus?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 상품별작업현황(상세)
 function statusSkusDetail(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/skus/detail?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/skus/detail?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 설비별작업현황
 function statusEquipment(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/equipment?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/equipment?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 설비별작업현황(상세)
 function statusEquipmentDetail(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/status/equipment/detail?id=" + +param,
+    url: baseUrlWcs + "/outbounds/status/equipment/detail?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 상황판
 function dashboardsOverallStatus(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/dashboards/overall-status?id=" + +param,
+    url: baseUrlWcs + "/outbounds/dashboards/overall-status?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
 // 표시기 전체 상황판
 function dashboardspPickToLightStatus(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbounds/dashboards/pick-to-light-status?id=" + +param,
+    url: baseUrlWcs + "/outbounds/dashboards/pick-to-light-status?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
@@ -248,11 +248,11 @@ function dashboardspPickToLightStatus(param) {
 function dashboardsPickToLightInstances(param) {
   return $.ajax({
     url:
-      baseUrlWcs + "/outbounds/dashboards/pick-to-light-instances?id=" + +param,
+      baseUrlWcs + "/outbounds/dashboards/pick-to-light-instances?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: {},
   });
 }
 
@@ -277,9 +277,9 @@ export default {
 
   wcsInspectionsList,
   wcsInspectionsConfirm,
-  wcswcsInspectionsCompletion,
+  wcsInspectionsCompletion,
 
   dashboardsOverallStatus,
   dashboardspPickToLightStatus,
-  dashboardsPickToLightInstances
+  dashboardsPickToLightInstances,
 };

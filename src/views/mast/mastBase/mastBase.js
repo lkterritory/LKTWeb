@@ -11,7 +11,7 @@ if (!window.apiCommonModule || !window.lktUtilModule) {
 apiCommon = (await window.apiCommonModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
-const idPrefix = "#mast-mastUser-mastUser ";
+const idPrefix = "#mast-mastBase-mastBase ";
 
 let txtBoxSearch;
 let workOrderGrid;
@@ -69,33 +69,32 @@ function onCreate() {
       columns: [
         {
           dataField: "equipmentType",
-          caption: "아이디",
+          caption: "기초정보1",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("아이디"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("기초정보1"); // 헤더 가운데 정렬
           }
         },
         {
           dataField: "locationCode",
-          caption: "사용자명",
+          caption: "기초정보2",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("사용자명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("기초정보2"); // 헤더 가운데 정렬
           }
         },
         {
           dataField: "locationCode",
-          caption: "권한명",
+          caption: "기초정보3",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("권한명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("기초정보3"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "싱태명",
+          dataField: "locationName",
+          caption: "기초정보4",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("싱태명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("기초정보4"); // 헤더 가운데 정렬
           }
         },
-
         {
           dataField: "locationName",
           caption: "등록일",
@@ -142,7 +141,6 @@ function onCreate() {
       onRowClick: function (e) {
         //alert("??");
         const selectedRowData = e.data;
-        showPopup(true);
       }
     })
     .dxDataGrid("instance");
@@ -180,7 +178,7 @@ function showPopup(isModi) {
   let formItems = [
     {
       dataField: "skuCode",
-      label: {text: "사용자 ID"},
+      label: {text: "기초정보1"},
       editorType: "dxTextBox",
       editorOptions: {
         value: ""
@@ -188,15 +186,7 @@ function showPopup(isModi) {
     },
     {
       dataField: "skuName",
-      label: {text: "사용자 이름"},
-      editorType: "dxTextBox",
-      editorOptions: {
-        value: ""
-      }
-    },
-    {
-      dataField: "skuBarcode",
-      label: {text: "권한"},
+      label: {text: "기초정보2"},
       editorType: "dxTextBox",
       editorOptions: {
         value: ""
@@ -206,7 +196,7 @@ function showPopup(isModi) {
 
   $(idPrefix + "#dynamicPopup")
     .dxPopup({
-      title: isModi ? "사용자 수정" : "사용자 등록",
+      title: isModi ? "기초정보 수정" : "기초정보 등록",
       visible: true,
       width: 400,
       height: 300,
