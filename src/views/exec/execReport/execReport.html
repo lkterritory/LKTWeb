@@ -1,15 +1,20 @@
 <link
   rel="stylesheet"
-  href="./src/views/exec/execReport/execReport.css" />
+  href="./src/views/exec/execReport/execReport.css?a=2" />
 
 <body>
-  <div class="euc-container">
-    <div
-      id="leftGrid"
-      class="grid-section"></div>
-    <div
-      id="rightGrid"
-      class="grid-section"></div>
+  <div class="report-container">
+    <div id="contentReportForm">
+      <div class="conLeft">
+        <div
+          id="workOrderGrid"
+          class="grid-section"></div>
+      </div>
+
+      <div class="conRight">
+        <Report></Report>
+      </div>
+    </div>
   </div>
 
   <div id="dynamicPopup"></div>

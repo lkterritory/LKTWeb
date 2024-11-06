@@ -1,18 +1,27 @@
 <link
   rel="stylesheet"
-  href="./src/views/exec/execEuc/execEuc.css" />
+  href="./src/views/exec/execEuc/execEuc.css?a=2" />
 
 <body>
   <div class="euc-container">
-    <div
-      id="leftGrid"
-      class="grid-section"></div>
-    <div
-      id="rightGrid"
-      class="grid-section"></div>
+    <div id="contentEucForm">
+      <div class="conLeft">
+        <div
+          id="workOrderGrid"
+          class="grid-section"></div>
+      </div>
 
-    <div class="buttons-container">
-      <button id="exportButton">내보내기</button>
+      <div class="conRight">
+        <div
+          id="workOrderGridDetail"
+          class="grid-section gridRight"></div>
+
+        <button
+          id="btnExport"
+          class="btntype-c">
+          내보내기
+        </button>
+      </div>
     </div>
   </div>
 
