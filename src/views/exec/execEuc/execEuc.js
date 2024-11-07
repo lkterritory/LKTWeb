@@ -53,6 +53,45 @@ function onCreate() {
     .dxDataGrid("instance");
 
   searchList();
+
+  // 내보내기 버튼 클릭 이벤트
+  $("#btnExport").dxButton({
+    stylingMode: "contained",
+    type: "default",
+    width: "100px",
+    text: "내보내기",
+    onClick: function () {
+      const dataGrid = $(idPrefix + "#workOrderGridDetail").dxDataGrid(
+        "instance"
+      );
+
+      // 엑셀 파일로 내보내기
+      if (typeof ExcelJS !== "undefined") {
+        // ExcelJS 확인
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Sheet 1");
+
+        DevExpress.excelExporter
+          .exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet
+          })
+          .then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+              saveAs(
+                new Blob([buffer], {type: "application/octet-stream"}),
+                `EUC_${Date.now()}.xlsx`
+              );
+            });
+          })
+          .catch(function (error) {
+            console.error("Error exporting data grid:", error);
+          });
+      } else {
+        console.error("ExcelJS is not loaded.");
+      }
+    }
+  });
 }
 
 function onActive() {}
@@ -112,34 +151,6 @@ function showDynamicPopup(rowData) {
     })
     .dxPopup("show");
 }
-
-// 내보내기 버튼 클릭 이벤트
-$("#btnExport").dxButton({
-  stylingMode: "contained",
-  type: "default",
-  width: "100px",
-  text: "내보내기",
-  onClick: function () {
-    const dataGrid = $(idPrefix + "#workOrderGridDetail").dxDataGrid(
-      "instance"
-    );
-
-    // 엑셀 파일로 내보내기
-    DevExpress.excelExporter
-      .exportDataGrid({
-        component: dataGrid,
-        worksheet: new ExcelJS.Workbook().addWorksheet("Sheet 1")
-      })
-      .then(function (workbook) {
-        workbook.xlsx.writeBuffer().then(function (buffer) {
-          saveAs(
-            new Blob([buffer], {type: "application/octet-stream"}),
-            "rightGridData.xlsx"
-          );
-        });
-      });
-  }
-});
 
 function loadDataProc(aParam) {
   if (aParam == null) {

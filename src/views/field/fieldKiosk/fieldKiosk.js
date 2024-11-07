@@ -1,8 +1,19 @@
-import apiWcs from "../../../js/api/apiWcs.js";
+let apiWcs;
+let lktUtil;
+
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
+apiWcs = (await window.apiWcsModule).default;
+lktUtil = (await window.lktUtilModule).default;
+
+const idPrefix = "#field-fieldKiosk-fieldKiosk ";
 
 function onCreate() {
   // Progress Bar 설정
-  $("#progressBar").dxProgressBar({
+  $(idPrefix + "#progressBar").dxProgressBar({
     value: 91,
     min: 0,
     max: 100,
@@ -13,7 +24,7 @@ function onCreate() {
   });
 
   // DevExtreme DataGrid 설정
-  $("#orderGrid").dxDataGrid({
+  $(idPrefix + "#workOrderGrid").dxDataGrid({
     dataSource: [
       {
         순서: 178,
