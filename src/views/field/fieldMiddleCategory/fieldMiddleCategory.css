@@ -1,37 +1,169 @@
-.inspection-container {
-  padding: 20px;
+.middleFormCate {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+
+  flex-shrink: 0;
 }
 
-.header-inputs {
+.filterFormCate {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+
+  flex-shrink: 0;
+}
+
+#contentFormCate {
+  flex-grow: 1;
+  height: calc(100vh - 400px);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  gap: 10px;
+}
+.summary-info {
+  flex: 1 1 0;
+  display: flex;
+  text-align: center;
+
+  align-items: center;
+  padding: 0px, 10px, 10px, 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-grow: 1;
+
+  flex-direction: column;
+}
+
+.summary-info .dx-textbox {
+  width: 100%;
+}
+
+.summary-item-cate {
+  flex: 1 1 0;
+  display: flex;
+  text-align: center;
+
+  align-items: center;
+  padding: 0px, 10px, 10px, 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-grow: 1;
+
+  flex-direction: column;
+}
+
+.summary-item-cate .label {
+  font-size: 20px;
+  color: #000000;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+
+  background-color: #fafbff;
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.summary-item-cate .value {
+  font-size: 40px;
+  font-weight: bold;
+  height: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.summary-item-cate .value .total {
+  color: #154add;
+}
+
+.filterFormCate {
+  display: flex;
+
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-direction: row;
+  flex-shrink: 0; /* 콘텐츠 크기에 맞게 변하지만, 남은 공간을 차지하지 않음 */
+}
+
+.inspection-options {
+  flex-grow: 1;
+  flex-direction: row;
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+}
+
+div#inspectionTypeContainer {
+  display: flex;
+}
+
+div#inspectionTypeContainer .dx-widget.dx-collection {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.dx-radiobutton {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.barcode-section {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  width: 20%;
 }
 
-.header-inputs label {
-  font-weight: bold;
+.barcode-section label {
+  margin-right: 10px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-.product-code-input {
+#txtBoxBarcode {
+  /* width: 100px; */
   padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 14px;
+  flex-grow: 1;
 }
 
-.stats {
-  display: flex;
-  gap: 20px;
-  font-weight: bold;
-}
-
+/* 동적박스 */
 .sorter-box-container {
   display: flex;
   justify-content: space-between;
 }
 
 .sorter-box {
-  width: 18%;
+  width: 170px;
+  height: 250px;
   background-color: #f1f1f1;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -50,4 +182,17 @@
 .sorter-box .type {
   margin: 10px 0;
   font-weight: bold;
+}
+
+div#dynamicBoxContainer {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 5px;
+}
+
+/* 반응형 스타일 PAD 퍼블 대비*/
+@media (max-width: 768px) {
+}
+
+@media (min-height: 769px) {
 }

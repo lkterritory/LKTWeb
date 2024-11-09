@@ -2,7 +2,10 @@
   "menuItems": [
     {
       "title": "기본",
-      "submenus": [{"title": "상황판", "view": "dash/dash.html"}]
+      "submenus": [
+        {"title": "상황판", "view": "dash/dash.html"},
+        {"title": "상황판(설비별)", "view": "dash/dashFac.html"}
+      ]
     },
     {
       "title": "기준정보",

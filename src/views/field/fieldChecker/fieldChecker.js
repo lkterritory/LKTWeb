@@ -1,22 +1,24 @@
-import apiWcs from "../../../js/api/apiWcs.js";
+let apiWcs;
+let lktUtil;
+
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
+apiWcs = (await window.apiWcsModule).default;
+lktUtil = (await window.lktUtilModule).default;
+
+const idPrefix = "#field-fieldChecker-fieldChecker ";
 
 function onCreate() {
-  $("#orderNumberContainer").dxTextBox({placeholder: "주문번호"});
-  $("#boxNumberContainer").dxTextBox({placeholder: "박스번호"});
-  $("#waveContainer").dxTextBox({placeholder: "웨이브"});
-  $("#shipperContainer").dxTextBox({placeholder: "화주사"});
-
-  // Summary fields
-  $("#deliveryTypeContainer").dxTextBox({
-    value: "택배유형/포장유형",
-    readOnly: true
-  });
-  $("#productCountContainer").dxTextBox({value: "0 / 0", readOnly: true});
-  $("#unitCountContainer").dxTextBox({value: "0 / 0", readOnly: true});
-  $("#inspectionProgressContainer").dxTextBox({value: "0%", readOnly: true});
+  $(idPrefix + "#orderNumberContainer").dxTextBox({placeholder: "주문번호"});
+  $(idPrefix + "#boxNumberContainer").dxTextBox({placeholder: "박스번호"});
+  $(idPrefix + "#waveContainer").dxTextBox({placeholder: "웨이브"});
+  $(idPrefix + "#shipperContainer").dxTextBox({placeholder: "화주사"});
 
   // Barcode input
-  $("#barcodeInputContainer").dxTextBox({
+  $(idPrefix + "#txtBoxBarcode").dxTextBox({
     placeholder: "바코드를 스캔해주세요",
     onEnterKey: function (e) {
       inspectionsComplition(e.component.option("value"));
@@ -26,14 +28,14 @@ function onCreate() {
   });
 
   // Inspection type
-  $("#inspectionTypeContainer").dxRadioGroup({
+  $(idPrefix + "#inspectionTypeContainer").dxRadioGroup({
     items: ["개별검수", "일괄검수"],
     value: "개별검수",
     layout: "horizontal"
   });
 
   // Buttons
-  $("#inspectButton").dxButton({
+  $(idPrefix + "#inspectButton").dxButton({
     text: "검수",
     type: "default",
     onClick: function () {
@@ -41,7 +43,7 @@ function onCreate() {
     }
   });
 
-  $("#reissueButton").dxButton({
+  $(idPrefix + "#reissueButton").dxButton({
     text: "재발행",
     type: "normal",
     onClick: function () {
@@ -50,7 +52,7 @@ function onCreate() {
   });
 
   // Data grid for product inspection details
-  $("#productGrid").dxDataGrid({
+  $(idPrefix + "#workOrderGrid").dxDataGrid({
     dataSource: [],
     columns: [
       //   {dataField: "productCode", caption: "상품코드"},
@@ -111,7 +113,9 @@ function onCreate() {
       }
     ];
 
-    $("#productGrid").dxDataGrid("instance").option("dataSource", sampleData);
+    $(idPrefix + "#workOrderGrid")
+      .dxDataGrid("instance")
+      .option("dataSource", sampleData);
   }
 
   // Load initial data
@@ -137,7 +141,7 @@ function searchList() {
   apiWcs
     .wcsInspectionsList(encoded)
     .done(function (response) {
-      $("#productGrid")
+      $(idPrefix + "#workOrderGrid")
         .dxDataGrid("instance")
         .option("dataSource", response.lktBody);
     })
@@ -149,7 +153,9 @@ function searchList() {
 }
 
 function inspectionsConfirm() {
-  let dtSel = $("#productGrid").dxDataGrid("instance").getSelectedRowsData();
+  let dtSel = $(idPrefix + "#workOrderGrid")
+    .dxDataGrid("instance")
+    .getSelectedRowsData();
 
   // 검수확인
   var obj = {

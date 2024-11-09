@@ -1,24 +1,35 @@
 <link
   rel="stylesheet"
-  href="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.css?b=1" />
+  href="./src/views/field/fieldMiddleCategory/fieldMiddleCategory.css?b=2" />
 
-<div class="inspection-container">
-  <div class="header-inputs">
-    <label>상품코드</label>
-    <input
-      id="skuCode"
-      type="text"
-      placeholder="상품코드를 입력해주세요"
-      class="product-code-input" />
-    <label>작업차수</label>
-    <div id="workDateContainer"></div>
-    <div class="stats">
-      <span>입수: 0</span>
-      <span>미처리: 0</span>
-      <span>전체진행: 0 / 0</span>
+<div class="work-order-content">
+  <div class="middleFormCate">
+    <div class="summary-info">
+      <div id="orderNumberContainer"></div>
+      <div id="boxNumberContainer"></div>
+      <div id="waveContainer"></div>
+    </div>
+
+    <div class="summary-item-cate">
+      <div class="label">입수</div>
+      <div class="value">
+        <span class="current">2</span>
+      </div>
+    </div>
+    <div class="summary-item-cate">
+      <div class="label">미처리</div>
+      <div class="value">
+        <span class="current">177</span>/<span class="total">193</span>
+      </div>
+    </div>
+    <div class="summary-item-cate">
+      <div class="label">전체진행</div>
+      <div class="value">
+        <span class="current">120</span>/<span class="total">233</span>
+      </div>
     </div>
   </div>
-  <div class="sorter-box-container">
+  <div id="contentFormCate">
     <div id="dynamicBoxContainer"></div>
   </div>
 </div>
