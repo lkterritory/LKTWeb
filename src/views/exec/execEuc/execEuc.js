@@ -33,11 +33,8 @@ function onCreate() {
       },
       columns: [
         {
-          dataField: "macroName",
-          caption: "EUC 목록",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("EUC 목록");
-          }
+          dataField: "endUserComputingName",
+          caption: "EUC 목록"
         }
       ],
       showBorders: true,
@@ -55,7 +52,7 @@ function onCreate() {
   searchList();
 
   // 내보내기 버튼 클릭 이벤트
-  $("#btnExport").dxButton({
+  $(idPrefix + "#btnExport").dxButton({
     stylingMode: "contained",
     type: "default",
     width: "100px",
@@ -101,15 +98,19 @@ function showDynamicPopup(rowData) {
   // 입력란 배열을 동적으로 생성
 
   let formItems = [];
+  rowData.lktOutDataDetail =
+    rowData.lktOutDataDetail != null ? rowData.lktOutDataDetail : [];
 
-  for (const itm of rowData.parameters) {
+  for (const itm of rowData.lktOutDataDetail) {
     let ftim = {
-      dataField: "parameterCode",
-      label: {text: itm.parameterName},
+      dataField: itm.endUserComputingParamterCode,
+      label: {text: itm.endUserComputingParamterName},
       editorType: "dxTextBox"
     };
     formItems.push(ftim);
   }
+
+  let formData = {};
 
   // 팝업 생성
   $(idPrefix + "#dynamicPopup")
@@ -122,11 +123,12 @@ function showDynamicPopup(rowData) {
       contentTemplate: function (contentElement) {
         // 동적 폼 생성
         $("<div>").appendTo(contentElement).dxForm({
-          formData: {},
+          formData: formData,
           items: formItems
         });
 
         // 실행, 취소 버튼 추가
+
         $("<div>")
           .appendTo(contentElement)
           .dxButton({
@@ -134,7 +136,8 @@ function showDynamicPopup(rowData) {
             onClick: function () {
               // euc 실행
               //loadDataDeatil();
-              loadDataDetailProc(null);
+
+              searchListDetail(formData, rowData);
               $(idPrefix + "#dynamicPopup").dxPopup("hide");
             }
           });
@@ -156,22 +159,12 @@ function loadDataProc(aParam) {
   if (aParam == null) {
     aParam = [
       {
-        macroCode: "SP_EUC_LIST",
-        macroName: "EUC 목록 조회",
-        parameters: [
-          {
-            parameterCode: "P_WORK_BATCH",
-            parameterName: "출고차수",
-            parameterPlaceholder: "출고차수",
-            parameterDesc: "출고차수"
-          },
-          {
-            parameterCode: "P_WORK_DATE",
-            parameterName: "출고일자",
-            parameterPlaceholder: "출고일자",
-            parameterDesc: "출고일자 (yyyymmdd)"
-          }
-        ]
+        centerCode: "LKT",
+        clientCode: "LKT",
+        warehouseCode: "LKT",
+        endUserComputingCode: "SP_LKT_EUC_OUTBOUND_LOCATION_GET",
+        endUserComputingName: "#01. 로케이션 정보",
+        endUserComputingDescription: "#01. 로케이션 정보"
       }
     ];
   }
@@ -206,11 +199,39 @@ function loadDataDetailProc(aParam) {
         showInfo: true
       }
     });
+  } else {
+    // 오른쪽 그리드 초기화
+
+    let columnsRst = [];
+
+    for (info of aParam) {
+      columnsRst.push({
+        dataField: Object.keys(info)[0],
+        caption: Object.keys(info)[0]
+      });
+    }
+
+    $(idPrefix + "#workOrderGridDetail").dxDataGrid({
+      dataSource: aParam, // 데이터 소스 설정
+      columns: columnsRst,
+      selection: {
+        mode: "single" // 단일 셀렉션 모드
+      },
+      showBorders: true,
+      paging: {
+        pageSize: 10
+      },
+      pager: {
+        showPageSizeSelector: true,
+        allowedPageSizes: [10, 25, 50],
+        showInfo: true
+      }
+    });
   }
 }
 
 function searchList() {
-  loadDataProc(null);
+  //loadDataProc(null);
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING"),
@@ -221,31 +242,36 @@ function searchList() {
 
   apiCommon
     .enduserComputing(encoded)
-    .done(function (response) {})
-    //loadData(response.lktBody);
+    .done(function (response) {
+      loadDataProc(response.lktBody);
+    })
     .fail(function () {
       // 에러 발생 시 처리
       alert("error");
     });
 }
 
-function searchListDetail(row) {
+function searchListDetail(row, rowOri) {
+  alert(JSON.stringify(row));
+
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE"),
     lktBody: [
       {
-        centerCode: "HYN",
-        clientCode: "HY",
-        whrehouseCode: "HYN",
-        procedureCode: "SP_LKTPUB_SAMPLE"
+        endUserComputingCode: rowOri.endUserComputingCode,
+        lktOutDataDetail: row
       }
     ]
   };
 
   var encoded = btoa(JSON.stringify(obj));
+
   apiCommon
     .enduserComputingExecute(encoded)
-    .done(function (response) {})
+    .done(function (response) {
+      loadDataDetailProc(response.lktBody);
+      //loadDataProc(response.lktBody);
+    })
 
     .fail(function () {
       alert("error");

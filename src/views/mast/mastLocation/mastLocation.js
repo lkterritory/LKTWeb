@@ -68,59 +68,32 @@ function onCreate() {
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
-          dataField: "equipmentType",
-          caption: "설비명",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
-          }
-        },
-        {
           dataField: "locationCode",
-          caption: "로케이션코드",
+          caption: "로케이션",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "로케이션명",
+          dataField: "equipmentCode",
+          caption: "설비코드",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("설비코드"); // 헤더 가운데 정렬
+          }
+        },
+
+        {
+          dataField: "storageTemperatureCode",
+          caption: "온도대 코드",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("온도대 코드"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "박스번호(주문번호)",
+          dataField: "storageTemperatureName",
+          caption: "온도대",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("박스번호(주문번호)"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "등록일",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록일"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "등록자",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록자"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "수정일",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정일"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "수정자",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정자"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
           }
         }
       ],
@@ -139,8 +112,9 @@ function onCreate() {
         visible: true // 헤더 필터 드롭다운을 표시
       },
       onRowClick: function (e) {
-        //alert("??");
         const selectedRowData = e.data;
+        // alert(selectedRowData);
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -161,7 +135,7 @@ function searchList() {
   var encoded = btoa(JSON.stringify(obj));
 
   apiCommon
-    .coresAuthGet(encoded)
+    .coresLocationGet(encoded)
     .done(function (response) {
       let sampleData = response.lktBody;
 
@@ -174,22 +148,49 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "skuCode",
-      label: {text: "로케이션코드"},
+      dataField: "locationCode",
+      label: {text: "로케이션"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.locationCode : ""
       }
     },
     {
-      dataField: "skuName",
-      label: {text: "로케이션명"},
+      dataField: "equipmentCode",
+      label: {text: "설비"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.equipmentCode : ""
+      }
+    },
+    {
+      dataField: "storageTemperatureCode",
+      label: {text: "온도대 코드"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.storageTemperatureCode : ""
+      }
+    },
+
+    {
+      dataField: "stateCode",
+      label: {text: "사용유무"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: [
+          {id: "01", name: "사용"},
+          {id: "00", name: "미사용"}
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
+        value: row != null ? row.stateCode : "01",
+        placeholder: "선택하세요", // 선택 안내 텍스트
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
       }
     }
   ];
@@ -217,18 +218,32 @@ function showPopup(isModi) {
             text: "실행",
             onClick: function () {
               const formData = formInstance.option("formData");
-
               var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+                lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
                 lktBody: [
                   {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
+                    equipmentCode: formData.equipmentCode,
+                    storageTemperatureCode: formData.storageTemperatureCode,
+                    locationCode: formData.locationCode,
+
+                    stateCode: formData.stateCode
                   }
                 ]
               };
+
+              if (isModi) {
+                apiCommon
+                  .coresLocationEdit(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    errorPopup.removeClass("hidden");
+                  });
+              } else {
+                apiCommon
+                  .coresLocationAdd(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {});
+              }
 
               $("#dynamicPopup").dxPopup("hide");
             }

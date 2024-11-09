@@ -345,7 +345,7 @@ function searchList() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: "2024-02-17"
+        workDate: dtBoxWork.option("value").toISOString().split("T")[0] //"2024-02-17"
       }
     ]
   };

@@ -1,7 +1,7 @@
 // api.js
 
-const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
-// const baseUrlCommon = "http://10.150.26.150:4132";
+// const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
+const baseUrlCommon = "http://10.150.26.147:4132";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -124,7 +124,7 @@ function coresAuthEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 // 권한정보 end
@@ -146,7 +146,7 @@ function coresStoresAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 
@@ -156,7 +156,7 @@ function coresStoresEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 // 지점정보 end
@@ -178,7 +178,7 @@ function coresUsersAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 
@@ -188,10 +188,42 @@ function coresUsersEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {param}
+    data: param
   });
 }
 // 사용자정보 end
+
+// 기초정보 start
+function coresCodesGet(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/codes?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function coresCodesAdd(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/codes",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+function coresCodesEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/codes",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+// 기초정보 end
 
 // EUC 조회
 function enduserComputing(param) {
@@ -207,7 +239,7 @@ function enduserComputing(param) {
 // EUC 실행
 function enduserComputingExecute(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/enduser-computing/execute?id=" + +param,
+    url: baseUrlCommon + "/cores/enduser-computing/execute?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -218,7 +250,7 @@ function enduserComputingExecute(param) {
 // 보고서 조회
 function reportViewer(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/report-viewer?id=" + +param,
+    url: baseUrlCommon + "/cores/report-viewer?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -229,7 +261,7 @@ function reportViewer(param) {
 // 보고서 실행
 function reportViewerExecute(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/report-viewer/execute?id=" + +param,
+    url: baseUrlCommon + "/cores/report-viewer/execute?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -257,5 +289,8 @@ export default {
   coresStoresEdit,
   coresUsersGet,
   coresUsersAdd,
-  coresUsersEdit
+  coresUsersEdit,
+  coresCodesGet,
+  coresCodesAdd,
+  coresCodesEdit
 };

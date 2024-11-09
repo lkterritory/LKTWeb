@@ -42,7 +42,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      showPopup(false);
+      showPopup(false, null);
     },
     width: "100px"
   });
@@ -66,62 +66,52 @@ function onCreate() {
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
       dataSource: [], // 서버에서 데이터를 가져와서 할당
+
+      // "centerCode": "LKT",
+      // "clientCode": "LKT",
+      // "warehouseCode": "LKT",
+      // "userName": "dasco",
+      // "storageTemperatureCode": "RF",
+      // "storageTemperatureName": "냉장",
+      // "permissionCode": "admin",
+      // "permissionName": "admin",
+      // "stateCode": "01",
+      // "stateName": "예"
+
       columns: [
         {
-          dataField: "equipmentType",
+          dataField: "userName",
           caption: "아이디",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("아이디"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "사용자명",
+          dataField: "storageTemperatureCode",
+          caption: "온도대",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("사용자명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
+          dataField: "storageTemperatureName",
+          caption: "온도대",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "permissionName",
           caption: "권한명",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("권한명"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
+          dataField: "stateName",
           caption: "싱태명",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("싱태명"); // 헤더 가운데 정렬
-          }
-        },
-
-        {
-          dataField: "locationName",
-          caption: "등록일",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록일"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "등록자",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록자"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "수정일",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정일"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "수정자",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정자"); // 헤더 가운데 정렬
           }
         }
       ],
@@ -142,7 +132,7 @@ function onCreate() {
       onRowClick: function (e) {
         //alert("??");
         const selectedRowData = e.data;
-        showPopup(true);
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -163,7 +153,7 @@ function searchList() {
   var encoded = btoa(JSON.stringify(obj));
 
   apiCommon
-    .coresAuthGet(encoded)
+    .coresUsersGet(encoded)
     .done(function (response) {
       let sampleData = response.lktBody;
 
@@ -176,30 +166,51 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "skuCode",
+      dataField: "userName",
       label: {text: "사용자 ID"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.userName : ""
       }
     },
+
     {
-      dataField: "skuName",
-      label: {text: "사용자 이름"},
-      editorType: "dxTextBox",
-      editorOptions: {
-        value: ""
-      }
-    },
-    {
-      dataField: "skuBarcode",
+      dataField: "permissionCode",
       label: {text: "권한"},
-      editorType: "dxTextBox",
+      editorType: "dxSelectBox",
       editorOptions: {
-        value: ""
+        items: [
+          {id: "admin", name: "관리자"},
+          {id: "user", name: "사용지1"}
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
+        value: row != null ? row.permissionCode : "",
+        placeholder: "선택하세요",
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
+      }
+    },
+    {
+      dataField: "stateCode",
+      label: {text: "사용유무"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: [
+          {id: "01", name: "사용"},
+          {id: "00", name: "미사용"}
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
+        value: row != null ? row.stateCode : "",
+        placeholder: "선택하세요",
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
       }
     }
   ];
@@ -232,14 +243,30 @@ function showPopup(isModi) {
                 lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
                 lktBody: [
                   {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
+                    userName: formData.userName,
+                    permissionCode: formData.permissionCode,
+                    stateCode: formData.stateCode,
+                    storageTemperatureCode:
+                      row != null ? row.storageTemperatureCode : ""
                   }
                 ]
               };
 
+              if (isModi) {
+                apiCommon
+                  .coresUsersEdit(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    // 에러 발생 시 처리
+                  });
+              } else {
+                apiCommon
+                  .coresUsersAdd(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    // 에러 발생 시 처리
+                  });
+              }
               $("#dynamicPopup").dxPopup("hide");
             }
           });

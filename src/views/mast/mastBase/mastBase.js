@@ -42,7 +42,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      showPopup(false);
+      showPopup(false, null);
     },
     width: "100px"
   });
@@ -68,59 +68,59 @@ function onCreate() {
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
-          dataField: "equipmentType",
-          caption: "기초정보1",
+          dataField: "masterCode",
+          caption: "마스터코드",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("기초정보1"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("마스터코드"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "기초정보2",
+          dataField: "masterName",
+          caption: "마스터",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("기초정보2"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("마스터"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "기초정보3",
+          dataField: "masterCodeValue",
+          caption: "코드",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("기초정보3"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("코드"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "기초정보4",
+          dataField: "masterTextValue",
+          caption: "값",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("기초정보4"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("값"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "등록일",
+          dataField: "masterDescription",
+          caption: "설명",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록일"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("설명"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "등록자",
+          dataField: "masterParent",
+          caption: "부모코드",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록자"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("부모코드"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "수정일",
+          dataField: "masterSequnce",
+          caption: "설명",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정일"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("설명"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "수정자",
+          dataField: "stateName",
+          caption: "사용유무",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정자"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("사용유무"); // 헤더 가운데 정렬
           }
         }
       ],
@@ -141,6 +141,8 @@ function onCreate() {
       onRowClick: function (e) {
         //alert("??");
         const selectedRowData = e.data;
+        // alert(selectedRowData);
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -161,7 +163,7 @@ function searchList() {
   var encoded = btoa(JSON.stringify(obj));
 
   apiCommon
-    .coresAuthGet(encoded)
+    .coresCodesGet(encoded)
     .done(function (response) {
       let sampleData = response.lktBody;
 
@@ -174,22 +176,83 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "skuCode",
-      label: {text: "기초정보1"},
+      dataField: "masterCode",
+      label: {text: "마스터코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.masterCode : ""
       }
     },
     {
-      dataField: "skuName",
-      label: {text: "기초정보2"},
+      dataField: "masterName",
+      label: {text: "마스터"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.masterName : ""
+      }
+    },
+    {
+      dataField: "masterCodeValue",
+      label: {text: "코드"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.masterCodeValue : ""
+      }
+    },
+    {
+      dataField: "masterTextValue",
+      label: {text: "값"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.masterTextValue : ""
+      }
+    },
+    {
+      dataField: "masterDescription",
+      label: {text: "설명"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.masterDescription : ""
+      }
+    },
+
+    {
+      dataField: "masterParent",
+      label: {text: "부모코드"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.masterParent : ""
+      }
+    },
+
+    {
+      dataField: "masterSequnce",
+      label: {text: "순번"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.masterSequnce : ""
+      }
+    },
+
+    {
+      dataField: "stateCode",
+      label: {text: "사용유무"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: [
+          {id: "01", name: "사용"},
+          {id: "00", name: "미사용"}
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
+        value: row != null ? row.stateCode : "01",
+        placeholder: "선택하세요", // 선택 안내 텍스트
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
       }
     }
   ];
@@ -199,7 +262,7 @@ function showPopup(isModi) {
       title: isModi ? "기초정보 수정" : "기초정보 등록",
       visible: true,
       width: 400,
-      height: 300,
+      height: 800,
       showCloseButton: true,
       contentTemplate: function (contentElement) {
         // 동적 폼 생성
@@ -217,18 +280,36 @@ function showPopup(isModi) {
             text: "실행",
             onClick: function () {
               const formData = formInstance.option("formData");
-
               var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+                lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
                 lktBody: [
                   {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
+                    masterCode: formData.masterCode,
+                    masterName: formData.masterName,
+                    masterCodeValue: formData.masterCodeValue,
+                    masterTextValue: formData.masterTextValue,
+                    masterDescription: formData.masterDescription,
+                    masterParent: formData.masterParent,
+                    masterSequnce: formData.masterSequnce,
+
+                    stateCode: formData.stateCode
                   }
                 ]
               };
+
+              if (isModi) {
+                apiCommon
+                  .coresCodesEdit(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    errorPopup.removeClass("hidden");
+                  });
+              } else {
+                apiCommon
+                  .coresCodesAdd(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {});
+              }
 
               $("#dynamicPopup").dxPopup("hide");
             }

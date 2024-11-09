@@ -80,7 +80,7 @@ function onCreate() {
           caption: "상품명",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("상품명"); // 헤더 가운데 정렬
           }
         },
         {
@@ -96,7 +96,7 @@ function onCreate() {
           caption: "입수량",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("입수량"); // 헤더 가운데 정렬
           }
         },
 
@@ -105,7 +105,7 @@ function onCreate() {
           caption: "온도대",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
           }
         },
 
@@ -114,16 +114,25 @@ function onCreate() {
           caption: "파트명",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("파트명"); // 헤더 가운데 정렬
           }
         },
 
+        // {
+        //   dataField: "stateCode",
+        //   caption: "상태",
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+        //   }
+        // }
+
         {
-          dataField: "statusName",
-          caption: "상태",
+          dataField: "stateName",
+          caption: "사용유무",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("사용유무"); // 헤더 가운데 정렬
           }
         }
       ],
@@ -141,9 +150,12 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
+
       onRowClick: function (e) {
-        //alert("??");
         const selectedRowData = e.data;
+
+        //alert(JSON.stringify(selectedRowData));
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -164,7 +176,7 @@ function searchList() {
   var encoded = btoa(JSON.stringify(obj));
 
   apiCommon
-    .coresAuthGet(encoded)
+    .coresSkusGet(encoded)
     .done(function (response) {
       let sampleData = response.lktBody;
 
@@ -177,14 +189,14 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
       dataField: "skuCode",
       label: {text: "싱품코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row.skuCode
       }
     },
     {
@@ -192,7 +204,7 @@ function showPopup(isModi) {
       label: {text: "상품명"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row.skuName
       }
     },
     {
@@ -200,7 +212,25 @@ function showPopup(isModi) {
       label: {text: "바코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row.skuBarcode
+      }
+    },
+    {
+      dataField: "stateCode",
+      label: {text: "사용유무"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: [
+          {id: "01", name: "사용"},
+          {id: "00", name: "미사용"}
+        ],
+        displayExpr: "name", // 보여줄 텍스트
+        valueExpr: "id", // 실제 값으로 사용할 필드
+        value: row.stateCode, // 초기 선택값
+        placeholder: "선택하세요", // 선택 안내 텍스트
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
       }
     }
   ];
@@ -228,7 +258,9 @@ function showPopup(isModi) {
             text: "실행",
             onClick: function () {
               const formData = formInstance.option("formData");
-
+              // 사용유무
+              // 00, 01
+              // 아니요, 예
               var param = {
                 lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
                 lktBody: [
@@ -236,10 +268,23 @@ function showPopup(isModi) {
                     skuCode: formData.skuCode,
                     skuName: formData.skuName,
                     skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
+                    stateCode: formData.stateCode
                   }
                 ]
               };
+
+              apiCommon
+                .coresSkusEdit(JSON.stringify(param))
+                .done(function (response) {
+                  let sampleData = response.lktBody;
+
+                  workOrderGrid.option("dataSource", sampleData);
+                })
+                .fail(function () {
+                  // 에러 발생 시 처리
+                  alert("error");
+                  errorPopup.removeClass("hidden");
+                });
 
               $("#dynamicPopup").dxPopup("hide");
             }

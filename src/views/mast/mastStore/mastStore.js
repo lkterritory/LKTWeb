@@ -42,7 +42,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      showPopup(false);
+      showPopup(false, null);
     },
     width: "100px"
   });
@@ -68,53 +68,53 @@ function onCreate() {
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
-          dataField: "equipmentType",
-          caption: "로케이션",
+          dataField: "storeCode",
+          caption: "지점코드",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("지점코드"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "매장코드",
+          dataField: "storeName",
+          caption: "지점명",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("지점명"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationCode",
-          caption: "매장명",
+          dataField: "storeAddressLineOne",
+          caption: "주소1",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션명"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("주소1"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "storeAddressLineTwo",
+          caption: "주소2",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("주소2"); // 헤더 가운데 정렬
           }
         },
 
         {
-          dataField: "locationName",
-          caption: "등록일",
+          dataField: "storePhoneOne",
+          caption: "전화번호1",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록일"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("전화번호1"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "등록자",
+          dataField: "storePhoneTwo",
+          caption: "전화번호2",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("등록자"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("전화번호2"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "locationName",
-          caption: "수정일",
+          dataField: "stateName",
+          caption: "사용유무",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정일"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationName",
-          caption: "수정자",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("수정자"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("사용유무"); // 헤더 가운데 정렬
           }
         }
       ],
@@ -133,8 +133,9 @@ function onCreate() {
         visible: true // 헤더 필터 드롭다운을 표시
       },
       onRowClick: function (e) {
-        //alert("??");
         const selectedRowData = e.data;
+        alert(selectedRowData);
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -144,7 +145,7 @@ function onActive() {}
 
 function searchList() {
   var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.STORES"),
     lktBody: [
       {
         value: txtBoxSearch.option("value")
@@ -155,7 +156,7 @@ function searchList() {
   var encoded = btoa(JSON.stringify(obj));
 
   apiCommon
-    .coresAuthGet(encoded)
+    .coresStoresGet(encoded)
     .done(function (response) {
       let sampleData = response.lktBody;
 
@@ -168,30 +169,72 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "skuCode",
+      dataField: "storeCode",
       label: {text: "지점코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.storeCode : ""
       }
     },
     {
-      dataField: "skuName",
+      dataField: "storeName",
       label: {text: "지점명"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.storeName : ""
       }
     },
     {
-      dataField: "skuBarcode",
-      label: {text: "로케이션"},
+      dataField: "storeAddressLineOne",
+      label: {text: "주소1"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.storeAddressLineOne : ""
+      }
+    },
+    {
+      dataField: "storeAddressLineTwo",
+      label: {text: "주소2"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.storeAddressLineTwo : ""
+      }
+    },
+    {
+      dataField: "storePhoneOne",
+      label: {text: "전화번호1"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.storePhoneOne : ""
+      }
+    },
+    {
+      dataField: "storePhoneTwo",
+      label: {text: "전화번호2"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.storePhoneTwo : ""
+      }
+    },
+    {
+      dataField: "stateCode",
+      label: {text: "사용유무"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: [
+          {id: "01", name: "사용"},
+          {id: "00", name: "미사용"}
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
+        value: row != null ? row.stateCode : "01",
+        placeholder: "선택하세요", // 선택 안내 텍스트
+        onValueChanged: function (e) {
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
       }
     }
   ];
@@ -201,7 +244,7 @@ function showPopup(isModi) {
       title: isModi ? "지점 수정" : "지점 등록",
       visible: true,
       width: 400,
-      height: 300,
+      height: 500,
       showCloseButton: true,
       contentTemplate: function (contentElement) {
         // 동적 폼 생성
@@ -224,13 +267,36 @@ function showPopup(isModi) {
                 lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
                 lktBody: [
                   {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
+                    storeCode: formData.storeCode,
+                    storeName: formData.storeName,
+                    storeAddressLineOne: formData.storeAddressLineOne,
+                    storeAddressLineTwo: formData.storeAddressLineTwo,
+                    storePhoneOne: formData.storePhoneOne,
+                    storePhoneTwo: formData.storePhoneTwo,
+                    stateCode: formData.stateCode
                   }
                 ]
               };
+
+              if (isModi) {
+                apiCommon
+                  .coresStoresEdit(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    // 에러 발생 시 처리
+                    alert("error");
+                    errorPopup.removeClass("hidden");
+                  });
+              } else {
+                apiCommon
+                  .coresStoresAdd(JSON.stringify(param))
+                  .done(function (response) {})
+                  .fail(function () {
+                    // 에러 발생 시 처리
+                    alert("error");
+                    errorPopup.removeClass("hidden");
+                  });
+              }
 
               $("#dynamicPopup").dxPopup("hide");
             }

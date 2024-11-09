@@ -1,7 +1,7 @@
 // api.js
 
 const baseUrl = "http://lkt0dev00.cafe24.com:1129";
-// const baseUrl = "http://10.150.26.150:1129";
+// const baseUrl = "http://10.150.26.147:1129";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -16,10 +16,10 @@ $.ajaxSetup({
             .appendTo(contentElement)
             .dxForm({
               formData: {},
-              items: [],
+              items: []
             })
             .dxForm("instance");
-        },
+        }
       })
       .dxPopup("show");
 
@@ -30,7 +30,7 @@ $.ajaxSetup({
   },
   complete: function (jqXHR, textStatus) {
     $("#networkPopup").dxPopup("hide");
-  },
+  }
 });
 
 // 로그인 API 호출 함수
@@ -40,7 +40,7 @@ function server(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: JSON.stringify(param),
+    data: JSON.stringify(param)
   });
 }
 
@@ -50,12 +50,12 @@ function login(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: JSON.stringify(param),
+    data: JSON.stringify(param)
   });
 }
 
 // 모듈을 객체처럼 내보내기
 export default {
   server,
-  login,
+  login
 };
