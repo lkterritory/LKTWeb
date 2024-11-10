@@ -77,7 +77,7 @@ function onCreate() {
             workbook.xlsx.writeBuffer().then(function (buffer) {
               saveAs(
                 new Blob([buffer], {type: "application/octet-stream"}),
-                `EUC_${Date.now()}.xlsx`
+                `EUC__${Date.now()}.xlsx`
               );
             });
           })
@@ -204,12 +204,26 @@ function loadDataDetailProc(aParam) {
 
     let columnsRst = [];
 
-    for (info of aParam) {
-      columnsRst.push({
-        dataField: Object.keys(info)[0],
-        caption: Object.keys(info)[0]
-      });
+    for (let i = 0; i < aParam.length; i++) {
+      //alert(JSON.stringify(aParam[i]));
+
+      if (i == 0) {
+        let keys = Object.keys(aParam[i]);
+        for (let key of keys) {
+          columnsRst.push({
+            dataField: key,
+            caption: key
+          });
+        }
+      }
     }
+
+    // for (info of aParam) {
+    //   columnsRst.push({
+    //     dataField: Object.keys(info)[0],
+    //     caption: Object.keys(info)[0]
+    //   });
+    // }
 
     $(idPrefix + "#workOrderGridDetail").dxDataGrid({
       dataSource: aParam, // 데이터 소스 설정
@@ -217,15 +231,7 @@ function loadDataDetailProc(aParam) {
       selection: {
         mode: "single" // 단일 셀렉션 모드
       },
-      showBorders: true,
-      paging: {
-        pageSize: 10
-      },
-      pager: {
-        showPageSizeSelector: true,
-        allowedPageSizes: [10, 25, 50],
-        showInfo: true
-      }
+      showBorders: true
     });
   }
 }

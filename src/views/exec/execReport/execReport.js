@@ -32,11 +32,8 @@ function onCreate() {
       },
       columns: [
         {
-          dataField: "macroName",
-          caption: "보고서 목록",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("보고서 목록");
-          }
+          dataField: "reportName",
+          caption: "EUC 목록"
         }
       ],
       showBorders: true,
@@ -61,15 +58,19 @@ function showDynamicPopup(rowData) {
   // 입력란 배열을 동적으로 생성
 
   let formItems = [];
+  rowData.lktOutDataDetail =
+    rowData.lktOutDataDetail != null ? rowData.lktOutDataDetail : [];
 
-  for (const itm of rowData.parameters) {
+  for (const itm of rowData.lktOutDataDetail) {
     let ftim = {
-      dataField: "parameterCode",
-      label: {text: itm.parameterName},
+      dataField: itm.reportParamterCode,
+      label: {text: itm.reportParamterName},
       editorType: "dxTextBox"
     };
     formItems.push(ftim);
   }
+
+  let formData = {};
 
   // 팝업 생성
   $(idPrefix + "#dynamicPopup")
@@ -82,16 +83,21 @@ function showDynamicPopup(rowData) {
       contentTemplate: function (contentElement) {
         // 동적 폼 생성
         $("<div>").appendTo(contentElement).dxForm({
-          formData: {},
+          formData: formData,
           items: formItems
         });
 
         // 실행, 취소 버튼 추가
+
         $("<div>")
           .appendTo(contentElement)
           .dxButton({
             text: "실행",
             onClick: function () {
+              // euc 실행
+              //loadDataDeatil();
+
+              searchListDetail(formData, rowData);
               $(idPrefix + "#dynamicPopup").dxPopup("hide");
             }
           });
@@ -113,22 +119,12 @@ function loadDataProc(aParam) {
   if (aParam == null) {
     aParam = [
       {
-        macroCode: "SP_EUC_LIST",
-        macroName: "보고서 목록 조회",
-        parameters: [
-          {
-            parameterCode: "P_WORK_BATCH",
-            parameterName: "출고차수",
-            parameterPlaceholder: "출고차수",
-            parameterDesc: "출고차수"
-          },
-          {
-            parameterCode: "P_WORK_DATE",
-            parameterName: "출고일자",
-            parameterPlaceholder: "출고일자",
-            parameterDesc: "출고일자 (yyyymmdd)"
-          }
-        ]
+        centerCode: "LKT",
+        clientCode: "LKT",
+        warehouseCode: "LKT",
+        endUserComputingCode: "SP_LKT_EUC_OUTBOUND_LOCATION_GET",
+        endUserComputingName: "#01. 로케이션 정보",
+        endUserComputingDescription: "#01. 로케이션 정보"
       }
     ];
   }
@@ -137,7 +133,7 @@ function loadDataProc(aParam) {
 }
 
 function searchList() {
-  loadDataProc(null);
+  //loadDataProc(null);
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.REPORT.VIEWER"),
@@ -148,31 +144,60 @@ function searchList() {
 
   apiCommon
     .reportViewer(encoded)
-    .done(function (response) {})
-    //loadData(response.lktBody);
+    .done(function (response) {
+      loadDataProc(response.lktBody);
+    })
+
     .fail(function () {
       // 에러 발생 시 처리
       alert("error");
     });
 }
 
-function searchListDetail(row) {
+// function searchListDetail(row) {
+//   var obj = {
+//     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.REPORT.VIEWER.EXECUTE"),
+//     lktBody: [
+//       {
+//         centerCode: "HYN",
+//         clientCode: "HY",
+//         whrehouseCode: "HYN",
+//         procedureCode: "SP_LKTPUB_SAMPLE"
+//       }
+//     ]
+//   };
+
+//   var encoded = btoa(JSON.stringify(obj));
+//   apiCommon
+//     .reportViewerExecute(encoded)
+//     .done(function (response) {})
+
+//     .fail(function () {
+//       alert("error");
+//     });
+// }
+
+function searchListDetail(row, rowOri) {
+  alert(JSON.stringify(row));
+
   var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.REPORT.VIEWER.EXECUTE"),
+    lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE"),
     lktBody: [
       {
-        centerCode: "HYN",
-        clientCode: "HY",
-        whrehouseCode: "HYN",
-        procedureCode: "SP_LKTPUB_SAMPLE"
+        reportCode: rowOri.reportCode,
+        lktOutDataDetail: row
       }
     ]
   };
 
   var encoded = btoa(JSON.stringify(obj));
+
   apiCommon
-    .reportViewerExcute(encoded)
-    .done(function (response) {})
+    .reportViewerExecute(encoded)
+    .done(function (response) {
+      //loadDataDetailProc(response.lktBody);
+      //loadDataProc(response.lktBody);
+    })
 
     .fail(function () {
       alert("error");

@@ -36,7 +36,7 @@ $.ajaxSetup({
 // 작업차수
 function workbatch(param) {
   return $.ajax({
-    url: baseUrlWcs + "/pub001/workbatch?id=" + param,
+    url: baseUrlWcs + "/outbound/wcs/workbatch?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",

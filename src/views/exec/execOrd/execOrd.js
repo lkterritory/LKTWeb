@@ -1,12 +1,17 @@
 let apiWcs;
+let apiCommon;
 let lktUtil;
 
-if (!window.apiWcsModule || !window.lktUtilModule) {
+if (!window.apiWcsModule || !window.lktUtilModule || !window.apiCommonModule) {
   window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
   window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+  window.apiCommonModule = import(
+    `../../../js/api/apiCommon.js?t=${Date.now()}`
+  );
 }
 
 apiWcs = (await window.apiWcsModule).default;
+apiCommon = (await window.apiCommonModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
 let dtBoxWork;
@@ -336,9 +341,104 @@ function onCreate() {
       visible: true // 헤더 필터 드롭다운을 표시
     }
   });
-}
+
+  // searchConditions();
+  // searchConditions2();
+
+  // searchConditionsCode("EQUIPMENT_TYPE");
+  // searchConditionsCode("STORAGE_TEMPERATURE");
+  // searchConditionsCode("USE_STATE_CODE");
+
+  // searchConditionsAuth();
+  // searchConditionsMenu();
+} // end oncreate
 
 function onActive() {}
+
+function searchConditions() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        workDate:
+          // dtBoxWork.option("value").toISOString().split("T")[0]
+          "2024-11-07"
+      }
+    ]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiWcs
+    .workbatch(encoded)
+    .done(function (response) {
+      // $(idPrefix + "#workOrderGrid")
+      //   .dxDataGrid("instance")
+      //   .option("dataSource", sampleData);
+    })
+    .fail(function () {
+      alert("error");
+    });
+}
+
+function searchConditions2() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [{equipmentType: "DAS"}]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .equipmentSummary(encoded)
+    .done(function (response) {
+      // $(idPrefix + "#workOrderGrid")
+      //   .dxDataGrid("instance")
+      //   .option("dataSource", sampleData);
+    })
+    .fail(function () {
+      alert("error");
+    });
+}
+
+// EQUIPMENT_TYPE, STORAGE_TEMPERATURE, USE_STATE_CODE
+function searchConditionsCode(aMasterCode) {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [{masterCode: aMasterCode}]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .code(encoded)
+    .done(function (response) {})
+    .fail(function () {
+      alert("error");
+    });
+}
+
+function searchConditionsAuth() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: []
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .permissionSettingsSummary(encoded)
+    .done(function (response) {})
+    .fail(function () {
+      alert("error");
+    });
+}
+
+function searchConditionsMenu() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: []
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .menuSummary(encoded)
+    .done(function (response) {})
+    .fail(function () {
+      alert("error");
+    });
+}
 
 function searchList() {
   var obj = {
