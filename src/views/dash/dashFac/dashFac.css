@@ -1,52 +1,166 @@
-.dashboard-container {
-  padding-top: 20px;
-}
+.dashboard-container-fac {
+  /* padding-top: 20px; */
+  width: 100%;
+  /* max-width: 800px; */
+  height: 100%;
+  margin: 0 auto;
 
-#dashboard {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* 카드 사이의 간격 */
-  justify-content: left; /* 중앙 정렬 */
-
-  align-content: flex-start;
-}
-
-.dashboard-card {
-  flex: 0;
   flex-direction: column;
-
-  height: 220px;
-  margin-bottom: 40px;
 }
 
-/* min-width: 500px;
-  max-width: 500px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 200px; */
-
-.card-title {
+.title-fac {
   margin-left: 10px;
-  flex-shrink: 0;
-  font-size: 20px;
+  font-size: 2vw;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
-.card-content {
-  flex-grow: 1;
+/* <div class="title-fac">DAS 현황판</div>
+<div class="sumbox-fac">
+  <div class="sumbox-title-fac">
+    <div class="sumbox-title-1-fac"></div>
+    <div class="sumbox-title-2-fac"></div>
+    <div class="sumbox-title-3-fac">
+      <div class="sumbox-title-3-sub-fac"></div>
+      <div class="sumbox-title-3-sub-fac">
+        <div class="sumbox-title-3-sub-1-fac"></div>
+        <div class="sumbox-title-3-sub-2-fac"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sumbox-con-fac">
+    <div class="sumbox-con-1-fac"></div>
+    <div class="sumbox-con-2-fac"></div>
+    <div class="sumbox-con-3-fac"></div>
+    <div class="sumbox-con-3-fac"></div>
+  </div>
+</div> */
 
-  min-width: 500px;
-  max-width: 500px;
+.sumbox-fac {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5vw;
+  height: 40%;
+  background-color: rgb(67, 163, 215);
+
+  border: 1px solid #d0e0f6;
+  border-radius: 10px;
+  background-color: #fafbff;
+}
+
+.sumbox-title-fac {
+  display: flex;
+  flex-direction: row;
+
+  height: 50%;
+
+  border-bottom: 1px solid #d0e0f6;
+}
+
+.sumbox-title-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 40%;
+
+  border-right: 1px solid #d0e0f6;
+}
+
+.sumbox-title-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 30%;
+  border-right: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-fac {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.sumbox-title-3-sub-fac {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  height: 50%;
+  border-bottom: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-sub-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 50%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-sub-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 50%;
+}
+
+.sumbox-con-fac {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+}
+
+.sumbox-con-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 40%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-con-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 30%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-con-3-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+.sumbox-con-4-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+.sumbox-con-4-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+.subtitle-fac {
+  display: flex;
+  width: 100%;
+  height: 10px;
+}
+
+.card-content-fac {
+  flex-grow: 1;
 
   border: 1px solid #d0e0f6;
   border-radius: 10px;
   padding: 15px;
   background-color: #fafbff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 166px;
 
   display: flex;
   justify-content: space-between;
@@ -57,7 +171,7 @@
   margin-top: 10px;
 }
 
-.card-stats {
+.card-stats-fac {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -66,7 +180,7 @@
   flex-shrink: 0;
 }
 
-.stat-row {
+.stat-row-fac {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +191,7 @@
   flex-direction: row;
 }
 
-.stat-label {
+.stat-label-fac {
   font-weight: bold;
   color: #000000;
 
@@ -95,7 +209,7 @@
   border-bottom-left-radius: 10px;
 }
 
-.stat-value {
+.stat-value-fac {
   font-weight: bold;
   color: white;
   background-color: #3a80f6;
@@ -103,20 +217,21 @@
   border-radius: 5px 0 0 5px;
 }
 
-.stat-max {
+.stat-ma-fac {
   font-weight: bold;
   color: black;
   padding: 5px 10px;
   border-radius: 0 5px 5px 0;
 }
 
-.gauge-container {
+.gauge-container-fac {
   width: 180px;
   height: 300px;
   position: relative;
+  flex-grow: 1;
 }
 
-.progress-bar-container {
+.progress-bar-container-fac {
   position: relative;
   width: 260px;
   height: 100%;
@@ -129,7 +244,7 @@
   border-radius: 10px;
   background-color: #eaeaea;
 }
-.progress-label {
+.progress-label-fac {
   position: absolute;
   right: 10px;
   top: 0;
@@ -137,11 +252,11 @@
   color: white;
 }
 
-.dx-progressbar-container {
+.dx-progressbar-container-fac {
   height: 100%;
 }
 
-.progress-bar {
+.progress-bar-fac {
   height: 100%;
 }
 .dx-trackbar-wrapper.dx-progressbar-wrapper.dx-position-bottom-left {
@@ -170,4 +285,8 @@
 .progress-max-text {
   color: black; /* 프로그레스 바 오른쪽 텍스트 색상 */
   font-weight: bold;
+}
+
+.dx-progressbar-container {
+  height: 100% !important;
 }

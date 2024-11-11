@@ -1,7 +1,7 @@
 // api.js
 
-// const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
-const baseUrlCommon = "http://10.150.26.147:4132";
+const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
+// const baseUrlCommon = "http://10.150.26.147:4132";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -16,10 +16,10 @@ $.ajaxSetup({
             .appendTo(contentElement)
             .dxForm({
               formData: {},
-              items: [],
+              items: []
             })
             .dxForm("instance");
-        },
+        }
       })
       .dxPopup("show");
 
@@ -30,7 +30,7 @@ $.ajaxSetup({
   },
   complete: function (jqXHR, textStatus) {
     $("#networkPopup").dxPopup("hide");
-  },
+  }
 });
 
 // 상품정보 start
@@ -40,7 +40,7 @@ function coresSkusGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -50,7 +50,7 @@ function coresSkusAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -60,7 +60,7 @@ function coresSkusEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 상품정보 end
@@ -72,7 +72,7 @@ function coresLocationGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -82,7 +82,7 @@ function coresLocationAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -92,7 +92,7 @@ function coresLocationEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 로케이션정보 end
@@ -104,7 +104,7 @@ function coresAuthGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -114,7 +114,7 @@ function coresAuthAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -124,7 +124,7 @@ function coresAuthEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 권한정보 end
@@ -136,7 +136,7 @@ function coresStoresGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -146,7 +146,7 @@ function coresStoresAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -156,7 +156,7 @@ function coresStoresEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 지점정보 end
@@ -168,7 +168,7 @@ function coresUsersGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -178,7 +178,7 @@ function coresUsersAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -188,7 +188,7 @@ function coresUsersEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 사용자정보 end
@@ -200,7 +200,7 @@ function coresCodesGet(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -210,7 +210,7 @@ function coresCodesAdd(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -220,7 +220,7 @@ function coresCodesEdit(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 기초정보 end
@@ -232,7 +232,7 @@ function enduserComputing(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -243,7 +243,7 @@ function enduserComputingExecute(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -254,7 +254,7 @@ function reportViewer(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -265,7 +265,7 @@ function reportViewerExecute(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -276,7 +276,7 @@ function equipmentSummary(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -290,7 +290,7 @@ function code(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -301,7 +301,7 @@ function permissionSettingsSummary(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -312,7 +312,7 @@ function menuSummary(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -346,5 +346,5 @@ export default {
   equipmentSummary, // 호기코드
   code, // 공통코드
   permissionSettingsSummary, // 권한코드정보
-  menuSummary, // 메뉴코드
+  menuSummary // 메뉴코드
 };

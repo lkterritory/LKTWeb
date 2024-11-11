@@ -7,9 +7,7 @@ function checkSession() {
   }
 }
 
-$(document).ready(function () {
-  checkSession();
-
+function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json", function (data) {
     let menuHtml = "<ul>";
@@ -43,6 +41,11 @@ $(document).ready(function () {
       }
     });
   });
+}
+
+$(document).ready(function () {
+  checkSession();
+  createMenu();
 });
 
 // 탭을 추가하는 함수

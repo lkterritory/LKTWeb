@@ -1,7 +1,7 @@
 // api.js
 
-// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
-const baseUrlWcs = "http://10.150.26.147:2014";
+const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
+// const baseUrlWcs = "http://10.150.26.147:2014";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {

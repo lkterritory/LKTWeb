@@ -2,9 +2,16 @@ let apiCommon;
 let lktUtil;
 
 if (!window.apiCommonModule || !window.lktUtilModule) {
-  window.apiCommonModule = import(`../../js/api/apiCommon.js?t=${Date.now()}`);
-  window.lktUtilModule = import(`../../js/util/lktUtil.js?t=${Date.now()}`);
+  window.apiCommonModule = import(
+    `../../../js/api/apiCommon.js?t=${Date.now()}`
+  );
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
 }
+
+apiCommon = (await window.apiCommonModule).default;
+lktUtil = (await window.lktUtilModule).default;
+
+const idPrefix = "#dash-dashDash-dashDash ";
 
 let data = [];
 function onCreate() {
@@ -73,11 +80,11 @@ function onCreate() {
     //   workPcs: 150,
     //   progress: 91
 
-    $("#dashboard").append(card);
+    $(idPrefix + "#dashboard").append(card);
 
     for (let i = 1; i < 4; i++) {
       //alert("pidx:" + i);
-      $("#progressBar" + index + "_" + i).dxProgressBar({
+      $(idPrefix + "#progressBar" + index + "_" + i).dxProgressBar({
         value:
           i == 1
             ? item.workOrderCount
@@ -140,7 +147,7 @@ function onCreate() {
 
     let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
     let perRest = 100 - per;
-    $("#gaugeContainer" + index).dxCircularGauge({
+    $(idPrefix + "#gaugeContainer" + index).dxCircularGauge({
       value: item.progress,
 
       rangeContainer: {
