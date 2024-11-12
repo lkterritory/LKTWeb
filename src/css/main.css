@@ -193,7 +193,7 @@ body {
   }
 
   .side-menu ul li:hover .submenu {
-    display: block;
+    display: none;
     position: absolute;
     left: 60px;
     top: 0;
@@ -211,6 +211,6 @@ body {
   }
 
   .side-menu ul li:hover .submenu {
-    display: block;
+    display: none;
   }
 }

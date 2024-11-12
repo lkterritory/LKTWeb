@@ -252,13 +252,14 @@
   color: white;
 }
 
-.dx-progressbar-container-fac {
-  height: 100%;
-}
-
 .progress-bar-fac {
   height: 100%;
 }
+
+.dx-progressbar-container {
+  height: 100%;
+}
+
 .dx-trackbar-wrapper.dx-progressbar-wrapper.dx-position-bottom-left {
   height: 100%;
 }

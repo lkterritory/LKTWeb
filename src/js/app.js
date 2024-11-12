@@ -46,6 +46,27 @@ function createMenu() {
 $(document).ready(function () {
   checkSession();
   createMenu();
+
+  //alert("ddd1");
+  // 메뉴 항목 클릭 이벤트
+
+  setTimeout(() => {
+    $(".menu-item").click(function (e) {
+      //  alert("dd2");
+      e.stopPropagation(); // 이벤트 버블링 방지
+
+      // 모든 서브메뉴 닫기
+      $(".submenu").slideUp();
+
+      // 현재 클릭한 메뉴의 서브메뉴만 열기
+      $(this).children(".submenu").slideToggle();
+    });
+
+    // 메뉴 외부를 클릭했을 때 서브메뉴 닫기
+    $(document).click(function () {
+      $(".submenu").slideUp();
+    });
+  }, 1);
 });
 
 // 탭을 추가하는 함수
