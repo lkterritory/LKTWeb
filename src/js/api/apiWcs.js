@@ -151,7 +151,7 @@ function wcsMiddleCategories(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: {}
   });
 }
 // 중분류 end
@@ -225,7 +225,7 @@ function statusEquipmentDetail(param) {
 // 상황판
 function dashboardsOverallStatus(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/dashboards/overall-status?id=" + param,
+    url: baseUrlWcs + "/outbound/dashboard/overall?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -233,22 +233,10 @@ function dashboardsOverallStatus(param) {
   });
 }
 
-// 표시기 전체 상황판
-function dashboardspPickToLightStatus(param) {
-  return $.ajax({
-    url: baseUrlWcs + "/outbound/dashboards/pick-to-light-status?id=" + param,
-    method: "GET",
-    dataType: "json",
-    contentType: "application/json",
-    data: {}
-  });
-}
-
-// 표시기 호기별 상황판
+// 호기별 상황판
 function dashboardsPickToLightInstances(param) {
   return $.ajax({
-    url:
-      baseUrlWcs + "/outbound/dashboards/pick-to-light-instances?id=" + param,
+    url: baseUrlWcs + "/outbound/dashboard/pick-to-light?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -280,6 +268,6 @@ export default {
   wcsInspectionsCompletion,
 
   dashboardsOverallStatus,
-  dashboardspPickToLightStatus,
+
   dashboardsPickToLightInstances
 };

@@ -66,7 +66,7 @@ $(document).ready(function () {
     $(document).click(function () {
       $(".submenu").slideUp();
     });
-  }, 1);
+  }, 200);
 });
 
 // 탭을 추가하는 함수

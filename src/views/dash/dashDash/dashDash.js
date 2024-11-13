@@ -1,36 +1,55 @@
-let apiCommon;
+let apiWcs;
 let lktUtil;
 
-if (!window.apiCommonModule || !window.lktUtilModule) {
-  window.apiCommonModule = import(
-    `../../../js/api/apiCommon.js?t=${Date.now()}`
-  );
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
   window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
 }
 
-apiCommon = (await window.apiCommonModule).default;
+apiWcs = (await window.apiWcsModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
 const idPrefix = "#dash-dashDash-dashDash ";
 
 let data = [];
+let dataRes = [];
 function onCreate() {
+  searchList();
   // Progress Bar 설정
+}
+
+function loadDashboard() {
   data = [];
 
-  for (let i = 0; i < 9; i++) {
+  // "equipmentCode": "DAS-01",
+  // "totalSkuCount": 20,
+  // "processSkuCount": 0,
+  // "totalQuantity": 102,
+  // "processQuantity": 0
+
+  for (let i = 0; i < dataRes.length; i++) {
     let dataTmp = {
-      facilitiesCode: "냉동 " + (i + 1) + "블럭",
-      totalOrderCount: 100,
-      workOrderCount: Math.floor(Math.random() * 100),
-      totalSkuCount: 100,
-      workSkuCount: Math.floor(Math.random() * 100),
-      totalPcs: 100,
-      workPcs: Math.floor(Math.random() * 100)
+      facilitiesCode: dataRes[i].equipmentCode,
+      totalOrderCount: dataRes[i].totalSkuCount,
+      workOrderCount: dataRes[i].processSkuCount,
+      totalSkuCount: dataRes[i].totalSkuCount,
+      workSkuCount: dataRes[i].processSkuCount,
+      totalPcs: dataRes[i].totalQuantity,
+      workPcs: dataRes[i].processQuantity
     };
-    dataTmp.progress = (dataTmp.workOrderCount / dataTmp.totalOrderCount) * 100;
+
+    if (dataTmp.workOrderCount == 0) {
+      dataTmp.progress = 0;
+    } else
+      dataTmp.progress =
+        (dataTmp.workOrderCount / dataTmp.totalOrderCount) * 100;
     dataTmp.progress = Math.round(dataTmp.progress);
 
+    //alert(dataTmp.progress);
+    if (dataTmp.progress == NaN) {
+      // alert(progress);
+      dataTmp.progress = 0;
+    }
     data.push(dataTmp);
   }
 
@@ -230,6 +249,26 @@ function onActive() {
   //       .dxCircularGauge("instance")
   //       .render();
   //   }
+}
+
+function searchList() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [{}]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .dashboardsOverallStatus(encoded)
+    .done(function (response) {
+      dataRes = response.lktBody;
+      loadDashboard();
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      //errorPopup.removeClass("hidden");
+    });
 }
 
 //$(window).on("resize", resizeGauge);

@@ -11,52 +11,59 @@ lktUtil = (await window.lktUtilModule).default;
 
 const idPrefix = "#field-fieldMiddleCategory-fieldMiddleCategory ";
 
+let txtBoxSku;
+
 function onCreate() {
-  $(idPrefix + "#orderNumberContainer").dxTextBox({placeholder: "주문번호"});
-  $(idPrefix + "#boxNumberContainer").dxTextBox({placeholder: "박스번호"});
-  $(idPrefix + "#waveContainer").dxTextBox({placeholder: "웨이브"});
-  $(idPrefix + "#shipperContainer").dxTextBox({placeholder: "화주사"});
+  txtBoxSku = $(idPrefix + "#orderNumberContainer")
+    .dxTextBox({
+      placeholder: "상품코드",
+      onEnterKey: function (e) {
+        // 엔터 키가 눌렸는지 확인
+        if (e.event.key === "Enter") {
+          // 원하는 동작 수행
+          // alert(e.component.option("value"));
+          searchList();
+        }
+      }
+    })
+    .dxTextBox("instance");
+  $(idPrefix + "#boxNumberContainer").dxTextBox({placeholder: "상품명"});
+  $(idPrefix + "#waveContainer").dxTextBox({placeholder: "작업차수"});
 
-  // Barcode input
-  $(idPrefix + "#txtBoxBarcode").dxTextBox({
-    placeholder: "바코드를 스캔해주세요",
-    onEnterKey: function (e) {
-      inspectionsComplition(e.component.option("value"));
-
-      processBarcode(e.component.option("value"));
-    }
-  });
-
-  // Load initial data
-  // searchList();
-  //loadInspectionData();
+  txtBoxSku.option("value", "52912023030316025");
 
   // 동적으로 항목을 추가하는 함수
-  function renderSorterBoxes() {
-    const sorterData = [
+  function renderSorterBoxes(data) {
+    let tmp = {
+      facilitiesCode: "CD",
+      facilitiesName: "CC",
+      orderQty: 2
+    };
+
+    let sorterData = [
       {
-        title: "3D-1호기",
+        title: "DAS-1호기",
         type1: "Box",
         type2: "PCS",
         type1Val: "2",
         type2Val: "30"
       },
       {
-        title: "3D-2호기",
+        title: "DAS-2호기",
         type1: "Box",
         type2: "PCS",
         type1Val: "2",
         type2Val: "30"
       },
       {
-        title: "3D-3호기",
+        title: "DAS-3호기",
         type1: "Box",
         type2: "PCS",
         type1Val: "2",
         type2Val: "30"
       },
       {
-        title: "3D-4호기",
+        title: "3DAS-4호기",
         type1: "Box",
         type2: "PCS",
         type1Val: "2",
@@ -70,15 +77,30 @@ function onCreate() {
         type2Val: "30"
       },
       {
-        title: "3D-6호기",
+        title: "DAS-6호기",
         type1: "Box",
         type2: "PCS",
         type1Val: "2",
         type2Val: "30"
       },
-      {title: "DAS", type1: "Box", type2: "PCS", type1Val: "2", type2Val: "30"},
-      {title: "합계", type1: "Box", type2: "PCS", type1Val: "2", type2Val: "30"}
+      {
+        title: "DAS-7호기",
+        type1: "Box",
+        type2: "PCS",
+        type1Val: "2",
+        type2Val: "30"
+      }
     ];
+
+    sorterData.push({
+      title: "합계",
+      type1: "Box",
+      type2: "PCS",
+      type1Val: "2",
+      type2Val: "30"
+    });
+
+    // {title: "합계", type1: "Box", type2: "PCS", type1Val: "2", type2Val: "30"}
 
     const container = $("#dynamicBoxContainer");
     container.empty(); // 초기화
@@ -88,34 +110,40 @@ function onCreate() {
         <div class="sorter-box">
           <div class="title">${item.title}</div>
           <div class="type">${item.type1}</div>
-          <div class="type">${item.type1Val}</div>
+          <div class="type-con">${item.type1Val}</div>
           <div class="type">${item.type2}</div>
-          <div class="type">${item.type2Val}</div>
+          <div class="type-con">${item.type2Val}</div>
         </div>
       `;
       container.append(boxHtml);
     });
   }
 
-  renderSorterBoxes(); // 초기 로드
+  renderSorterBoxes(null); // 초기 로드
+
+  searchList();
 }
 
 function onActive() {}
 
 function searchList() {
   var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.INSPECTIONS"),
-    lktBody: []
+    lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),
+    lktBody: [
+      {
+        input: txtBoxSku.option("value")
+      }
+    ]
   };
   var encoded = btoa(JSON.stringify(obj));
 
   apiWcs
-    .wcsInspectionsList(encoded)
+    .wcsMiddleCategories(encoded)
     .done(function (response) {})
 
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+      // alert("error");
     });
 }
 

@@ -308,8 +308,8 @@ function searchList() {
       {
         workDate: new Date(dtBoxWork.option("value"))
           .toISOString()
-          .split("T")[0],
-        workBatch: selBoxBatch.option("value")
+          .split("T")[0]
+        //workBatch: selBoxBatch.option("value")
       }
     ]
   };
