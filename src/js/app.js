@@ -19,7 +19,7 @@ function createMenu() {
       menuHtml += "</ul></li>";
     });
     menuHtml += "</ul>";
-    $("#sideMenu").html(menuHtml);
+    $("#sideMenu").append(menuHtml);
 
     // 서브메뉴 클릭 이벤트 처리
     $(".submenu-item").click(async function () {
@@ -46,6 +46,17 @@ function createMenu() {
 $(document).ready(function () {
   checkSession();
   createMenu();
+
+  $(".logout-button").dxButton({
+    text: "logout",
+    type: "danger",
+    stylingMode: "contained",
+    onClick: function () {
+      alert("로그아웃 되었습니다.");
+
+      window.location.href = "./src/views/login/login.html";
+    }
+  });
 
   //alert("ddd1");
   // 메뉴 항목 클릭 이벤트

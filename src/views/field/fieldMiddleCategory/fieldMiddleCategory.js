@@ -18,9 +18,7 @@ function onCreate() {
     .dxTextBox({
       placeholder: "상품코드",
       onEnterKey: function (e) {
-        // 엔터 키가 눌렸는지 확인
         if (e.event.key === "Enter") {
-          // 원하는 동작 수행
           // alert(e.component.option("value"));
           searchList();
         }
