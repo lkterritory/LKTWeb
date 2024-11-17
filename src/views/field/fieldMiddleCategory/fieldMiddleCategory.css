@@ -162,9 +162,9 @@ div#inspectionTypeContainer .dx-widget.dx-collection {
 }
 
 .sorter-box {
-  width: 19%;
+  width: 15.5%;
   height: 48%;
-  background-color: #f1f1f1;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px;
   text-align: center;
@@ -172,9 +172,37 @@ div#inspectionTypeContainer .dx-widget.dx-collection {
   flex-direction: column;
 }
 
+.sorter-box {
+  width: 15.5%;
+  height: 48%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.sorter-box-last {
+  background-color: #f1f1f1;
+}
+
 .sorter-box .title {
   background-color: #007bff;
   color: white;
+  padding: 10px;
+  font-weight: bold;
+  height: 20%;
+  border-radius: 8px 8px 0 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 2vw;
+}
+
+.sorter-box .title-last {
+  background-color: #e0e0e0;
+  color: black;
   padding: 10px;
   font-weight: bold;
   height: 20%;

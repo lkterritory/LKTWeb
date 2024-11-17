@@ -178,7 +178,7 @@ function onActive() {}
 function searchList() {
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{}]
+    lktBody: [{equipmentCode: "DAS-01"}]
   };
 
   var encoded = btoa(JSON.stringify(obj));

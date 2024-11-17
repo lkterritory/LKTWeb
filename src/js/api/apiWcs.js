@@ -244,6 +244,28 @@ function dashboardsPickToLightInstances(param) {
   });
 }
 
+// 키오스크
+function equipmentPicktolightInput(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/picktolight/input?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function equipmentPicktolightStatus(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/picktolight/status?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+//
+
 export default {
   workbatch,
 
@@ -269,5 +291,8 @@ export default {
 
   dashboardsOverallStatus,
 
-  dashboardsPickToLightInstances
+  dashboardsPickToLightInstances,
+
+  equipmentPicktolightInput,
+  equipmentPicktolightStatus
 };

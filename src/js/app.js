@@ -134,6 +134,7 @@ function loadContent(view) {
       loadedTabs[view] = {content: data}; // 로드된 콘텐츠를 캐싱
 
       moduleTarget.onCreate();
+      moduleTarget.onActive();
     },
     error: function () {
       $("#mainContent").html("Error loading content");
