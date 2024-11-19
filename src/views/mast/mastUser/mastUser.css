@@ -1,0 +1,14 @@
+/* #popupContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#formContainer {
+  margin-bottom: 20px;
+}
+
+#popupButtons {
+  width: 100%;
+} */

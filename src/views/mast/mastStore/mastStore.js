@@ -239,80 +239,54 @@ function showPopup(isModi, row) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "지점 수정" : "지점 등록",
-      visible: true,
-      width: 400,
-      height: 500,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "지점 수정" : "지점 등록",
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktBody: [
+          {
+            storeCode: formData.storeCode,
+            storeName: formData.storeName,
+            storeAddressLineOne: formData.storeAddressLineOne,
+            storeAddressLineTwo: formData.storeAddressLineTwo,
+            storePhoneOne: formData.storePhoneOne,
+            storePhoneTwo: formData.storePhoneTwo,
+            stateCode: formData.stateCode
+          }
+        ]
+      };
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
-                lktBody: [
-                  {
-                    storeCode: formData.storeCode,
-                    storeName: formData.storeName,
-                    storeAddressLineOne: formData.storeAddressLineOne,
-                    storeAddressLineTwo: formData.storeAddressLineTwo,
-                    storePhoneOne: formData.storePhoneOne,
-                    storePhoneTwo: formData.storePhoneTwo,
-                    stateCode: formData.stateCode
-                  }
-                ]
-              };
-
-              if (isModi) {
-                apiCommon
-                  .coresStoresEdit(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    // 에러 발생 시 처리
-                    alert("error");
-                    errorPopup.removeClass("hidden");
-                  });
-              } else {
-                apiCommon
-                  .coresStoresAdd(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    // 에러 발생 시 처리
-                    alert("error");
-                    errorPopup.removeClass("hidden");
-                  });
-              }
-
-              $("#dynamicPopup").dxPopup("hide");
-            }
+      if (isModi) {
+        apiCommon
+          .coresStoresEdit(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
           });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
+      } else {
+        apiCommon
+          .coresStoresAdd(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {
+            // 에러 발생 시 처리
+            alert("error");
+            errorPopup.removeClass("hidden");
           });
       }
-    })
-    .dxPopup("show");
+
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {

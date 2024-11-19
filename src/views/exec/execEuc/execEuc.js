@@ -112,47 +112,62 @@ function showDynamicPopup(rowData) {
 
   let formData = {};
 
-  // 팝업 생성
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: rowData.macroName,
-      visible: true,
-      width: 400,
-      height: 300,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        $("<div>").appendTo(contentElement).dxForm({
-          formData: formData,
-          items: formItems
-        });
+  // // 팝업 생성
+  // $("#dynamicPopup")
+  //   .dxPopup({
+  //     title: rowData.macroName,
+  //     visible: true,
+  //     width: 400,
+  //     height: "auto",
+  //     showCloseButton: true,
+  //     contentTemplate: function (contentElement) {
+  //       // 동적 폼 생성
+  //       $("<div>").appendTo(contentElement).dxForm({
+  //         formData: formData,
+  //         items: formItems
+  //       });
 
-        // 실행, 취소 버튼 추가
+  //       // 실행, 취소 버튼 추가
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              // euc 실행
-              //loadDataDeatil();
+  //       $("<div>")
+  //         .appendTo(contentElement)
+  //         .dxButton({
+  //           text: "실행",
+  //           onClick: function () {
+  //             // euc 실행
+  //             //loadDataDeatil();
 
-              searchListDetail(formData, rowData);
-              $(idPrefix + "#dynamicPopup").dxPopup("hide");
-            }
-          });
+  //             searchListDetail(formData, rowData);
+  //             $(idPrefix + "#dynamicPopup").dxPopup("hide");
+  //           }
+  //         });
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $(idPrefix + "#dynamicPopup").dxPopup("hide");
-            }
-          });
-      }
-    })
-    .dxPopup("show");
+  //       $("<div>")
+  //         .appendTo(contentElement)
+  //         .dxButton({
+  //           text: "취소",
+  //           onClick: function () {
+  //             $(idPrefix + "#dynamicPopup").dxPopup("hide");
+  //           }
+  //         });
+  //     }
+  //   })
+  //   .dxPopup("show");
+
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: rowData.endUserComputingName,
+    isModi: false, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      searchListDetail(formData, rowData);
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 function loadDataProc(aParam) {
@@ -258,7 +273,19 @@ function searchList() {
 }
 
 function searchListDetail(row, rowOri) {
-  alert(JSON.stringify(row));
+  //  alert(JSON.stringify(row));
+
+  $(idPrefix + "#workOrderGridDetail").dxDataGrid({
+    dataSource: [], // 데이터 소스 설정
+    columns: [],
+    selection: {
+      mode: "single" // 단일 셀렉션 모드
+    },
+    showBorders: true
+  });
+
+  workOrderGrid.option("dataSource", []);
+  workOrderGrid.refresh(); // 그리드를 새로고침하여 빈 상태를 반영
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE"),

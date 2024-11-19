@@ -195,71 +195,112 @@ function showPopup(isModi, row) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "로케이션 수정" : "로케이션 등록",
-      visible: true,
-      width: 400,
-      height: 300,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
+  // $(idPrefix + "#dynamicPopup")
+  //   .dxPopup({
+  //     title: isModi ? "로케이션 수정" : "로케이션 등록",
+  //     visible: true,
+  //     width: 400,
+  //     height: 300,
+  //     showCloseButton: true,
+  //     contentTemplate: function (contentElement) {
+  //       // 동적 폼 생성
+  //       const formInstance = $("<div>")
+  //         .appendTo(contentElement)
+  //         .dxForm({
+  //           formData: {},
+  //           items: formItems
+  //         })
+  //         .dxForm("instance");
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
-                lktBody: [
-                  {
-                    equipmentCode: formData.equipmentCode,
-                    storageTemperatureCode: formData.storageTemperatureCode,
-                    locationCode: formData.locationCode,
+  //       $("<div>")
+  //         .appendTo(contentElement)
+  //         .dxButton({
+  //           text: "실행",
+  //           onClick: function () {
+  //             const formData = formInstance.option("formData");
+  //             var param = {
+  //               lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
+  //               lktBody: [
+  //                 {
+  //                   equipmentCode: formData.equipmentCode,
+  //                   storageTemperatureCode: formData.storageTemperatureCode,
+  //                   locationCode: formData.locationCode,
 
-                    stateCode: formData.stateCode
-                  }
-                ]
-              };
+  //                   stateCode: formData.stateCode
+  //                 }
+  //               ]
+  //             };
 
-              if (isModi) {
-                apiCommon
-                  .coresLocationEdit(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    errorPopup.removeClass("hidden");
-                  });
-              } else {
-                apiCommon
-                  .coresLocationAdd(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {});
-              }
+  //             if (isModi) {
+  //               apiCommon
+  //                 .coresLocationEdit(JSON.stringify(param))
+  //                 .done(function (response) {})
+  //                 .fail(function () {
+  //                   errorPopup.removeClass("hidden");
+  //                 });
+  //             } else {
+  //               apiCommon
+  //                 .coresLocationAdd(JSON.stringify(param))
+  //                 .done(function (response) {})
+  //                 .fail(function () {});
+  //             }
 
-              $("#dynamicPopup").dxPopup("hide");
-            }
+  //             $("#dynamicPopup").dxPopup("hide");
+  //           }
+  //         });
+
+  //       $("<div>")
+  //         .appendTo(contentElement)
+  //         .dxButton({
+  //           text: "취소",
+  //           onClick: function () {
+  //             $("#dynamicPopup").dxPopup("hide");
+  //           }
+  //         });
+  //     }
+  //   })
+  //   .dxPopup("show");
+
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "로케이션 수정" : "로케이션 등록",
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
+        lktBody: [
+          {
+            equipmentCode: formData.equipmentCode,
+            storageTemperatureCode: formData.storageTemperatureCode,
+            locationCode: formData.locationCode,
+
+            stateCode: formData.stateCode
+          }
+        ]
+      };
+
+      if (isModi) {
+        apiCommon
+          .coresLocationEdit(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {
+            errorPopup.removeClass("hidden");
           });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
+      } else {
+        apiCommon
+          .coresLocationAdd(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {});
       }
-    })
-    .dxPopup("show");
+
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {

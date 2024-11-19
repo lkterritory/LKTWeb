@@ -215,73 +215,40 @@ function showPopup(isModi, row) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "사용자 수정" : "사용자 등록",
-      visible: true,
-      width: 400,
-      height: 300,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "사용자수정" : "사용자 등록", // 팝업 타이틀
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      // 실행 버튼 클릭 이벤트 처리
+      const param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktBody: [
+          {
+            userName: formData.userName,
+            permissionCode: formData.permissionCode,
+            stateCode: formData.stateCode
+          }
+        ]
+      };
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
-                lktBody: [
-                  {
-                    userName: formData.userName,
-                    permissionCode: formData.permissionCode,
-                    stateCode: formData.stateCode,
-                    storageTemperatureCode:
-                      row != null ? row.storageTemperatureCode : ""
-                  }
-                ]
-              };
-
-              if (isModi) {
-                apiCommon
-                  .coresUsersEdit(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    // 에러 발생 시 처리
-                  });
-              } else {
-                apiCommon
-                  .coresUsersAdd(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    // 에러 발생 시 처리
-                  });
-              }
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-      }
-    })
-    .dxPopup("show");
+      apiCommon
+        .coresUsersAdd(JSON.stringify(param))
+        .done(function (response) {
+          DevExpress.ui.notify("등록이 완료되었습니다.", "success", 2000);
+          $("#dynamicPopup").dxPopup("hide");
+        })
+        .fail(function () {
+          DevExpress.ui.notify("등록에 실패했습니다.", "error", 2000);
+          $("#dynamicPopup").dxPopup("hide");
+        });
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {

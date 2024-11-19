@@ -257,75 +257,50 @@ function showPopup(isModi, row) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "기초정보 수정" : "기초정보 등록",
-      visible: true,
-      width: 400,
-      height: 800,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "기초정보 수정" : "기초정보 등록",
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
+        lktBody: [
+          {
+            masterCode: formData.masterCode,
+            masterName: formData.masterName,
+            masterCodeValue: formData.masterCodeValue,
+            masterTextValue: formData.masterTextValue,
+            masterDescription: formData.masterDescription,
+            masterParent: formData.masterParent,
+            masterSequnce: formData.masterSequnce,
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
-                lktBody: [
-                  {
-                    masterCode: formData.masterCode,
-                    masterName: formData.masterName,
-                    masterCodeValue: formData.masterCodeValue,
-                    masterTextValue: formData.masterTextValue,
-                    masterDescription: formData.masterDescription,
-                    masterParent: formData.masterParent,
-                    masterSequnce: formData.masterSequnce,
+            stateCode: formData.stateCode
+          }
+        ]
+      };
 
-                    stateCode: formData.stateCode
-                  }
-                ]
-              };
-
-              if (isModi) {
-                apiCommon
-                  .coresCodesEdit(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {
-                    errorPopup.removeClass("hidden");
-                  });
-              } else {
-                apiCommon
-                  .coresCodesAdd(JSON.stringify(param))
-                  .done(function (response) {})
-                  .fail(function () {});
-              }
-
-              $("#dynamicPopup").dxPopup("hide");
-            }
+      if (isModi) {
+        apiCommon
+          .coresCodesEdit(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {
+            errorPopup.removeClass("hidden");
           });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
+      } else {
+        apiCommon
+          .coresCodesAdd(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {});
       }
-    })
-    .dxPopup("show");
+
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {

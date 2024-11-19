@@ -195,7 +195,7 @@ function showPopup(isModi) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
+  $("#dynamicPopup")
     .dxPopup({
       title: isModi ? "권한 수정" : "권한 등록",
       visible: true,
@@ -246,6 +246,32 @@ function showPopup(isModi) {
       }
     })
     .dxPopup("show");
+
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "권한 수정" : "권한 등록",
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktBody: [
+          {
+            skuCode: formData.skuCode,
+            skuName: formData.skuName,
+            skuBarcode: formData.skuBarcode,
+            statusCode: "01"
+          }
+        ]
+      };
+
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {

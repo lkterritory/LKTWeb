@@ -235,72 +235,47 @@ function showPopup(isModi, row) {
     }
   ];
 
-  $(idPrefix + "#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "상품 수정" : "상품 등록",
-      visible: true,
-      width: 400,
-      height: 300,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: isModi ? "상품 수정" : "상품 등록",
+    isModi: isModi, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      // 사용유무
+      // 00, 01
+      // 아니요, 예
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktBody: [
+          {
+            skuCode: formData.skuCode,
+            skuName: formData.skuName,
+            skuBarcode: formData.skuBarcode,
+            stateCode: formData.stateCode
+          }
+        ]
+      };
 
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-              // 사용유무
-              // 00, 01
-              // 아니요, 예
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
-                lktBody: [
-                  {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    stateCode: formData.stateCode
-                  }
-                ]
-              };
+      apiCommon
+        .coresSkusEdit(JSON.stringify(param))
+        .done(function (response) {
+          let sampleData = response.lktBody;
 
-              apiCommon
-                .coresSkusEdit(JSON.stringify(param))
-                .done(function (response) {
-                  let sampleData = response.lktBody;
+          workOrderGrid.option("dataSource", sampleData);
+        })
+        .fail(function () {
+          // 에러 발생 시 처리
+          alert("error");
+          errorPopup.removeClass("hidden");
+        });
 
-                  workOrderGrid.option("dataSource", sampleData);
-                })
-                .fail(function () {
-                  // 에러 발생 시 처리
-                  alert("error");
-                  errorPopup.removeClass("hidden");
-                });
-
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-      }
-    })
-    .dxPopup("show");
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
+    }
+  });
 }
 
 export default {
