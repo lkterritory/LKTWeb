@@ -37,7 +37,7 @@ const lktUtil = {
     const defaultOptions = {
       title: "기본 팝업", // 기본 타이틀
       isModi: false, // 기본 수정 여부
-      width: 400,
+      width: 450,
       height: "auto",
       formItems: [], // 기본 폼 항목
       onExecute: function () {}, // 실행 버튼 클릭 이벤트 (기본 빈 함수)
