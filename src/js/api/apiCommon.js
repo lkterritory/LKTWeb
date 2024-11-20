@@ -7,6 +7,14 @@ $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
     const url = new URL(settings.url, window.location.origin); // 절대 경로로 변환
     jqXHR.apiUrl = url.origin + url.pathname; // 파라미터 없는 URL 저장
+
+    if (
+      settings.url.includes("outbound/equipment/picktolight/input") ||
+      settings.url.includes("outbound/equipment/picktolight/status")
+    ) {
+      return;
+    }
+
     $("#networkPopup")
       .dxPopup({
         title: "로딩중...",

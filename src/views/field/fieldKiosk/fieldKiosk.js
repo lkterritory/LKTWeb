@@ -234,6 +234,11 @@ function onCreate() {
   }
   // searchConditionsCode("EQUIPMENT_CODE");
   //equipmentCode;
+
+  setInterval(() => {
+    searchList();
+    searchList2();
+  }, 10000);
 }
 
 function onActive() {}
