@@ -39,6 +39,8 @@ function createMenu() {
         addTab(tabTitle, view);
         loadContent(view);
       }
+
+      saveActiveTabs(); // 활성화된 탭 상태 저장
     });
   });
 }
@@ -78,6 +80,9 @@ $(document).ready(function () {
       $(".submenu").slideUp();
     });
   }, 200);
+
+  // 페이지 로드 시 저장된 활성화된 탭 복원
+  //restoreTabs();
 });
 
 // 탭을 추가하는 함수
@@ -142,6 +147,29 @@ function loadContent(view) {
   });
 }
 
+// 활성화된 탭 상태 저장 함수
+function saveActiveTabs() {
+  const activeTabs = [];
+  $(".tab").each(function () {
+    const view = $(this).data("view");
+    activeTabs.push(view);
+  });
+
+  //alert(JSON.stringify(activeTabs));
+  localStorage.setItem("activeTabs", JSON.stringify(activeTabs)); // 탭 상태를 저장
+}
+
+// 저장된 탭 상태 복원 함수
+function restoreTabs() {
+  const activeTabs = JSON.parse(localStorage.getItem("activeTabs")) || [];
+  activeTabs.forEach((view) => {
+    // 각 탭을 복원
+    const tabTitle = view.split("/").pop().replace(".html", "");
+    addTab(tabTitle, view);
+    //loadContent(view);
+  });
+}
+
 // 탭 활성화 함수
 window.activateTab = function (view) {
   // .html을 제거한 id 생성
@@ -153,6 +181,8 @@ window.activateTab = function (view) {
 
   $(`.tab[data-view="${view}"]`).addClass("active");
   $(`#${contentId}`).show(); // 선택된 콘텐츠만 표시
+
+  saveActiveTabs(); // 활성화된 탭 상태 저장
 };
 
 // 탭을 닫는 함수

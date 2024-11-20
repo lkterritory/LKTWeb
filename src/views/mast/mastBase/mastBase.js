@@ -165,9 +165,11 @@ function searchList() {
   apiCommon
     .coresCodesGet(encoded)
     .done(function (response) {
-      let sampleData = response.lktBody;
+      try {
+        let sampleData = response.lktBody;
 
-      workOrderGrid.option("dataSource", sampleData);
+        workOrderGrid.option("dataSource", sampleData);
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리

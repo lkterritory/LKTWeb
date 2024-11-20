@@ -195,35 +195,40 @@ function searchList() {
   apiWcs
     .equipmentPicktolightStatus(encoded)
     .done(function (response) {
-      let resBody = response.lktBody[0];
+      try {
+        let resBody = response.lktBody[0];
 
-      // "processObjectCount": 25,
-      //       "totalObjectCount": 0,
-      //       "processSkuCount": 20,
-      //       "totalSkuCount": 0,
-      //       "processQuantity": 102,
-      //       "totalQuantity": 0
+        // "processObjectCount": 25,
+        //       "totalObjectCount": 0,
+        //       "processSkuCount": 20,
+        //       "totalSkuCount": 0,
+        //       "processQuantity": 102,
+        //       "totalQuantity": 0
 
-      // 주문 값 설정
-      document.querySelector(
-        ".summary-item:nth-child(1) .current"
-      ).textContent = resBody.processObjectCount; // 현재값
-      document.querySelector(".summary-item:nth-child(1) .total").textContent =
-        resBody.totalObjectCount; // 총합값
+        // 주문 값 설정
+        document.querySelector(
+          ".summary-item:nth-child(1) .current"
+        ).textContent = resBody.processObjectCount; // 현재값
+        document.querySelector(
+          ".summary-item:nth-child(1) .total"
+        ).textContent = resBody.totalObjectCount; // 총합값
 
-      // 품목 값 설정
-      document.querySelector(
-        ".summary-item:nth-child(2) .current"
-      ).textContent = resBody.processSkuCount; // 현재값
-      document.querySelector(".summary-item:nth-child(2) .total").textContent =
-        resBody.totalSkuCount; // 총합값
+        // 품목 값 설정
+        document.querySelector(
+          ".summary-item:nth-child(2) .current"
+        ).textContent = resBody.processSkuCount; // 현재값
+        document.querySelector(
+          ".summary-item:nth-child(2) .total"
+        ).textContent = resBody.totalSkuCount; // 총합값
 
-      // PCS 값 설정
-      document.querySelector(
-        ".summary-item:nth-child(3) .current"
-      ).textContent = resBody.processQuantity; // 현재값
-      document.querySelector(".summary-item:nth-child(3) .total").textContent =
-        resBody.totalQuantity; // 총합값
+        // PCS 값 설정
+        document.querySelector(
+          ".summary-item:nth-child(3) .current"
+        ).textContent = resBody.processQuantity; // 현재값
+        document.querySelector(
+          ".summary-item:nth-child(3) .total"
+        ).textContent = resBody.totalQuantity; // 총합값
+      } catch (ex) {}
     })
 
     .fail(function () {});
@@ -243,7 +248,9 @@ function searchList2() {
   apiWcs
     .equipmentPicktolightInput(encoded)
     .done(function (response) {
-      workOrderGrid.option("dataSource", response.lktBody);
+      try {
+        workOrderGrid.option("dataSource", response.lktBody);
+      } catch (ex) {}
     })
 
     .fail(function () {});

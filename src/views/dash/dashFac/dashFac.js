@@ -15,24 +15,99 @@ let data = [];
 
 function onCreate() {
   searchList();
+}
 
-  data = [];
+function createRect(width, height, fill) {
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 
-  for (let i = 0; i < 1; i++) {
-    let dataTmp = {
-      facilitiesCode: "냉동 " + (i + 1) + "블럭",
-      totalOrderCount: 100,
-      workOrderCount: Math.floor(Math.random() * 100),
-      totalSkuCount: 100,
-      workSkuCount: Math.floor(Math.random() * 100),
-      totalPcs: 100,
-      workPcs: Math.floor(Math.random() * 100)
-    };
-    dataTmp.progress = (dataTmp.workOrderCount / dataTmp.totalOrderCount) * 100;
-    dataTmp.progress = Math.round(dataTmp.progress);
+  rect.setAttribute("x", 0);
+  rect.setAttribute("y", 0);
+  rect.setAttribute("width", width);
+  rect.setAttribute("height", height);
+  rect.setAttribute("fill", fill);
 
-    data.push(dataTmp);
-  }
+  return rect;
+}
+
+function createText(x, y, fontSize, textAnchor, content) {
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
+  text.setAttribute("x", x);
+  text.setAttribute("y", y);
+  text.setAttribute("fill", "#000");
+  text.setAttribute("text-anchor", textAnchor);
+  text.setAttribute("font-size", fontSize);
+
+  text.textContent = content;
+
+  return text;
+}
+
+function onActive() {}
+
+function searchList() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [{equipmentCode: "DAS-01"}]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .dashboardsPickToLightInstances(encoded)
+    .done(function (response) {
+      $(".sumbox-con-1-fac").text(getFormattedDate());
+
+      //$(".sumbox-con-2-fac").text(getFormattedDate());
+      $(".sumbox-con-3-fac").text("0/hr");
+      $("#sumbox-con-3-fac-1").text("0/hr");
+      try {
+        loadBar(response.lktBody);
+      } catch (ex) {}
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+      alert("error");
+      errorPopup.removeClass("hidden");
+    });
+}
+
+function getFormattedDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function loadBar(data) {
+  //   {
+  //     "centerCode": "LKT",
+  //     "clientCode": "LKT",
+  //     "warehouseCode": "LKT",
+  //     "totalSkuCount": 20,
+  //     "processSkuCount": 0,
+  //     "totalQuantity": 102,
+  //     "processQuantity": 0
+  // }
+
+  //for (let i = 0; i < 1; i++) {
+
+  alert(JSON.stringify(data[0]));
+  data[0] = {
+    facilitiesCode: "DAS-01",
+    totalOrderCount: data[0].totalSkuCount,
+    workOrderCount: data[0].processSkuCount,
+    totalSkuCount: data[0].totalSkuCount,
+    workSkuCount: data[0].processSkuCount,
+    totalPcs: data[0].totalQuantity,
+    workPcs: data[0].processQuantity
+  };
+  data[0].progress = (data[0].workOrderCount / data[0].totalOrderCount) * 100;
+  data[0].progress = Math.round(data[0].progress);
+
+  //data.push(dataTmp);
+  //}
 
   let item = data[0];
 
@@ -146,54 +221,6 @@ function onCreate() {
     }
   });
 }
-
-function createRect(width, height, fill) {
-  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-
-  rect.setAttribute("x", 0);
-  rect.setAttribute("y", 0);
-  rect.setAttribute("width", width);
-  rect.setAttribute("height", height);
-  rect.setAttribute("fill", fill);
-
-  return rect;
-}
-
-function createText(x, y, fontSize, textAnchor, content) {
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-
-  text.setAttribute("x", x);
-  text.setAttribute("y", y);
-  text.setAttribute("fill", "#000");
-  text.setAttribute("text-anchor", textAnchor);
-  text.setAttribute("font-size", fontSize);
-
-  text.textContent = content;
-
-  return text;
-}
-
-function onActive() {}
-
-function searchList() {
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{equipmentCode: "DAS-01"}]
-  };
-
-  var encoded = btoa(JSON.stringify(obj));
-
-  apiWcs
-    .dashboardsPickToLightInstances(encoded)
-    .done(function (response) {})
-    .fail(function () {
-      // 에러 발생 시 처리
-      alert("error");
-      errorPopup.removeClass("hidden");
-    });
-}
-
-//$(window).on("resize", resizeGauge);
 
 export default {
   onCreate,

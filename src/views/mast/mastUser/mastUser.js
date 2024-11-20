@@ -16,7 +16,11 @@ const idPrefix = "#mast-mastUser-mastUser ";
 let txtBoxSearch;
 let workOrderGrid;
 
+let resAuth = [];
+
 function onCreate() {
+  searchConditionsAuth();
+
   txtBoxSearch = $(idPrefix + "#txtBoxSearch")
     .dxTextBox({
       placeholder: "검색",
@@ -249,6 +253,24 @@ function showPopup(isModi, row) {
       $("#dynamicPopup").dxPopup("hide");
     }
   });
+}
+
+function searchConditionsAuth() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: []
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .permissionSettingsSummary(encoded)
+    .done(function (response) {
+      try {
+        resAuth = response.lktBody;
+      } catch (ex) {}
+    })
+    .fail(function () {
+      alert("error");
+    });
 }
 
 export default {

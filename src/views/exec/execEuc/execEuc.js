@@ -264,7 +264,9 @@ function searchList() {
   apiCommon
     .enduserComputing(encoded)
     .done(function (response) {
-      loadDataProc(response.lktBody);
+      try {
+        loadDataProc(response.lktBody);
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리
@@ -302,7 +304,9 @@ function searchListDetail(row, rowOri) {
   apiCommon
     .enduserComputingExecute(encoded)
     .done(function (response) {
-      loadDataDetailProc(response.lktBody);
+      try {
+        loadDataDetailProc(response.lktBody);
+      } catch (ex) {}
       //loadDataProc(response.lktBody);
     })
 

@@ -262,8 +262,10 @@ function searchList() {
   apiWcs
     .dashboardsOverallStatus(encoded)
     .done(function (response) {
-      dataRes = response.lktBody;
-      loadDashboard();
+      try {
+        dataRes = response.lktBody;
+        loadDashboard();
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리

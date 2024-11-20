@@ -5,6 +5,9 @@ const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
+    const url = new URL(settings.url, window.location.origin); // 절대 경로로 변환
+    jqXHR.apiUrl = url.origin + url.pathname; // 파라미터 없는 URL 저장
+
     $("#networkPopup")
       .dxPopup({
         title: "로딩중...",
@@ -23,12 +26,33 @@ $.ajaxSetup({
       })
       .dxPopup("show");
 
-    // 임시 강제닫기
-    setTimeout(function () {
-      $("#networkPopup").dxPopup("hide");
-    }, 1);
+    // // 임시 강제닫기
+    // setTimeout(function () {
+    //   $("#networkPopup").dxPopup("hide");
+    // }, 1);
   },
   complete: function (jqXHR, textStatus) {
+    // {"readyState":4,"responseText":"","status":204,"statusText":"No Content"}
+
+    try {
+      if (jqXHR.status != 200) {
+        alert(
+          "api: " +
+            jqXHR.apiUrl +
+            "\r\n" +
+            "status: " +
+            jqXHR.status +
+            "\r\n" +
+            "message: " +
+            jqXHR.statusText
+        );
+      }
+    } catch (ex) {
+      alert("unknown error");
+    }
+
+    $("#networkPopup").dxPopup("hide");
+
     $("#networkPopup").dxPopup("hide");
   }
 });

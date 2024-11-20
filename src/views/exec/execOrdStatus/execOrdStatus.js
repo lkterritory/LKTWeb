@@ -386,9 +386,11 @@ function searchList() {
   apiWcs
     .statusOrders(encoded)
     .done(function (response) {
-      let sampleData = response.lktBody;
+      try {
+        let sampleData = response.lktBody;
 
-      workOrderGrid.option("dataSource", sampleData);
+        workOrderGrid.option("dataSource", sampleData);
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리
@@ -412,9 +414,11 @@ function searchListDetail(row) {
   apiWcs
     .statusOrderDetail(encoded)
     .done(function (response) {
-      let sampleData = response.lktBody;
+      try {
+        let sampleData = response.lktBody;
 
-      workOrderGridDetail.option("dataSource", sampleData);
+        workOrderGridDetail.option("dataSource", sampleData);
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리

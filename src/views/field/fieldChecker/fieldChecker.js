@@ -141,9 +141,11 @@ function searchList() {
   apiWcs
     .wcsInspectionsList(encoded)
     .done(function (response) {
-      $(idPrefix + "#workOrderGrid")
-        .dxDataGrid("instance")
-        .option("dataSource", response.lktBody);
+      try {
+        $(idPrefix + "#workOrderGrid")
+          .dxDataGrid("instance")
+          .option("dataSource", response.lktBody);
+      } catch (ex) {}
     })
 
     .fail(function () {

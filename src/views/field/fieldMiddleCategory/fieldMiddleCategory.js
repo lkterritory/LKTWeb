@@ -73,7 +73,9 @@ function searchList() {
   apiWcs
     .wcsMiddleCategories(encoded)
     .done(function (response) {
-      renderSorterBoxes(response.lktBody[0].lktOutDataDetail); // 초기 로드
+      try {
+        renderSorterBoxes(response.lktBody[0].lktOutDataDetail); // 초기 로드
+      } catch (ex) {}
     })
 
     .fail(function () {

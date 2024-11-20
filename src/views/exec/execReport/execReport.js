@@ -145,7 +145,9 @@ function searchList() {
   apiCommon
     .reportViewer(encoded)
     .done(function (response) {
-      loadDataProc(response.lktBody);
+      try {
+        loadDataProc(response.lktBody);
+      } catch (ex) {}
     })
 
     .fail(function () {

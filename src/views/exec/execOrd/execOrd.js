@@ -134,7 +134,9 @@ function onCreate() {
         apiWcs
           .wcsOperationStart(JSON.stringify(obj))
           .done(function (response) {
-            const sampleData = response.lktBody;
+            try {
+              const sampleData = response.lktBody;
+            } catch (ex) {}
           })
           .fail(function () {
             // 에러 발생 시 처리
@@ -178,7 +180,9 @@ function onCreate() {
         apiWcs
           .wcsOperationcClosing(JSON.stringify(obj))
           .done(function (response) {
-            const sampleData = response.lktBody;
+            try {
+              const sampleData = response.lktBody;
+            } catch (ex) {}
           })
           .fail(function () {
             // 에러 발생 시 처리
@@ -202,7 +206,9 @@ function onCreate() {
         apiWcs
           .wcsOperationcCancel(JSON.stringify(obj))
           .done(function (response) {
-            const sampleData = response.lktBody;
+            try {
+              const sampleData = response.lktBody;
+            } catch (ex) {}
           })
           .fail(function () {
             // 에러 발생 시 처리
@@ -399,7 +405,9 @@ function searchConditions() {
   apiWcs
     .workbatch(encoded)
     .done(function (response) {
-      selBoxBatch.option("items", response.lktBody);
+      try {
+        selBoxBatch.option("items", response.lktBody);
+      } catch (ex) {}
     })
     .fail(function () {
       alert("error");
@@ -480,17 +488,19 @@ function searchList() {
   apiWcs
     .wcsOperation(encoded)
     .done(function (response) {
-      let sampleData = response.lktBody;
+      try {
+        let sampleData = response.lktBody;
 
-      // for (let i = 0; i < 10; i++) {
-      //   sampleData.push(response.lktBody[0]);
-      // }
+        // for (let i = 0; i < 10; i++) {
+        //   sampleData.push(response.lktBody[0]);
+        // }
 
-      // sampleData.push({workDate: "1234"});
+        // sampleData.push({workDate: "1234"});
 
-      $(idPrefix + "#workOrderGrid")
-        .dxDataGrid("instance")
-        .option("dataSource", sampleData);
+        $(idPrefix + "#workOrderGrid")
+          .dxDataGrid("instance")
+          .option("dataSource", sampleData);
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리
