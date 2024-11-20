@@ -277,17 +277,19 @@ function searchList() {
 function searchListDetail(row, rowOri) {
   //  alert(JSON.stringify(row));
 
-  $(idPrefix + "#workOrderGridDetail").dxDataGrid({
-    dataSource: [], // 데이터 소스 설정
-    columns: [],
-    selection: {
-      mode: "single" // 단일 셀렉션 모드
-    },
-    showBorders: true
-  });
+  let grdiDetail = $(idPrefix + "#workOrderGridDetail")
+    .dxDataGrid({
+      dataSource: [], // 데이터 소스 설정
+      columns: [],
+      selection: {
+        mode: "single" // 단일 셀렉션 모드
+      },
+      showBorders: true
+    })
+    .dxDataGrid("instance");
 
-  workOrderGrid.option("dataSource", []);
-  workOrderGrid.refresh(); // 그리드를 새로고침하여 빈 상태를 반영
+  grdiDetail.option("dataSource", []);
+  grdiDetail.refresh(); // 그리드를 새로고침하여 빈 상태를 반영
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE"),
