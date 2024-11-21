@@ -7,10 +7,11 @@ const lktMqtt = {
   mqtt_host: "127.0.0.1",
   mqtt_port: "1883",
   mqtt_clientId: "clientID-" + parseInt(Math.random() * 100), // 랜덤 클라이언트 ID
-  mqtt_topic: "testTopic",
+  mqtt_topic_sub: "lktomli/DAS-1", // 구독
+  mqtt_topic_pub: "lktomli", // 발행
 
   // MQTT 클라이언트 연결
-  fncStartMqtt() {
+  fncStartMqtt(paramOnMessageArrived) {
     this.mqttClient = new Paho.MQTT.Client(
       this.mqtt_host,
       Number(this.mqtt_port),
@@ -18,7 +19,8 @@ const lktMqtt = {
     );
 
     this.mqttClient.onConnectionLost = this.onConnectionLost;
-    this.mqttClient.onMessageArrived = this.onMessageArrived;
+    //    this.mqttClient.onMessageArrived = this.onMessageArrived;
+    this.mqttClient.onMessageArrived = paramOnMessageArrived;
 
     this.mqttClient.connect({
       onSuccess: this.onConnect,
@@ -30,7 +32,7 @@ const lktMqtt = {
   onConnect() {
     console.log("connet : onConnect..");
 
-    this.mqttClient.subscribe(mqtt_topic);
+    this.mqttClient.subscribe(this.mqtt_topic_sub);
   },
 
   // 연결 실패 시 실행되는 function
@@ -60,7 +62,7 @@ const lktMqtt = {
   // 각 화면에서 메시지를 보내려면 각 화면에서 아래 function 선언하여 사용
   fncMqttDoSend(sendMsg) {
     console.log("mqtt send:" + sendMsg);
-    this.mqttClient.send(this.mqtt_topic, sendMsg);
+    this.mqttClient.send(this.mqtt_topic_pub, sendMsg);
   }
 };
 

@@ -31,13 +31,21 @@ let workOrderGrid;
 let resEquipmentCode;
 
 let eqpCodeSel = ""; /// 선택된 설비
+// mqtt_topic_sub: "lktomli/DAS-1", // 구독
+//   mqtt_topic_pub: "lktomli", // 발행
 
 function onCreate() {
-  lktMqtt.fncStartMqtt();
+  // lktMqtt.mqtt_topic_sub = "";
+
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
   if (!eqpCodeSel) {
     eqpCodeSel = "";
+  } else {
+    // mq연결
+    lktMqtt.mqtt_topic_pub = "lktomli";
+    lktMqtt.mqtt_topic_sub = "lktomli/" + eqpCodeSel;
+    lktMqtt.fncStartMqtt(onMessage);
   }
 
   $(".title span").text(eqpCodeSel);
@@ -435,6 +443,11 @@ function showPopup(isModi, row) {
 
       if (eqpCodeSel == "") return;
 
+      // mq연결
+      lktMqtt.mqtt_topic_pub = "lktomli";
+      lktMqtt.mqtt_topic_sub = "lktomli/" + eqpCodeSel;
+      lktMqtt.fncStartMqtt(onMessage);
+
       localStorage.setItem("eqpCodeSel", eqpCodeSel);
 
       $(".title span").text(eqpCodeSel);
@@ -518,6 +531,11 @@ function showPopup(isModi, row) {
 
 // mqtt test end
 ////////////////////////////////////////////////////////////////////////////////
+
+function onMessage() {
+  searchList();
+  searchList2();
+}
 
 export default {
   onCreate,
