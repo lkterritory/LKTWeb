@@ -152,7 +152,6 @@ function searchList() {
 
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
     });
 }
 
@@ -180,8 +179,6 @@ function searchList() {
 // }
 
 function searchListDetail(row, rowOri) {
-  alert(JSON.stringify(row));
-
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.ENDUSER.COMPUTING.EXECUTE"),
     lktBody: [

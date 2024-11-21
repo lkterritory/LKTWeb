@@ -46,9 +46,7 @@ function onCreate() {
   $(idPrefix + "#reissueButton").dxButton({
     text: "재발행",
     type: "normal",
-    onClick: function () {
-      alert("재발행 버튼 클릭됨");
-    }
+    onClick: function () {}
   });
 
   // Data grid for product inspection details
@@ -125,7 +123,6 @@ function onCreate() {
   // Barcode processing function
   function processBarcode(barcode) {
     console.log("Scanned barcode:", barcode);
-    alert("바코드 처리됨: " + barcode);
   }
 }
 
@@ -150,7 +147,6 @@ function searchList() {
 
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
     });
 }
 

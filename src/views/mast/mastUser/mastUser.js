@@ -166,7 +166,7 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }
@@ -269,9 +269,7 @@ function searchConditionsAuth() {
         resAuth = response.lktBody;
       } catch (ex) {}
     })
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 export default {

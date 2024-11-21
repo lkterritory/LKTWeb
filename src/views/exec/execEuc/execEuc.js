@@ -270,7 +270,6 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
     });
 }
 
@@ -312,9 +311,7 @@ function searchListDetail(row, rowOri) {
       //loadDataProc(response.lktBody);
     })
 
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 export default {

@@ -326,7 +326,7 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }
@@ -354,7 +354,7 @@ function searchListDetail(row) {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }

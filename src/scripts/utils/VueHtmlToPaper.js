@@ -51,7 +51,6 @@ const VueHtmlToPaper = {
       // tableItem.setAttribute("class", "tableItem");
 
       if (!element) {
-        alert(`Element to print #${el} not found!`);
         return;
       }
 

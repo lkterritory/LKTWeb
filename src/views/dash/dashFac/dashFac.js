@@ -67,7 +67,7 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }
@@ -93,7 +93,6 @@ function loadBar(data) {
 
   //for (let i = 0; i < 1; i++) {
 
-  alert(JSON.stringify(data[0]));
   data[0] = {
     facilitiesCode: "DAS-01",
     totalOrderCount: data[0].totalSkuCount,

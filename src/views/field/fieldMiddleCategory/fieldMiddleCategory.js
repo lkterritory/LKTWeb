@@ -55,8 +55,6 @@ function onCreate() {
 function onActive() {
   txtBoxSkuCode.focus(); // 포커스 이동
   txtBoxSkuCode.element().find("input").select(); // 텍스트 전체 선택
-
-  alert("d");
 }
 
 function searchList() {
@@ -166,7 +164,6 @@ function inspectionsConfirm() {
 
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
     });
 }
 
@@ -185,7 +182,6 @@ function inspectionsComplition() {
 
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
     });
 }
 

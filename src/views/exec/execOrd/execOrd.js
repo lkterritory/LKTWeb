@@ -69,7 +69,7 @@ function onCreate() {
       // return;
 
       const buttonId = $(e.element).data("id");
-      alert(buttonId);
+
       if (buttonId === "조회") {
         searchList();
       } else if (buttonId === "계획생성") {
@@ -114,7 +114,7 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "작업시작") {
@@ -161,7 +161,7 @@ function onCreate() {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "전체 작업완료") {
@@ -186,7 +186,7 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "작업취소") {
@@ -212,7 +212,7 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       }
@@ -409,9 +409,7 @@ function searchConditions() {
         selBoxBatch.option("items", response.lktBody);
       } catch (ex) {}
     })
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 function searchConditions2() {
@@ -427,9 +425,7 @@ function searchConditions2() {
       //   .dxDataGrid("instance")
       //   .option("dataSource", sampleData);
     })
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 // EQUIPMENT_TYPE, STORAGE_TEMPERATURE, USE_STATE_CODE
@@ -442,9 +438,7 @@ function searchConditionsCode(aMasterCode) {
   apiCommon
     .code(encoded)
     .done(function (response) {})
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 function searchConditionsAuth() {
@@ -456,9 +450,7 @@ function searchConditionsAuth() {
   apiCommon
     .permissionSettingsSummary(encoded)
     .done(function (response) {})
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 function searchConditionsMenu() {
@@ -470,9 +462,7 @@ function searchConditionsMenu() {
   apiCommon
     .menuSummary(encoded)
     .done(function (response) {})
-    .fail(function () {
-      alert("error");
-    });
+    .fail(function () {});
 }
 
 function searchList() {
@@ -504,7 +494,7 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }

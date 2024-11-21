@@ -134,7 +134,7 @@ function onCreate() {
       },
       onRowClick: function (e) {
         const selectedRowData = e.data;
-        alert(selectedRowData);
+
         showPopup(true, selectedRowData);
       }
     })
@@ -166,7 +166,7 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      alert("error");
+
       errorPopup.removeClass("hidden");
     });
 }
@@ -268,7 +268,7 @@ function showPopup(isModi, row) {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       } else {
@@ -277,7 +277,7 @@ function showPopup(isModi, row) {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-            alert("error");
+
             errorPopup.removeClass("hidden");
           });
       }
