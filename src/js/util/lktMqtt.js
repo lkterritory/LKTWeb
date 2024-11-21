@@ -48,7 +48,7 @@ const lktMqtt = {
       console.log("onConnectionLost : " + responseObject.errorMessage);
 
       // 연결 재시도
-      lktMqtt.fncStartMqtt();
+      lktMqtt.fncStartMqtt(lktMqtt.onrecvfunc);
 
       //fncConnMqtt();
     }

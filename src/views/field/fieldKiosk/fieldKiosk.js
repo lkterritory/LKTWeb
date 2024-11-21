@@ -533,7 +533,11 @@ function showPopup(isModi, row) {
 ////////////////////////////////////////////////////////////////////////////////
 
 function onMessage(message) {
-  console.log("recv mqtt:" + message);
+  try {
+    console.log("recv mqtt:" + message.payloadString);
+  } catch (ex) {
+    console.log("pares error");
+  }
 
   searchList();
   searchList2();
