@@ -43,19 +43,40 @@ $(document).ready(function () {
     api
       .server(reqParam)
       .done(function (response) {
-        // alert("dd2");
         if (response.lktBody.length == 0) {
           response.lktBody[0] = {
             authentication:
               "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
           };
         }
-
-        // 있어도 조회 안됨 //임시 auth
         response.lktBody[0] = {
           authentication:
             "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
         };
+
+        // 임시 authentication 추가
+        let xJson = new Object();
+        let xDatabase = new Object();
+
+        xJson.centerCode = "HMOMNI";
+        xJson.clientCode = "HMOMNI";
+        xJson.warehouseCode = "HMOMNI";
+
+        xDatabase.server = "192.168.26.24";
+        xDatabase.port = "3306";
+        xDatabase.database = "LKT";
+        xDatabase.username = "mskyjuat01";
+        xDatabase.password = "hmgplus1!";
+        xDatabase.attribute01 = "MYSQL";
+
+        xJson.database = xDatabase;
+
+        let authentication = new Object();
+        authentication = btoa(JSON.stringify(xJson));
+        response.lktBody[0] = {
+          authentication: authentication
+        };
+        // 임시 authentication 추가 end
 
         lktStorate.setServerInfo(response.lktBody[0]);
 
@@ -67,16 +88,16 @@ $(document).ready(function () {
             status: 0,
             message: "",
             encryption: response.lktBody[0],
-            centerCode: "LKT",
-            clientCode: "LKT",
-            warehouseCode: "LKT"
+            centerCode: "HMOMN",
+            clientCode: "HMOMN",
+            warehouseCode: "HMOMN"
           },
           lktBody: [
             {
               userName: $("#username").val(),
               password: btoa($("#password").val()),
               connectionType: "TEST",
-              serverGroup: "SPC#GFC"
+              serverGroup: "HMOMN"
             }
           ]
         };
@@ -87,11 +108,11 @@ $(document).ready(function () {
             // alert("dd3");
             if (response.lktBody.length == 0) {
               response.lktBody[0] = {
-                centerCode: "LKT",
-                clientCode: "LKT",
-                warehouseCode: "LKT",
-                userId: "LKT",
-                userName: "LKT NAME"
+                centerCode: "HMOMN",
+                clientCode: "HMOMN",
+                warehouseCode: "HMOMN",
+                userId: "HMOMN",
+                userName: "HMOMN"
               };
             }
 
