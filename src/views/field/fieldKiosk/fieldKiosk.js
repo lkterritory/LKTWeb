@@ -88,7 +88,7 @@ function onCreate() {
 
           lktMqtt.fncMqttDoSend(JSON.stringify(reqPayload));
 
-          $(idPrefix + "#txtBoxBarcode").select();
+          $(idPrefix + "#txtBoxBarcode input").select();
         }
       }
     })
