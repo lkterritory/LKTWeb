@@ -4,8 +4,8 @@ const lktMqtt = {
 
   //MQTT info
   // 각자 상황에 맞는 host, port, topic 을 사용합니다.
-  mqtt_host: "127.0.0.1",
-  mqtt_port: "1883",
+  mqtt_host: "localhost",
+  mqtt_port: "1884",
   mqtt_clientId: "clientID-" + parseInt(Math.random() * 100), // 랜덤 클라이언트 ID
   mqtt_topic_sub: "lktomli/DAS-1", // 구독
   mqtt_topic_pub: "lktomli", // 발행
@@ -23,16 +23,15 @@ const lktMqtt = {
     this.mqttClient.onMessageArrived = paramOnMessageArrived;
 
     this.mqttClient.connect({
-      onSuccess: this.onConnect,
-      onFailure: this.onFailure
+      onSuccess: this.onConnect.bind(this),
+      onFailure: this.onFailure.bind(this)
     });
   },
 
   // 연결 성공 시 실행되는 function
-  onConnect() {
-    console.log("connet : onConnect..");
-
-    this.mqttClient.subscribe(this.mqtt_topic_sub);
+  onConnect: () => {
+    console.log("Connected to MQTT broker." + lktMqtt.mqtt_topic_sub);
+    lktMqtt.mqttClient.subscribe(lktMqtt.mqtt_topic_sub); // this를 lktMqtt로 참조
   },
 
   // 연결 실패 시 실행되는 function
@@ -62,7 +61,7 @@ const lktMqtt = {
   // 각 화면에서 메시지를 보내려면 각 화면에서 아래 function 선언하여 사용
   fncMqttDoSend(sendMsg) {
     console.log("mqtt send:" + sendMsg);
-    this.mqttClient.send(this.mqtt_topic_pub, sendMsg);
+    lktMqtt.mqttClient.send(lktMqtt.mqtt_topic_pub, sendMsg);
   }
 };
 
