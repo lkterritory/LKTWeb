@@ -43,8 +43,8 @@ function onCreate() {
     eqpCodeSel = "";
   } else {
     // mq연결
-    lktMqtt.mqtt_topic_pub = "lktomli";
-    lktMqtt.mqtt_topic_sub = "lktomli/" + eqpCodeSel;
+    lktMqtt.mqtt_topic_pub = "lktomni";
+    lktMqtt.mqtt_topic_sub = "lktomni/" + eqpCodeSel;
     lktMqtt.fncStartMqtt(onMessage);
   }
 
@@ -444,8 +444,8 @@ function showPopup(isModi, row) {
       if (eqpCodeSel == "") return;
 
       // mq연결
-      lktMqtt.mqtt_topic_pub = "lktomli";
-      lktMqtt.mqtt_topic_sub = "lktomli/" + eqpCodeSel;
+      lktMqtt.mqtt_topic_pub = "lktomni";
+      lktMqtt.mqtt_topic_sub = "lktomni/" + eqpCodeSel;
       lktMqtt.fncStartMqtt(onMessage);
 
       localStorage.setItem("eqpCodeSel", eqpCodeSel);

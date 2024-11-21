@@ -7,8 +7,8 @@ const lktMqtt = {
   mqtt_host: "192.168.26.24",
   mqtt_port: "1981",
   mqtt_clientId: "clientID-" + parseInt(Math.random() * 100), // 랜덤 클라이언트 ID
-  mqtt_topic_sub: "lktomli/DAS-1", // 구독
-  mqtt_topic_pub: "lktomli", // 발행
+  mqtt_topic_sub: "lktomni/DAS-01", // 구독
+  mqtt_topic_pub: "lktomni", // 발행
   userName: "maersk", // 사용자 이름
   password: "maersk123#@!", // 비밀번호
 
