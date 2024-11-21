@@ -41,22 +41,22 @@ $.ajaxSetup({
   complete: function (jqXHR, textStatus) {
     // {"readyState":4,"responseText":"","status":204,"statusText":"No Content"}
 
-    try {
-      if (jqXHR.status != 200) {
-        alert(
-          "api: " +
-            jqXHR.apiUrl +
-            "\r\n" +
-            "status: " +
-            jqXHR.status +
-            "\r\n" +
-            "message: " +
-            jqXHR.statusText
-        );
-      }
-    } catch (ex) {
-      alert("unknown error");
-    }
+    // try {
+    //   if (jqXHR.status != 200) {
+    //     alert(
+    //       "api: " +
+    //         jqXHR.apiUrl +
+    //         "\r\n" +
+    //         "status: " +
+    //         jqXHR.status +
+    //         "\r\n" +
+    //         "message: " +
+    //         jqXHR.statusText
+    //     );
+    //   }
+    // } catch (ex) {
+    //   alert("unknown error");
+    // }
 
     $("#networkPopup").dxPopup("hide");
   }
