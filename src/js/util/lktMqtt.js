@@ -55,7 +55,7 @@ const lktMqtt = {
 
     // mqtt 받은 메시지
     // 받은 메시지를 각 화면에서 사용하려면 각 화면에서 아래 function 선언하여 사용
-    fncMqttAction(message.payloadString);
+    //fncMqttAction(message.payloadString);
   },
 
   // 메시지 보내기

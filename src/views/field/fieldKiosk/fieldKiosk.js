@@ -532,7 +532,9 @@ function showPopup(isModi, row) {
 // mqtt test end
 ////////////////////////////////////////////////////////////////////////////////
 
-function onMessage() {
+function onMessage(message) {
+  console.log("recv mqtt:" + message);
+
   searchList();
   searchList2();
 }
