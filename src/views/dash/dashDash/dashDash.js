@@ -269,7 +269,6 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-      //errorPopup.removeClass("hidden");
     });
 }
 

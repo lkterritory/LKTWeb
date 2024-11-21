@@ -4,6 +4,8 @@ const lktMqtt = {
 
   //MQTT info
   // 각자 상황에 맞는 host, port, topic 을 사용합니다.
+
+  //   mqtt_host: "localhost",
   mqtt_host: "192.168.26.24",
   mqtt_port: "1981",
   mqtt_clientId: "clientID-" + parseInt(Math.random() * 100), // 랜덤 클라이언트 ID

@@ -114,8 +114,6 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "작업시작") {
         // 작업시작
@@ -161,8 +159,6 @@ function onCreate() {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "전체 작업완료") {
         //전체 작업완료
@@ -186,8 +182,6 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       } else if (buttonId === "작업취소") {
         // 작업취소
@@ -212,8 +206,6 @@ function onCreate() {
           })
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       }
     }
@@ -494,8 +486,6 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-
-      errorPopup.removeClass("hidden");
     });
 }
 

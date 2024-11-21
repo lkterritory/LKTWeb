@@ -166,8 +166,6 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-
-      errorPopup.removeClass("hidden");
     });
 }
 
@@ -268,8 +266,6 @@ function showPopup(isModi, row) {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       } else {
         apiCommon
@@ -277,8 +273,6 @@ function showPopup(isModi, row) {
           .done(function (response) {})
           .fail(function () {
             // 에러 발생 시 처리
-
-            errorPopup.removeClass("hidden");
           });
       }
 

@@ -172,8 +172,6 @@ function searchList() {
     })
     .fail(function () {
       // 에러 발생 시 처리
-
-      errorPopup.removeClass("hidden");
     });
 }
 
@@ -285,9 +283,7 @@ function showPopup(isModi, row) {
         apiCommon
           .coresCodesEdit(JSON.stringify(param))
           .done(function (response) {})
-          .fail(function () {
-            errorPopup.removeClass("hidden");
-          });
+          .fail(function () {});
       } else {
         apiCommon
           .coresCodesAdd(JSON.stringify(param))

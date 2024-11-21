@@ -180,16 +180,19 @@ $(document).ready(function () {
     let authTmp = {
       authentication: authentication
     };
+
+    // authTmp.authentication =
+    //   "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==";
     // 임시 authentication 추가 end
 
     lktStorate.setServerInfo(authTmp);
 
     let lktBodyTmp = {
-      centerCode: "HMOMN",
-      clientCode: "HMOMN",
-      warehouseCode: "HMOMN",
-      userId: "HMOMN",
-      userName: "HMOMN"
+      centerCode: "HMOMNI",
+      clientCode: "HMOMNI",
+      warehouseCode: "HMOMNI",
+      userId: "HMOMNI",
+      userName: "HMOMNI"
     };
 
     lktStorate.setLoginInfo(lktBodyTmp);
