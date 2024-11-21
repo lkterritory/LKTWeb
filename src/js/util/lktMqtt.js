@@ -10,6 +10,8 @@ const lktMqtt = {
   mqtt_topic_sub: "lktomli/DAS-1", // 구독
   mqtt_topic_pub: "lktomli", // 발행
 
+  onrecvfunc: null,
+
   // MQTT 클라이언트 연결
   fncStartMqtt(paramOnMessageArrived) {
     this.mqttClient = new Paho.MQTT.Client(
@@ -21,6 +23,8 @@ const lktMqtt = {
     this.mqttClient.onConnectionLost = this.onConnectionLost;
     //    this.mqttClient.onMessageArrived = this.onMessageArrived;
     this.mqttClient.onMessageArrived = paramOnMessageArrived;
+
+    lktMqtt.onrecvfunc = paramOnMessageArrived;
 
     this.mqttClient.connect({
       onSuccess: this.onConnect.bind(this),
@@ -44,7 +48,9 @@ const lktMqtt = {
       console.log("onConnectionLost : " + responseObject.errorMessage);
 
       // 연결 재시도
-      fncConnMqtt();
+      lktMqtt.fncStartMqtt();
+
+      //fncConnMqtt();
     }
   },
 
