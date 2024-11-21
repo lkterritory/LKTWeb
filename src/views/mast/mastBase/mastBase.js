@@ -139,7 +139,6 @@ function onCreate() {
         visible: true // 헤더 필터 드롭다운을 표시
       },
       onRowClick: function (e) {
-        //alert("??");
         const selectedRowData = e.data;
         // alert(selectedRowData);
         showPopup(true, selectedRowData);

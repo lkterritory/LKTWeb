@@ -74,7 +74,9 @@ function onCreate() {
           //alert(e.component.option("value"));
 
           let reqPayload = {
-            lktHeader: lktUtil.getLktHeader("OUTBOUND.OJBECT.SCAN.PUT"),
+            lktHeader: lktUtil.getLktHeader(
+              "OUTBOUND.EQUIPMENT.PICKTOLIGHT.INPUT"
+            ),
             lktBody: [
               {
                 storageTemperatureCode: "",
