@@ -42,7 +42,7 @@ function isPrintFind() {
   let isFind = true;
   try {
     let devices = zebra.setup();
-    console.log("find print: " + JSON.stringify(devices));
+
     //alert(JSON.stringify(devices));
     for (var i = 0; i < devices.length; i++) {
       if (devices[i].connection === "USB" && devices[i].connection === "usb") {
@@ -399,18 +399,6 @@ function selectPrint() {
       .equipmentLabel(encoded)
       .done(function (response) {
         try {
-          // let resTmp = {
-          //   centerCode: "HMOMNI",
-          //   clientCode: "HMOMNI",
-          //   warehouseCode: "HMOMNI",
-          //   workDate: "20241121",
-          //   workBatch: "0000031895",
-          //   orderNumber: "0000534427",
-          //   labelNumber: "00173129850785191098",
-          //   labelZpl:
-          //     "^XA^CI28  ^CFA,05^FO20,92^GFA,442,442,17,4J038O01F8,C00E0FE00E003C007FE,C00E0C700E003C00F0F,C00E1C300F003C01C038,C00E18300F007C038018,C00E1C300F007C03801C,C00E0C600F806C03J06707C0C0633E,C00E0EE00D80CC07J07F1FF0C063FF8,C00E07800D80CC07J0783878C063C1C,IFE07800CC0CC07J0703018C06380C,IFE1F830CC18C0603FC70701CC06380C,C00E38C30CE19C0703FC60600CC063806,C00E30E30C618C07001C60600CC063006,C00E70730C631C07I0C60600CC063006,C00E603F0C730C03001C60600CC063006,C00E601E0C361C03801C60600CC063806,C00E700E0C360C01803C60701CC06380C,C00E381E0C3E1C01C07C603838E0E3C1C,C00E3C7F0C1E1C00FDEC603CF073E3E3C,C00E0FF38C1C1C003FCC600FE07F637F,K038P0FK03801C031C,gO03,::::^FS ^CFP,16^FO253,98^FDH&M Shipping Label Generator 24.18.0.4^FS ^FO20,118^GB770,2,2^FS ^CFP,16^FO82,119^FDFrom:^FS ^CFP,16^FO82,137^FDWMS452KR ^FS ^CFP,16^FO504,125^FDDate:^FS ^CF0,20^FO560,125^FD2024-10-14^FS ^CFP,16^FO504,176^FDRoute:^FS ^CF0,32^FO504,223^FDKRTESTLSP^FS ^CFQ,16^FO 82,240^FDTo:^FS ^LRY^FO504,250^GB168,45,45^FS^CF0,48^FO507,254^FH^FDKR0001^FS^LRN ^CFR,24^FO82,264^FH^FDH_26M^FS ^CFR,24^FO82,294^FH^FD14_2C Myungdong Gil_2C Jung_2Dgu^FS ^CFR,24^FO82,371^FH^FDKR_2D04536 Seoul^FS ^FO722,342^GB70,70,2^FS^CF0,70^FO738,352^FH^FDA^FS ^FO20,418^GB770,2,2^FS ^FO20,498^GB770,2,2^FS ^FO100,581^BY4,3,190^BCN,,N,N,Y,D^FD00173129850785191098^FS ^CFP,16^FO35,500^FDContent:^FS ^CF0,28 ^FO35,522^GB 20, 20, 2 ^FS^FO59,520^FD^FDLADIESWEAR^FS ^FO 35, 553 ^GB 20, 20, 2 ^FS^FO59,551^FH^FD^FDMENSWEAR^FS ^FO270,522^GB 20, 20, 2 ^FS^FO294,520^FD^FH^FDBABY_2FCHILDREN^FS ^FO270,553^GB 20, 20, 2 ^FS^FO294,551^FD^FDDIVIDED^FS ^FO 620, 522 ^GB 20, 20, 2 ^FS^FO644,520^FH^FD^FDCOSMETICS^FS ^FO 620, 553 ^GB 20, 20, 2 ^FS^FO644,551^FH^FD^FH^FDH_26M HOME^FS ^FO20,577^GB770,2,2^FS ^CF0,23^FO30,774^FD(00)173129850785191098^FS ^CF0,38^FO725,762^FD1098^FS ^XZ"
-          // };
-
           if (response.lktBody.length > 0) {
             let resBody = response.lktBody[0];
 
@@ -472,7 +460,7 @@ function initView() {
     "";
   document.querySelector(".summary-item:nth-child(3) .total").textContent = "";
 
-  workOrderGrid.option("dataSource", []);
+  // workOrderGrid.option("dataSource", []);
 }
 
 function searchList() {
@@ -548,7 +536,8 @@ function searchList() {
           max: resBody.totalSkuCount,
           showStatus: true,
           statusFormat: function (value) {
-            return `${value * 100}%`;
+            //return `${(value * 100).toFixed(0)}%`;
+            return `${Math.floor(value * 100, 0)}%`;
           },
           onContentReady: function (e) {
             const $element = e.element.find(".dx-progressbar-status");
@@ -584,6 +573,7 @@ function searchList2() {
     .equipmentPicktolightInput(encoded)
     .done(function (response) {
       try {
+        workOrderGrid.option("dataSource", []);
         workOrderGrid.option("dataSource", response.lktBody);
       } catch (ex) {}
     })

@@ -31,10 +31,15 @@ function onCreate() {
   // SelectBox - 작업차수 선택
   selBoxBatch = $(idPrefix + "#selBoxBatch")
     .dxSelectBox({
-      items: ["1차", "2차", "3차"],
+      items: [],
+      displayExpr: "workBatch", // 화면에 표시할 항목
+      valueExpr: "workBatch", // 선택된 값으로 사용할 항목
       placeholder: "작업차수 선택",
       value: null,
-      width: "200px"
+      width: "200px",
+      onValueChanged: function (e) {
+        console.log("선택된 값 ID:", e.value); // 선택된 ID 출력
+      }
     })
     .dxSelectBox("instance");
 

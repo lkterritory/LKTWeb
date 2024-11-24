@@ -1,7 +1,7 @@
 // api.js
 
 // const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
-const baseUrlWcs = "http://192.168.26.24:2014";
+const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
 //const baseUrlWcs = "http://192.168.26.120:2014";
 
 $.ajaxSetup({
@@ -378,6 +378,18 @@ function equipmentLabelPatch(param) {
 }
 //
 
+// 라벨재발행
+function statusLabels(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/lables?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+//
+
 export default {
   workbatch,
 
@@ -408,5 +420,7 @@ export default {
   equipmentPicktolightInput,
   equipmentPicktolightStatus,
   equipmentLabel,
-  equipmentLabelPatch
+  equipmentLabelPatch,
+
+  statusLabels
 };

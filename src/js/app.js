@@ -9,7 +9,7 @@ function checkSession() {
 
 function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
-  $.getJSON("./src/data/menu.json", function (data) {
+  $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
     let menuHtml = "<ul>";
     data.menuItems.forEach(function (item) {
       menuHtml += `<li class="menu-item">${item.title}<ul class="submenu">`;
@@ -142,7 +142,14 @@ async function restoreTabs() {
   let view = localStorage.getItem("viewPre");
   let tabTitle = localStorage.getItem("tabTitlePre");
 
-  if (view == null || tabTitle == null) return;
+  if (
+    view == null ||
+    tabTitle == null ||
+    view == "null" ||
+    tabTitle == "null"
+  ) {
+    return;
+  }
 
   const importedModule = await import(
     "../views/" + view.replace(".html", ".js?t=" + Date.now())

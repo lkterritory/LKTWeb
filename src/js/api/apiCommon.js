@@ -1,7 +1,7 @@
 // api.js
 
 // const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
-const baseUrlCommon = "http://192.168.26.24:4132";
+const baseUrlCommon = "http://192.168.26.24:4132"; //실서버;
 // const baseUrlCommon = "http://192.168.26.120:4132";
 
 $.ajaxSetup({
