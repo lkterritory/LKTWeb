@@ -2,6 +2,7 @@
 
 // const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
 const baseUrlWcs = "http://192.168.26.24:2014";
+//const baseUrlWcs = "http://192.168.26.120:2014";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -10,7 +11,8 @@ $.ajaxSetup({
 
     if (
       settings.url.includes("outbound/equipment/picktolight/input") ||
-      settings.url.includes("outbound/equipment/picktolight/status")
+      settings.url.includes("outbound/equipment/picktolight/status") ||
+      settings.url.includes("outbound/equipment/label")
     ) {
       return;
     }
@@ -43,7 +45,7 @@ $.ajaxSetup({
 
     $("#networkPopup").dxPopup("hide");
 
-    console.log(jqXHR);
+    //console.log(jqXHR);
     try {
       if (jqXHR.status != 200) {
         let msgTmp =
@@ -354,6 +356,26 @@ function equipmentPicktolightStatus(param) {
     data: {}
   });
 }
+
+function equipmentLabel(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/label?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+function equipmentLabelPatch(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/label",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
 //
 
 export default {
@@ -384,5 +406,7 @@ export default {
   dashboardsPickToLightInstances,
 
   equipmentPicktolightInput,
-  equipmentPicktolightStatus
+  equipmentPicktolightStatus,
+  equipmentLabel,
+  equipmentLabelPatch
 };

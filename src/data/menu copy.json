@@ -13,6 +13,7 @@
         {"title": "상품정보", "view": "mast/mastItem/mastItem.html"},
         {"title": "사용자정보", "view": "mast/mastUser/mastUser.html"},
         {"title": "권한정보", "view": "mast/mastAuth/mastAuth.html"},
+        {"title": "지점정보", "view": "mast/mastStore/mastStore.html"},
         {
           "title": "로케이션정보",
           "view": "mast/mastLocation/mastLocation.html"
@@ -48,6 +49,14 @@
     {
       "title": "작업",
       "submenus": [
+        {
+          "title": "검수",
+          "view": "field/fieldChecker/fieldChecker.html"
+        },
+        {
+          "title": "중분류",
+          "view": "field/fieldMiddleCategory/fieldMiddleCategory.html"
+        },
         {
           "title": "키오스크",
           "view": "field/fieldKiosk/fieldKiosk.html"

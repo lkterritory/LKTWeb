@@ -13,8 +13,64 @@ const idPrefix = "#dash-dashFac-dashFac ";
 
 let data = [];
 
+let listEquipmentCode = [
+  {equipmentCode: "DAS-01"},
+  {equipmentCode: "DAS-02"},
+  {equipmentCode: "DAS-03"},
+  {equipmentCode: "DAS-04"},
+  {equipmentCode: "DAS-05"},
+  {equipmentCode: "DAS-06"},
+  {equipmentCode: "DAS-07"},
+  {equipmentCode: "DAS-08"},
+  {equipmentCode: "DAS-09"},
+  {equipmentCode: "DAS-10"}
+];
+
+let eqpCodeSel = ""; /// 선택된 설비
+
+window.onClickFac = function () {
+  showPopup();
+};
+
 function onCreate() {
+  initView();
+  eqpCodeSel = localStorage.getItem("eqpCodeSel");
+
+  if (!eqpCodeSel) {
+    eqpCodeSel = "";
+  }
+
+  if (eqpCodeSel == "") {
+    showPopup();
+  }
+
+  $(".title-fac").text(eqpCodeSel);
+
   searchList();
+
+  setInterval(() => {
+    searchList();
+  }, 10000); // 10초에 한번
+}
+
+function initView() {
+  $(".sumbox-con-1-fac").text(getFormattedDate());
+
+  //$(".sumbox-con-2-fac").text(getFormattedDate());
+  $(".sumbox-con-3-fac").text("0/hr");
+  $("#sumbox-con-3-fac-1").text("0/hr");
+
+  let iniData = {
+    facilitiesCode: "D",
+    totalOrderCount: 0,
+    workOrderCount: 0,
+    totalSkuCount: 0,
+    workSkuCount: 0,
+    totalPcs: 0,
+    workPcs: 0
+  };
+
+  loadBar([iniData]);
 }
 
 function createRect(width, height, fill) {
@@ -46,9 +102,13 @@ function createText(x, y, fontSize, textAnchor, content) {
 function onActive() {}
 
 function searchList() {
+  if (eqpCodeSel == "" || eqpCodeSel == null) {
+    return;
+  }
+
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{equipmentCode: "DAS-01"}]
+    lktBody: [{equipmentCode: eqpCodeSel}]
   };
 
   var encoded = btoa(JSON.stringify(obj));
@@ -56,11 +116,8 @@ function searchList() {
   apiWcs
     .dashboardsPickToLightInstances(encoded)
     .done(function (response) {
-      $(".sumbox-con-1-fac").text(getFormattedDate());
+      initView();
 
-      //$(".sumbox-con-2-fac").text(getFormattedDate());
-      $(".sumbox-con-3-fac").text("0/hr");
-      $("#sumbox-con-3-fac-1").text("0/hr");
       try {
         loadBar(response.lktBody);
       } catch (ex) {}
@@ -215,6 +272,58 @@ function loadBar(data) {
 
       container.appendChild(rect);
       container.appendChild(text);
+    }
+  });
+}
+
+function showPopup() {
+  let itemsTmp = [];
+  for (let i = 0; i < listEquipmentCode.length; i++) {
+    itemsTmp.push({
+      id: listEquipmentCode[i].equipmentCode,
+      name: listEquipmentCode[i].equipmentCode
+    });
+  }
+
+  let formItems = [
+    {
+      dataField: "equipmentCode",
+      label: {text: "설비"},
+      editorType: "dxSelectBox",
+      editorOptions: {
+        items: itemsTmp,
+        displayExpr: "name",
+        valueExpr: "id",
+        value: eqpCodeSel ? eqpCodeSel : "",
+        placeholder: "선택하세요",
+        onValueChanged: function (e) {
+          //alert(e.value);
+          console.log("선택된 값:", e.value); // 선택된 id 값
+        }
+      }
+    }
+  ];
+
+  // 팝업 호출
+  lktUtil.createDynamicPopup({
+    title: "설비선택",
+    isModi: false, // 수정 여부
+    formItems: formItems, // 폼 구성
+    onExecute: function (formData) {
+      eqpCodeSel = formData.equipmentCode;
+
+      if (eqpCodeSel == "") return;
+
+      localStorage.setItem("eqpCodeSel", eqpCodeSel);
+
+      searchList();
+      $(".title-fac").text(eqpCodeSel);
+
+      $("#dynamicPopup").dxPopup("hide");
+    },
+    onCancel: function () {
+      // 취소 버튼 클릭 이벤트 처리
+      $("#dynamicPopup").dxPopup("hide");
     }
   });
 }

@@ -20,13 +20,18 @@ const lktMqtt = {
 
   // MQTT 클라이언트 연결
   fncStartMqtt(paramOnMessageArrived) {
+    if (this.mqttClient != null && this.mqttClient.isConnected()) {
+      return;
+      //this.mqttClient = null;
+    }
+
     this.mqttClient = new Paho.MQTT.Client(
       this.mqtt_host,
       Number(this.mqtt_port),
       this.mqtt_clientId
     );
 
-    this.mqttClient.onConnectionLost = this.onConnectionLost;
+    // this.mqttClient.onConnectionLost = this.onConnectionLost;
     //    this.mqttClient.onMessageArrived = this.onMessageArrived;
     this.mqttClient.onMessageArrived = paramOnMessageArrived;
 
@@ -56,7 +61,7 @@ const lktMqtt = {
       console.log("onConnectionLost : " + responseObject.errorMessage);
 
       // 연결 재시도
-      lktMqtt.fncStartMqtt(lktMqtt.onrecvfunc);
+      // if (lktMqtt.mqttClient != null) lktMqtt.fncStartMqtt(lktMqtt.onrecvfunc);
 
       //fncConnMqtt();
     }
@@ -68,7 +73,6 @@ const lktMqtt = {
 
     // mqtt 받은 메시지
     // 받은 메시지를 각 화면에서 사용하려면 각 화면에서 아래 function 선언하여 사용
-    //fncMqttAction(message.payloadString);
   },
 
   // 메시지 보내기

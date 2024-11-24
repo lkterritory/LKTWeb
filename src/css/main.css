@@ -236,6 +236,10 @@ body {
   margin-top: 5px;
 }
 
+#dynamicPopup .dx-button:nth-child(2) .dx-button-content {
+  background-color: #28a745 !important; /* 원하는 배경색 */
+}
+
 /* 반응형 스타일 */
 @media (max-width: 768px) {
   .side-menu {

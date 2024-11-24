@@ -167,6 +167,7 @@ $(document).ready(function () {
     xJson.warehouseCode = "HMOMNI";
 
     xDatabase.server = "127.0.0.1";
+    // xDatabase.server = "192.168.26.24";
     xDatabase.port = "3306";
     xDatabase.database = "LKT";
     xDatabase.username = "mskyjuat01";

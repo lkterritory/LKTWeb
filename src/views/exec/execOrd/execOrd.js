@@ -89,28 +89,7 @@ function onCreate() {
         apiWcs
           .wcsOperationPlan(JSON.stringify(obj))
           .done(function (response) {
-            // if (response.lktHeader.resultCode != "200") {
-            //   $("#networkPopup")
-            //     .dxPopup({
-            //       title:
-            //         response.lktHeader.resultCode +
-            //         "\r\n" +
-            //         response.lktHeader.resultMessage,
-            //       visible: true,
-            //       width: 300,
-            //       height: 100,
-            //       contentTemplate: function (contentElement) {
-            //         const formInstance = $("<div>")
-            //           .appendTo(contentElement)
-            //           .dxForm({
-            //             formData: {},
-            //             items: []
-            //           })
-            //           .dxForm("instance");
-            //       }
-            //     })
-            //     .dxPopup("show");
-            // }
+            //searchList();
           })
           .fail(function () {
             // 에러 발생 시 처리
@@ -134,6 +113,7 @@ function onCreate() {
           .done(function (response) {
             try {
               const sampleData = response.lktBody;
+              searchList();
             } catch (ex) {}
           })
           .fail(function () {
@@ -156,7 +136,9 @@ function onCreate() {
 
         apiWcs
           .wcsOperationcCompleted(JSON.stringify(obj))
-          .done(function (response) {})
+          .done(function (response) {
+            searchList();
+          })
           .fail(function () {
             // 에러 발생 시 처리
           });
@@ -177,7 +159,7 @@ function onCreate() {
           .wcsOperationcClosing(JSON.stringify(obj))
           .done(function (response) {
             try {
-              const sampleData = response.lktBody;
+              searchList();
             } catch (ex) {}
           })
           .fail(function () {
@@ -201,7 +183,7 @@ function onCreate() {
           .wcsOperationcCancel(JSON.stringify(obj))
           .done(function (response) {
             try {
-              const sampleData = response.lktBody;
+              searchList();
             } catch (ex) {}
           })
           .fail(function () {
@@ -275,7 +257,7 @@ function onCreate() {
         },
 
         {
-          dataField: "totalPlanQuantity",
+          dataField: "totalQuantity",
           caption: "낱개수량",
           allowFiltering: false,
           minWidth: 90,
@@ -285,7 +267,7 @@ function onCreate() {
         },
 
         {
-          dataField: "totalWorkQuantity",
+          dataField: "processQuantity",
           caption: "작업낱개수량",
           allowFiltering: false,
           minWidth: 90,
@@ -294,7 +276,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "totalWorkSkuCount",
+          dataField: "processSkuCount",
           caption: "작업품목수량",
           allowFiltering: false,
           minWidth: 90,

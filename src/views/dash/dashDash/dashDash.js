@@ -13,9 +13,13 @@ const idPrefix = "#dash-dashDash-dashDash ";
 
 let data = [];
 let dataRes = [];
+
 function onCreate() {
-  searchList();
   // Progress Bar 설정
+
+  setInterval(() => {
+    searchList();
+  }, 10000); // 10초에 한번
 }
 
 function loadDashboard() {

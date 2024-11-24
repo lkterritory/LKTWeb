@@ -26,6 +26,10 @@ function createMenu() {
       let view = $(this).data("view");
       let tabTitle = $(this).text();
 
+      //
+      localStorage.setItem("viewPre", view);
+      localStorage.setItem("tabTitlePre", tabTitle);
+
       const importedModule = await import(
         "../views/" + view.replace(".html", ".js?t=" + Date.now())
       );
@@ -39,8 +43,6 @@ function createMenu() {
         addTab(tabTitle, view);
         loadContent(view);
       }
-
-      saveActiveTabs(); // 활성화된 탭 상태 저장
     });
   });
 }
@@ -56,6 +58,8 @@ $(document).ready(function () {
     onClick: function () {
       alert("로그아웃 되었습니다.");
 
+      localStorage.setItem("viewPre", null);
+      localStorage.setItem("tabTitlePre", null);
       window.location.href = "./src/views/login/login.html";
     }
   });
@@ -79,26 +83,12 @@ $(document).ready(function () {
     $(document).click(function () {
       $(".submenu").slideUp();
     });
+
+    restoreTabs();
   }, 200);
 
   // 페이지 로드 시 저장된 활성화된 탭 복원
-  //restoreTabs();
 });
-
-// 탭을 추가하는 함수
-// function addTab(tabTitle, view) {
-//   if ($(`.tab[data-view="${view}"]`).length === 0) {
-//     $(".tab").removeClass("last").addClass("middle");
-
-//     const tabHtml = `
-//       <div class="tab" data-view="${view}" onclick="activateTab('${view}')">
-//         ${tabTitle}
-//         <span class="close-tab" onclick="removeTab('${view}'); event.stopPropagation();">x</span>
-//       </div>
-//     `;
-//     $("#tabContainer").append(tabHtml);
-//   }
-// }
 
 // // 탭을 추가하는 함수
 function addTab(tabTitle, view) {
@@ -147,27 +137,26 @@ function loadContent(view) {
   });
 }
 
-// 활성화된 탭 상태 저장 함수
-function saveActiveTabs() {
-  const activeTabs = [];
-  $(".tab").each(function () {
-    const view = $(this).data("view");
-    activeTabs.push(view);
-  });
-
-  //alert(JSON.stringify(activeTabs));
-  localStorage.setItem("activeTabs", JSON.stringify(activeTabs)); // 탭 상태를 저장
-}
-
 // 저장된 탭 상태 복원 함수
-function restoreTabs() {
-  const activeTabs = JSON.parse(localStorage.getItem("activeTabs")) || [];
-  activeTabs.forEach((view) => {
-    // 각 탭을 복원
-    const tabTitle = view.split("/").pop().replace(".html", "");
+async function restoreTabs() {
+  let view = localStorage.getItem("viewPre");
+  let tabTitle = localStorage.getItem("tabTitlePre");
+
+  if (view == null || tabTitle == null) return;
+
+  const importedModule = await import(
+    "../views/" + view.replace(".html", ".js?t=" + Date.now())
+  );
+  moduleTarget = importedModule.default || importedModule;
+
+  // 이미 로드된 탭인지 확인
+  if (loadedTabs[view]) {
+    activateTab(view);
+    moduleTarget.onActive();
+  } else {
     addTab(tabTitle, view);
-    //loadContent(view);
-  });
+    loadContent(view);
+  }
 }
 
 // 탭 활성화 함수
@@ -181,12 +170,13 @@ window.activateTab = function (view) {
 
   $(`.tab[data-view="${view}"]`).addClass("active");
   $(`#${contentId}`).show(); // 선택된 콘텐츠만 표시
-
-  saveActiveTabs(); // 활성화된 탭 상태 저장
 };
 
 // 탭을 닫는 함수
 window.removeTab = function (view) {
+  localStorage.setItem("viewPre", null);
+  localStorage.setItem("tabTitlePre", null);
+
   const contentId = view.replace(/\//g, "-").replace(".html", "");
   $(`.tab[data-view="${view}"]`).remove();
   $(`#${contentId}`).remove(); // 콘텐츠를 DOM에서 삭제

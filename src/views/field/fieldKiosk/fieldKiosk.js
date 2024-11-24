@@ -4,6 +4,10 @@ let lktUtil;
 
 let lktMqtt;
 
+import zebra from "../../../scripts/utils/printer/zebra/index.js";
+
+// import zebra from "../../../src /utils/printer/zebra";
+
 if (
   !window.apiWcsModule ||
   !window.apiCommonModule ||
@@ -34,8 +38,117 @@ let eqpCodeSel = ""; /// 선택된 설비
 // mqtt_topic_sub: "lktomli/DAS-1", // 구독
 //   mqtt_topic_pub: "lktomli", // 발행
 
+function isPrintFind() {
+  let isFind = true;
+  try {
+    let devices = zebra.setup();
+    console.log("find print: " + JSON.stringify(devices));
+    //alert(JSON.stringify(devices));
+    for (var i = 0; i < devices.length; i++) {
+      if (devices[i].connection === "USB" && devices[i].connection === "usb") {
+        // isFind = true;
+        // zebra.writeToSelectedPrinter("usb", zplData);
+        //zebra.writeToSelectedPrinter(printCode, zplData);
+      }
+    }
+  } catch (e) {}
+
+  return isFind;
+}
+
 function onCreate() {
-  // lktMqtt.mqtt_topic_sub = "";
+  isPrintFind();
+
+  //eqpCodeSel = "DAS-01";
+
+  //zebra.setup();
+
+  if (true) {
+    // if (isPrintFind()) {
+    // 프린트 api 호출 후 프린트
+
+    let zplData =
+      "^XA\n" +
+      "^SEE:UHANGUL.DAT^FS\n" +
+      "^CW1,E:KFONT3.FNT^CI26^FS\n\n" +
+      "^CI28\n\n" +
+      "" +
+      "^PW900\n" +
+      "^LH40,40\n" +
+      "^FWB\n\n" +
+      "" +
+      "^FO0,0^GB720,1100,4^FS\n\n" +
+      "" +
+      "^FO70,0^GB0,200,3^FS\n" +
+      "^FO70,800^GB0,300,3^FS\n" +
+      "^FO140,0^GB0,1100,3^FS\n" +
+      "^FO228,0^GB0,800,3^FS\n" +
+      "^FO316,0^GB0,800,3^FS\n" +
+      "^FO404,0^GB0,800,3^FS\n" +
+      "^FO492,0^GB0,800,3^FS\n" +
+      "^FO140,400^GB440,0,3^FS\n" +
+      "^FO580,0^GB0,1100,3^FS\n\n" +
+      "" +
+      "^FO0,200^GB140,0,3^FS\n" +
+      "^FO0,800^GB720,0,3^FS\n\n" +
+      "" +
+      "^FT50,175^A1,30,30^FD박스 " +
+      "^FS\n" +
+      "^FT120,140^A1,30,30^FD" +
+      "^FS\n" +
+      //"^FT85,740^A1,40,35^FD" +
+      "^FO40,0^A1,65,65^FB970,1,0,C^FD" +
+      "^FS\n" +
+      "^FT199,790^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT289,790^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT379,790^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT469,790^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT559,790^A1,40,40^FD" +
+      "^FS\n" +
+      //---- h
+      "^FT199,390^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT289,390^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT379,390^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT469,390^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT559,390^A1,40,40^FD" +
+      "^FS\n" +
+      "^FT710,80^A1,30,30^FD" +
+      "^FS\n\n" +
+      "" +
+      "^FO301,805^A1,55,55^FB800,1,0,R^FD" +
+      "^FS\n" +
+      "^FO351,805^A1,55,55^FB800,1,0,R^FD" +
+      "^FS\n" +
+      "^FO401,805^A1,55,55^FB800,1,0,R^FD" +
+      "^FS\n\n" +
+      "" +
+      "^FT50,1040^A1,30,30^FD" +
+      "^FS\n" +
+      "^FT120,1085^A1,50,50^FD" +
+      "^FS\n" +
+      "^FT130,1085^A1,25,25^FD" +
+      "^FS\n\n" +
+      "" +
+      "^FT670,1060^A1,65,65^FD" +
+      "도크:" +
+      "^FS\n\n" +
+      "" +
+      "^FT680,750^BY3\n" +
+      "^BC,90,Y,N,N^FD" +
+      "^FS\n\n" +
+      "" +
+      "^XZ";
+
+    zebra.writeToSelectedPrinter("192.168.26.73", zplData);
+  }
 
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
@@ -73,6 +186,21 @@ function onCreate() {
         if (e.event.key === "Enter") {
           //alert(e.component.option("value"));
 
+          let testzpl =
+            "^XA^CI28  ^CFA,05^FO20,92^GFA,442,442,17,4J038O01F8,C00E0FE00E003C007FE,C00E0C700E003C00F0F,C00E1C300F003C01C038,C00E18300F007C038018,C00E1C300F007C03801C,C00E0C600F806C03J06707C0C0633E,C00E0EE00D80CC07J07F1FF0C063FF8,C00E07800D80CC07J0783878C063C1C,IFE07800CC0CC07J0703018C06380C,IFE1F830CC18C0603FC70701CC06380C,C00E38C30CE19C0703FC60600CC063806,C00E30E30C618C07001C60600CC063006,C00E70730C631C07I0C60600CC063006,C00E603F0C730C03001C60600CC063006,C00E601E0C361C03801C60600CC063806,C00E700E0C360C01803C60701CC06380C,C00E381E0C3E1C01C07C603838E0E3C1C,C00E3C7F0C1E1C00FDEC603CF073E3E3C,C00E0FF38C1C1C003FCC600FE07F637F,K038P0FK03801C031C,gO03,::::^FS ^CFP,16^FO253,98^FDH&M Shipping Label Generator 24.18.0.4^FS ^FO20,118^GB770,2,2^FS ^CFP,16^FO82,119^FDFrom:^FS ^CFP,16^FO82,137^FDWMS452KR ^FS ^CFP,16^FO504,125^FDDate:^FS ^CF0,20^FO560,125^FD2024-10-14^FS ^CFP,16^FO504,176^FDRoute:^FS ^CF0,32^FO504,223^FDKRTESTLSP^FS ^CFQ,16^FO 82,240^FDTo:^FS ^LRY^FO504,250^GB168,45,45^FS^CF0,48^FO507,254^FH^FDKR0001^FS^LRN ^CFR,24^FO82,264^FH^FDH_26M^FS ^CFR,24^FO82,294^FH^FD14_2C Myungdong Gil_2C Jung_2Dgu^FS ^CFR,24^FO82,371^FH^FDKR_2D04536 Seoul^FS ^FO722,342^GB70,70,2^FS^CF0,70^FO738,352^FH^FDA^FS ^FO20,418^GB770,2,2^FS ^FO20,498^GB770,2,2^FS ^FO100,581^BY4,3,190^BCN,,N,N,Y,D^FD00173129850785191098^FS ^CFP,16^FO35,500^FDContent:^FS ^CF0,28 ^FO35,522^GB 20, 20, 2 ^FS^FO59,520^FD^FDLADIESWEAR^FS ^FO 35, 553 ^GB 20, 20, 2 ^FS^FO59,551^FH^FD^FDMENSWEAR^FS ^FO270,522^GB 20, 20, 2 ^FS^FO294,520^FD^FH^FDBABY_2FCHILDREN^FS ^FO270,553^GB 20, 20, 2 ^FS^FO294,551^FD^FDDIVIDED^FS ^FO 620, 522 ^GB 20, 20, 2 ^FS^FO644,520^FH^FD^FDCOSMETICS^FS ^FO 620, 553 ^GB 20, 20, 2 ^FS^FO644,551^FH^FD^FH^FDH_26M HOME^FS ^FO20,577^GB770,2,2^FS ^CF0,23^FO30,774^FD(00)173129850785191098^FS ^CF0,38^FO725,762^FD1098^FS ^XZ";
+
+          let valTmp = e.component.option("value");
+          if (valTmp == "testprint") {
+            console.log("testprint: " + testzpl);
+            zebra.writeToSelectedPrinter("192.168.26.73", testzpl);
+            return;
+          }
+
+          setTimeout(() => {
+            searchList();
+            searchList2();
+          }, 200);
+
           let reqPayload = {
             lktHeader: lktUtil.getLktHeader(
               "OUTBOUND.EQUIPMENT.PICKTOLIGHT.INPUT"
@@ -83,7 +211,7 @@ function onCreate() {
                 equipmentCode: eqpCodeSel,
                 equipmentLine: eqpCodeSel,
                 equipmentZone: eqpCodeSel,
-                skuCode: e.component.option("value")
+                inputValue: e.component.option("value")
               }
             ]
           };
@@ -242,13 +370,88 @@ function onCreate() {
     // searchList();
     // searchList2();
   }
-  // searchConditionsCode("EQUIPMENT_CODE");
-  //equipmentCode;
 
   setInterval(() => {
     searchList();
     searchList2();
-  }, 10000);
+  }, 5000); // 5초에 한번
+
+  setInterval(() => {
+    lktMqtt.fncStartMqtt(onMessage);
+    selectPrint();
+  }, 5000); // 5초에 한번
+}
+
+function selectPrint() {
+  // if (isPrintFind()) {
+  if (true) {
+    var obj = {
+      lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),
+      lktBody: [
+        {
+          equipmentCode: eqpCodeSel
+        }
+      ]
+    };
+    var encoded = btoa(JSON.stringify(obj));
+
+    apiWcs
+      .equipmentLabel(encoded)
+      .done(function (response) {
+        try {
+          // let resTmp = {
+          //   centerCode: "HMOMNI",
+          //   clientCode: "HMOMNI",
+          //   warehouseCode: "HMOMNI",
+          //   workDate: "20241121",
+          //   workBatch: "0000031895",
+          //   orderNumber: "0000534427",
+          //   labelNumber: "00173129850785191098",
+          //   labelZpl:
+          //     "^XA^CI28  ^CFA,05^FO20,92^GFA,442,442,17,4J038O01F8,C00E0FE00E003C007FE,C00E0C700E003C00F0F,C00E1C300F003C01C038,C00E18300F007C038018,C00E1C300F007C03801C,C00E0C600F806C03J06707C0C0633E,C00E0EE00D80CC07J07F1FF0C063FF8,C00E07800D80CC07J0783878C063C1C,IFE07800CC0CC07J0703018C06380C,IFE1F830CC18C0603FC70701CC06380C,C00E38C30CE19C0703FC60600CC063806,C00E30E30C618C07001C60600CC063006,C00E70730C631C07I0C60600CC063006,C00E603F0C730C03001C60600CC063006,C00E601E0C361C03801C60600CC063806,C00E700E0C360C01803C60701CC06380C,C00E381E0C3E1C01C07C603838E0E3C1C,C00E3C7F0C1E1C00FDEC603CF073E3E3C,C00E0FF38C1C1C003FCC600FE07F637F,K038P0FK03801C031C,gO03,::::^FS ^CFP,16^FO253,98^FDH&M Shipping Label Generator 24.18.0.4^FS ^FO20,118^GB770,2,2^FS ^CFP,16^FO82,119^FDFrom:^FS ^CFP,16^FO82,137^FDWMS452KR ^FS ^CFP,16^FO504,125^FDDate:^FS ^CF0,20^FO560,125^FD2024-10-14^FS ^CFP,16^FO504,176^FDRoute:^FS ^CF0,32^FO504,223^FDKRTESTLSP^FS ^CFQ,16^FO 82,240^FDTo:^FS ^LRY^FO504,250^GB168,45,45^FS^CF0,48^FO507,254^FH^FDKR0001^FS^LRN ^CFR,24^FO82,264^FH^FDH_26M^FS ^CFR,24^FO82,294^FH^FD14_2C Myungdong Gil_2C Jung_2Dgu^FS ^CFR,24^FO82,371^FH^FDKR_2D04536 Seoul^FS ^FO722,342^GB70,70,2^FS^CF0,70^FO738,352^FH^FDA^FS ^FO20,418^GB770,2,2^FS ^FO20,498^GB770,2,2^FS ^FO100,581^BY4,3,190^BCN,,N,N,Y,D^FD00173129850785191098^FS ^CFP,16^FO35,500^FDContent:^FS ^CF0,28 ^FO35,522^GB 20, 20, 2 ^FS^FO59,520^FD^FDLADIESWEAR^FS ^FO 35, 553 ^GB 20, 20, 2 ^FS^FO59,551^FH^FD^FDMENSWEAR^FS ^FO270,522^GB 20, 20, 2 ^FS^FO294,520^FD^FH^FDBABY_2FCHILDREN^FS ^FO270,553^GB 20, 20, 2 ^FS^FO294,551^FD^FDDIVIDED^FS ^FO 620, 522 ^GB 20, 20, 2 ^FS^FO644,520^FH^FD^FDCOSMETICS^FS ^FO 620, 553 ^GB 20, 20, 2 ^FS^FO644,551^FH^FD^FH^FDH_26M HOME^FS ^FO20,577^GB770,2,2^FS ^CF0,23^FO30,774^FD(00)173129850785191098^FS ^CF0,38^FO725,762^FD1098^FS ^XZ"
+          // };
+
+          if (response.lktBody.length > 0) {
+            let resBody = response.lktBody[0];
+
+            // 라벨 출력시작
+            console.log("labelIp:" + resBody.labelIp);
+            console.log("write:" + resBody.labelZpl);
+            zebra.writeToSelectedPrinter(resBody.labelIp, resBody.labelZpl);
+            // 라벨 출력완료
+
+            // 출력완료후 후처리
+
+            //return; //  출력패치 임시정지
+            var obj = {
+              lktHeader: lktUtil.getLktHeader(
+                "PAGE.outbound.WCS.MIDDLE.CATEGORIES"
+              ),
+              lktBody: [
+                {
+                  labelNumber: resBody.labelNumber
+                }
+              ]
+            };
+
+            apiWcs
+              .equipmentLabelPatch(JSON.stringify(obj))
+              .done(function (response) {
+                try {
+                } catch (ex) {}
+              })
+
+              .fail(function () {});
+          }
+        } catch (ex) {}
+      })
+
+      .fail(function () {});
+
+    // 프린트 api 호출 후 프린트
+    //
+    //zebra.writeToSelectedPrinter("usb", zplData);
+  }
 }
 
 function onActive() {}
@@ -273,8 +476,6 @@ function initView() {
 }
 
 function searchList() {
-  initView();
-
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),
     lktBody: [
@@ -289,19 +490,38 @@ function searchList() {
     .equipmentPicktolightStatus(encoded)
     .done(function (response) {
       try {
+        initView();
+
         let resBody = response.lktBody[0];
+        //let resBodyTmp = {}; //Object.assign(resBody);
 
-        // "processObjectCount": 25,
-        //       "totalObjectCount": 0,
-        //       "processSkuCount": 20,
-        //       "totalSkuCount": 0,
-        //       "processQuantity": 102,
-        //       "totalQuantity": 0
+        // resBodyTmp.
 
-        // 주문 값 설정
-        document.querySelector(
-          ".summary-item:nth-child(1) .current"
-        ).textContent = resBody.processObjectCount; // 현재값
+        let resBodyTmp = {
+          clientCode: "HMOMNI",
+          warehouseCode: "HMOMNI",
+          processObjectCount: resBody.processObjectCount,
+          totalObjectCount: resBody.totalObjectCount,
+          processSkuCount: resBody.processSkuCount,
+          totalSkuCount: resBody.totalSkuCount,
+          processQuantity: resBody.processQuantity,
+          totalQuantity: resBody.totalQuantity
+        };
+
+        // 임시변경 반대로ㅓ
+
+        resBody.processObjectCount = resBodyTmp.totalObjectCount;
+        resBody.totalObjectCount = resBodyTmp.processObjectCount;
+        resBody.processSkuCount = resBodyTmp.totalSkuCount;
+        resBody.totalSkuCount = resBodyTmp.processSkuCount;
+        resBody.processQuantity = resBodyTmp.totalQuantity;
+        resBody.totalQuantity = resBodyTmp.processQuantity;
+
+        //resBodyTmp =
+
+        document // 주문 값 설정
+          .querySelector(".summary-item:nth-child(1) .current").textContent =
+          resBody.processObjectCount; // 현재값
         document.querySelector(
           ".summary-item:nth-child(1) .total"
         ).textContent = resBody.totalObjectCount; // 총합값
@@ -385,26 +605,44 @@ function searchConditionsCode(aMasterCode) {
   //     alert("error");
   //   });
 
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{}]
-  };
+  let bodyTmp = [
+    {equipmentCode: "DAS-01"},
+    {equipmentCode: "DAS-02"},
+    {equipmentCode: "DAS-03"},
+    {equipmentCode: "DAS-04"},
+    {equipmentCode: "DAS-05"},
+    {equipmentCode: "DAS-06"},
+    {equipmentCode: "DAS-07"},
+    {equipmentCode: "DAS-08"},
+    {equipmentCode: "DAS-09"},
+    {equipmentCode: "DAS-10"}
+  ];
 
-  var encoded = btoa(JSON.stringify(obj));
+  // 임시 호기정보 설비정보
+  resEquipmentCode = bodyTmp;
+  showPopup(false, null);
+  // end 임시 호기정보 설비정보
 
-  apiWcs
-    .dashboardsOverallStatus(encoded)
-    .done(function (response) {
-      try {
-        resEquipmentCode = response.lktBody;
+  // var obj = {
+  //   lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+  //   lktBody: [{}]
+  // };
 
-        showPopup(false, null);
-      } catch (ex) {}
-    })
-    .fail(function () {
-      // 에러 발생 시 처리
-      //errorPopup.removeClass("hidden");
-    });
+  // var encoded = btoa(JSON.stringify(obj));
+
+  // apiWcs
+  //   .dashboardsOverallStatus(encoded)
+  //   .done(function (response) {
+  //     try {
+  //       resEquipmentCode = response.lktBody;
+
+  //       showPopup(false, null);
+  //     } catch (ex) {}
+  //   })
+  //   .fail(function () {
+  //     // 에러 발생 시 처리
+  //     //errorPopup.removeClass("hidden");
+  //   });
 }
 
 function showPopup(isModi, row) {
