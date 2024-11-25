@@ -40,27 +40,8 @@ let eqpCodeSel = ""; /// 선택된 설비
 // mqtt_topic_sub: "lktomli/DAS-1", // 구독
 //   mqtt_topic_pub: "lktomli", // 발행
 
-function isPrintFind() {
-  let isFind = true;
-  try {
-    let devices = zebra.setup();
-
-    //alert(JSON.stringify(devices));
-
-    for (var i = 0; i < devices.length; i++) {
-      // if (devices[i].connection === "USB" && devices[i].connection === "usb") {
-      // isFind = true;
-      // zebra.writeToSelectedPrinter("usb", zplData);
-      //zebra.writeToSelectedPrinter(printCode, zplData);
-      // }
-    }
-  } catch (e) {}
-
-  return isFind;
-}
-
 function onCreate() {
-  isPrintFind();
+  zebra.setup();
 
   //eqpCodeSel = "DAS-01";
 
@@ -69,88 +50,86 @@ function onCreate() {
   if (true) {
     // if (isPrintFind()) {
     // 프린트 api 호출 후 프린트
-
-    let zplData =
-      "^XA\n" +
-      "^SEE:UHANGUL.DAT^FS\n" +
-      "^CW1,E:KFONT3.FNT^CI26^FS\n\n" +
-      "^CI28\n\n" +
-      "" +
-      "^PW900\n" +
-      "^LH40,40\n" +
-      "^FWB\n\n" +
-      "" +
-      "^FO0,0^GB720,1100,4^FS\n\n" +
-      "" +
-      "^FO70,0^GB0,200,3^FS\n" +
-      "^FO70,800^GB0,300,3^FS\n" +
-      "^FO140,0^GB0,1100,3^FS\n" +
-      "^FO228,0^GB0,800,3^FS\n" +
-      "^FO316,0^GB0,800,3^FS\n" +
-      "^FO404,0^GB0,800,3^FS\n" +
-      "^FO492,0^GB0,800,3^FS\n" +
-      "^FO140,400^GB440,0,3^FS\n" +
-      "^FO580,0^GB0,1100,3^FS\n\n" +
-      "" +
-      "^FO0,200^GB140,0,3^FS\n" +
-      "^FO0,800^GB720,0,3^FS\n\n" +
-      "" +
-      "^FT50,175^A1,30,30^FD박스 " +
-      "^FS\n" +
-      "^FT120,140^A1,30,30^FD" +
-      "^FS\n" +
-      //"^FT85,740^A1,40,35^FD" +
-      "^FO40,0^A1,65,65^FB970,1,0,C^FD" +
-      "^FS\n" +
-      "^FT199,790^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT289,790^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT379,790^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT469,790^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT559,790^A1,40,40^FD" +
-      "^FS\n" +
-      //---- h
-      "^FT199,390^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT289,390^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT379,390^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT469,390^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT559,390^A1,40,40^FD" +
-      "^FS\n" +
-      "^FT710,80^A1,30,30^FD" +
-      "^FS\n\n" +
-      "" +
-      "^FO301,805^A1,55,55^FB800,1,0,R^FD" +
-      "^FS\n" +
-      "^FO351,805^A1,55,55^FB800,1,0,R^FD" +
-      "^FS\n" +
-      "^FO401,805^A1,55,55^FB800,1,0,R^FD" +
-      "^FS\n\n" +
-      "" +
-      "^FT50,1040^A1,30,30^FD" +
-      "^FS\n" +
-      "^FT120,1085^A1,50,50^FD" +
-      "^FS\n" +
-      "^FT130,1085^A1,25,25^FD" +
-      "^FS\n\n" +
-      "" +
-      "^FT670,1060^A1,65,65^FD" +
-      "도크:" +
-      "^FS\n\n" +
-      "" +
-      "^FT680,750^BY3\n" +
-      "^BC,90,Y,N,N^FD" +
-      "^FS\n\n" +
-      "" +
-      "^XZ";
-
-    zebra.writeToSelectedPrinter("192.168.26.73", zplData);
+    // let zplData =
+    //   "^XA\n" +
+    //   "^SEE:UHANGUL.DAT^FS\n" +
+    //   "^CW1,E:KFONT3.FNT^CI26^FS\n\n" +
+    //   "^CI28\n\n" +
+    //   "" +
+    //   "^PW900\n" +
+    //   "^LH40,40\n" +
+    //   "^FWB\n\n" +
+    //   "" +
+    //   "^FO0,0^GB720,1100,4^FS\n\n" +
+    //   "" +
+    //   "^FO70,0^GB0,200,3^FS\n" +
+    //   "^FO70,800^GB0,300,3^FS\n" +
+    //   "^FO140,0^GB0,1100,3^FS\n" +
+    //   "^FO228,0^GB0,800,3^FS\n" +
+    //   "^FO316,0^GB0,800,3^FS\n" +
+    //   "^FO404,0^GB0,800,3^FS\n" +
+    //   "^FO492,0^GB0,800,3^FS\n" +
+    //   "^FO140,400^GB440,0,3^FS\n" +
+    //   "^FO580,0^GB0,1100,3^FS\n\n" +
+    //   "" +
+    //   "^FO0,200^GB140,0,3^FS\n" +
+    //   "^FO0,800^GB720,0,3^FS\n\n" +
+    //   "" +
+    //   "^FT50,175^A1,30,30^FD박스 " +
+    //   "^FS\n" +
+    //   "^FT120,140^A1,30,30^FD" +
+    //   "^FS\n" +
+    //   //"^FT85,740^A1,40,35^FD" +
+    //   "^FO40,0^A1,65,65^FB970,1,0,C^FD" +
+    //   "^FS\n" +
+    //   "^FT199,790^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT289,790^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT379,790^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT469,790^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT559,790^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   //---- h
+    //   "^FT199,390^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT289,390^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT379,390^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT469,390^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT559,390^A1,40,40^FD" +
+    //   "^FS\n" +
+    //   "^FT710,80^A1,30,30^FD" +
+    //   "^FS\n\n" +
+    //   "" +
+    //   "^FO301,805^A1,55,55^FB800,1,0,R^FD" +
+    //   "^FS\n" +
+    //   "^FO351,805^A1,55,55^FB800,1,0,R^FD" +
+    //   "^FS\n" +
+    //   "^FO401,805^A1,55,55^FB800,1,0,R^FD" +
+    //   "^FS\n\n" +
+    //   "" +
+    //   "^FT50,1040^A1,30,30^FD" +
+    //   "^FS\n" +
+    //   "^FT120,1085^A1,50,50^FD" +
+    //   "^FS\n" +
+    //   "^FT130,1085^A1,25,25^FD" +
+    //   "^FS\n\n" +
+    //   "" +
+    //   "^FT670,1060^A1,65,65^FD" +
+    //   "도크:" +
+    //   "^FS\n\n" +
+    //   "" +
+    //   "^FT680,750^BY3\n" +
+    //   "^BC,90,Y,N,N^FD" +
+    //   "^FS\n\n" +
+    //   "" +
+    //   "^XZ";
+    // zebra.writeToSelectedPrinter("192.168.26.73", zplData);
   }
 
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
@@ -383,7 +362,17 @@ function onCreate() {
     zebra.setup();
     dvList = zebra.getDeviceList();
     console.log("printList:" + dvList);
-    //console.log("printList:" + JSON.stringify(zebra.getDeviceList()));
+
+    if (dvList.length > 0)
+      $(".printstate").css({
+        color: "green", // 텍스트 색상
+        fontWeight: "bold" // 텍스트 굵게
+      });
+    else
+      $(".printstate").css({
+        color: "red", // 텍스트 색상
+        fontWeight: "bold" // 텍스트 굵게
+      });
 
     lktMqtt.fncStartMqtt(onMessage);
     selectPrint();
@@ -392,6 +381,9 @@ function onCreate() {
 
 function selectPrint() {
   // if (isPrintFind()) {
+
+  if (dvList.length <= 0) return;
+
   if (true) {
     var obj = {
       lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),

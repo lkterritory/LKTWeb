@@ -99,6 +99,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
+      if (dvList.length <= 0) return;
       // lktOutData.centerCode = value.CENTER_CODE;
       // lktOutData.clientCode = value.CLIENT_CODE;
       // lktOutData.warehouseCode = value.WAREHOUSE_CODE;
@@ -210,6 +211,17 @@ function onCreate() {
     zebra.setup();
     dvList = zebra.getDeviceList();
     console.log("printList:" + dvList);
+
+    if (dvList.length > 0)
+      $(".printstate").css({
+        color: "green", // 텍스트 색상
+        fontWeight: "bold" // 텍스트 굵게
+      });
+    else
+      $(".printstate").css({
+        color: "red", // 텍스트 색상
+        fontWeight: "bold" // 텍스트 굵게
+      });
   }, 5000); // 5초에 한번
 }
 

@@ -201,6 +201,11 @@
   border-bottom-left-radius: 2px;
 }
 
+.printstate {
+  font-weight: bold;
+  color: red;
+}
+
 /* 반응형 스타일 PAD 퍼블 대비*/
 @media (max-width: 768px) {
 }
