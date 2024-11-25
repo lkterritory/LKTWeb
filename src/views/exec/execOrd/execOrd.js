@@ -62,6 +62,8 @@ function onCreate() {
       let rowSel = workOrderGrid.getSelectedRowsData();
 
       //alert(JSON.stringify(rowSel));
+
+      //alert(JSON.stringify(rowSel));
       // return;
 
       const buttonId = $(e.element).data("id");
@@ -91,6 +93,14 @@ function onCreate() {
             // 에러 발생 시 처리
           });
       } else if (buttonId === "작업시작") {
+        if (rowSel.length <= 0) {
+          return;
+        }
+
+        if (rowSel[0].pickingGroup == "1HM_01") {
+          return;
+        }
+
         // 작업시작
         var obj = {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
@@ -99,7 +109,8 @@ function onCreate() {
               workDate: new Date(dtBoxWork.option("value"))
                 .toISOString()
                 .split("T")[0],
-              workBatch: rowSel[0].workBatch
+              workBatch: rowSel[0].workBatch,
+              pickingGroup: rowSel[0].pickingGroup
             }
           ]
         };
@@ -108,7 +119,6 @@ function onCreate() {
           .wcsOperationStart(JSON.stringify(obj))
           .done(function (response) {
             try {
-              const sampleData = response.lktBody;
               searchList();
             } catch (ex) {}
           })
@@ -116,8 +126,6 @@ function onCreate() {
             // 에러 발생 시 처리
           });
       } else if (buttonId === "차수 작업완료") {
-        // 차수 작업완료
-
         var obj = {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
@@ -189,6 +197,19 @@ function onCreate() {
     }
   });
 
+  let facTmp = [
+    "DAS-01",
+    "DAS-02",
+    "DAS-03",
+    "DAS-04",
+    "DAS-05",
+    "DAS-06",
+    "DAS-07",
+    "DAS-08",
+    "DAS-09",
+    "DAS-10"
+  ];
+
   let headerCss = {
     display: "flex",
     "justify-content": "center",
@@ -198,7 +219,38 @@ function onCreate() {
   // DataGrid - 작업지시 정보
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
-      dataSource: [], // 서버에서 데이터를 가져와서 할당
+      dataSource: [
+        // {
+        //   workDate: "text",
+        //   workBatch: "text2",
+        //   pickingGroup: "DAS01"
+        // },
+        // {
+        //   workDate: "text",
+        //   workBatch: "text3",
+        //   pickingGroup: "1HM_01"
+        // },
+        // {
+        //   workDate: "text",
+        //   workBatch: "text4",
+        //   pickingGroup: "DAS-02"
+        // },
+        // {
+        //   workDate: "text",
+        //   workBatch: "text5",
+        //   pickingGroup: "1HM_01"
+        // },
+        // {
+        //   workDate: "text",
+        //   workBatch: "text6",
+        //   pickingGroup: "DAS-04"
+        // },
+        // {
+        //   workDate: "text",
+        //   workBatch: "text7",
+        //   pickingGroup: "DAS-03"
+        // }
+      ], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
           dataField: "workDate",
@@ -216,12 +268,66 @@ function onCreate() {
             headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
           }
         },
+        // {
+        //   dataField: "equipmentType",
+        //   caption: "설비종류",
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("설비종류"); // 헤더 가운데 정렬
+        //   }
+        // },
+
         {
-          dataField: "equipmentType",
-          caption: "설비종류",
-          minWidth: 90,
+          dataField: "pickingGroup",
+          caption: "피킹그룹",
+          width: 180,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("설비종류"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("피킹그룹"); // 헤더 가운데 정렬
+          },
+          cellTemplate: function (cellElement, cellInfo) {
+            // 특정 조건을 확인하여 SelectBox를 표시
+            //// if (cellInfo.data.condition === "특정조건") {
+            if (cellInfo.value == "1HM_01") {
+              const selectBox = $("<div>")
+                .dxSelectBox({
+                  items: facTmp,
+                  value: cellInfo.value, // 초기 값
+                  onValueChanged: function (e) {
+                    // 데이터 소스 업데이트
+                    const dataSource = cellInfo.component.option("dataSource");
+                    const rowIndex = cellInfo.rowIndex;
+                    const dataField = cellInfo.column.dataField;
+
+                    if (dataSource && rowIndex !== undefined) {
+                      dataSource[rowIndex][dataField] = e.value; // 데이터 소스 업데이트
+                    }
+                  }
+                })
+                .appendTo(cellElement);
+              selectBox.dxSelectBox("instance").focus();
+
+              cellElement.css({
+                display: "flex",
+                alignItems: "center",
+                height: "40px"
+              });
+            } else {
+              // cellElement
+              //   .text(cellInfo.value) // 일반 텍스트 표시
+              //   .css({
+              //     display: "flex",
+              //     alignItems: "center",
+              //     justifyContent: "center", // 텍스트 가운데 정렬
+              //     height: "100%"
+              //   });
+
+              cellElement.css({
+                display: "flex",
+                alignItems: "center",
+                height: "40px"
+              });
+              cellElement.text(cellInfo.value); // 조건에 맞지 않으면 일반 텍스트로 표시
+            }
           }
         },
         {
@@ -449,17 +555,11 @@ function searchList() {
     .wcsOperation(encoded)
     .done(function (response) {
       try {
-        let sampleData = response.lktBody;
-
-        // for (let i = 0; i < 10; i++) {
-        //   sampleData.push(response.lktBody[0]);
-        // }
-
-        // sampleData.push({workDate: "1234"});
+        let resBody = response.lktBody;
 
         $(idPrefix + "#workOrderGrid")
           .dxDataGrid("instance")
-          .option("dataSource", sampleData);
+          .option("dataSource", resBody);
       } catch (ex) {}
     })
     .fail(function () {

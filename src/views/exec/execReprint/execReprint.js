@@ -99,7 +99,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
-      if (dvList.length <= 0) return;
+      //if (dvList.length <= 0) return;
       // lktOutData.centerCode = value.CENTER_CODE;
       // lktOutData.clientCode = value.CLIENT_CODE;
       // lktOutData.warehouseCode = value.WAREHOUSE_CODE;
