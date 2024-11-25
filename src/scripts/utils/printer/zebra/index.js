@@ -1,5 +1,5 @@
-var selected_device;
-var devices = [];
+let selected_device;
+let devices = [];
 let socket;
 
 // function setup() {
@@ -47,6 +47,10 @@ let socket;
 //   console.log("call Zebra config");
 // }
 
+function getDeviceList() {
+  return devices;
+}
+
 function setup() {
   try {
     BrowserPrint.getLocalDevices(
@@ -65,7 +69,6 @@ function setup() {
   } catch (e) {
     console.log("Error setup", e);
   }
-  return devices;
 }
 function getConfig() {
   BrowserPrint.getApplicationConfiguration(
@@ -165,7 +168,8 @@ const zebra = {
   sendImage,
   sendFile,
   onDeviceSelected,
-  setup
+  setup,
+  getDeviceList
 };
 
 // TEST Reference

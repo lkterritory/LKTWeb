@@ -2,7 +2,7 @@ let apiWcs;
 let apiCommon;
 let lktUtil;
 
-import zebra from "../../../scripts/utils/printer/zebra/index.js";
+import zebra from "../../../scripts/utils/printer/zebra/index.js?a=1";
 
 if (!window.apiWcsModule || !window.lktUtilModule || !window.apiCommonModule) {
   window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
@@ -23,6 +23,8 @@ let workOrderGrid;
 
 let selBoxBatch;
 let dtBoxWork;
+
+let dvList = [];
 
 function searchConditions() {
   var obj = {
@@ -203,6 +205,12 @@ function onCreate() {
     .dxDataGrid("instance");
 
   searchConditions();
+
+  setInterval(() => {
+    zebra.setup();
+    dvList = zebra.getDeviceList();
+    console.log("printList:" + dvList);
+  }, 5000); // 5초에 한번
 }
 
 function onActive() {}

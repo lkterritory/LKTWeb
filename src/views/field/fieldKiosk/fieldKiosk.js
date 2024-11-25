@@ -4,7 +4,7 @@ let lktUtil;
 
 let lktMqtt;
 
-import zebra from "../../../scripts/utils/printer/zebra/index.js";
+import zebra from "../../../scripts/utils/printer/zebra/index.js?a=1";
 
 // import zebra from "../../../src /utils/printer/zebra";
 
@@ -27,6 +27,8 @@ apiCommon = (await window.apiCommonModule).default;
 lktUtil = (await window.lktUtilModule).default;
 lktMqtt = (await window.lktMqttModule).default;
 
+let dvList = [];
+
 const idPrefix = "#field-fieldKiosk-fieldKiosk ";
 
 let txtBoxSearch;
@@ -44,12 +46,13 @@ function isPrintFind() {
     let devices = zebra.setup();
 
     //alert(JSON.stringify(devices));
+
     for (var i = 0; i < devices.length; i++) {
-      if (devices[i].connection === "USB" && devices[i].connection === "usb") {
-        // isFind = true;
-        // zebra.writeToSelectedPrinter("usb", zplData);
-        //zebra.writeToSelectedPrinter(printCode, zplData);
-      }
+      // if (devices[i].connection === "USB" && devices[i].connection === "usb") {
+      // isFind = true;
+      // zebra.writeToSelectedPrinter("usb", zplData);
+      //zebra.writeToSelectedPrinter(printCode, zplData);
+      // }
     }
   } catch (e) {}
 
@@ -377,6 +380,11 @@ function onCreate() {
   }, 5000); // 5초에 한번
 
   setInterval(() => {
+    zebra.setup();
+    dvList = zebra.getDeviceList();
+    console.log("printList:" + dvList);
+    //console.log("printList:" + JSON.stringify(zebra.getDeviceList()));
+
     lktMqtt.fncStartMqtt(onMessage);
     selectPrint();
   }, 5000); // 5초에 한번
