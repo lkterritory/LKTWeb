@@ -16,6 +16,8 @@ apiWcs = (await window.apiWcsModule).default;
 apiCommon = (await window.apiCommonModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
+let intervalList = null;
+
 const idPrefix = "#exec-execReprint-execReprint ";
 
 let txtBoxSearch;
@@ -207,7 +209,7 @@ function onCreate() {
 
   searchConditions();
 
-  setInterval(() => {
+  intervalList = setInterval(() => {
     zebra.setup();
     dvList = zebra.getDeviceList();
     console.log("printList:" + dvList);
@@ -272,7 +274,17 @@ function searchList() {
     });
 }
 
+function onDestroy() {
+  // alert("dest");
+
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+}
+
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };

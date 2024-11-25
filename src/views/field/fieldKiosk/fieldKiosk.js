@@ -4,6 +4,9 @@ let lktUtil;
 
 let lktMqtt;
 
+let intervalList = null;
+let intervalPrintMq = null;
+
 import zebra from "../../../scripts/utils/printer/zebra/index.js?a=1";
 
 // import zebra from "../../../src /utils/printer/zebra";
@@ -353,12 +356,12 @@ function onCreate() {
     // searchList2();
   }
 
-  setInterval(() => {
+  intervalList = setInterval(() => {
     searchList();
     searchList2();
   }, 5000); // 5초에 한번
 
-  setInterval(() => {
+  intervalPrintMq = setInterval(() => {
     zebra.setup();
     dvList = zebra.getDeviceList();
     console.log("printList:" + dvList);
@@ -773,7 +776,22 @@ function onMessage(message) {
   searchList2();
 }
 
+function onDestroy() {
+  // alert("dest");
+
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+
+  if (intervalPrintMq) {
+    clearInterval(intervalPrintMq);
+    intervalPrintMq = null;
+  }
+}
+
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };

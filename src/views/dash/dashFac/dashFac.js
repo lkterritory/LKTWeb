@@ -28,6 +28,8 @@ let listEquipmentCode = [
 
 let eqpCodeSel = ""; /// 선택된 설비
 
+let intervalList = null;
+
 window.onClickFac = function () {
   showPopup();
 };
@@ -48,7 +50,7 @@ function onCreate() {
 
   searchList();
 
-  setInterval(() => {
+  intervalList = setInterval(() => {
     searchList();
   }, 10000); // 10초에 한번
 }
@@ -328,7 +330,15 @@ function showPopup() {
   });
 }
 
+function onDestroy() {
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+}
+
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };

@@ -9,6 +9,8 @@ if (!window.apiWcsModule || !window.lktUtilModule) {
 apiWcs = (await window.apiWcsModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
+let intervalList = null;
+
 const idPrefix = "#dash-dashDash-dashDash ";
 
 let data = [];
@@ -17,7 +19,7 @@ let dataRes = [];
 function onCreate() {
   // Progress Bar 설정
 
-  setInterval(() => {
+  intervalList = setInterval(() => {
     searchList();
   }, 10000); // 10초에 한번
 }
@@ -278,7 +280,15 @@ function searchList() {
 
 //$(window).on("resize", resizeGauge);
 
+function onDestroy() {
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+}
+
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };

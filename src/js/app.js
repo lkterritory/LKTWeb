@@ -1,6 +1,8 @@
 let moduleTarget = {};
 let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 
+let loadedModules = [];
+
 function checkSession() {
   if (Cookies.get("login") != "true") {
     window.location.href = "./src/views/login/login.html";
@@ -30,10 +32,22 @@ function createMenu() {
       localStorage.setItem("viewPre", view);
       localStorage.setItem("tabTitlePre", tabTitle);
 
-      const importedModule = await import(
-        "../views/" + view.replace(".html", ".js?t=" + Date.now())
-      );
-      moduleTarget = importedModule.default || importedModule;
+      let isFindView = loadedModules.find((item) => item.view === view);
+      if (!isFindView) {
+        const importedModule = await import(
+          "../views/" + view.replace(".html", ".js?t=" + Date.now())
+        );
+        moduleTarget = importedModule.default || importedModule;
+
+        loadedModules.push({
+          module: moduleTarget,
+          view: view
+        });
+      }
+
+      if (isFindView) moduleTarget = isFindView.module;
+
+      // console.log(moduleTarget);
 
       // 이미 로드된 탭인지 확인
       if (loadedTabs[view]) {
@@ -151,10 +165,25 @@ async function restoreTabs() {
     return;
   }
 
-  const importedModule = await import(
-    "../views/" + view.replace(".html", ".js?t=" + Date.now())
-  );
-  moduleTarget = importedModule.default || importedModule;
+  let isFindView = loadedModules.find((item) => item.view === view);
+  if (!isFindView) {
+    const importedModule = await import(
+      "../views/" + view.replace(".html", ".js?t=" + Date.now())
+    );
+    moduleTarget = importedModule.default || importedModule;
+
+    loadedModules.push({
+      module: moduleTarget,
+      view: view
+    });
+  }
+
+  if (isFindView) moduleTarget = isFindView.module;
+
+  // const importedModule = await import(
+  //   "../views/" + view.replace(".html", ".js?t=" + Date.now())
+  // );
+  // moduleTarget = importedModule.default || importedModule;
 
   // 이미 로드된 탭인지 확인
   if (loadedTabs[view]) {
@@ -183,6 +212,13 @@ window.activateTab = function (view) {
 window.removeTab = function (view) {
   localStorage.setItem("viewPre", null);
   localStorage.setItem("tabTitlePre", null);
+
+  let isFindView = loadedModules.find((item) => item.view === view);
+
+  if (isFindView.module.onDestroy) {
+    isFindView.module.onDestroy();
+  } else {
+  }
 
   const contentId = view.replace(/\//g, "-").replace(".html", "");
   $(`.tab[data-view="${view}"]`).remove();
