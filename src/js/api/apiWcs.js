@@ -10,6 +10,7 @@ $.ajaxSetup({
     jqXHR.apiUrl = url.origin + url.pathname; // 파라미터 없는 URL 저장
 
     if (
+      settings.url.includes("dashboard") ||
       settings.url.includes("outbound/equipment/picktolight/input") ||
       settings.url.includes("outbound/equipment/picktolight/status") ||
       settings.url.includes("outbound/equipment/label")
