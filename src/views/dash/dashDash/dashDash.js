@@ -19,20 +19,13 @@ let dataRes = [];
 function onCreate() {
   // Progress Bar 설정
 
+  searchList();
   intervalList = setInterval(() => {
     searchList();
   }, 10000); // 10초에 한번
 }
 
 function loadDashboard() {
-  data = [];
-
-  // "equipmentCode": "DAS-01",
-  // "totalSkuCount": 20,
-  // "processSkuCount": 0,
-  // "totalQuantity": 102,
-  // "processQuantity": 0
-
   for (let i = 0; i < dataRes.length; i++) {
     let dataTmp = {
       facilitiesCode: dataRes[i].equipmentCode,
@@ -105,11 +98,16 @@ function loadDashboard() {
     //   workPcs: 150,
     //   progress: 91
 
-    $(idPrefix + "#dashboard").append(card);
+    $(idPrefix + "#dashboard").html(card);
+    // $(idPrefix + "#dashboard").append(card);
 
     for (let i = 1; i < 4; i++) {
       //alert("pidx:" + i);
       $(idPrefix + "#progressBar" + index + "_" + i).dxProgressBar({
+        animation: {
+          // 애니메이션 설정
+          enabled: false // 애니메이션 비활성화
+        },
         value:
           i == 1
             ? item.workOrderCount
@@ -258,6 +256,18 @@ function onActive() {
 }
 
 function searchList() {
+  // dataRes = [
+  //   {
+  //     equipmentCode: "DAS-01",
+  //     totalSkuCount: 20,
+  //     processSkuCount: 2,
+  //     totalQuantity: 102,
+  //     processQuantity: 10
+  //   }
+  // ];
+  // loadDashboard();
+  // return;
+
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [{}]

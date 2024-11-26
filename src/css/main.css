@@ -1,12 +1,73 @@
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 700;
+  src: local("Spoqa Han Sans Neo Bold"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Bold.woff2")
+      format("woff2"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Bold.woff")
+      format("woff"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Bold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 500;
+  src: local("Spoqa Han Sans Neo Medium"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Medium.woff2")
+      format("woff2"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Medium.woff")
+      format("woff"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Medium.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 400;
+  src: local("Spoqa Han Sans Neo Regular"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Regular.woff2")
+      format("woff2"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Regular.woff")
+      format("woff"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Regular.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 300;
+  src: local("Spoqa Han Sans Neo Light"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Light.woff2")
+      format("woff2"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Light.woff")
+      format("woff"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Light.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 100;
+  src: local("Spoqa Han Sans Neo Thin"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Thin.woff2")
+      format("woff2"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Thin.woff")
+      format("woff"),
+    url("../../assets/fonts/spoqa-han-sans-neo/SpoqaHanSansNeo-Thin.ttf")
+      format("truetype");
+}
+
 /* 기본 스타일 */
 html,
 body {
+  font-family: "Spoqa Han Sans Neo";
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   background-color: #bbd5ff;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
 }
 
 .container {

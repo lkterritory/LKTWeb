@@ -48,6 +48,19 @@ function onCreate() {
 
   $(".title-fac").text(eqpCodeSel);
 
+  // let dataTmp = [
+  //   {
+  //     centerCode: "LKT",
+  //     clientCode: "LKT",
+  //     warehouseCode: "LKT",
+  //     totalSkuCount: 20,
+  //     processSkuCount: 0,
+  //     totalQuantity: 102,
+  //     processQuantity: 0
+  //   }
+  // ];
+  // loadBar(dataTmp);
+
   searchList();
 
   intervalList = setInterval(() => {
@@ -138,15 +151,15 @@ function getFormattedDate() {
 }
 
 function loadBar(data) {
-  //   {
-  //     "centerCode": "LKT",
-  //     "clientCode": "LKT",
-  //     "warehouseCode": "LKT",
-  //     "totalSkuCount": 20,
-  //     "processSkuCount": 0,
-  //     "totalQuantity": 102,
-  //     "processQuantity": 0
-  // }
+  // data = [{
+  //   centerCode: "LKT",
+  //   clientCode: "LKT",
+  //   warehouseCode: "LKT",
+  //   totalSkuCount: 20,
+  //   processSkuCount: 0,
+  //   totalQuantity: 102,
+  //   processQuantity: 0
+  // }];
 
   //for (let i = 0; i < 1; i++) {
 
