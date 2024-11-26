@@ -97,7 +97,11 @@ function onCreate() {
           return;
         }
 
-        if (rowSel[0].pickingGroup == "1HM_01") {
+        if (
+          !rowSel[0].equipmentCode ||
+          rowSel[0].equipmentCode == null ||
+          rowSel[0].equipmentCode == ""
+        ) {
           return;
         }
 
@@ -110,10 +114,12 @@ function onCreate() {
                 .toISOString()
                 .split("T")[0],
               workBatch: rowSel[0].workBatch,
-              pickingGroup: rowSel[0].pickingGroup
+              equipmentCode: rowSel[0].equipmentCode
             }
           ]
         };
+
+        //alert(JSON.stringify(obj));
 
         apiWcs
           .wcsOperationStart(JSON.stringify(obj))
@@ -223,32 +229,38 @@ function onCreate() {
         // {
         //   workDate: "text",
         //   workBatch: "text2",
-        //   pickingGroup: "DAS01"
+        //   pickingGroup: "DAS01",
+        //   equipmentCode: "DAS-01"
         // },
         // {
         //   workDate: "text",
         //   workBatch: "text3",
-        //   pickingGroup: "1HM_01"
+        //   pickingGroup: "1HM_01",
+        //   equipmentCode: "DAS-01"
         // },
         // {
         //   workDate: "text",
         //   workBatch: "text4",
-        //   pickingGroup: "DAS-02"
+        //   pickingGroup: "DAS-02",
+        //   equipmentCode: "DAS-01"
         // },
         // {
         //   workDate: "text",
         //   workBatch: "text5",
-        //   pickingGroup: "1HM_01"
+        //   pickingGroup: "1HM_01",
+        //   equipmentCode: "DAS-01"
         // },
         // {
         //   workDate: "text",
         //   workBatch: "text6",
-        //   pickingGroup: "DAS-04"
+        //   pickingGroup: "DAS-04",
+        //   equipmentCode: "DAS-01"
         // },
         // {
         //   workDate: "text",
         //   workBatch: "text7",
-        //   pickingGroup: "DAS-03"
+        //   pickingGroup: "DAS-03",
+        //   equipmentCode: "DAS-01"
         // }
       ], // 서버에서 데이터를 가져와서 할당
       columns: [
@@ -286,8 +298,21 @@ function onCreate() {
           },
           cellTemplate: function (cellElement, cellInfo) {
             // 특정 조건을 확인하여 SelectBox를 표시
-            //// if (cellInfo.data.condition === "특정조건") {
-            if (cellInfo.value == "1HM_01") {
+
+            cellElement.text(cellInfo.value); // 조건에 맞지 않으면 일반 텍스트로 표시
+          }
+        },
+        {
+          dataField: "equipmentCode",
+          caption: "설비명",
+          width: 180,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
+          },
+          cellTemplate: function (cellElement, cellInfo) {
+            const pickingGroup = cellInfo.data.pickingGroup;
+
+            if (pickingGroup == "1HM_01") {
               const selectBox = $("<div>")
                 .dxSelectBox({
                   items: facTmp,
@@ -312,15 +337,6 @@ function onCreate() {
                 height: "40px"
               });
             } else {
-              // cellElement
-              //   .text(cellInfo.value) // 일반 텍스트 표시
-              //   .css({
-              //     display: "flex",
-              //     alignItems: "center",
-              //     justifyContent: "center", // 텍스트 가운데 정렬
-              //     height: "100%"
-              //   });
-
               cellElement.css({
                 display: "flex",
                 alignItems: "center",
@@ -330,15 +346,24 @@ function onCreate() {
             }
           }
         },
-        {
-          dataField: "equipmentName",
-          caption: "설비명",
-          minWidth: 90,
+        // {
+        //   dataField: "equipmentCode",
+        //   caption: "설비명",
+        //   minWidth: 90,
 
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
-          }
-        },
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
+        //   }
+        // },
+        // {
+        //   dataField: "equipmentName",
+        //   caption: "설비명",
+        //   minWidth: 90,
+
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
+        //   }
+        // },
         {
           dataField: "totalOrderCount",
           caption: "주문건수",
