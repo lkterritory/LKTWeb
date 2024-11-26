@@ -312,7 +312,8 @@ function onCreate() {
           cellTemplate: function (cellElement, cellInfo) {
             const pickingGroup = cellInfo.data.pickingGroup;
 
-            if (pickingGroup == "1HM_01") {
+            // if (pickingGroup == "1HM_01") {
+            if (true) {
               const selectBox = $("<div>")
                 .dxSelectBox({
                   items: facTmp,
