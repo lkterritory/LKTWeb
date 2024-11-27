@@ -10,7 +10,7 @@ let socket;
 //       //Add device to list of devices and to html select element
 //       selected_device = device;
 //       devices.push(device);
-//       // 20230511 조형근 - 현재 선택 된 디바이스 정보 보려면 selected_device 에서 참고하면 됩니다.
+
 //       // 아래 주석은 차후 지울 예정
 //       // var html_select = document.getElementById("selected_device");
 //       // var option = document.createElement("option");
@@ -25,7 +25,7 @@ let socket;
 //             var device = device_list[i];
 //             if (!selected_device || device.uid != selected_device.uid) {
 //               devices.push(device);
-//               // 20230511 조형근 - 현재 선택 된 디바이스 정보 보려면 selected_device 에서 참고하면 됩니다.
+
 //               // 아래 주석은 차후 지울 예정
 //               // var option = document.createElement("option");
 //               // option.text = device.name;

@@ -18,6 +18,8 @@ $.ajaxSetup({
       return;
     }
 
+    // console.log()
+
     $("#networkPopup")
       .dxPopup({
         title: "로딩중...",

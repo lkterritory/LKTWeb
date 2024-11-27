@@ -48,6 +48,15 @@ function searchConditions() {
     .fail(function () {});
 }
 
+window.onClickReprintPrint = function () {
+  zebra.setup();
+
+  $(".printstate").css({
+    color: "red", // 텍스트 색상
+    fontWeight: "bold" // 텍스트 굵게
+  });
+};
+
 function onCreate() {
   zebra.setup();
 
@@ -210,7 +219,6 @@ function onCreate() {
   searchConditions();
 
   intervalList = setInterval(() => {
-    zebra.setup();
     dvList = zebra.getDeviceList();
     console.log("printList:" + dvList);
 
