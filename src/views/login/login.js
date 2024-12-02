@@ -11,124 +11,125 @@ if (!window.apiModule || !window.lktStorateModule) {
 api = (await window.apiModule).default;
 lktStorate = (await window.lktStorateModule).default;
 
-// $(document).ready(function () {
-//   const loginBtn = $("#loginBtn");
+$(document).ready(function () {
+  const loginBtn = $("#loginBtn");
 
-//   loginBtn.on("click", function () {
-//     // alert("dd");
-//     let reqParam = {
-//       lktHeader: {
-//         type: "REQUEST",
-//         call: "PATCH.ONEGATE.SERVER",
-//         status: 0,
-//         message: "",
-//         encryption: "",
-//         centerCode: "",
-//         clientCode: "",
-//         warehouseCode: ""
-//       },
-//       lktBody: [
-//         {
-//           publicAddress: "192.168.10.3",
-//           internalAddress: "192.168.10.3",
-//           connectionType: "TEST"
-//         }
-//       ]
-//     };
+  loginBtn.on("click", function () {
+    // alert("dd");
+    let reqParam = {
+      lktHeader: {
+        type: "REQUEST",
+        call: "PATCH.ONEGATE.SERVER",
+        status: 0,
+        message: "",
+        encryption: "",
+        centerCode: "",
+        clientCode: "",
+        warehouseCode: ""
+      },
+      lktBody: [
+        {
+          publicAddress: "192.168.10.3",
+          internalAddress: "192.168.10.3",
+          connectionType: "TEST"
+        }
+      ]
+    };
 
-//     api
-//       .server(reqParam)
-//       .done(function (response) {
-//         if (response.lktBody.length == 0) {
-//           response.lktBody[0] = {
-//             authentication:
-//               "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
-//           };
-//         }
-//         response.lktBody[0] = {
-//           authentication:
-//             "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
-//         };
+    api
+      .server(reqParam)
+      .done(function (response) {
+        if (response.lktBody.length == 0) {
+          // response.lktBody[0] = {
+          //   authentication:
+          //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
+          // };
+        }
+        // response.lktBody[0] = {
+        //   authentication:
+        //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
+        // };
 
-//         // 임시 authentication 추가
-//         let xJson = new Object();
-//         let xDatabase = new Object();
+        // 임시 authentication 추가
+        // let xJson = new Object();
+        // let xDatabase = new Object();
 
-//         xJson.centerCode = "HMOMNI";
-//         xJson.clientCode = "HMOMNI";
-//         xJson.warehouseCode = "HMOMNI";
+        // xJson.centerCode = "HMOMNI";
+        // xJson.clientCode = "HMOMNI";
+        // xJson.warehouseCode = "HMOMNI";
 
-//         xDatabase.server = "192.168.26.24";
-//         xDatabase.port = "3306";
-//         xDatabase.database = "LKT";
-//         xDatabase.username = "mskyjuat01";
-//         xDatabase.password = "hmgplus1!";
-//         xDatabase.attribute01 = "MYSQL";
+        // xDatabase.server = "192.168.26.24";
+        // xDatabase.port = "3306";
+        // xDatabase.database = "LKT";
+        // xDatabase.username = "mskyjuat01";
+        // xDatabase.password = "hmgplus1!";
+        // xDatabase.attribute01 = "MYSQL";
 
-//         xJson.database = xDatabase;
+        // xJson.database = xDatabase;
 
-//         let authentication = new Object();
-//         authentication = btoa(JSON.stringify(xJson));
-//         response.lktBody[0] = {
-//           authentication: authentication
-//         };
-//         // 임시 authentication 추가 end
+        // let authentication = new Object();
+        // authentication = btoa(JSON.stringify(xJson));
+        // response.lktBody[0] = {
+        //   authentication: authentication
+        // };
+        // 임시 authentication 추가 end
 
-//         lktStorate.setServerInfo(response.lktBody[0]);
+        lktStorate.setServerInfo(response.lktBody[0]);
 
-//         // login API 호출
-//         reqParam = {
-//           lktHeader: {
-//             type: "REQUEST",
-//             call: "PAGE.ONEGATEA.LOGIN",
-//             status: 0,
-//             message: "",
-//             encryption: response.lktBody[0],
-//             centerCode: "HMOMN",
-//             clientCode: "HMOMN",
-//             warehouseCode: "HMOMN"
-//           },
-//           lktBody: [
-//             {
-//               userName: $("#username").val(),
-//               password: btoa($("#password").val()),
-//               connectionType: "TEST",
-//               serverGroup: "HMOMN"
-//             }
-//           ]
-//         };
+        // login API 호출
+        reqParam = {
+          lktHeader: {
+            type: "REQUEST",
+            call: "PAGE.ONEGATEA.LOGIN",
+            status: 0,
+            message: "",
+            encryption: response.lktBody[0],
+            centerCode: "HMOMN",
+            clientCode: "HMOMN",
+            warehouseCode: "HMOMN"
+          },
+          lktBody: [
+            {
+              userName: $("#username").val(),
+              password: btoa($("#password").val()),
+              connectionType: "TEST",
+              serverGroup: "HMOMN"
+            }
+          ]
+        };
 
-//         api
-//           .login(reqParam)
-//           .done(function (response) {
-//             // alert("dd3");
-//             if (response.lktBody.length == 0) {
-//               response.lktBody[0] = {
-//                 centerCode: "HMOMN",
-//                 clientCode: "HMOMN",
-//                 warehouseCode: "HMOMN",
-//                 userId: "HMOMN",
-//                 userName: "HMOMN"
-//               };
-//             }
+        api
+          .login(reqParam)
+          .done(function (response) {
+            // alert("dd3");
+            if (response.lktBody.length == 0) {
+              response.lktBody[0] = {
+                centerCode: "HMOMN",
+                clientCode: "HMOMN",
+                warehouseCode: "HMOMN",
+                userId: "HMOMN",
+                userName: "HMOMN"
+              };
+            }
 
-//             lktStorate.setLoginInfo(response.lktBody[0]);
-//             // alert(JSON.stringify(response.lktBody[0]));
-//             // alert(JSON.stringify(lktStorate.getLoginInfo()));
+            lktStorate.setLoginInfo(response.lktBody[0]);
+            // alert(JSON.stringify(response.lktBody[0]));
+            // alert(JSON.stringify(lktStorate.getLoginInfo()));
+            console.log(JSON.stringify(response.lktBody[0]));
 
-//             Cookies.set("login", "true");
+            Cookies.set("login", "true");
 
-//             window.location.href = "../../../index.html";
-//           })
-//           .fail(function () {
-//             // 에러 발생 시 처리
-//           });
-//       })
-//       .fail(function () {
-//         // 에러 발생 시 처리
-//       });
-//   });
-// });
+            window.location.href = "../../../index.html";
+          })
+          .fail(function () {
+            // 에러 발생 시 처리
+          });
+      })
+      .fail(function () {
+        // 에러 발생 시 처리
+      });
+  });
+});
 
 // function showErrorPop() {
 //   $("#errorPopup")
@@ -155,54 +156,54 @@ lktStorate = (await window.lktStorateModule).default;
 //   }, 1);
 // }
 
-$(document).ready(function () {
-  const loginBtn = $("#loginBtn");
-  loginBtn.on("click", function () {
-    // 임시 authentication 추가
-    let xJson = new Object();
-    let xDatabase = new Object();
+// $(document).ready(function () {
+//   const loginBtn = $("#loginBtn");
+//   loginBtn.on("click", function () {
+//     // 임시 authentication 추가
+//     let xJson = new Object();
+//     let xDatabase = new Object();
 
-    xJson.centerCode = "HMOMNI";
-    xJson.clientCode = "HMOMNI";
-    xJson.warehouseCode = "HMOMNI";
+//     xJson.centerCode = "HMOMNI";
+//     xJson.clientCode = "HMOMNI";
+//     xJson.warehouseCode = "HMOMNI";
 
-    xDatabase.server = "127.0.0.1";
-    // xDatabase.server = "192.168.26.24";
-    xDatabase.port = "3306";
-    xDatabase.database = "LKT";
-    xDatabase.username = "mskyjuat01";
-    xDatabase.password = "hmgplus1!";
-    xDatabase.attribute01 = "MYSQL";
+//     xDatabase.server = "127.0.0.1";
+//     // xDatabase.server = "192.168.26.24";
+//     xDatabase.port = "3306";
+//     xDatabase.database = "LKT";
+//     xDatabase.username = "mskyjuat01";
+//     xDatabase.password = "hmgplus1!";
+//     xDatabase.attribute01 = "MYSQL";
 
-    xJson.database = xDatabase;
+//     xJson.database = xDatabase;
 
-    let authentication = new Object();
-    authentication = btoa(JSON.stringify(xJson));
-    let authTmp = {
-      authentication: authentication
-    };
+//     let authentication = new Object();
+//     authentication = btoa(JSON.stringify(xJson));
+//     let authTmp = {
+//       authentication: authentication
+//     };
 
-    // authTmp.authentication =
-    //   "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==";
-    // 임시 authentication 추가 end
+//     // authTmp.authentication =
+//     //   "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==";
+//     // 임시 authentication 추가 end
 
-    lktStorate.setServerInfo(authTmp);
+//     lktStorate.setServerInfo(authTmp);
 
-    let lktBodyTmp = {
-      centerCode: "HMOMNI",
-      clientCode: "HMOMNI",
-      warehouseCode: "HMOMNI",
-      userId: "HMOMNI",
-      userName: "HMOMNI"
-    };
+//     let lktBodyTmp = {
+//       centerCode: "HMOMNI",
+//       clientCode: "HMOMNI",
+//       warehouseCode: "HMOMNI",
+//       userId: "HMOMNI",
+//       userName: "HMOMNI"
+//     };
 
-    lktStorate.setLoginInfo(lktBodyTmp);
+//     lktStorate.setLoginInfo(lktBodyTmp);
 
-    Cookies.set("login", "true");
+//     Cookies.set("login", "true");
 
-    window.location.href = "../../../index.html";
-  });
-});
+//     window.location.href = "../../../index.html";
+//   });
+// });
 
 function showErrorPop() {
   $("#errorPopup")
