@@ -44,7 +44,6 @@ function loadDashboard() {
         (dataTmp.workOrderCount / dataTmp.totalOrderCount) * 100;
     dataTmp.progress = Math.round(dataTmp.progress);
 
-    //alert(dataTmp.progress);
     if (dataTmp.progress == NaN) {
       // alert(progress);
       dataTmp.progress = 0;
@@ -98,7 +97,13 @@ function loadDashboard() {
     //   workPcs: 150,
     //   progress: 91
 
-    $(idPrefix + "#dashboard").html(card);
+    if (
+      !$(idPrefix + "#dashboard")
+        .html()
+        .includes(item.facilitiesCode)
+    )
+      $(idPrefix + "#dashboard").append(card);
+
     // $(idPrefix + "#dashboard").append(card);
 
     for (let i = 1; i < 4; i++) {
@@ -256,17 +261,19 @@ function onActive() {
 }
 
 function searchList() {
-  // dataRes = [
-  //   {
-  //     equipmentCode: "DAS-01",
-  //     totalSkuCount: 20,
-  //     processSkuCount: 2,
-  //     totalQuantity: 102,
-  //     processQuantity: 10
-  //   }
-  // ];
-  // loadDashboard();
-  // return;
+  dataRes = [];
+  for (let i = 0; i < 10; i++) {
+    dataRes.push({
+      equipmentCode: "DAS-" + i,
+      totalSkuCount: 20,
+      processSkuCount: 2,
+      totalQuantity: 102,
+      processQuantity: 10
+    });
+  }
+
+  loadDashboard();
+  return;
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
