@@ -76,9 +76,10 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.RDERS"),
           lktBody: [
             {
-              workDate: new Date(dtBoxWork.option("value"))
-                .toISOString()
-                .split("T")[0],
+              workDate: DevExpress.localization.formatDate(
+                dtBoxWork.option("value"),
+                "yyyy-MM-dd"
+              ),
               workBatch: rowSel[0].workBatch
             }
           ]
@@ -110,9 +111,10 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
             {
-              workDate: new Date(dtBoxWork.option("value"))
-                .toISOString()
-                .split("T")[0],
+              workDate: DevExpress.localization.formatDate(
+                dtBoxWork.option("value"),
+                "yyyy-MM-dd"
+              ),
               workBatch: rowSel[0].workBatch,
               equipmentCode: rowSel[0].equipmentCode
             }
@@ -136,9 +138,10 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
             {
-              workDate: new Date(dtBoxWork.option("value"))
-                .toISOString()
-                .split("T")[0],
+              workDate: DevExpress.localization.formatDate(
+                dtBoxWork.option("value"),
+                "yyyy-MM-dd"
+              ),
               workBatch: rowSel[0].workBatch
             }
           ]
@@ -158,9 +161,10 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
             {
-              workDate: new Date(dtBoxWork.option("value"))
-                .toISOString()
-                .split("T")[0]
+              workDate: DevExpress.localization.formatDate(
+                dtBoxWork.option("value"),
+                "yyyy-MM-dd"
+              )
             }
           ]
         };
@@ -181,9 +185,10 @@ function onCreate() {
           lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
           lktBody: [
             {
-              workDate: new Date(dtBoxWork.option("value"))
-                .toISOString()
-                .split("T")[0],
+              workDate: DevExpress.localization.formatDate(
+                dtBoxWork.option("value"),
+                "yyyy-MM-dd"
+              ),
               workBatch: rowSel[0].workBatch
             }
           ]
@@ -499,7 +504,10 @@ function searchConditions() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: dtBoxWork.option("value").toISOString().split("T")[0]
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        )
       }
     ]
   };
@@ -572,10 +580,16 @@ function searchList() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: dtBoxWork.option("value").toISOString().split("T")[0] //"2024-02-17"
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        )
       }
     ]
   };
+
+  console.log("wcsOperation-get", JSON.stringify(obj));
+
   var encoded = btoa(JSON.stringify(obj));
   apiWcs
     .wcsOperation(encoded)

@@ -310,9 +310,10 @@ function searchList() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: new Date(dtBoxWork.option("value"))
-          .toISOString()
-          .split("T")[0]
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        )
         //workBatch: selBoxBatch.option("value")
       }
     ]

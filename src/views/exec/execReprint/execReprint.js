@@ -33,7 +33,10 @@ function searchConditions() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: dtBoxWork.option("value").toISOString().split("T")[0]
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        )
       }
     ]
   };
@@ -246,7 +249,10 @@ function searchList() {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        workDate: dtBoxWork.option("value").toISOString().split("T")[0],
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        ),
         workBatch: selBoxBatch.option("value")
           ? selBoxBatch.option("value")
           : "",
