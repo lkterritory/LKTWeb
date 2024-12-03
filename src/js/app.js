@@ -12,6 +12,42 @@ function checkSession() {
 function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
+    try {
+      let loginInfo = lktStorate.getLoginInfo(response.lktBody[0]);
+      data.menuItems = loginInfo.menus;
+
+      console.log("loadmenuinfo:", loginInfo);
+    } catch (ex) {
+      console.log("menuload error:", ex);
+    }
+
+    // {
+    //   "title": "기준정보",
+    //   "submenus": [
+    //     {"title": "상품정보", "view": "mast/mastItem/mastItem.html"},
+    //     {"title": "사용자정보", "view": "mast/mastUser/mastUser.html"},
+    //     {"title": "권한정보", "view": "mast/mastAuth/mastAuth.html"},
+    //     {
+    //       "title": "로케이션정보",
+    //       "view": "mast/mastLocation/mastLocation.html"
+    //     },
+    //     {"title": "기초정보", "view": "mast/mastBase/mastBase.html"}
+    //   ]
+    // },
+
+    // const temp2 = {
+    //   enCode: "pdaInventoryCheck",
+    //   vueName: "",
+    //   type: 2,
+    //   path: "",
+    //   urlAddress: "pda/pdaInventoryCheck",
+    //   icon: "icon-menu-exec-pickExcept.png",
+    //   fullName: "재고조사",
+    //   id: "0560",
+    //   hasChildren: true,
+    //   children: []
+    // };
+
     let menuHtml = "<ul>";
     data.menuItems.forEach(function (item) {
       menuHtml += `<li class="menu-item">${item.title}<ul class="submenu">`;
