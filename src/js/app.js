@@ -3,13 +3,55 @@ let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 
 let loadedModules = [];
 
+let api;
 let lktStorate;
 
-if (!window.lktStorateModule) {
+if (!window.apiModule || !window.lktStorateModule) {
+  window.apiModule = import(`./api/api.js?t=${Date.now()}`);
   window.lktStorateModule = import(`./util/lktStorage.js?t=${Date.now()}`);
 }
 
+api = (await window.apiModule).default;
 lktStorate = (await window.lktStorateModule).default;
+
+function gate() {
+  // alert("dd");
+  let reqParam = {
+    lktHeader: {
+      type: "REQUEST",
+      call: "PATCH.ONEGATE.SERVER",
+      status: 0,
+      message: "",
+      encryption: "",
+      centerCode: "",
+      clientCode: "",
+      warehouseCode: ""
+    },
+    lktBody: [
+      // {
+      //   publicAddress: "192.168.10.3",
+      //   internalAddress: "192.168.10.3",
+      //   connectionType: "TEST"
+      // }
+    ]
+  };
+
+  api
+    .server(reqParam)
+    .done(function (response) {
+      if (response.lktBody.length == 0) {
+        // response.lktBody[0] = {
+        //   authentication:
+        //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
+        // };
+
+        lktStorate.setServerInfo(response.lktBody[0]);
+      }
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
 
 function checkSession() {
   if (Cookies.get("login") != "true") {
@@ -118,6 +160,8 @@ function createMenu() {
 }
 
 $(document).ready(function () {
+  gate();
+
   checkSession();
   createMenu();
 

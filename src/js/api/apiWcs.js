@@ -364,7 +364,7 @@ function equipmentPicktolightStatus(param) {
 
 function equipmentLabel(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/label?id=" + param,
+    url: baseUrlWcs + "/outbound/equipment/label-print?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -374,7 +374,7 @@ function equipmentLabel(param) {
 
 function equipmentLabelPatch(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/label",
+    url: baseUrlWcs + "/outbound/equipment/label-print",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
