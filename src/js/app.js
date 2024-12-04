@@ -23,7 +23,7 @@ function createMenu() {
     try {
       let loginInfo = lktStorate.getLoginInfo();
 
-      console.log("loadmenuinfo:", loginInfo);
+      console.log("loadmenuinfo:", JSON.stringify(loginInfo));
 
       if (loginInfo && loginInfo.menuItems) {
         data.menuItems = loginInfo.menus;
