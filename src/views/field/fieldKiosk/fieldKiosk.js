@@ -472,9 +472,63 @@ function initView() {
   document.querySelector(".summary-item:nth-child(3) .total").textContent = "";
 
   // workOrderGrid.option("dataSource", []);
+
+  // // tmp
+  // let resBodyTmp = {
+  //   clientCode: "HMOMNI",
+  //   warehouseCode: "HMOMNI",
+  //   processObjectCount: 10,
+  //   totalObjectCount: 20,
+  //   processSkuCount: 30,
+  //   totalSkuCount: 40,
+  //   processQuantity: 40,
+  //   totalQuantity: 60
+  // };
+
+  // document // 주문 값 설정
+  //   .querySelector(".summary-item:nth-child(1) .current").textContent =
+  //   resBodyTmp.processObjectCount; // 현재값
+  // document.querySelector(".summary-item:nth-child(1) .total").textContent =
+  //   resBodyTmp.totalObjectCount; // 총합값
+
+  // // 품목 값 설정
+  // document.querySelector(".summary-item:nth-child(2) .current").textContent =
+  //   resBodyTmp.processSkuCount; // 현재값
+  // document.querySelector(".summary-item:nth-child(2) .total").textContent =
+  //   resBodyTmp.totalSkuCount; // 총합값
+
+  // // PCS 값 설정
+  // document.querySelector(".summary-item:nth-child(3) .current").textContent =
+  //   resBodyTmp.processQuantity; // 현재값
+  // document.querySelector(".summary-item:nth-child(3) .total").textContent =
+  //   resBodyTmp.totalQuantity; // 총합값
+
+  // $(idPrefix + "#progressBar").dxProgressBar({
+  //   value: resBodyTmp.processSkuCount,
+  //   min: 0,
+  //   max: resBodyTmp.totalSkuCount,
+  //   showStatus: true,
+  //   statusFormat: function (value) {
+  //     //return `${(value * 100).toFixed(0)}%`;
+  //     return `${Math.floor(value * 100, 0)}%`;
+  //   },
+  //   onContentReady: function (e) {
+  //     const $element = e.element.find(".dx-progressbar-status");
+  //     $element.css({
+  //       position: "absolute",
+  //       left: "50%",
+  //       top: "50%",
+  //       transform: "translate(-50%, -60%)",
+  //       color: "#ffffff", // 텍스트 색상
+  //       fontSize: "20px"
+  //       // fontWeight: "bold"
+  //     });
+  //   }
+  // });
 }
 
 function searchList() {
+  //  initView();
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),
     lktBody: [

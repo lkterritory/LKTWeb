@@ -264,7 +264,7 @@ function searchList() {
   // dataRes = [];
   // for (let i = 0; i < 10; i++) {
   //   dataRes.push({
-  //     equipmentCode: "DAS-" + i,
+  //     equipmentCode: "DAS-" + (i + 1 >= 10 ? "" : "0") + (i + 1),
   //     totalSkuCount: 20,
   //     processSkuCount: 2,
   //     totalQuantity: 102,

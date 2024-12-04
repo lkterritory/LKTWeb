@@ -53,13 +53,15 @@ function onCreate() {
   //     centerCode: "LKT",
   //     clientCode: "LKT",
   //     warehouseCode: "LKT",
-  //     totalSkuCount: 20,
-  //     processSkuCount: 0,
+  //     totalSkuCount: 10,
+  //     processSkuCount: 20,
   //     totalQuantity: 102,
-  //     processQuantity: 0
+  //     processQuantity: 300
   //   }
   // ];
   // loadBar(dataTmp);
+
+  //return;
 
   searchList();
 
@@ -76,14 +78,34 @@ function initView() {
   $("#sumbox-con-3-fac-1").text("0/hr");
 
   let iniData = {
-    facilitiesCode: "D",
+    facilitiesCode: "0",
     totalOrderCount: 0,
     workOrderCount: 0,
     totalSkuCount: 0,
-    workSkuCount: 0,
-    totalPcs: 0,
-    workPcs: 0
+    processSkuCount: 0,
+    totalQuantity: 0,
+    processQuantity: 0
   };
+
+  // let iniData = {
+  //   facilitiesCode: "DAS-01",
+  //   totalOrderCount: 30,
+  //   workOrderCount: 20,
+  //   totalSkuCount: 40,
+  //   processSkuCount: 30,
+  //   totalQuantity: 50,
+  //   processQuantity: 40
+  // };
+
+  // let data = {
+  //   facilitiesCode: "DAS-01",
+  //   totalOrderCount: iniData.totalSkuCount,
+  //   workOrderCount: iniData.processSkuCount,
+  //   totalSkuCount: iniData.totalSkuCount,
+  //   workSkuCount: iniData.processSkuCount,
+  //   totalPcs: iniData.totalQuantity,
+  //   workPcs: iniData.processQuantity
+  // };
 
   loadBar([iniData]);
 }
