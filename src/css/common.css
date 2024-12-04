@@ -63,9 +63,9 @@
   margin-left: 0; /* 첫 번째 버튼은 왼쪽 간격 없음 */
 }
 
-.dx-button {
+/* .dx-button {
   width: 100%;
-}
+} */
 
 .dx-datagrid {
   color: #333;

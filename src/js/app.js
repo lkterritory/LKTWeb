@@ -3,6 +3,14 @@ let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 
 let loadedModules = [];
 
+let lktStorate;
+
+if (!window.lktStorateModule) {
+  window.lktStorateModule = import(`./util/lktStorage.js?t=${Date.now()}`);
+}
+
+lktStorate = (await window.lktStorateModule).default;
+
 function checkSession() {
   if (Cookies.get("login") != "true") {
     window.location.href = "./src/views/login/login.html";
@@ -13,10 +21,22 @@ function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
     try {
-      let loginInfo = lktStorate.getLoginInfo(response.lktBody[0]);
-      data.menuItems = loginInfo.menus;
+      let loginInfo = lktStorate.getLoginInfo();
 
       console.log("loadmenuinfo:", loginInfo);
+
+      if (loginInfo && loginInfo.menuItems) {
+        data.menuItems = loginInfo.menus;
+
+        for (let mitm of data.menuItems) {
+          mitm.title = mitm.fullName;
+
+          for (let submitm of data.menuItems) {
+            submitm.title = mitm.fullName;
+            submitm.view = mitm.urlAddress;
+          }
+        }
+      }
     } catch (ex) {
       console.log("menuload error:", ex);
     }

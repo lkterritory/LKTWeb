@@ -306,7 +306,7 @@ body {
 }
 
 /* 반응형 스타일 */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .side-menu {
     width: 60px;
   }
@@ -337,4 +337,4 @@ body {
   .side-menu ul li:hover .submenu {
     display: none;
   }
-}
+} */
