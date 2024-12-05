@@ -2,7 +2,8 @@
 
 // const baseUrl = "http://lkt0dev00.cafe24.com:1129";
 // const baseUrl = "http://192.168.26.24:1129"; // 실서버
-const baseUrl = "http://192.168.26.24:4132"; // 실서버
+// const baseUrl = "http://192.168.26.24:4132"; // 실서버
+const baseUrl = "http://192.168.0.9:4132"; // 실서버
 
 // const baseUrl = "http://192.168.26.120:1129";
 
@@ -133,7 +134,7 @@ $.ajaxSetup({
 // 로그인 API 호출 함수
 function server(param) {
   return $.ajax({
-    url: baseUrl + "/onegate/server",
+    url: baseUrl + "/onegate",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",

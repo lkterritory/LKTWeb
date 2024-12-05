@@ -192,6 +192,17 @@ let tmploginRest = {
 };
 
 function gate() {
+  // let loginInfo = lktStorate.getLoginInfo();
+  // let serverInfo = lktStorate.getServerInfo();
+
+  // lktUtil.lktPayload.lktHeader.call = call;
+  // lktUtil.lktPayload.lktHeader.centerCode = loginInfo.centerCode;
+  // lktUtil.lktPayload.lktHeader.clientCode = loginInfo.clientCode;
+  // lktUtil.lktPayload.lktHeader.warehouseCode = loginInfo.warehouseCode;
+  // lktUtil.lktPayload.lktHeader.userName = loginInfo.userName;
+
+  // lktUtil.lktPayload.lktHeader.authentication = serverInfo.authentication;
+
   // alert("dd");
   let reqParam = {
     lktHeader: {
@@ -222,7 +233,7 @@ function gate() {
         //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
         // };
 
-        lktStorate.setServerInfo(response.lktBody[0]);
+        lktStorate.setServerInfo(response.lktHeader);
       }
     })
     .fail(function () {
@@ -242,16 +253,16 @@ function login() {
       status: 0,
       message: "",
       encryption: serverInfo.authentication, //response.lktBody[0],
-      centerCode: "HMOMN",
-      clientCode: "HMOMN",
-      warehouseCode: "HMOMN"
+      centerCode: "",
+      clientCode: "",
+      warehouseCode: ""
     },
     lktBody: [
       {
-        userName: $("#username").val(),
+        username: $("#username").val(),
         password: btoa($("#password").val()),
         connectionType: "TEST",
-        serverGroup: "HMOMN"
+        serverGroup: ""
       }
     ]
   };
@@ -260,15 +271,18 @@ function login() {
     .login(reqParam)
     .done(function (response) {
       // alert("dd3");
-      if (response.lktBody.length == 0) {
-        response.lktBody[0] = {
-          centerCode: "HMOMN",
-          clientCode: "HMOMN",
-          warehouseCode: "HMOMN",
-          userId: "HMOMN",
-          userName: "HMOMN"
-        };
-      }
+
+      alert(JSON.stringify(response));
+
+      // if (response.lktBody.length == 0) {
+      //   response.lktBody[0] = {
+      //     centerCode: "HMOMN",
+      //     clientCode: "HMOMN",
+      //     warehouseCode: "HMOMN",
+      //     userId: "HMOMN",
+      //     userName: "HMOMN"
+      //   };
+      // }
 
       lktStorate.setLoginInfo(response.lktBody[0]);
       // alert(JSON.stringify(response.lktBody[0]));
@@ -276,6 +290,8 @@ function login() {
       console.log(JSON.stringify(response.lktBody[0]));
 
       Cookies.set("login", "true");
+
+      //return;
 
       window.location.href = "../../../index.html";
     })
