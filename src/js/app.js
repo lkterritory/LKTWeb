@@ -215,6 +215,7 @@ function createMenu() {
       //   }
       // }
 
+      // 로컬테스트시(text) 주석
       data.menuItems = menuReal;
     } catch (ex) {
       console.log("menuload error:", ex);

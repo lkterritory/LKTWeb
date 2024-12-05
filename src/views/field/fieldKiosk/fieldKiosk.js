@@ -260,22 +260,7 @@ function onCreate() {
   // DevExtreme DataGrid 설정
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
-      dataSource: [
-        // {
-        //   lktSequnce: 1,
-        //   skuCode: "1242835001240008",
-        //   skuName: "women skirt",
-        //   skuBarcode: "0212713015164008",
-        //   objectCount: 2,
-        //   planQty: 15,
-        //   pickQty: 0,
-        //   remainingQty: 15,
-        //   statusCode: "04",
-        //   statusName: "완료",
-        //   planDtm: null,
-        //   pickDtm: null
-        // }
-      ],
+      dataSource: [],
       columns: [
         {
           dataField: "lktSequnce",
@@ -352,6 +337,7 @@ function onCreate() {
           }
         }
       ],
+
       showBorders: true,
       scrolling: {
         mode: "standard" // or "virtual" | "infinite"
@@ -364,8 +350,7 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
-      rowPrepared: function (info) {
-        alert(JSON.stringify(info));
+      onRowPrepared: function (info) {
         if (info.rowType === "data") {
           // 조건에 따라 배경색 변경
           if (info.data.statusName === "완료") {
@@ -379,17 +364,31 @@ function onCreate() {
           // }
         }
       }
-      // rowTemplate: function (container, options) {
-      //   const data = options.data;
-      //   const row = $("<tr>");
-      //   if (data.statusName === "완료") {
-      //     row.css("background-color", "gray");
-      //   }
-      //   $("<td>").text(data.statusName).appendTo(row);
-      //   row.appendTo(container);
-      // }
     })
     .dxDataGrid("instance");
+
+  // 테스트 test
+  // workOrderGrid.option("dataSource", [
+  //   {
+  //     lktSequnce: 1,
+  //     skuCode: "1242835001240008",
+  //     skuName: "women skirt",
+  //     skuBarcode: "0212713015164008",
+  //     objectCount: 2,
+  //     planQty: 15,
+  //     pickQty: 0,
+  //     remainingQty: 15,
+  //     statusCode: "04",
+  //     statusName: "완료",
+  //     planDtm: null,
+  //     pickDtm: null
+  //   }
+  // ]);
+
+  // setTimeout(() => {
+  //   workOrderGrid.refresh();
+  //   workOrderGrid.repaint();
+  // }, 500);
 
   searchList();
   searchList2();
