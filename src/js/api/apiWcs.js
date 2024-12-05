@@ -3,9 +3,9 @@
 //
 
 // const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
-//const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
+const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
 //const baseUrlWcs = "http://192.168.26.120:2014";
-const baseUrlWcs = "http://192.168.0.9:2014";
+// const baseUrlWcs = "http://192.168.0.9:2014";
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
