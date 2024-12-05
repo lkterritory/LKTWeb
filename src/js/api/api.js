@@ -8,6 +8,20 @@ const baseUrl = "http://192.168.26.24:4132"; // 실서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
+    const url = new URL(settings.url, window.location.origin); // 절대 경로로 변환
+    jqXHR.apiUrl = url.origin + url.pathname; // 파라미터 없는 URL 저장
+
+    if (
+      settings.url.includes("dashboard") ||
+      settings.url.includes("outbound/equipment/picktolight/input") ||
+      settings.url.includes("outbound/equipment/picktolight/status") ||
+      settings.url.includes("outbound/equipment/label")
+    ) {
+      return;
+    }
+
+    // console.log()
+
     $("#networkPopup")
       .dxPopup({
         title: "로딩중...",
@@ -34,17 +48,85 @@ $.ajaxSetup({
   complete: function (jqXHR, textStatus) {
     // {"readyState":4,"responseText":"","status":204,"statusText":"No Content"}
 
-    // try {
-    //   if (jqXHR.status != 200) {
-    //     alert(jqXHR.status + ": " + jqXHR.statusText);
-    //   }
-    // } catch (ex) {
-    //   alert("unknown error");
-    // }
-
     $("#networkPopup").dxPopup("hide");
 
-    $("#networkPopup").dxPopup("hide");
+    //console.log(jqXHR);
+    try {
+      if (jqXHR.status != 200) {
+        let msgTmp =
+          "api: " +
+          jqXHR.apiUrl +
+          "\r\n" +
+          "status: " +
+          jqXHR.status +
+          "\r\n" +
+          "message: " +
+          jqXHR.statusText;
+
+        $("#errorPopup")
+          .dxPopup({
+            title: "http 에러",
+            visible: true,
+            width: 400,
+            height: "auto", // 높이를 자동으로 조절
+            contentTemplate: function (contentElement) {
+              $("<div>")
+                .css({
+                  "text-align": "left", // 텍스트 정렬
+                  "font-size": "14px",
+                  "line-height": "1.5", // 줄 간격
+                  "word-wrap": "break-word", // 긴 단어도 줄바꿈
+                  "overflow-wrap": "break-word", // 줄바꿈 처리
+                  // "white-space": "normal" // 일반 텍스트처럼 동작
+                  "white-space": "pre-wrap" // 기본 줄바꿈(\r\n)을 유지
+                })
+                .text(msgTmp)
+                .appendTo(contentElement);
+            }
+          })
+          .dxPopup("show");
+      } else {
+        if (
+          jqXHR.responseJSON &&
+          jqXHR.responseJSON.lktHeader.statusCode != "01"
+        ) {
+          let msgTmp =
+            "api: " +
+            jqXHR.apiUrl +
+            "\r\n" +
+            "statusCode: " +
+            jqXHR.responseJSON.lktHeader.statusCode +
+            "\r\n" +
+            "message: " +
+            jqXHR.responseJSON.lktHeader.message;
+
+          $("#errorPopup")
+            .dxPopup({
+              title: "통신에러",
+              visible: true,
+              width: 400,
+              height: "auto", // 높이를 자동으로 조절
+              contentTemplate: function (contentElement) {
+                $("<div>")
+                  .css({
+                    "text-align": "left", // 텍스트 정렬
+                    "font-size": "14px",
+                    "line-height": "1.5", // 줄 간격
+                    "word-wrap": "break-word", // 긴 단어도 줄바꿈
+                    "overflow-wrap": "break-word", // 줄바꿈 처리
+                    // "white-space": "normal" // 일반 텍스트처럼 동작
+                    "white-space": "pre-wrap" // 기본 줄바꿈(\r\n)을 유지
+                  })
+                  .text(msgTmp)
+                  .appendTo(contentElement);
+              }
+            })
+            .dxPopup("show");
+        }
+      }
+    } catch (ex) {
+      //alert("unknown error");
+    }
   }
 });
 

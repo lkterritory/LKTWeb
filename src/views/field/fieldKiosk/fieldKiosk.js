@@ -246,6 +246,15 @@ function onCreate() {
     "justify-content": "center",
     "align-items": "center",
     "text-align": "center"
+    // "background-color": "red"
+  };
+
+  let headerCssGray = {
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "text-align": "center",
+    "background-color": "gray"
   };
 
   // DevExtreme DataGrid 설정
@@ -262,7 +271,7 @@ function onCreate() {
         //   pickQty: 0,
         //   remainingQty: 15,
         //   statusCode: "04",
-        //   statusName: "0",
+        //   statusName: "완료",
         //   planDtm: null,
         //   pickDtm: null
         // }
@@ -338,6 +347,8 @@ function onCreate() {
           width: 100,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
+
+            //headerCell.css(headerCss)
           }
         }
       ],
@@ -352,7 +363,31 @@ function onCreate() {
       allowColumnResizing: true, // 컬럼 사이즈 조절 여부
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
+      },
+      rowPrepared: function (info) {
+        alert(JSON.stringify(info));
+        if (info.rowType === "data") {
+          // 조건에 따라 배경색 변경
+          if (info.data.statusName === "완료") {
+            $(info.rowElement).css("background-color", "gray"); // 녹색
+          }
+
+          // else if (info.data.statusName === "진행중") {
+          //   $(info.rowElement).css("background-color", "#fff3cd"); // 노란색
+          // } else {
+          //   $(info.rowElement).css("background-color", "#f8d7da"); // 빨간색
+          // }
+        }
       }
+      // rowTemplate: function (container, options) {
+      //   const data = options.data;
+      //   const row = $("<tr>");
+      //   if (data.statusName === "완료") {
+      //     row.css("background-color", "gray");
+      //   }
+      //   $("<td>").text(data.statusName).appendTo(row);
+      //   row.appendTo(container);
+      // }
     })
     .dxDataGrid("instance");
 
@@ -471,7 +506,7 @@ function initView() {
     "";
   document.querySelector(".summary-item:nth-child(3) .total").textContent = "";
 
-  // workOrderGrid.option("dataSource", []);
+  workOrderGrid.option("dataSource", []);
 
   // // tmp
   // let resBodyTmp = {

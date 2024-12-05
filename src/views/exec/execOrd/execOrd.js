@@ -53,160 +53,163 @@ function onCreate() {
     })
     .dxSelectBox("instance");
 
+  //  = DevExpress.ui.dxButton.getInstance($("#btnSearch")[0]);
+  //alert(buttonInstance.option("text"));
+
   // 버튼 이벤트 처리
-  $(idPrefix + ".dx-button").dxButton({
-    width: "100px",
-    stylingMode: "contained",
-    type: "default",
-    onClick: function (e) {
-      let rowSel = workOrderGrid.getSelectedRowsData();
+  let btns = $(idPrefix + ".dx-button")
+    .dxButton({
+      width: "100px",
+      stylingMode: "contained",
+      type: "default",
+      onClick: function (e) {
+        let rowSel = workOrderGrid.getSelectedRowsData();
 
-      //alert(JSON.stringify(rowSel));
+        const buttonId = $(e.element).data("id");
 
-      //alert(JSON.stringify(rowSel));
-      // return;
+        if (buttonId === "조회") {
+          searchList();
+        } else if (buttonId === "계획생성") {
+          // 계획생성
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.RDERS"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                ),
+                workBatch: rowSel[0].workBatch
+              }
+            ]
+          };
 
-      const buttonId = $(e.element).data("id");
+          apiWcs
+            .wcsOperationPlan(JSON.stringify(obj))
+            .done(function (response) {
+              //searchList();
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
+        } else if (buttonId === "작업시작") {
+          if (rowSel.length <= 0) {
+            return;
+          }
 
-      if (buttonId === "조회") {
-        searchList();
-      } else if (buttonId === "계획생성") {
-        // 계획생성
-        var obj = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.RDERS"),
-          lktBody: [
-            {
-              workDate: DevExpress.localization.formatDate(
-                dtBoxWork.option("value"),
-                "yyyy-MM-dd"
-              ),
-              workBatch: rowSel[0].workBatch
-            }
-          ]
-        };
+          if (
+            !rowSel[0].equipmentCode ||
+            rowSel[0].equipmentCode == null ||
+            rowSel[0].equipmentCode == ""
+          ) {
+            return;
+          }
 
-        apiWcs
-          .wcsOperationPlan(JSON.stringify(obj))
-          .done(function (response) {
-            //searchList();
-          })
-          .fail(function () {
-            // 에러 발생 시 처리
-          });
-      } else if (buttonId === "작업시작") {
-        if (rowSel.length <= 0) {
-          return;
+          // 작업시작
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                ),
+                workBatch: rowSel[0].workBatch,
+                equipmentCode: rowSel[0].equipmentCode
+              }
+            ]
+          };
+
+          //alert(JSON.stringify(obj));
+
+          apiWcs
+            .wcsOperationStart(JSON.stringify(obj))
+            .done(function (response) {
+              try {
+                searchList();
+              } catch (ex) {}
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
+        } else if (buttonId === "차수 작업완료") {
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                ),
+                workBatch: rowSel[0].workBatch
+              }
+            ]
+          };
+
+          apiWcs
+            .wcsOperationcCompleted(JSON.stringify(obj))
+            .done(function (response) {
+              searchList();
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
+        } else if (buttonId === "전체 작업완료") {
+          //전체 작업완료
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                )
+              }
+            ]
+          };
+
+          apiWcs
+            .wcsOperationcClosing(JSON.stringify(obj))
+            .done(function (response) {
+              try {
+                searchList();
+              } catch (ex) {}
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
+        } else if (buttonId === "작업취소") {
+          // 작업취소
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                ),
+                workBatch: rowSel[0].workBatch
+              }
+            ]
+          };
+
+          apiWcs
+            .wcsOperationcCancel(JSON.stringify(obj))
+            .done(function (response) {
+              try {
+                searchList();
+              } catch (ex) {}
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
         }
-
-        if (
-          !rowSel[0].equipmentCode ||
-          rowSel[0].equipmentCode == null ||
-          rowSel[0].equipmentCode == ""
-        ) {
-          return;
-        }
-
-        // 작업시작
-        var obj = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [
-            {
-              workDate: DevExpress.localization.formatDate(
-                dtBoxWork.option("value"),
-                "yyyy-MM-dd"
-              ),
-              workBatch: rowSel[0].workBatch,
-              equipmentCode: rowSel[0].equipmentCode
-            }
-          ]
-        };
-
-        //alert(JSON.stringify(obj));
-
-        apiWcs
-          .wcsOperationStart(JSON.stringify(obj))
-          .done(function (response) {
-            try {
-              searchList();
-            } catch (ex) {}
-          })
-          .fail(function () {
-            // 에러 발생 시 처리
-          });
-      } else if (buttonId === "차수 작업완료") {
-        var obj = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [
-            {
-              workDate: DevExpress.localization.formatDate(
-                dtBoxWork.option("value"),
-                "yyyy-MM-dd"
-              ),
-              workBatch: rowSel[0].workBatch
-            }
-          ]
-        };
-
-        apiWcs
-          .wcsOperationcCompleted(JSON.stringify(obj))
-          .done(function (response) {
-            searchList();
-          })
-          .fail(function () {
-            // 에러 발생 시 처리
-          });
-      } else if (buttonId === "전체 작업완료") {
-        //전체 작업완료
-        var obj = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [
-            {
-              workDate: DevExpress.localization.formatDate(
-                dtBoxWork.option("value"),
-                "yyyy-MM-dd"
-              )
-            }
-          ]
-        };
-
-        apiWcs
-          .wcsOperationcClosing(JSON.stringify(obj))
-          .done(function (response) {
-            try {
-              searchList();
-            } catch (ex) {}
-          })
-          .fail(function () {
-            // 에러 발생 시 처리
-          });
-      } else if (buttonId === "작업취소") {
-        // 작업취소
-        var obj = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [
-            {
-              workDate: DevExpress.localization.formatDate(
-                dtBoxWork.option("value"),
-                "yyyy-MM-dd"
-              ),
-              workBatch: rowSel[0].workBatch
-            }
-          ]
-        };
-
-        apiWcs
-          .wcsOperationcCancel(JSON.stringify(obj))
-          .done(function (response) {
-            try {
-              searchList();
-            } catch (ex) {}
-          })
-          .fail(function () {
-            // 에러 발생 시 처리
-          });
       }
-    }
-  });
+    })
+    .dxButton("instance");
+
+  // alert("dd");
+  // alert(btns[0]);
 
   let facTmp = [
     "DAS-01",
@@ -227,6 +230,7 @@ function onCreate() {
     "align-items": "center",
     "text-align": "center"
   };
+
   // DataGrid - 작업지시 정보
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
