@@ -44,7 +44,7 @@ let reqPayload = {
     resultCode: 0,
     resultMessage: "",
     authentication: this.userInfo.authentication,
-    userName: this.userInfo.userName,
+    username: this.userInfo.username,
     centerCode: this.userInfo.centerCode,
     clientCode: this.userInfo.clientCode,
     warehouseCode: this.userInfo.warehouseCode
@@ -69,7 +69,7 @@ let reqPayload = {
     resultCode: 0,
     resultMessage: "",
     authentication: this.userInfo.authentication,
-    userName: this.userInfo.userName,
+    username: this.userInfo.username,
     centerCode: this.userInfo.centerCode,
     clientCode: this.userInfo.clientCode,
     warehouseCode: this.userInfo.warehouseCode
@@ -97,7 +97,7 @@ let reqPayload = {
     resultCode: 0,
     resultMessage: "",
     authentication: this.userInfo.authentication,
-    userName: this.userInfo.userName,
+    username: this.userInfo.username,
     centerCode: this.userInfo.centerCode,
     clientCode: this.userInfo.clientCode,
     warehouseCode: this.userInfo.warehouseCode
@@ -123,7 +123,7 @@ let reqPayload = {
     resultCode: 0,
     resultMessage: "",
     authentication: this.userInfo.authentication,
-    userName: this.userInfo.userName,
+    username: this.userInfo.username,
     centerCode: this.userInfo.centerCode,
     clientCode: this.userInfo.clientCode,
     warehouseCode: this.userInfo.warehouseCode

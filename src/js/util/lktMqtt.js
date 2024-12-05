@@ -11,7 +11,7 @@ const lktMqtt = {
   mqtt_clientId: "clientID-" + parseInt(Math.random() * 100), // 랜덤 클라이언트 ID
   mqtt_topic_sub: "lktomni/DAS-01", // 구독
   mqtt_topic_pub: "lktomni", // 발행
-  userName: "maersk", // 사용자 이름
+  username: "maersk", // 사용자 이름
   password: "maersk123#@!", // 비밀번호
 
   //'maersk', 'maersk123#@!'
@@ -40,7 +40,7 @@ const lktMqtt = {
     this.mqttClient.connect({
       onSuccess: this.onConnect.bind(this),
       onFailure: this.onFailure.bind(this),
-      userName: this.userName, // 사용자 이름 추가
+      username: this.username, // 사용자 이름 추가
       password: this.password // 비밀번호 추가
     });
   },

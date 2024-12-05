@@ -74,7 +74,7 @@ function onCreate() {
       // "centerCode": "LKT",
       // "clientCode": "LKT",
       // "warehouseCode": "LKT",
-      // "userName": "dasco",
+      // "username": "dasco",
       // "storageTemperatureCode": "RF",
       // "storageTemperatureName": "냉장",
       // "permissionCode": "admin",
@@ -84,7 +84,7 @@ function onCreate() {
 
       columns: [
         {
-          dataField: "userName",
+          dataField: "username",
           caption: "아이디",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("아이디"); // 헤더 가운데 정렬
@@ -172,11 +172,11 @@ function searchList() {
 function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "userName",
+      dataField: "username",
       label: {text: "사용자 ID"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.userName : ""
+        value: row != null ? row.username : ""
       }
     },
 
@@ -229,7 +229,7 @@ function showPopup(isModi, row) {
         lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
         lktBody: [
           {
-            userName: formData.userName,
+            username: formData.username,
             permissionCode: formData.permissionCode,
             stateCode: formData.stateCode
           }

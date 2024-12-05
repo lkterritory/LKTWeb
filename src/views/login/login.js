@@ -199,7 +199,7 @@ function gate() {
   // lktUtil.lktPayload.lktHeader.centerCode = loginInfo.centerCode;
   // lktUtil.lktPayload.lktHeader.clientCode = loginInfo.clientCode;
   // lktUtil.lktPayload.lktHeader.warehouseCode = loginInfo.warehouseCode;
-  // lktUtil.lktPayload.lktHeader.userName = loginInfo.userName;
+  // lktUtil.lktPayload.lktHeader.username = loginInfo.username;
 
   // lktUtil.lktPayload.lktHeader.authentication = serverInfo.authentication;
 
@@ -280,7 +280,7 @@ function login() {
       //     clientCode: "HMOMN",
       //     warehouseCode: "HMOMN",
       //     userId: "HMOMN",
-      //     userName: "HMOMN"
+      //     username: "HMOMN"
       //   };
       // }
 
@@ -373,7 +373,7 @@ $(document).ready(function () {
 //       clientCode: "HMOMNI",
 //       warehouseCode: "HMOMNI",
 //       userId: "HMOMNI",
-//       userName: "HMOMNI"
+//       username: "HMOMNI"
 //     };
 
 //     lktStorate.setLoginInfo(lktBodyTmp);

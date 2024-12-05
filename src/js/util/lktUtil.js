@@ -9,7 +9,7 @@ const lktUtil = {
       message: "",
       // authorization: "",
       authentication: "",
-      userName: "",
+      username: "",
       centerCode: "",
       clientCode: "",
       warehouseCode: ""
@@ -26,7 +26,7 @@ const lktUtil = {
     lktUtil.lktPayload.lktHeader.centerCode = loginInfo.centerCode;
     lktUtil.lktPayload.lktHeader.clientCode = loginInfo.clientCode;
     lktUtil.lktPayload.lktHeader.warehouseCode = loginInfo.warehouseCode;
-    lktUtil.lktPayload.lktHeader.userName = loginInfo.userName;
+    lktUtil.lktPayload.lktHeader.username = loginInfo.username;
 
     lktUtil.lktPayload.lktHeader.authentication = serverInfo.authentication;
 

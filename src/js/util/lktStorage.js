@@ -9,7 +9,7 @@ const lktStorate = {
   // },
 
   // loginInfo: {
-  //   userName: "LKT",
+  //   username: "LKT",
   //   password: "QUJDREU=",
   //   connectionType: "TEST",
   //   serverGroup: "SPC#GFC"
