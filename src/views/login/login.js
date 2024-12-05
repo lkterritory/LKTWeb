@@ -11,6 +11,186 @@ if (!window.apiModule || !window.lktStorateModule) {
 api = (await window.apiModule).default;
 lktStorate = (await window.lktStorateModule).default;
 
+let tmploginRest = {
+  lktOutData: [
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      USER_NAME: "dasco",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF"
+    }
+  ],
+  lktOutDataDetail: [
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "HEAD_LKT_DASHBOARD",
+      MENU_NAME: "상황판",
+      MENU_PARENT: null,
+      MENU_ICON: "icon-menu-mast.png",
+      MENU_URL: "",
+      MENU_SEQUNCE: "0",
+      MENU_PATH: "HEAD_LKT_DASHBOARD",
+      MENU_LEVEL: 1
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_DASHBOARD_OVERALL",
+      MENU_NAME: "DAS 전체 상황판",
+      MENU_PARENT: "HEAD_LKT_DASHBOARD",
+      MENU_ICON: "icon-menu-exec-itemStatus.png",
+      MENU_URL: "dash/dashDash/dashDash.html",
+      MENU_SEQUNCE: "1",
+      MENU_PATH: "HEAD_LKT_DASHBOARD->MNU_DASHBOARD_OVERALL",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "HEAD_LKT_MASTER",
+      MENU_NAME: "기준정보",
+      MENU_PARENT: null,
+      MENU_ICON: "icon-menu-mast.png",
+      MENU_URL: "",
+      MENU_SEQUNCE: "0",
+      MENU_PATH: "HEAD_LKT_MASTER",
+      MENU_LEVEL: 1
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_CORES_LOCATIONS",
+      MENU_NAME: "로케이션 정보",
+      MENU_PARENT: "HEAD_LKT_MASTER",
+      MENU_ICON: "icon-menu-mast-locationInfo.png",
+      MENU_URL: "mast/mastLocation/mastLocation.html",
+      MENU_SEQUNCE: "4",
+      MENU_PATH: "HEAD_LKT_MASTER->MNU_CORES_LOCATIONS",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_CORES_SKUS",
+      MENU_NAME: "상품 정보",
+      MENU_PARENT: "HEAD_LKT_MASTER",
+      MENU_ICON: "icon-menu-mast-itemInfo.png",
+      MENU_URL: "mast/mastItem/mastItem.html",
+      MENU_SEQUNCE: "1",
+      MENU_PATH: "HEAD_LKT_MASTER->MNU_CORES_SKUS",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "HEAD_LKT_WORK",
+      MENU_NAME: "주문관리",
+      MENU_PARENT: null,
+      MENU_ICON: "icon-menu-exec.png",
+      MENU_URL: "",
+      MENU_SEQUNCE: "0",
+      MENU_PATH: "HEAD_LKT_WORK",
+      MENU_LEVEL: 1
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_OUTBOUND_EUC",
+      MENU_NAME: "EUC",
+      MENU_PARENT: "HEAD_LKT_WORK",
+      MENU_ICON: "icon-menu-exec-itemStatus.png",
+      MENU_URL: "exec/execEuc/execEuc.html",
+      MENU_SEQUNCE: "2",
+      MENU_PATH: "HEAD_LKT_WORK->MNU_OUTBOUND_EUC",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_OUTBOUND_ORDERS",
+      MENU_NAME: "주문관리",
+      MENU_PARENT: "HEAD_LKT_WORK",
+      MENU_ICON: "icon-menu-exec-ord.png",
+      MENU_URL: "exec/execOrd/execOrd.html",
+      MENU_SEQUNCE: "1",
+      MENU_PATH: "HEAD_LKT_WORK->MNU_OUTBOUND_ORDERS",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "HEAD_LKT_WORK_ADD",
+      MENU_NAME: "추가정보",
+      MENU_PARENT: null,
+      MENU_ICON: "icon-menu-add.png",
+      MENU_URL: "",
+      MENU_SEQUNCE: "0",
+      MENU_PATH: "HEAD_LKT_WORK_ADD",
+      MENU_LEVEL: 1
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_OUTBOUND_LABELS_STATUS",
+      MENU_NAME: "라벨 처리 현황",
+      MENU_PARENT: "HEAD_LKT_WORK_ADD",
+      MENU_ICON: "icon-menu-exec-ordStatus.png",
+      MENU_URL: "exec/execReprint/execReprint.html",
+      MENU_SEQUNCE: "3",
+      MENU_PATH: "HEAD_LKT_WORK_ADD->MNU_OUTBOUND_LABELS_STATUS",
+      MENU_LEVEL: 2
+    },
+    {
+      CENTER_CODE: "HMOMNI",
+      CLIENT_CODE: "HMOMNI",
+      WAREHOUSE_CODE: "HMOMNI",
+      PERMISSION_CODE: "admin",
+      STORAGE_TEMPERATURE_CODE: "RF",
+      MENU_CODE: "MNU_OUTBOUND_SKUS_STATUS",
+      MENU_NAME: "상품 처리 현황",
+      MENU_PARENT: "HEAD_LKT_WORK_ADD",
+      MENU_ICON: "icon-menu-exec-ordStatus.png",
+      MENU_URL: "exec/execItemStatus/execItemStatus.html",
+      MENU_SEQUNCE: "2",
+      MENU_PATH: "HEAD_LKT_WORK_ADD->MNU_OUTBOUND_SKUS_STATUS",
+      MENU_LEVEL: 2
+    }
+  ]
+};
+
 function gate() {
   // alert("dd");
   let reqParam = {

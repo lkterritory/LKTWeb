@@ -67,21 +67,222 @@ function createMenu() {
 
       console.log("loadmenuinfo:", JSON.stringify(loginInfo));
 
-      if (loginInfo && loginInfo.menuItems) {
-        data.menuItems = loginInfo.menus;
+      let tmploginRest = {
+        lktOutData: [
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            USER_NAME: "dasco",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF"
+          }
+        ],
+        lktOutDataDetail: [
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "HEAD_LKT_DASHBOARD",
+            menuName: "상황판",
+            menuParent: null,
+            MENU_ICON: "icon-menu-mast.png",
+            menuUrl: "",
+            MENU_SEQUNCE: "0",
+            MENU_PATH: "HEAD_LKT_DASHBOARD",
+            menuLevel: 1
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_DASHBOARD_OVERALL",
+            menuName: "DAS 전체 상황판",
+            menuParent: "HEAD_LKT_DASHBOARD",
+            MENU_ICON: "icon-menu-exec-itemStatus.png",
+            menuUrl: "dash/dashDash/dashDash.html",
+            MENU_SEQUNCE: "1",
+            MENU_PATH: "HEAD_LKT_DASHBOARD->MNU_DASHBOARD_OVERALL",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "HEAD_LKT_MASTER",
+            menuName: "기준정보",
+            menuParent: null,
+            MENU_ICON: "icon-menu-mast.png",
+            menuUrl: "",
+            MENU_SEQUNCE: "0",
+            MENU_PATH: "HEAD_LKT_MASTER",
+            menuLevel: 1
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_CORES_LOCATIONS",
+            menuName: "로케이션 정보",
+            menuParent: "HEAD_LKT_MASTER",
+            MENU_ICON: "icon-menu-mast-locationInfo.png",
+            menuUrl: "mast/mastLocation/mastLocation.html",
+            MENU_SEQUNCE: "4",
+            MENU_PATH: "HEAD_LKT_MASTER->MNU_CORES_LOCATIONS",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_CORES_SKUS",
+            menuName: "상품 정보",
+            menuParent: "HEAD_LKT_MASTER",
+            MENU_ICON: "icon-menu-mast-itemInfo.png",
+            menuUrl: "mast/mastItem/mastItem.html",
+            MENU_SEQUNCE: "1",
+            MENU_PATH: "HEAD_LKT_MASTER->MNU_CORES_SKUS",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "HEAD_LKT_WORK",
+            menuName: "주문관리",
+            menuParent: null,
+            MENU_ICON: "icon-menu-exec.png",
+            menuUrl: "",
+            MENU_SEQUNCE: "0",
+            MENU_PATH: "HEAD_LKT_WORK",
+            menuLevel: 1
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_OUTBOUND_EUC",
+            menuName: "EUC",
+            menuParent: "HEAD_LKT_WORK",
+            MENU_ICON: "icon-menu-exec-itemStatus.png",
+            menuUrl: "exec/execEuc/execEuc.html",
+            MENU_SEQUNCE: "2",
+            MENU_PATH: "HEAD_LKT_WORK->MNU_OUTBOUND_EUC",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_OUTBOUND_ORDERS",
+            menuName: "주문관리",
+            menuParent: "HEAD_LKT_WORK",
+            MENU_ICON: "icon-menu-exec-ord.png",
+            menuUrl: "exec/execOrd/execOrd.html",
+            MENU_SEQUNCE: "1",
+            MENU_PATH: "HEAD_LKT_WORK->MNU_OUTBOUND_ORDERS",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "HEAD_LKT_WORK_ADD",
+            menuName: "추가정보",
+            menuParent: null,
+            MENU_ICON: "icon-menu-add.png",
+            menuUrl: "",
+            MENU_SEQUNCE: "0",
+            MENU_PATH: "HEAD_LKT_WORK_ADD",
+            menuLevel: 1
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_OUTBOUND_LABELS_STATUS",
+            menuName: "라벨 처리 현황",
+            menuParent: "HEAD_LKT_WORK_ADD",
+            MENU_ICON: "icon-menu-exec-ordStatus.png",
+            menuUrl: "exec/execReprint/execReprint.html",
+            MENU_SEQUNCE: "3",
+            MENU_PATH: "HEAD_LKT_WORK_ADD->MNU_OUTBOUND_LABELS_STATUS",
+            menuLevel: 2
+          },
+          {
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            WAREHOUSE_CODE: "HMOMNI",
+            PERMISSION_CODE: "admin",
+            STORAGE_TEMPERATURE_CODE: "RF",
+            menuCode: "MNU_OUTBOUND_SKUS_STATUS",
+            menuName: "상품 처리 현황",
+            menuParent: "HEAD_LKT_WORK_ADD",
+            MENU_ICON: "icon-menu-exec-ordStatus.png",
+            menuUrl: "exec/execItemStatus/execItemStatus.html",
+            MENU_SEQUNCE: "2",
+            MENU_PATH: "HEAD_LKT_WORK_ADD->MNU_OUTBOUND_SKUS_STATUS",
+            menuLevel: 2
+          }
+        ]
+      };
 
-        for (let mitm of data.menuItems) {
-          mitm.title = mitm.fullName;
+      let menuInfo = loginInfo.lktOutDataDetail;
+      // let menuInfo = tmploginRest.lktOutDataDetail; // 임시 테스트
+      let menuReal = [];
 
-          for (let submitm of data.menuItems) {
-            submitm.title = mitm.fullName;
-            submitm.view = mitm.urlAddress;
+      for (let menuitm of menuInfo) {
+        if (menuitm.menuLevel == 1) {
+          menuitm.title = menuitm.menuName;
+          menuitm.submenus = [];
+          menuReal.push(menuitm);
+        }
+      }
+
+      for (let menuitm of menuInfo) {
+        if (menuitm.menuLevel == 2) {
+          // 레벨2인것
+          for (let mrItm of menuReal) {
+            // 만들어진 메뉴
+            if (mrItm.menuLevel == 1) {
+              // 대메뉴일때
+              if (menuitm.menuParent == mrItm.menuCode) {
+                // 2레벨의 상위코드와 상위메뉴의 메뉴코드가 같으면
+                menuitm.title = menuitm.menuName;
+                menuitm.view = menuitm.menuUrl;
+                mrItm.submenus.push(menuitm);
+              }
+            }
           }
         }
       }
+
+      data.menuItems = menuReal;
     } catch (ex) {
       console.log("menuload error:", ex);
     }
+
+    //console(JSON.stringify(data.menuItems));
 
     // {
     //   "title": "기준정보",
@@ -96,19 +297,6 @@ function createMenu() {
     //     {"title": "기초정보", "view": "mast/mastBase/mastBase.html"}
     //   ]
     // },
-
-    // const temp2 = {
-    //   enCode: "pdaInventoryCheck",
-    //   vueName: "",
-    //   type: 2,
-    //   path: "",
-    //   urlAddress: "pda/pdaInventoryCheck",
-    //   icon: "icon-menu-exec-pickExcept.png",
-    //   fullName: "재고조사",
-    //   id: "0560",
-    //   hasChildren: true,
-    //   children: []
-    // };
 
     let menuHtml = "<ul>";
     data.menuItems.forEach(function (item) {
