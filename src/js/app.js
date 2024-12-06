@@ -19,10 +19,11 @@ function gate() {
   let reqParam = {
     lktHeader: {
       type: "REQUEST",
-      call: "PATCH.ONEGATE.SERVER",
+      call: "PAGE.ONEGATEA",
       status: 0,
       message: "",
-      encryption: "",
+      authentication: "",
+      username: "",
       centerCode: "",
       clientCode: "",
       warehouseCode: ""

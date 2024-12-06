@@ -207,10 +207,11 @@ function gate() {
   let reqParam = {
     lktHeader: {
       type: "REQUEST",
-      call: "PATCH.ONEGATE.SERVER",
+      call: "PAGE.ONEGATEA",
       status: 0,
       message: "",
-      encryption: "",
+      authentication: "",
+      username: "",
       centerCode: "",
       clientCode: "",
       warehouseCode: ""
@@ -246,13 +247,25 @@ function login() {
 
   let serverInfo = lktStorate.getServerInfo();
 
+  // type: "REQUEST",
+  // call: "",
+  // status: 0,
+  // message: "",
+  // // authorization: "",
+  // authentication: "",
+  // username: "",
+  // centerCode: "",
+  // clientCode: "",
+  // warehouseCode: ""
+
   let reqParam = {
     lktHeader: {
       type: "REQUEST",
       call: "PAGE.ONEGATEA.LOGIN",
       status: 0,
       message: "",
-      encryption: serverInfo.authentication, //response.lktBody[0],
+      authentication: serverInfo.authentication, //response.lktBody[0],
+      username: "",
       centerCode: "",
       clientCode: "",
       warehouseCode: ""
@@ -272,7 +285,7 @@ function login() {
     .done(function (response) {
       // alert("dd3");
 
-      alert(JSON.stringify(response));
+      //alert(JSON.stringify(response));
 
       // if (response.lktBody.length == 0) {
       //   response.lktBody[0] = {
@@ -283,17 +296,19 @@ function login() {
       //     username: "HMOMN"
       //   };
       // }
+      try {
+        lktStorate.setLoginInfo(response.lktBody[0]);
+        // alert(JSON.stringify(response.lktBody[0]));
 
-      lktStorate.setLoginInfo(response.lktBody[0]);
-      // alert(JSON.stringify(response.lktBody[0]));
-      // alert(JSON.stringify(lktStorate.getLoginInfo()));
-      console.log(JSON.stringify(response.lktBody[0]));
+        console.log(JSON.stringify(response.lktBody[0]));
 
-      Cookies.set("login", "true");
+        Cookies.set("login", "true");
 
-      //return;
-
-      window.location.href = "../../../index.html";
+        if (response.lktHeader.statusCode == "01") {
+          window.location.href = "../../../index.html";
+        } else {
+        }
+      } catch (ex) {}
     })
     .fail(function () {
       // 에러 발생 시 처리
