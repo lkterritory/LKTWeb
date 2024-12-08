@@ -19,8 +19,8 @@ function gate() {
   let reqParam = {
     lktHeader: {
       type: "REQUEST",
-      call: "PAGE.ONEGATEA",
-      status: 0,
+      call: "PATCH.ONEGATE",
+      statusCode: 0,
       message: "",
       authentication: "",
       username: "",
@@ -29,11 +29,9 @@ function gate() {
       warehouseCode: ""
     },
     lktBody: [
-      // {
-      //   publicAddress: "192.168.10.3",
-      //   internalAddress: "192.168.10.3",
-      //   connectionType: "TEST"
-      // }
+      {
+        serviceName: "lktweb"
+      }
     ]
   };
 
@@ -65,158 +63,19 @@ function createMenu() {
   $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
     try {
       let loginInfo = lktStorate.getLoginInfo();
-
       console.log("loadmenuinfo:", JSON.stringify(loginInfo));
-
-      // 임시영역
-      // let tmploginRest = [
-      //   {
-      //     menuCode: "HEAD_LKT_DASHBOARD",
-      //     menuName: "상황판",
-      //     menuParent: null,
-      //     menuIcon: "icon-menu-mast.png",
-      //     menuUrl: "",
-      //     menuSequnce: "0",
-      //     menuLevel: 1,
-      //     lktOutDataDetailChilds: [
-      //       {
-      //         menuCode: "MNU_DASHBOARD_OVERALL",
-      //         menuName: "DAS 전체 상황판",
-      //         menuParent: "HEAD_LKT_DASHBOARD",
-      //         menuIcon: "icon-menu-exec-itemStatus.png",
-      //         menuUrl: "dash/dashDash/dashDash.html",
-      //         menuSequnce: "1",
-      //         menuLevel: 2
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     menuCode: "HEAD_LKT_MASTER",
-      //     menuName: "기준정보",
-      //     menuParent: null,
-      //     menuIcon: "icon-menu-mast.png",
-      //     menuUrl: "",
-      //     menuSequnce: "0",
-      //     menuLevel: 1,
-      //     lktOutDataDetailChilds: [
-      //       {
-      //         menuCode: "MNU_CORES_LOCATIONS",
-      //         menuName: "로케이션 정보",
-      //         menuParent: "HEAD_LKT_MASTER",
-      //         menuIcon: "icon-menu-mast-locationInfo.png",
-      //         menuUrl: "mast/mastLocation/mastLocation.html",
-      //         menuSequnce: "4",
-      //         menuLevel: 2
-      //       },
-      //       {
-      //         menuCode: "MNU_CORES_SKUS",
-      //         menuName: "상품 정보",
-      //         menuParent: "HEAD_LKT_MASTER",
-      //         menuIcon: "icon-menu-mast-itemInfo.png",
-      //         menuUrl: "mast/mastItem/mastItem.html",
-      //         menuSequnce: "1",
-      //         menuLevel: 2
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     menuCode: "HEAD_LKT_WORK",
-      //     menuName: "주문관리",
-      //     menuParent: null,
-      //     menuIcon: "icon-menu-exec.png",
-      //     menuUrl: "",
-      //     menuSequnce: "0",
-      //     menuLevel: 1,
-      //     lktOutDataDetailChilds: [
-      //       {
-      //         menuCode: "MNU_OUTBOUND_EUC",
-      //         menuName: "EUC",
-      //         menuParent: "HEAD_LKT_WORK",
-      //         menuIcon: "icon-menu-exec-itemStatus.png",
-      //         menuUrl: "exec/execEuc/execEuc.html",
-      //         menuSequnce: "2",
-      //         menuLevel: 2
-      //       },
-      //       {
-      //         menuCode: "MNU_OUTBOUND_ORDERS",
-      //         menuName: "주문관리",
-      //         menuParent: "HEAD_LKT_WORK",
-      //         menuIcon: "icon-menu-exec-ord.png",
-      //         menuUrl: "exec/execOrd/execOrd.html",
-      //         menuSequnce: "1",
-      //         menuLevel: 2
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     menuCode: "HEAD_LKT_WORK_ADD",
-      //     menuName: "추가정보",
-      //     menuParent: null,
-      //     menuIcon: "icon-menu-add.png",
-      //     menuUrl: "",
-      //     menuSequnce: "0",
-      //     menuLevel: 1,
-      //     lktOutDataDetailChilds: [
-      //       {
-      //         menuCode: "MNU_OUTBOUND_LABELS_STATUS",
-      //         menuName: "라벨 처리 현황",
-      //         menuParent: "HEAD_LKT_WORK_ADD",
-      //         menuIcon: "icon-menu-exec-ordStatus.png",
-      //         menuUrl: "exec/execReprint/execReprint.html",
-      //         menuSequnce: "3",
-      //         menuLevel: 2
-      //       },
-      //       {
-      //         menuCode: "MNU_OUTBOUND_SKUS_STATUS",
-      //         menuName: "상품 처리 현황",
-      //         menuParent: "HEAD_LKT_WORK_ADD",
-      //         menuIcon: "icon-menu-exec-ordStatus.png",
-      //         menuUrl: "exec/execItemStatus/execItemStatus.html",
-      //         menuSequnce: "2",
-      //         menuLevel: 2
-      //       }
-      //     ]
-      //   }
-      // ];
-
-      // end 임시영역
-
       let menuInfo = loginInfo.lktOutDataDetail;
       // let menuInfo = tmploginRest; // 임시 테스트
-
       let menuReal = [];
-
       for (let menuitm of menuInfo) {
         menuitm.title = menuitm.menuName;
         menuitm.submenus = menuitm.lktOutDataDetailChilds;
-
         for (let menuSub of menuitm.submenus) {
           menuSub.title = menuSub.menuName;
           menuSub.view = menuSub.menuUrl;
         }
       }
-
       menuReal = menuInfo;
-
-      // for (let menuitm of menuInfo) {
-      //   if (menuitm.menuLevel == 2) {
-      //     // 레벨2인것
-      //     for (let mrItm of menuReal) {
-      //       // 만들어진 메뉴
-      //       if (mrItm.menuLevel == 1) {
-      //         // 대메뉴일때
-      //         if (menuitm.menuParent == mrItm.menuCode) {
-      //           // 2레벨의 상위코드와 상위메뉴의 메뉴코드가 같으면
-      //           menuitm.title = menuitm.menuName;
-      //           menuitm.view = menuitm.menuUrl;
-      //           mrItm.submenus.push(menuitm);
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-
-      // 로컬테스트시(text) 주석
       data.menuItems = menuReal;
     } catch (ex) {
       console.log("menuload error:", ex);

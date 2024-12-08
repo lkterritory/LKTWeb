@@ -192,36 +192,23 @@ let tmploginRest = {
 };
 
 function gate() {
-  // let loginInfo = lktStorate.getLoginInfo();
-  // let serverInfo = lktStorate.getServerInfo();
-
-  // lktUtil.lktPayload.lktHeader.call = call;
-  // lktUtil.lktPayload.lktHeader.centerCode = loginInfo.centerCode;
-  // lktUtil.lktPayload.lktHeader.clientCode = loginInfo.clientCode;
-  // lktUtil.lktPayload.lktHeader.warehouseCode = loginInfo.warehouseCode;
-  // lktUtil.lktPayload.lktHeader.username = loginInfo.username;
-
-  // lktUtil.lktPayload.lktHeader.authentication = serverInfo.authentication;
-
   // alert("dd");
   let reqParam = {
     lktHeader: {
       type: "REQUEST",
-      call: "PAGE.ONEGATEA",
-      status: 0,
+      call: "PATCH.ONEGATE",
+      statusCode: 0,
       message: "",
       authentication: "",
-      username: "",
+      userName: "",
       centerCode: "",
       clientCode: "",
       warehouseCode: ""
     },
     lktBody: [
-      // {
-      //   publicAddress: "192.168.10.3",
-      //   internalAddress: "192.168.10.3",
-      //   connectionType: "TEST"
-      // }
+      {
+        serviceName: "lktweb"
+      }
     ]
   };
 
