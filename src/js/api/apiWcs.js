@@ -382,12 +382,13 @@ function equipmentLabelPatch(param) {
     data: param
   });
 }
+
 //
 
 // 라벨재발행
 function statusLabels(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/status/lables?id=" + param,
+    url: baseUrlWcs + "/outbound/status/labels?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
