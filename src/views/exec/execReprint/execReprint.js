@@ -99,6 +99,16 @@ function onCreate() {
     })
     .dxTextBox("instance");
 
+  // 버튼 일괄 출력 처리
+  $(idPrefix + "#btnBatchLabel").dxButton({
+    stylingMode: "contained",
+    type: "default",
+    onClick: function (e) {
+      searchBatchListCount();
+    },
+    width: "100px"
+  });
+
   // 버튼 이벤트 처리
   $(idPrefix + "#btnSearch").dxButton({
     stylingMode: "contained",
@@ -286,6 +296,201 @@ function searchList() {
     .fail(function () {
       // 에러 발생 시 처리
     });
+}
+
+function searchBatchListCount() {
+  // 테스트
+  // const filteredData = [
+  //   {storeCode: "KR0001", labelCount: "100"},
+  //   {storeCode: "KR0002", labelCount: "1000"}
+  // ];
+
+  // for (let i = 0; i < 30; i++) {
+  //   filteredData.push({storeCode: "KR0001", labelCount: i + ""});
+  // }
+
+  // showPopup(filteredData);
+  // return;
+
+  // 테스트 종료
+
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: []
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .statusLabelsPrintCount(encoded)
+    .done(function (response) {
+      try {
+        showPopup(response.lktBody);
+      } catch (ex) {
+        console.error(ex);
+      }
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
+
+function searchBatchList(aRow) {
+  //let cntAll = response.lktBody.length;
+  // 테스트 시작
+  // let nIdx = 0;
+
+  // const intervalId = setInterval(() => {
+  //   console.log(
+  //     "batchprint:" +
+  //       aRow[nIdx].labelConnectionAddress +
+  //       "\r\n" +
+  //       aRow[nIdx].labelZpl
+  //   );
+  //   zebra.writeToSelectedPrinter(
+  //     aRow[nIdx].labelConnectionAddress,
+  //     aRow[nIdx].labelZpl
+  //   );
+
+  //   searchBatchListOK(aRow);
+  //   nIdx++;
+  //   if (nIdx >= response.lktBody.length) {
+  //     clearInterval(intervalId); // 반복 종료
+  //   }
+  // }, 200);
+
+  // 테스트 종료
+
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        storeCode: aRow.storeCode,
+        printCount: aRow.printCount
+      }
+    ]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .statusLabelsPrint(encoded)
+    .done(function (response) {
+      try {
+        if (response.lktBody.length > 0) {
+          let rowData = response.lktBody;
+          //let cntAll = response.lktBody.length;
+          let nIdx = 0;
+
+          const intervalId = setInterval(() => {
+            console.log(
+              "batchprint:" +
+                rowData[nIdx].labelConnectionAddress +
+                "\r\n" +
+                rowData[nIdx].labelZpl
+            );
+            zebra.writeToSelectedPrinter(
+              rowData[nIdx].labelConnectionAddress,
+              rowData[nIdx].labelZpl
+            );
+
+            searchBatchListOK(aRow);
+            nIdx++;
+            if (nIdx >= response.lktBody.length) {
+              clearInterval(intervalId); // 반복 종료
+            }
+          }, 200);
+        }
+      } catch (ex) {
+        console.error(ex);
+      }
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
+
+function searchBatchListOK(aRow) {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        labelNumber: aRow.labelNumber,
+        storeCode: aRow.storeCode
+      }
+    ]
+  };
+
+  apiWcs
+    .statusLabelsPrintPatch(JSON.stringify(obj))
+    .done(function (response) {
+      try {
+        if (response.lktBody.length > 0) {
+          let cntAll = response.lktBody.length;
+          let nIdx = 0;
+
+          const intervalId = setInterval(() => {
+            console.log(
+              "batchprint:" +
+                rowData[nIdx].labelConnectionAddress +
+                "\r\n" +
+                rowData[nIdx].labelZpl
+            );
+            zebra.writeToSelectedPrinter(
+              rowData[nIdx].labelConnectionAddress,
+              rowData[nIdx].labelZpl
+            );
+
+            nIdx++;
+            if (nIdx >= response.lktBody.length) {
+              clearInterval(intervalId); // 반복 종료
+            }
+          }, 200);
+        }
+      } catch (ex) {
+        console.error(ex);
+      }
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
+
+function showPopup(aData) {
+  const dataGrid = aData;
+  // 팝업 호출
+  lktUtil.createGridPopup({
+    title: "라벨일괄출력",
+    gridDataSource: dataGrid, // 초기 데이터
+    onSearch: function (searchText, gridInstance) {
+      console.log("조회된 검색어:", searchText);
+      if (!searchText) searchText = "";
+
+      // 예제: 조회 데이터를 그리드에 업데이트d
+      let filteredData = dataGrid.filter((item) =>
+        item.storeCode.includes(searchText)
+      );
+
+      gridInstance.option("dataSource", filteredData);
+    },
+    onExecute: function (formData) {
+      if (formData.length <= 0) return;
+      // alert(JSON.stringify(formData));
+
+      $("#dynamicPopup").dxPopup("hide");
+
+      searchBatchList(formData);
+    }
+  });
+}
+
+function fetchGridData(equipmentCode) {
+  // 여기서 실제 데이터를 가져오는 로직 작성
+  return [
+    {id: 1, name: "Item 1", status: "Available"},
+    {id: 2, name: "Item 2", status: "Unavailable"},
+    {id: 3, name: "Item 3", status: "Available"}
+  ];
 }
 
 function onDestroy() {

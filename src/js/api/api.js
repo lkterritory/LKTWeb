@@ -1,11 +1,8 @@
 // api.js
 
-// const baseUrl = "http://lkt0dev00.cafe24.com:1129";
 // const baseUrl = "http://192.168.26.24:1129"; // 실서버 pre
 const baseUrl = "http://192.168.26.24:4132"; // 실서버
-// const baseUrl = "http://192.168.0.9:4132";
-
-// const baseUrl = "http://192.168.26.120:1129";
+// const baseUrl = "http://lkt0dev00.cafe24.com:4132"; // 테스트서버
 
 // $.ajaxSetup({
 //   beforeSend: function (jqXHR, settings) {},

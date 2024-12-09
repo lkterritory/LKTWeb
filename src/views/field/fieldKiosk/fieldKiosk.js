@@ -440,7 +440,7 @@ function onCreate() {
           // }
 
           // 조건에 따라 배경색 변경
-          if (info.data.statusName === "완료") {
+          if (info.data.statusName.inclues("완료")) {
             // 완료는 무조건 변경
             $(info.rowElement).css("background-color", "gray"); // 녹색
           }

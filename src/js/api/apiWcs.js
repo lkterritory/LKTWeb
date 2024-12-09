@@ -2,10 +2,8 @@
 
 //
 
-// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014";
 const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
-//const baseUrlWcs = "http://192.168.26.120:2014";
-// const baseUrlWcs = "http://192.168.0.9:2014";
+// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -384,7 +382,7 @@ function equipmentLabelPatch(param) {
 }
 
 //
-
+// 라벨 재발행 화면 -----
 // 라벨재발행
 function statusLabels(param) {
   return $.ajax({
@@ -395,6 +393,41 @@ function statusLabels(param) {
     data: {}
   });
 }
+//
+
+// 라벨 일괄출력
+function statusLabelsPrintCount(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/labels/print-count?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+// 라벨 조회(출력위함)
+function statusLabelsPrint(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/labels/print?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+// 라벨출력완료
+function statusLabelsPrintPatch(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/labels/print",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
 //
 
 export default {
@@ -429,5 +462,8 @@ export default {
   equipmentLabel,
   equipmentLabelPatch,
 
-  statusLabels
+  statusLabels,
+  statusLabelsPrintCount,
+  statusLabelsPrint,
+  statusLabelsPrintPatch
 };

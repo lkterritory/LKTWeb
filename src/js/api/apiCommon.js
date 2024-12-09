@@ -1,9 +1,8 @@
 // api.js
 
-// const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132";
 // const baseUrlCommon = "http://192.168.26.120:4132";
 const baseUrlCommon = "http://192.168.26.24:4132"; //실서버;
-// const baseUrlCommon = "http://192.168.0.9:4132"; //실서버;
+// const baseUrlCommon = "http://lkt0dev00.cafe24.com:4132"; // 테스트서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -11,6 +10,7 @@ $.ajaxSetup({
     jqXHR.apiUrl = url.origin + url.pathname; // 파라미터 없는 URL 저장
 
     if (
+      settings.url.includes("dashboard") ||
       settings.url.includes("outbound/equipment/picktolight/input") ||
       settings.url.includes("outbound/equipment/picktolight/status") ||
       settings.url.includes("outbound/equipment/label")
