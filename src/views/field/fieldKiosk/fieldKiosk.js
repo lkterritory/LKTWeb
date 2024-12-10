@@ -432,6 +432,8 @@ function onCreate() {
             $(info.rowElement).css("background-color", "yellow");
           } else if (info.data.lktTaskColor == "R") {
             $(info.rowElement).css("background-color", "red");
+          } else if (info.data.lktTaskColor == "B") {
+            $(info.rowElement).css("background-color", "blue");
           }
           // else if (info.data.lktTaskColor == "W") {
           //   $(info.rowElement).css("background-color", "green"); // 녹색
