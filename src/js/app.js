@@ -80,6 +80,7 @@ function createMenu() {
     } catch (ex) {
       console.log("menuload error:", ex);
     }
+    // 테스트시 주석
 
     //console(JSON.stringify(data.menuItems));
 

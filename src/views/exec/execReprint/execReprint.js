@@ -462,6 +462,7 @@ function showPopup(aData) {
   lktUtil.createGridPopup({
     title: "라벨일괄출력",
     gridDataSource: dataGrid, // 초기 데이터
+
     onSearch: function (searchText, gridInstance) {
       console.log("조회된 검색어:", searchText);
       if (!searchText) searchText = "";
