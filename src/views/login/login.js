@@ -259,8 +259,8 @@ function login() {
     },
     lktBody: [
       {
-        username: $("#username").val(),
-        password: btoa($("#password").val()),
+        username: txtBoxUserName.option("value"),
+        password: btoa(txtBoxPassword.option("value")),
         connectionType: "TEST",
         serverGroup: ""
       }
@@ -302,8 +302,45 @@ function login() {
     });
 }
 
+let txtBoxUserName;
+
+let txtBoxPassword;
+
 $(document).ready(function () {
   gate();
+
+  txtBoxUserName = $("#username")
+    .dxTextBox({
+      placeholder: "ID",
+      value: "",
+
+      onValueChanged: function (e) {
+        console.log("입력된 값:", e.value);
+      },
+      onEnterKey: function (e) {
+        if (e.event.key === "Enter") {
+        }
+      }
+    })
+    .dxTextBox("instance");
+
+  txtBoxPassword = $("#password")
+    .dxTextBox({
+      placeholder: "password",
+      value: "",
+      mode: "password", // 비밀번호 입력 필드로 설정
+
+      onValueChanged: function (e) {
+        console.log("입력된 값:", e.value);
+      },
+      onEnterKey: function (e) {
+        if (e.event.key === "Enter") {
+          login();
+          //alert(e.value);
+        }
+      }
+    })
+    .dxTextBox("instance");
 
   const loginBtn = $("#loginBtn");
 

@@ -8,6 +8,9 @@
     <title>Login</title>
     <link
       rel="stylesheet"
+      href="../../lib/devextreme/css/dx.light.css" />
+    <link
+      rel="stylesheet"
       href="./login.css" />
     <link
       rel="stylesheet"
@@ -31,20 +34,18 @@
           id="loginForm"
           onsubmit="return false;">
           <div class="input-container">
-            <i class="dx-icon dx-icon-user"></i>
-            <input
+            <div
               type="text"
               id="username"
               placeholder="Username"
-              required />
+              required></div>
           </div>
           <div class="input-container">
-            <i class="dx-icon dx-icon-lock"></i>
-            <input
+            <div
               type="password"
               id="password"
               placeholder="Password"
-              required />
+              required></div>
           </div>
           <button
             type="button"
