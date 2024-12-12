@@ -213,6 +213,21 @@ const lktUtil = {
             onClick: popupOptions.onCancel
           });
 
+          // 입력란 추가 ()
+          const inputBoxCount = $("<div>")
+            .css({
+              marginLeft: "auto",
+              marginRight: "15px",
+              "max-width": "60px"
+            })
+            .appendTo(buttonContainer)
+            .dxTextBox({
+              placeholder: "수량",
+              onValueChanged: function (e) {
+                popupOptions.countText = e.value; // 입력된 검색어 저장
+              }
+            });
+
           // 실행 버튼 추가
           $("<div>")
             .appendTo(buttonContainer)
