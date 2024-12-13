@@ -13,7 +13,8 @@ $.ajaxSetup({
       settings.url.includes("dashboard") ||
       settings.url.includes("outbound/equipment/picktolight/input") ||
       settings.url.includes("outbound/equipment/picktolight/status") ||
-      settings.url.includes("outbound/equipment/label")
+      settings.url.includes("outbound/equipment/label") ||
+      settings.url.includes("label-print")
     ) {
       return;
     }
