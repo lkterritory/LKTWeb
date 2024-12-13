@@ -260,82 +260,83 @@ function onCreate() {
   // DevExtreme DataGrid 설정
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
+      // 임시
       dataSource: [
-        //   {
-        //     lktSequnce: 1,
-        //     skuCode: "1242835001240008",
-        //     skuName: "women skirt",
-        //     skuBarcode: "0212713015164008",
-        //     objectCount: 2,
-        //     planQty: 15,
-        //     pickQty: 0,
-        //     remainingQty: 15,
-        //     statusCode: "04",
-        //     statusName: "완ㅇ료",
-        //     planDtm: null,
-        //     pickDtm: null,
-        //     lktTaskColor: "G"
-        //   },
-        //   {
-        //     lktSequnce: 1,
-        //     skuCode: "1242835001240008",
-        //     skuName: "women skirt",
-        //     skuBarcode: "0212713015164008",
-        //     objectCount: 2,
-        //     planQty: 15,
-        //     pickQty: 0,
-        //     remainingQty: 15,
-        //     statusCode: "04",
-        //     statusName: "완ㅇ료",
-        //     planDtm: null,
-        //     pickDtm: null,
-        //     lktTaskColor: "Y"
-        //   },
-        //   {
-        //     lktSequnce: 1,
-        //     skuCode: "1242835001240008",
-        //     skuName: "women skirt",
-        //     skuBarcode: "0212713015164008",
-        //     objectCount: 2,
-        //     planQty: 15,
-        //     pickQty: 0,
-        //     remainingQty: 15,
-        //     statusCode: "04",
-        //     statusName: "완ㅇ료",
-        //     planDtm: null,
-        //     pickDtm: null,
-        //     lktTaskColor: "R"
-        //   },
-        //   {
-        //     lktSequnce: 1,
-        //     skuCode: "1242835001240008",
-        //     skuName: "women skirt",
-        //     skuBarcode: "0212713015164008",
-        //     objectCount: 2,
-        //     planQty: 15,
-        //     pickQty: 0,
-        //     remainingQty: 15,
-        //     statusCode: "04",
-        //     statusName: "완ㅇ료",
-        //     planDtm: null,
-        //     pickDtm: null,
-        //     lktTaskColor: "W"
-        //   },
-        //   {
-        //     lktSequnce: 1,
-        //     skuCode: "1242835001240008",
-        //     skuName: "women skirt",
-        //     skuBarcode: "0212713015164008",
-        //     objectCount: 2,
-        //     planQty: 15,
-        //     pickQty: 0,
-        //     remainingQty: 15,
-        //     statusCode: "04",
-        //     statusName: "완료",
-        //     planDtm: null,
-        //     pickDtm: null,
-        //     lktTaskColor: "W"
-        //   }
+        // {
+        //   lktSequnce: 1,
+        //   skuCode: "1242835001240008",
+        //   skuName: "women skirt",
+        //   skuBarcode: "0212713015164008",
+        //   objectCount: 2,
+        //   planQty: 15,
+        //   pickQty: 0,
+        //   remainingQty: 15,
+        //   statusCode: "04",
+        //   statusName: "완ㅇ료",
+        //   planDtm: null,
+        //   pickDtm: null,
+        //   lktTaskColor: "G"
+        // },
+        // {
+        //   lktSequnce: 1,
+        //   skuCode: "1242835001240008",
+        //   skuName: "women skirt",
+        //   skuBarcode: "0212713015164008",
+        //   objectCount: 2,
+        //   planQty: 15,
+        //   pickQty: 0,
+        //   remainingQty: 15,
+        //   statusCode: "04",
+        //   statusName: "완ㅇ료",
+        //   planDtm: null,
+        //   pickDtm: null,
+        //   lktTaskColor: "Y"
+        // },
+        // {
+        //   lktSequnce: 1,
+        //   skuCode: "1242835001240008",
+        //   skuName: "women skirt",
+        //   skuBarcode: "0212713015164008",
+        //   objectCount: 2,
+        //   planQty: 15,
+        //   pickQty: 0,
+        //   remainingQty: 15,
+        //   statusCode: "04",
+        //   statusName: "완ㅇ료",
+        //   planDtm: null,
+        //   pickDtm: null,
+        //   lktTaskColor: "R"
+        // },
+        // {
+        //   lktSequnce: 1,
+        //   skuCode: "1242835001240008",
+        //   skuName: "women skirt",
+        //   skuBarcode: "0212713015164008",
+        //   objectCount: 2,
+        //   planQty: 15,
+        //   pickQty: 0,
+        //   remainingQty: 15,
+        //   statusCode: "04",
+        //   statusName: "완ㅇ료",
+        //   planDtm: null,
+        //   pickDtm: null,
+        //   lktTaskColor: "W"
+        // },
+        // {
+        //   lktSequnce: 1,
+        //   skuCode: "1242835001240008",
+        //   skuName: "women skirt",
+        //   skuBarcode: "0212713015164008",
+        //   objectCount: 2,
+        //   planQty: 15,
+        //   pickQty: 0,
+        //   remainingQty: 15,
+        //   statusCode: "04",
+        //   statusName: "완료",
+        //   planDtm: null,
+        //   pickDtm: null,
+        //   lktTaskColor: "W"
+        // }
       ],
       columns: [
         {
@@ -408,6 +409,53 @@ function onCreate() {
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
             //headerCell.css(headerCss)
+          }
+        },
+        {
+          caption: "Actions",
+          width: 100,
+          cellTemplate: function (cellElement, cellInfo) {
+            // 버튼 추가
+            $("<div>")
+              .appendTo(cellElement)
+              .dxButton({
+                text: "중지",
+                onClick: function () {
+                  // 버튼 클릭 이벤트
+
+                  //alert(JSON.stringify(cellInfo.data));
+
+                  // console.log("Clicked row ID:", cellInfo.data.id);
+                  // alert("Button clicked for row: " + cellInfo.data.name);
+
+                  let reqPayload = {
+                    lktHeader: lktUtil.getLktHeader(
+                      //"OUTBOUND.EQUIPMENT.PICKTOLIGHT.INPUT"
+                      "PATCH.OUTBOUND.EQUIPMENT.PICKTOLIGHT.INPUT.CANCEL"
+                    ),
+                    lktBody: [
+                      {
+                        // storageTemperatureCode: "",
+                        // equipmentCode: eqpCodeSel,
+                        // equipmentLine: eqpCodeSel,
+                        // equipmentZone: eqpCodeSel,
+                        // inputValue: e.component.option("value")
+
+                        equipmentCode: eqpCodeSel,
+                        lktSequnce: cellInfo.data.lktSequnce,
+                        skuCode: cellInfo.data.skuCode,
+                        sscc: cellInfo.data.sscc ? cellInfo.data.sscc : ""
+                      }
+                    ]
+                  };
+
+                  lktMqtt.fncMqttDoSend(JSON.stringify(reqPayload));
+
+                  setTimeout(() => {
+                    searchList2();
+                  }, 500);
+                }
+              });
           }
         }
       ],
@@ -744,6 +792,9 @@ function searchList() {
 }
 
 function searchList2() {
+  //테스트
+  // return;
+
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.outbound.WCS.MIDDLE.CATEGORIES"),
     lktBody: [

@@ -335,29 +335,33 @@ function searchBatchListCount() {
     });
 }
 
-function searchBatchList(aRow) {
+function searchBatchList(aRow, param2) {
   //let cntAll = response.lktBody.length;
   // 테스트 시작
-  // let nIdx = 0;
+  // try {
+  //   let nIdx = 0;
 
-  // const intervalId = setInterval(() => {
-  //   console.log(
-  //     "batchprint:" +
-  //       aRow[nIdx].labelConnectionAddress +
-  //       "\r\n" +
+  //   const intervalId = setInterval(() => {
+  //     console.log(
+  //       "batchprint:" +
+  //         aRow[nIdx].labelConnectionAddress +
+  //         "\r\n" +
+  //         aRow[nIdx].labelZpl
+  //     );
+  //     zebra.writeToSelectedPrinter(
+  //       aRow[nIdx].labelConnectionAddress,
   //       aRow[nIdx].labelZpl
-  //   );
-  //   zebra.writeToSelectedPrinter(
-  //     aRow[nIdx].labelConnectionAddress,
-  //     aRow[nIdx].labelZpl
-  //   );
+  //     );
 
-  //   searchBatchListOK(aRow);
-  //   nIdx++;
-  //   if (nIdx >= response.lktBody.length) {
-  //     clearInterval(intervalId); // 반복 종료
-  //   }
-  // }, 200);
+  //     searchBatchListOK(aRow);
+  //     nIdx++;
+  //     if (nIdx >= response.lktBody.length) {
+  //       clearInterval(intervalId); // 반복 종료
+  //     }
+  //   }, 200);
+  // } catch (ex) {
+  //   console.error(ex);
+  // }
 
   // 테스트 종료
 
@@ -376,13 +380,14 @@ function searchBatchList(aRow) {
   apiWcs
     .statusLabelsPrint(encoded)
     .done(function (response) {
+      let intervalId;
       try {
         if (response.lktBody.length > 0) {
           let rowData = response.lktBody;
           //let cntAll = response.lktBody.length;
           let nIdx = 0;
 
-          const intervalId = setInterval(() => {
+          intervalId = setInterval(() => {
             console.log(
               "batchprint:" +
                 rowData[nIdx].labelConnectionAddress +
@@ -396,12 +401,14 @@ function searchBatchList(aRow) {
 
             searchBatchListOK(aRow);
             nIdx++;
-            if (nIdx >= response.lktBody.length) {
+            // if (nIdx >= response.lktBody.length) {
+            if (nIdx >= param2) {
               clearInterval(intervalId); // 반복 종료
             }
           }, 200);
         }
       } catch (ex) {
+        clearInterval(intervalId); // 반복 종료
         console.error(ex);
       }
     })
@@ -426,26 +433,6 @@ function searchBatchListOK(aRow) {
     .done(function (response) {
       try {
         if (response.lktBody.length > 0) {
-          let cntAll = response.lktBody.length;
-          let nIdx = 0;
-
-          const intervalId = setInterval(() => {
-            console.log(
-              "batchprint:" +
-                rowData[nIdx].labelConnectionAddress +
-                "\r\n" +
-                rowData[nIdx].labelZpl
-            );
-            zebra.writeToSelectedPrinter(
-              rowData[nIdx].labelConnectionAddress,
-              rowData[nIdx].labelZpl
-            );
-
-            nIdx++;
-            if (nIdx >= response.lktBody.length) {
-              clearInterval(intervalId); // 반복 종료
-            }
-          }, 200);
         }
       } catch (ex) {
         console.error(ex);
@@ -456,8 +443,14 @@ function searchBatchListOK(aRow) {
     });
 }
 
+// onRowClick: function (e) {
+//   const selectedRowData = e.data;
+//   // alert(selectedRowData);
+//   showPopup(true, selectedRowData);
+// }
 function showPopup(aData) {
   const dataGrid = aData;
+
   // 팝업 호출
   lktUtil.createGridPopup({
     title: "라벨일괄출력",
@@ -473,14 +466,18 @@ function showPopup(aData) {
       );
 
       gridInstance.option("dataSource", filteredData);
+      // gridInstance.option("onRowClick", function (e) {
+      //   console.log("Row clicked:", e.data); // 클릭한 행의 데이터
+      //   alert("Row data: " + JSON.stringify(e.data));
+      // });
     },
-    onExecute: function (formData) {
+    onExecute: function (formData, param2) {
       if (formData.length <= 0) return;
       // alert(JSON.stringify(formData));
 
       $("#dynamicPopup").dxPopup("hide");
 
-      searchBatchList(formData);
+      searchBatchList(formData, param2);
     }
   });
 }

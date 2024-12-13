@@ -63,7 +63,7 @@ $.ajaxSetup({
           .dxPopup({
             title: "http 에러",
             visible: true,
-            width: 400,
+            width: 450,
             height: "auto", // 높이를 자동으로 조절
             contentTemplate: function (contentElement) {
               $("<div>")
@@ -100,7 +100,7 @@ $.ajaxSetup({
             .dxPopup({
               title: "통신에러",
               visible: true,
-              width: 400,
+              width: 450,
               height: "auto", // 높이를 자동으로 조절
               contentTemplate: function (contentElement) {
                 $("<div>")
@@ -121,7 +121,7 @@ $.ajaxSetup({
         }
       }
     } catch (ex) {
-      alert("unknown error");
+      alert(ex);
     }
   }
 });

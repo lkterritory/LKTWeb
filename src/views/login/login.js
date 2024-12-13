@@ -423,27 +423,27 @@ $(document).ready(function () {
 //   });
 // });
 
-function showErrorPop() {
-  $("#errorPopup")
-    .dxPopup({
-      title: "오류",
-      visible: true,
-      width: 300,
-      height: 100,
-      contentTemplate: function (contentElement) {
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: []
-          })
-          .dxForm("instance");
-      }
-    })
-    .dxPopup("show");
+// function showErrorPop() {
+//   $("#errorPopup")
+//     .dxPopup({
+//       title: "오류",
+//       visible: true,
+//       width: 450,
+//       height: 100,
+//       contentTemplate: function (contentElement) {
+//         const formInstance = $("<div>")
+//           .appendTo(contentElement)
+//           .dxForm({
+//             formData: {},
+//             items: []
+//           })
+//           .dxForm("instance");
+//       }
+//     })
+//     .dxPopup("show");
 
-  // 임시 강제닫기
-  setTimeout(function () {
-    $("#errorPopup").dxPopup("hide");
-  }, 1);
-}
+//   // 임시 강제닫기
+//   setTimeout(function () {
+//     $("#errorPopup").dxPopup("hide");
+//   }, 1);
+// }

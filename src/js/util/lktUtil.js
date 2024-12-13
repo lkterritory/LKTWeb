@@ -117,6 +117,8 @@ const lktUtil = {
     // 사용자 정의 옵션으로 덮어쓰기
     const popupOptions = Object.assign({}, defaultOptions, options);
 
+    let inputBoxCount;
+    let maxCnt = 0;
     // 팝업 생성
     $("#dynamicPopup")
       .dxPopup({
@@ -194,6 +196,11 @@ const lktUtil = {
               height: 300,
               selection: {
                 mode: "single"
+              },
+              onRowClick: function (e) {
+                console.log("Row clicked:", e.data); // 클릭한 행의 데이터
+                maxCnt = e.data.labelCount;
+                inputBoxCount.option("value", e.data.labelCount);
               }
             })
             .dxDataGrid("instance");
@@ -214,7 +221,7 @@ const lktUtil = {
           });
 
           // 입력란 추가 ()
-          const inputBoxCount = $("<div>")
+          inputBoxCount = $("<div>")
             .css({
               marginLeft: "auto",
               marginRight: "15px",
@@ -223,10 +230,28 @@ const lktUtil = {
             .appendTo(buttonContainer)
             .dxTextBox({
               placeholder: "수량",
+              onInput: function (e) {
+                const inputElement = e.event.target;
+                let valPre = inputElement.value.replace(/\D/g, "");
+
+                if (Number(valPre) > Number(maxCnt)) {
+                  valPre = maxCnt;
+                }
+
+                inputElement.value = valPre;
+                console.log("입력 중 값:", inputElement.value);
+              },
               onValueChanged: function (e) {
-                popupOptions.countText = e.value; // 입력된 검색어 저장
+                console.log("최종 입력된 값:", e.value);
               }
-            });
+              // onValueChanged: function (e) {
+              //   // const value = e.value.replace(/\D/g, ""); // 숫자만 남김
+              //   // //alert(value);
+              //   // e.component.option("value", value); // 유효한 값만 설정
+              //   popupOptions.countText = e.value; // 입력된 검색어 저장
+              // }
+            })
+            .dxTextBox("instance");
 
           // 실행 버튼 추가
           $("<div>")
@@ -236,7 +261,10 @@ const lktUtil = {
               type: "default",
               onClick: function () {
                 const formData = {searchText: popupOptions.searchText}; // 필요한 데이터를 전달
-                popupOptions.onExecute(gridInstance.getSelectedRowsData()); // 외부에서 전달된 실행 로직 호출
+                popupOptions.onExecute(
+                  gridInstance.getSelectedRowsData(),
+                  Number(inputBoxCount.option("value"))
+                ); // 외부에서 전달된 실행 로직 호출
               }
             });
         }
