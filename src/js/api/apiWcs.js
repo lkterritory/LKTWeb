@@ -360,13 +360,23 @@ function equipmentPicktolightStatus(param) {
   });
 }
 
+// function equipmentLabel(param) {
+//   return $.ajax({
+//     url: baseUrlWcs + "/outbound/equipment/label-print?id=" + param,
+//     method: "GET",
+//     dataType: "json",
+//     contentType: "application/json",
+//     data: {}
+//   });
+// }
+
 function equipmentLabel(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/label-print?id=" + param,
-    method: "GET",
+    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print",
+    method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: {}
+    data: param
   });
 }
 

@@ -574,10 +574,10 @@ function selectPrint() {
         }
       ]
     };
-    var encoded = btoa(JSON.stringify(obj));
+    // var encoded = btoa(JSON.stringify(obj));
 
     apiWcs
-      .equipmentLabel(encoded)
+      .equipmentLabel(JSON.stringify(obj))
       .done(function (response) {
         try {
           if (response.lktBody.length > 0) {
