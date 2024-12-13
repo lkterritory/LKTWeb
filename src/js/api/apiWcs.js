@@ -372,17 +372,17 @@ function equipmentPicktolightStatus(param) {
 
 function equipmentLabel(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print",
-    method: "PATCH",
+    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print?" + param,
+    method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: param
+    data: {}
   });
 }
 
 function equipmentLabelPatch(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/label-print",
+    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
