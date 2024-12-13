@@ -369,11 +369,13 @@ function searchBatchList(aRow, param2) {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
       {
-        storeCode: aRow.storeCode,
-        printCount: aRow.printCount
+        storeCode: aRow[0].storeCode,
+        printCount: aRow[0].labelCount
       }
     ]
   };
+
+  //  alert(JSON.stringify(obj));
 
   var encoded = btoa(JSON.stringify(obj));
 
@@ -476,7 +478,7 @@ function showPopup(aData) {
       // alert(JSON.stringify(formData));
 
       $("#dynamicPopup").dxPopup("hide");
-
+      //alert(JSON.stringify(formData));
       searchBatchList(formData, param2);
     }
   });
