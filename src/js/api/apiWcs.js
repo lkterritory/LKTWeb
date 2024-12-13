@@ -372,7 +372,7 @@ function equipmentPicktolightStatus(param) {
 
 function equipmentLabel(param) {
   return $.ajax({
-    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print?" + param,
+    url: baseUrlWcs + "/outbound/equipment/picktolight/label-print?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
