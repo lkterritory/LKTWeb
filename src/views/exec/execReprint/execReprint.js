@@ -300,16 +300,16 @@ function searchList() {
 
 function searchBatchListCount() {
   // 테스트
-  const filteredData = [
-    {storeCode: "KR0001", labelCount: "100"},
-    {storeCode: "KR0002", labelCount: "1000"}
-  ];
+  // const filteredData = [
+  //   {storeCode: "KR0001", labelCount: "100"},
+  //   {storeCode: "KR0002", labelCount: "1000"}
+  // ];
 
-  for (let i = 0; i < 30; i++) {
-    filteredData.push({storeCode: "KR0001", labelCount: i + ""});
-  }
+  // for (let i = 0; i < 30; i++) {
+  //   filteredData.push({storeCode: "KR0001", labelCount: i + ""});
+  // }
 
-  showPopup(filteredData);
+  // showPopup(filteredData);
   return;
 
   // 테스트 종료
