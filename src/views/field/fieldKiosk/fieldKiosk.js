@@ -791,83 +791,83 @@ function searchList2() {
     .done(function (response) {
       try {
         // 테스트
-        response.lktBody = [
-          {
-            lktSequnce: 1,
-            skuCode: "1242835001240008",
-            skuName: "women skirt",
-            skuBarcode: "0212713015164008",
-            objectCount: 2,
-            planQty: 15,
-            pickQty: 0,
-            remainingQty: 15,
-            statusCode: "04",
-            statusName: "완ㅇ료",
-            planDtm: null,
-            pickDtm: null,
-            lktTaskColor: "G"
-          },
-          {
-            lktSequnce: 1,
-            skuCode: "1242835001240008",
-            skuName: "women skirt",
-            skuBarcode: "0212713015164008",
-            objectCount: 2,
-            planQty: 15,
-            pickQty: 0,
-            remainingQty: 15,
-            statusCode: "04",
-            statusName: "완ㅇ료",
-            planDtm: null,
-            pickDtm: null,
-            lktTaskColor: "Y"
-          },
-          {
-            lktSequnce: 1,
-            skuCode: "1242835001240008",
-            skuName: "women skirt",
-            skuBarcode: "0212713015164008",
-            objectCount: 2,
-            planQty: 15,
-            pickQty: 0,
-            remainingQty: 15,
-            statusCode: "04",
-            statusName: "완ㅇ료",
-            planDtm: null,
-            pickDtm: null,
-            lktTaskColor: "R"
-          },
-          {
-            lktSequnce: 1,
-            skuCode: "1242835001240008",
-            skuName: "women skirt",
-            skuBarcode: "0212713015164008",
-            objectCount: 2,
-            planQty: 15,
-            pickQty: 0,
-            remainingQty: 15,
-            statusCode: "04",
-            statusName: "완ㅇ료",
-            planDtm: null,
-            pickDtm: null,
-            lktTaskColor: "B"
-          },
-          {
-            lktSequnce: 1,
-            skuCode: "1242835001240008",
-            skuName: "women skirt",
-            skuBarcode: "0212713015164008",
-            objectCount: 2,
-            planQty: 15,
-            pickQty: 0,
-            remainingQty: 15,
-            statusCode: "04",
-            statusName: "완료",
-            planDtm: null,
-            pickDtm: null,
-            lktTaskColor: "W"
-          }
-        ];
+        // response.lktBody = [
+        //   {
+        //     lktSequnce: 1,
+        //     skuCode: "1242835001240008",
+        //     skuName: "women skirt",
+        //     skuBarcode: "0212713015164008",
+        //     objectCount: 2,
+        //     planQty: 15,
+        //     pickQty: 0,
+        //     remainingQty: 15,
+        //     statusCode: "04",
+        //     statusName: "완ㅇ료",
+        //     planDtm: null,
+        //     pickDtm: null,
+        //     lktTaskColor: "G"
+        //   },
+        //   {
+        //     lktSequnce: 1,
+        //     skuCode: "1242835001240008",
+        //     skuName: "women skirt",
+        //     skuBarcode: "0212713015164008",
+        //     objectCount: 2,
+        //     planQty: 15,
+        //     pickQty: 0,
+        //     remainingQty: 15,
+        //     statusCode: "04",
+        //     statusName: "완ㅇ료",
+        //     planDtm: null,
+        //     pickDtm: null,
+        //     lktTaskColor: "Y"
+        //   },
+        //   {
+        //     lktSequnce: 1,
+        //     skuCode: "1242835001240008",
+        //     skuName: "women skirt",
+        //     skuBarcode: "0212713015164008",
+        //     objectCount: 2,
+        //     planQty: 15,
+        //     pickQty: 0,
+        //     remainingQty: 15,
+        //     statusCode: "04",
+        //     statusName: "완ㅇ료",
+        //     planDtm: null,
+        //     pickDtm: null,
+        //     lktTaskColor: "R"
+        //   },
+        //   {
+        //     lktSequnce: 1,
+        //     skuCode: "1242835001240008",
+        //     skuName: "women skirt",
+        //     skuBarcode: "0212713015164008",
+        //     objectCount: 2,
+        //     planQty: 15,
+        //     pickQty: 0,
+        //     remainingQty: 15,
+        //     statusCode: "04",
+        //     statusName: "완ㅇ료",
+        //     planDtm: null,
+        //     pickDtm: null,
+        //     lktTaskColor: "B"
+        //   },
+        //   {
+        //     lktSequnce: 1,
+        //     skuCode: "1242835001240008",
+        //     skuName: "women skirt",
+        //     skuBarcode: "0212713015164008",
+        //     objectCount: 2,
+        //     planQty: 15,
+        //     pickQty: 0,
+        //     remainingQty: 15,
+        //     statusCode: "04",
+        //     statusName: "완료",
+        //     planDtm: null,
+        //     pickDtm: null,
+        //     lktTaskColor: "W"
+        //   }
+        // ];
 
         workOrderGrid.option("dataSource", []);
         workOrderGrid.option("dataSource", response.lktBody);
