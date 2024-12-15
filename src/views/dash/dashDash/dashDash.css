@@ -15,7 +15,7 @@
   flex: 0;
   flex-direction: column;
 
-  height: 200px;
+  height: 170px;
   margin-bottom: 20px;
 }
 
@@ -44,7 +44,7 @@
   padding: 15px;
   background-color: #fafbff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 166px;
+  height: 140px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,8 +106,8 @@
 }
 
 .gauge-container {
-  width: 180px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   position: relative;
 }
 

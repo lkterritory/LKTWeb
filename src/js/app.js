@@ -61,26 +61,30 @@ function checkSession() {
 function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
-    try {
-      let loginInfo = lktStorate.getLoginInfo();
-      console.log("loadmenuinfo:", JSON.stringify(loginInfo));
-      let menuInfo = loginInfo.lktOutDataDetail;
-      // let menuInfo = tmploginRest; // 임시 테스트
-      let menuReal = [];
-      for (let menuitm of menuInfo) {
-        menuitm.title = menuitm.menuName;
-        menuitm.submenus = menuitm.lktOutDataDetailChilds;
-        for (let menuSub of menuitm.submenus) {
-          menuSub.title = menuSub.menuName;
-          menuSub.view = menuSub.menuUrl;
-        }
-      }
-      menuReal = menuInfo;
-      data.menuItems = menuReal;
-    } catch (ex) {
-      console.log("menuload error:", ex);
-    }
+    // try {
+    //   let loginInfo = lktStorate.getLoginInfo();
+    //   console.log("loadmenuinfo:", JSON.stringify(loginInfo));
+    //   let menuInfo = loginInfo.lktOutDataDetail;
+    //   // let menuInfo = tmploginRest; // 임시 테스트
+    //   let menuReal = [];
+    //   for (let menuitm of menuInfo) {
+    //     menuitm.title = menuitm.menuName;
+    //     menuitm.submenus = menuitm.lktOutDataDetailChilds;
+    //     for (let menuSub of menuitm.submenus) {
+    //       menuSub.title = menuSub.menuName;
+    //       menuSub.view = menuSub.menuUrl;
+    //     }
+    //   }
+    //   menuReal = menuInfo;
+    //   data.menuItems = menuReal;
+    // } catch (ex) {
+    //   console.log("menuload error:", ex);
+    // }
     // 테스트시 주석
+
+    // data.menuItems.push({
+
+    // });
 
     //console(JSON.stringify(data.menuItems));
 
