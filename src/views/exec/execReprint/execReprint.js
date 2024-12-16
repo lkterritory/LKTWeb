@@ -408,7 +408,7 @@ function searchBatchList(aRow, param2) {
               rowData[nIdx].labelZpl
             );
 
-            searchBatchListOK(rowData[0]);
+            searchBatchListOK(rowData[nIdx]);
             nIdx++;
             // if (nIdx >= response.lktBody.length) {
             if (nIdx >= param2) {
