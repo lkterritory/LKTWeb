@@ -412,7 +412,7 @@ function onCreate() {
           }
         },
         {
-          caption: "Actions",
+          caption: "취소",
           width: 100,
           cellTemplate: function (cellElement, cellInfo) {
             // 버튼 추가
