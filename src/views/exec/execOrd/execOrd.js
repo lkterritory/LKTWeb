@@ -314,7 +314,7 @@ function onCreate() {
         {
           dataField: "equipmentCode",
           caption: "설비명",
-          width: 180,
+          width: 100,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
           },
@@ -384,6 +384,15 @@ function onCreate() {
           }
         },
         {
+          dataField: "totalStoreCount",
+          caption: "지점수",
+          allowFiltering: false,
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("지점수"); // 헤더 가운데 정렬
+          }
+        },
+        {
           dataField: "totalSkuCount",
           caption: "상품건수",
           allowFiltering: false,
@@ -394,7 +403,7 @@ function onCreate() {
         },
 
         {
-          dataField: "totalQuantity",
+          dataField: "totalPcs",
           caption: "낱개수량",
           allowFiltering: false,
           minWidth: 90,
@@ -402,14 +411,22 @@ function onCreate() {
             headerCell.css(headerCss).text("낱개수량"); // 헤더 가운데 정렬
           }
         },
-
         {
-          dataField: "processQuantity",
-          caption: "작업낱개수량",
+          dataField: "processOrderCount",
+          caption: "작업주문건수",
           allowFiltering: false,
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("작업주문건수"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "processStoreCount",
+          caption: "작업지점수",
+          allowFiltering: false,
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업지점수"); // 헤더 가운데 정렬
           }
         },
         {
@@ -422,7 +439,16 @@ function onCreate() {
           }
         },
         {
-          dataField: "totalPersnet",
+          dataField: "processPcs",
+          caption: "작업낱개수량",
+          allowFiltering: false,
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "rateOfProcess",
           caption: "진행율",
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {
@@ -457,7 +483,7 @@ function onCreate() {
         },
 
         {
-          dataField: "modWho",
+          dataField: "compWho",
           caption: "완료자",
 
           headerCellTemplate: function (headerCell) {
@@ -465,7 +491,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "modDtm",
+          dataField: "compDtm",
           caption: "완료일자",
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {

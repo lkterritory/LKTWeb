@@ -55,6 +55,21 @@ window.onClickKioskPrint = function () {
 function onCreate() {
   zebra.setup();
 
+  // let mqtest = {
+  //   payloadString: JSON.stringify({
+  //     properties: {
+  //       type: "RESPONSE",
+  //       ca11: "GET.OUTBOUND BOOTPMENT.PICKIOLIGHT",
+  //       statuscode: "40",
+  //       message: "데이터가",
+  //       authentication: "s",
+  //       body: []
+  //     }
+  //   })
+  // };
+
+  // onMessage(mqtest);
+
   //eqpCodeSel = "DAS-01";
 
   if (true) {
@@ -997,6 +1012,8 @@ function showStopPopup(isModi, data) {
     isModi: isModi, // 수정 여부
     formItems: formItems, // 폼 구성
     onExecute: function (formData) {
+      $("#dynamicPopup").dxPopup("hide");
+
       let reqPayload = {
         lktHeader: lktUtil.getLktHeader(
           //"OUTBOUND.EQUIPMENT.PICKTOLIGHT.INPUT"
@@ -1023,8 +1040,6 @@ function showStopPopup(isModi, data) {
       setTimeout(() => {
         searchList2();
       }, 500);
-
-      $("#dynamicPopup").dxPopup("hide");
     },
     onCancel: function () {
       // 취소 버튼 클릭 이벤트 처리
@@ -1106,6 +1121,34 @@ function showStopPopup(isModi, data) {
 function onMessage(message) {
   try {
     console.log("recv mqtt:" + message.payloadString);
+    let recvMq = JSON.parse(message.payloadString);
+
+    if (recvMq.properties.statusCode != "01") {
+      let msgTmp = recvMq.properties.message;
+
+      $("#errorPopup")
+        .dxPopup({
+          title: "키오스크",
+          visible: true,
+          width: 450,
+          height: "auto", // 높이를 자동으로 조절
+          contentTemplate: function (contentElement) {
+            $("<div>")
+              .css({
+                "text-align": "left", // 텍스트 정렬
+                "font-size": "14px",
+                "line-height": "1.5", // 줄 간격
+                "word-wrap": "break-word", // 긴 단어도 줄바꿈
+                "overflow-wrap": "break-word", // 줄바꿈 처리
+                // "white-space": "normal" // 일반 텍스트처럼 동작
+                "white-space": "pre-wrap" // 기본 줄바꿈(\r\n)을 유지
+              })
+              .text(msgTmp)
+              .appendTo(contentElement);
+          }
+        })
+        .dxPopup("show");
+    }
   } catch (ex) {
     console.log("pares error");
   }

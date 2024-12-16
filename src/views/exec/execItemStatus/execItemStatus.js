@@ -97,6 +97,14 @@ function onCreate() {
           }
         },
         {
+          dataField: "skuBarcode",
+          caption: "상품명",
+          minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("상품명"); // 헤더 가운데 정렬
+          }
+        },
+        {
           dataField: "totalPlanOrderCount",
           caption: "예정주문",
           minWidth: 90,
@@ -105,7 +113,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "totalPlanQuantity",
+          dataField: "planQty",
           caption: "예정수량",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -121,7 +129,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "totalWorkQuantity",
+          dataField: "pickQty",
           caption: "작업수량",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -342,7 +350,7 @@ function searchListDetail(row) {
       {
         workDate: row.workDate,
         workBatch: row.workBatch,
-        orderNumber: row.orderNumber
+        skuCode: row.skuCode
       }
     ]
   };
