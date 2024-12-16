@@ -310,7 +310,7 @@ function searchBatchListCount() {
   // }
 
   // showPopup(filteredData);
-  return;
+  // return;
 
   // 테스트 종료
 
