@@ -299,18 +299,19 @@ function searchList() {
 }
 
 function searchBatchListCount() {
-  // 테스트
-  // const filteredData = [
-  //   {storeCode: "KR0001", labelCount: "100"},
-  //   {storeCode: "KR0002", labelCount: "1000"}
-  // ];
+  // 테스트 수량
 
-  // for (let i = 0; i < 30; i++) {
-  //   filteredData.push({storeCode: "KR0001", labelCount: i + ""});
-  // }
+  const filteredData = [
+    {storeCode: "KR0001", labelCount: "100"},
+    {storeCode: "KR0002", labelCount: "1000"}
+  ];
 
-  // showPopup(filteredData);
-  // return;
+  for (let i = 0; i < 30; i++) {
+    filteredData.push({storeCode: "KR0001", labelCount: i + ""});
+  }
+
+  showPopup(filteredData);
+  return;
 
   // 테스트 종료
 
@@ -336,12 +337,14 @@ function searchBatchListCount() {
 }
 
 function searchBatchList(aRow, param2) {
-  //let cntAll = response.lktBody.length;
-  // 테스트 시작
+  //  테스트 시작
+
+  // let intervalId;
+  // console.log(JSON.stringify(aRow) + ":" + param2);
   // try {
   //   let nIdx = 0;
 
-  //   const intervalId = setInterval(() => {
+  //   intervalId = setInterval(() => {
   //     console.log(
   //       "batchprint:" +
   //         aRow[nIdx].labelConnectionAddress +
@@ -353,6 +356,7 @@ function searchBatchList(aRow, param2) {
   //       aRow[nIdx].labelZpl
   //     );
 
+  //     alert(JSON.stringify(aRow[0]));
   //     searchBatchListOK(aRow[0]);
   //     nIdx++;
   //     if (nIdx >= response.lktBody.length) {
@@ -360,11 +364,14 @@ function searchBatchList(aRow, param2) {
   //     }
   //   }, 200);
   // } catch (ex) {
+  //   clearInterval(intervalId);
   //   console.error(ex);
   // }
+  // return;
 
   // 테스트 종료
 
+  // [{"storeCode":"KR0001","labelCount":"3"}]:3
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
@@ -401,7 +408,7 @@ function searchBatchList(aRow, param2) {
               rowData[nIdx].labelZpl
             );
 
-            searchBatchListOK(aRow[0]);
+            searchBatchListOK(rowData[0]);
             nIdx++;
             // if (nIdx >= response.lktBody.length) {
             if (nIdx >= param2) {
