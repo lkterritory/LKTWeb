@@ -65,7 +65,6 @@ function createMenu() {
       let loginInfo = lktStorate.getLoginInfo();
       console.log("loadmenuinfo:", JSON.stringify(loginInfo));
       let menuInfo = loginInfo.lktOutDataDetail;
-      // let menuInfo = tmploginRest; // 임시 테스트
       let menuReal = [];
       for (let menuitm of menuInfo) {
         menuitm.title = menuitm.menuName;

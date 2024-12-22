@@ -189,11 +189,6 @@ function loadDataProc(aParam) {
 
 function loadDataDetailProc(aParam) {
   if (aParam == null) {
-    aParam = [
-      {rst1: "test1", rst2: "테스트1"},
-      {rst1: "test2", rst2: "테스트2"}
-    ];
-
     // 오른쪽 그리드 초기화
     $(idPrefix + "#workOrderGridDetail").dxDataGrid({
       dataSource: aParam, // 데이터 소스 설정
