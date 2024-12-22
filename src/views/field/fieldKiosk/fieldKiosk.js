@@ -1128,7 +1128,7 @@ function onMessage(message) {
 
       $("#errorPopup")
         .dxPopup({
-          title: "키오스크",
+          title: "얼람",
           visible: true,
           width: 450,
           height: "auto", // 높이를 자동으로 조절
