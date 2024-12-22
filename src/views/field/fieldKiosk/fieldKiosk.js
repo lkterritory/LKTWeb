@@ -387,10 +387,10 @@ function onCreate() {
         },
         {
           dataField: "objectCount",
-          caption: "주문수",
+          caption: "지점수",
           width: 80,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("주문수"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("지점수"); // 헤더 가운데 정렬
           }
         },
         {
@@ -434,7 +434,7 @@ function onCreate() {
             $("<div>")
               .appendTo(cellElement)
               .dxButton({
-                text: "중지",
+                text: "취소",
                 onClick: function () {
                   // 버튼 클릭 이벤트
 
@@ -622,7 +622,7 @@ function selectPrint() {
 function onActive() {}
 
 function initView() {
-  // 주문 값 설정
+  // 지점 값 설정
   document.querySelector(".summary-item:nth-child(1) .current").textContent =
     "";
   document.querySelector(".summary-item:nth-child(1) .total").textContent = "";
@@ -736,7 +736,7 @@ function searchList() {
 
         //resBodyTmp =
 
-        document // 주문 값 설정
+        document // 지점 값 설정
           .querySelector(".summary-item:nth-child(1) .current").textContent =
           resBody.processObjectCount; // 현재값
         document.querySelector(
