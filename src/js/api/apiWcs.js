@@ -1,8 +1,8 @@
 // api.js
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
-const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
-// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
+// const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
+const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {

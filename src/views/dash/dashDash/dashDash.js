@@ -265,10 +265,10 @@ function searchList() {
   // for (let i = 0; i < 10; i++) {
   //   dataRes.push({
   //     equipmentCode: "DAS-" + (i + 1 >= 10 ? "" : "0") + (i + 1),
-  //     totalSkuCount: 20,
-  //     processSkuCount: 2,
-  //     totalQuantity: 102,
-  //     processQuantity: 10
+  //     totalSkuCount: 302,
+  //     processSkuCount: Math.floor(Math.random() * 100) + 1,
+  //     totalQuantity: 302,
+  //     processQuantity: Math.floor(Math.random() * 100) + 1
   //   });
   // }
 
