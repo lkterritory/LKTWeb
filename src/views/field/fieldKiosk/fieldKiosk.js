@@ -278,7 +278,7 @@ function onCreate() {
       // 임시 테스트
       dataSource: [
         // {
-        //   lktSequnce: 1,
+        //   lktSequence: 1,
         //   skuCode: "1242835001240008",
         //   skuName: "women skirt",
         //   skuBarcode: "0212713015164008",
@@ -293,7 +293,7 @@ function onCreate() {
         //   lktTaskColor: "G"
         // },
         // {
-        //   lktSequnce: 1,
+        //   lktSequence: 1,
         //   skuCode: "1242835001240008",
         //   skuName: "women skirt",
         //   skuBarcode: "0212713015164008",
@@ -308,7 +308,7 @@ function onCreate() {
         //   lktTaskColor: "Y"
         // },
         // {
-        //   lktSequnce: 1,
+        //   lktSequence: 1,
         //   skuCode: "1242835001240008",
         //   skuName: "women skirt",
         //   skuBarcode: "0212713015164008",
@@ -323,7 +323,7 @@ function onCreate() {
         //   lktTaskColor: "R"
         // },
         // {
-        //   lktSequnce: 1,
+        //   lktSequence: 1,
         //   skuCode: "1242835001240008",
         //   skuName: "women skirt",
         //   skuBarcode: "0212713015164008",
@@ -338,7 +338,7 @@ function onCreate() {
         //   lktTaskColor: "W"
         // },
         // {
-        //   lktSequnce: 1,
+        //   lktSequence: 1,
         //   skuCode: "1242835001240008",
         //   skuName: "women skirt",
         //   skuBarcode: "0212713015164008",
@@ -355,7 +355,7 @@ function onCreate() {
       ],
       columns: [
         {
-          dataField: "lktSequnce",
+          dataField: "lktSequence",
           caption: "순서",
           width: 70,
           headerCellTemplate: function (headerCell) {
@@ -502,7 +502,7 @@ function onCreate() {
   // 테스트 test
   // workOrderGrid.option("dataSource", [
   //   {
-  //     lktSequnce: 1,
+  //     lktSequence: 1,
   //     skuCode: "1242835001240008",
   //     skuName: "women skirt",
   //     skuBarcode: "0212713015164008",
@@ -808,7 +808,7 @@ function searchList2() {
         // 테스트
         // response.lktBody = [
         //   {
-        //     lktSequnce: 1,
+        //     lktSequence: 1,
         //     skuCode: "1242835001240008",
         //     skuName: "women skirt",
         //     skuBarcode: "0212713015164008",
@@ -823,7 +823,7 @@ function searchList2() {
         //     lktTaskColor: "G"
         //   },
         //   {
-        //     lktSequnce: 1,
+        //     lktSequence: 1,
         //     skuCode: "1242835001240008",
         //     skuName: "women skirt",
         //     skuBarcode: "0212713015164008",
@@ -838,7 +838,7 @@ function searchList2() {
         //     lktTaskColor: "Y"
         //   },
         //   {
-        //     lktSequnce: 1,
+        //     lktSequence: 1,
         //     skuCode: "1242835001240008",
         //     skuName: "women skirt",
         //     skuBarcode: "0212713015164008",
@@ -853,7 +853,7 @@ function searchList2() {
         //     lktTaskColor: "R"
         //   },
         //   {
-        //     lktSequnce: 1,
+        //     lktSequence: 1,
         //     skuCode: "1242835001240008",
         //     skuName: "women skirt",
         //     skuBarcode: "0212713015164008",
@@ -868,7 +868,7 @@ function searchList2() {
         //     lktTaskColor: "B"
         //   },
         //   {
-        //     lktSequnce: 1,
+        //     lktSequence: 1,
         //     skuCode: "1242835001240008",
         //     skuName: "women skirt",
         //     skuBarcode: "0212713015164008",
@@ -1028,7 +1028,7 @@ function showStopPopup(isModi, data) {
             // inputValue: e.component.option("value")
 
             equipmentCode: eqpCodeSel,
-            lktSequnce: data.lktSequnce,
+            lktSequence: data.lktSequence,
             skuCode: data.skuCode,
             sscc: data.sscc ? data.sscc : ""
           }
