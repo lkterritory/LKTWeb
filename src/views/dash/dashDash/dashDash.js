@@ -16,6 +16,8 @@ const idPrefix = "#dash-dashDash-dashDash ";
 let data = [];
 let dataRes = [];
 
+let elProgress = null;
+
 function onCreate() {
   // Progress Bar 설정
 
@@ -26,6 +28,8 @@ function onCreate() {
 }
 
 function loadDashboard() {
+  data = [];
+
   for (let i = 0; i < dataRes.length; i++) {
     let dataTmp = {
       facilitiesCode: dataRes[i].equipmentCode,
@@ -102,9 +106,8 @@ function loadDashboard() {
         .html()
         .includes(item.facilitiesCode)
     )
+      // 없을때만생성
       $(idPrefix + "#dashboard").append(card);
-
-    // $(idPrefix + "#dashboard").append(card);
 
     for (let i = 1; i < 4; i++) {
       //alert("pidx:" + i);
@@ -127,50 +130,22 @@ function loadDashboard() {
             ? item.totalSkuCount
             : item.totalPcs, // 현재 값, // 최대값
         showStatus: false, // 기본 텍스트 표시 끄기
+        onValueChanged: function (e) {
+          //onContentReady: function (e) {
+          //alert("dd");
+          updateProgressBarText(e, item, i);
+          //return;
+        },
         onContentReady: function (e) {
-          // 프로그레스바에 텍스트 추가
-          const current =
-            i == 1
-              ? item.workOrderCount
-              : i == 2
-              ? item.workSkuCount
-              : item.workPcs;
-          const max =
-            i == 1
-              ? item.totalOrderCount
-              : i == 2
-              ? item.totalSkuCount
-              : item.totalPcs;
-
-          // 현재 값 왼쪽에 표시
-          $("<div>")
-            .text(current)
-            .addClass("progress-current-text")
-            .css({
-              position: "absolute",
-              left: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "#ffffff", // 원하는 색상으로 변경
-              fontWeight: "bold"
-            })
-            .appendTo(e.element);
-
-          // 최대 값 오른쪽에 표시
-          $("<div>")
-            .text(max)
-            .addClass("progress-max-text")
-            .css({
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "#000000", // 원하는 색상으로 변경
-              fontWeight: "bold"
-            })
-            .appendTo(e.element);
+          updateProgressBarText(e, item, i);
         }
       });
+
+      // if (
+      //   !$(idPrefix + "#dashboard")
+      //     .html()
+      //     .includes(item.facilitiesCode)
+      // ) {
     }
 
     let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
@@ -223,6 +198,55 @@ function loadDashboard() {
   });
 }
 
+function updateProgressBarText(e, item, i) {
+  // 프로그레스바에 텍스트 추가
+  const current =
+    i == 1 ? item.workOrderCount : i == 2 ? item.workSkuCount : item.workPcs;
+  const max =
+    i == 1 ? item.totalOrderCount : i == 2 ? item.totalSkuCount : item.totalPcs;
+
+  // jQuery 객체로 변환
+  const $element = $(e.element);
+
+  // 현재 값 텍스트 업데이트 또는 추가
+  let $currentText = $element.find(".progress-current-text");
+  if ($currentText.length) {
+    $currentText.text(current); // 값 업데이트
+  } else {
+    $("<div>")
+      .text(current)
+      .addClass("progress-current-text")
+      .css({
+        position: "absolute",
+        left: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        color: "#ffffff", // 원하는 색상으로 변경
+        fontWeight: "bold"
+      })
+      .appendTo(e.element); // 새로 추가
+  }
+
+  // 최대 값 텍스트 업데이트 또는 추가
+  let $maxText = $element.find(".progress-max-text");
+  if ($maxText.length) {
+    $maxText.text(max); // 값 업데이트
+  } else {
+    $("<div>")
+      .text(max)
+      .addClass("progress-max-text")
+      .css({
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        color: "#000000", // 원하는 색상으로 변경
+        fontWeight: "bold"
+      })
+      .appendTo(e.element); // 새로 추가
+  }
+}
+
 function createRect(width, height, fill) {
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 
@@ -261,19 +285,23 @@ function onActive() {
 }
 
 function searchList() {
+  // 테스트
+
   // dataRes = [];
   // for (let i = 0; i < 10; i++) {
   //   dataRes.push({
   //     equipmentCode: "DAS-" + (i + 1 >= 10 ? "" : "0") + (i + 1),
   //     totalSkuCount: 302,
-  //     processSkuCount: Math.floor(Math.random() * 100) + 1,
+  //     processSkuCount: Math.floor(Math.random() * 302) + 1,
   //     totalQuantity: 302,
-  //     processQuantity: Math.floor(Math.random() * 100) + 1
+  //     processQuantity: Math.floor(Math.random() * 302) + 1
   //   });
   // }
 
   // loadDashboard();
   // return;
+
+  // end 테스트
 
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
