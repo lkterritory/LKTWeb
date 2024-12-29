@@ -194,6 +194,7 @@ const lktUtil = {
               showBorders: true,
               columnAutoWidth: true,
               height: 300,
+              paging: {enabled: false},
               selection: {
                 mode: "single"
               },
@@ -225,7 +226,8 @@ const lktUtil = {
             .css({
               marginLeft: "auto",
               marginRight: "15px",
-              "max-width": "60px"
+              "max-width": "60px",
+              border: "red solid"
             })
             .appendTo(buttonContainer)
             .dxTextBox({
