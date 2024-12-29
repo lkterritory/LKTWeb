@@ -62,11 +62,44 @@ function onCreate() {
     "align-items": "center",
     "text-align": "center"
   };
+
+  // "equipmentCode": "DAS-02",
+  // "storageTemperatureCode": "RT",
+  // "storageTemperatureName": "상온",
+  // "indicatorCode": "94A718",
+  // "storeCode": "KR0260",
+  // "storeName": "KR0260",
+  // "printConnectionAddress": "192.168.26.74",
+  // "locationCode": "1L0116",
+  // "locationName": "1L0116",
+  // "stateCode": "01",
+  // "stateName": "예"
   // DataGrid
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
+        {
+          dataField: "equipmentCode",
+          caption: "설비",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("설비"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "indicatorCode",
+          caption: "표시기",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("표시기"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "printConnectionAddress",
+          caption: "프린터",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("프린터"); // 헤더 가운데 정렬
+          }
+        },
         {
           dataField: "locationCode",
           caption: "로케이션",
@@ -74,28 +107,36 @@ function onCreate() {
             headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
           }
         },
-        {
-          dataField: "equipmentCode",
-          caption: "설비코드",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("설비코드"); // 헤더 가운데 정렬
-          }
-        },
 
         {
-          dataField: "storageTemperatureCode",
-          caption: "온도대 코드",
+          dataField: "storeCode",
+          caption: "지점",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("온도대 코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("지점"); // 헤더 가운데 정렬
           }
         },
         {
-          dataField: "storageTemperatureName",
-          caption: "온도대",
+          dataField: "stateName",
+          caption: "상태",
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
           }
         }
+
+        // {
+        //   dataField: "storageTemperatureCode",
+        //   caption: "온도대 코드",
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("온도대 코드"); // 헤더 가운데 정렬
+        //   }
+        // },
+        // {
+        //   dataField: "storageTemperatureName",
+        //   caption: "온도대",
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
+        //   }
+        // }
       ],
 
       paging: {enabled: false},
