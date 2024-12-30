@@ -1123,8 +1123,11 @@ function onMessage(message) {
     console.log("recv mqtt:" + message.payloadString);
     let recvMq = JSON.parse(message.payloadString);
 
-    if (recvMq.properties.statusCode != "01") {
-      let msgTmp = recvMq.properties.message;
+    // if (recvMq.properties.statusCode != "01") {
+    //   let msgTmp = recvMq.properties.message;
+
+    if (recvMq.lktHeader.statusCode != "01") {
+      let msgTmp = recvMq.lktHeader.message;
 
       $("#errorPopup")
         .dxPopup({
