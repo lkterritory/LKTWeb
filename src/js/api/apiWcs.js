@@ -1,8 +1,8 @@
 // api.js
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
-// const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
-const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
+const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
+// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -34,10 +34,10 @@ $.ajaxSetup({
             .appendTo(contentElement)
             .dxForm({
               formData: {},
-              items: [],
+              items: []
             })
             .dxForm("instance");
-        },
+        }
       })
       .dxPopup("show");
 
@@ -79,11 +79,11 @@ $.ajaxSetup({
                   "word-wrap": "break-word", // 긴 단어도 줄바꿈
                   "overflow-wrap": "break-word", // 줄바꿈 처리
                   // "white-space": "normal" // 일반 텍스트처럼 동작
-                  "white-space": "pre-wrap", // 기본 줄바꿈(\r\n)을 유지
+                  "white-space": "pre-wrap" // 기본 줄바꿈(\r\n)을 유지
                 })
                 .text(msgTmp)
                 .appendTo(contentElement);
-            },
+            }
           })
           .dxPopup("show");
       } else {
@@ -116,11 +116,11 @@ $.ajaxSetup({
                     "word-wrap": "break-word", // 긴 단어도 줄바꿈
                     "overflow-wrap": "break-word", // 줄바꿈 처리
                     // "white-space": "normal" // 일반 텍스트처럼 동작
-                    "white-space": "pre-wrap", // 기본 줄바꿈(\r\n)을 유지
+                    "white-space": "pre-wrap" // 기본 줄바꿈(\r\n)을 유지
                   })
                   .text(msgTmp)
                   .appendTo(contentElement);
-              },
+              }
             })
             .dxPopup("show");
         }
@@ -128,7 +128,7 @@ $.ajaxSetup({
     } catch (ex) {
       alert(ex);
     }
-  },
+  }
 });
 
 // 작업차수
@@ -138,7 +138,7 @@ function workbatch(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -150,7 +150,7 @@ function wcsOperation(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -161,7 +161,7 @@ function wcsOperationPlan(param) {
     method: "POST",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -172,7 +172,7 @@ function wcsOperationStart(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -183,7 +183,7 @@ function wcsOperationcCompleted(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -194,7 +194,7 @@ function wcsOperationcClosing(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -205,7 +205,7 @@ function wcsOperationcCancel(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 작업지시 end
@@ -217,7 +217,7 @@ function wcsInspectionsList(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -227,7 +227,7 @@ function wcsInspectionsConfirm(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -237,7 +237,7 @@ function wcsInspectionsCompletion(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 // 검수 end
@@ -249,7 +249,7 @@ function wcsMiddleCategories(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 // 중분류 end
@@ -261,7 +261,7 @@ function statusOrders(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -272,7 +272,7 @@ function statusOrderDetail(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -283,7 +283,7 @@ function statusSkus(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -294,7 +294,7 @@ function statusSkusDetail(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -305,7 +305,7 @@ function statusEquipment(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -316,7 +316,7 @@ function statusEquipmentDetail(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -327,7 +327,7 @@ function dashboardsOverallStatus(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -338,7 +338,7 @@ function dashboardsPickToLightInstances(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -349,7 +349,7 @@ function equipmentPicktolightInput(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -359,7 +359,7 @@ function equipmentPicktolightStatus(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -379,7 +379,7 @@ function equipmentLabel(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -389,7 +389,7 @@ function equipmentLabelPatch(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -402,7 +402,7 @@ function statusLabels(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 //
@@ -414,7 +414,7 @@ function statusLabelsPrintCount(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -425,7 +425,7 @@ function statusLabelsPrint(param) {
     method: "GET",
     dataType: "json",
     contentType: "application/json",
-    data: {},
+    data: {}
   });
 }
 
@@ -436,7 +436,7 @@ function statusLabelsPrintPatch(param) {
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",
-    data: param,
+    data: param
   });
 }
 
@@ -477,5 +477,5 @@ export default {
   statusLabels,
   statusLabelsPrintCount,
   statusLabelsPrint,
-  statusLabelsPrintPatch,
+  statusLabelsPrintPatch
 };
