@@ -185,6 +185,24 @@ function loadBar(data) {
 
   //for (let i = 0; i < 1; i++) {
 
+  //   {
+  //     "centerCode": null,
+  //     "clientCode": null,
+  //     "warehouseCode": null,
+  //     "totalSkuCount": 0,
+  //     "processSkuCount": 0,
+  //     "totalQuantity": null,
+  //     "processQuantity": null
+  // }
+
+  // "facilitiesCode": "3D-SORTER#2",
+  // "totalOrderCount": 0,
+  // "workOrderCount": 0,
+  // "totalSkuCount": 0,
+  // "workSkuCount": 0,
+  // "totalPcs": 0,
+  // "workPcs": 0
+
   data[0] = {
     facilitiesCode: "DAS-01",
     totalOrderCount: data[0].totalSkuCount,

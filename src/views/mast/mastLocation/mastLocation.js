@@ -29,6 +29,32 @@ function onCreate() {
     .dxTextBox("instance");
 
   // 버튼 이벤트 처리
+  $(idPrefix + "#btnDown").dxButton({
+    stylingMode: "contained",
+    type: "default",
+    onClick: function (e) {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Work Orders");
+
+      DevExpress.excelExporter
+        .exportDataGrid({
+          component: workOrderGrid, // dxDataGrid 인스턴스
+          worksheet: worksheet,
+          autoFilterEnabled: true
+        })
+        .then(() => {
+          workbook.xlsx.writeBuffer().then((buffer) => {
+            saveAs(
+              new Blob([buffer], {type: "application/octet-stream"}),
+              "location.xlsx"
+            );
+          });
+        });
+    },
+    width: "100px"
+  });
+
+  // 버튼 이벤트 처리
   $(idPrefix + "#btnSearch").dxButton({
     stylingMode: "contained",
     type: "default",
@@ -80,6 +106,13 @@ function onCreate() {
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
+          dataField: "locationCode",
+          caption: "로케이션",
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
+          }
+        },
+        {
           dataField: "equipmentCode",
           caption: "설비",
           headerCellTemplate: function (headerCell) {
@@ -98,13 +131,6 @@ function onCreate() {
           caption: "프린터",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("프린터"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "locationCode",
-          caption: "로케이션",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
           }
         },
 
