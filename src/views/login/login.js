@@ -307,6 +307,10 @@ let txtBoxUserName;
 let txtBoxPassword;
 
 $(document).ready(function () {
+  let devKey =
+    "ewogICJmb3JtYXQiOiAxLAogICJjdXN0b21lcklkIjogIjBiNGNhZDEzLWI3ZmEtNDljOC05MjI5LWUxYTFjNGQ1ZTViNSIsCiAgIm1heFZlcnNpb25BbGxvd2VkIjogMjQxCn0=.TKB/YEgo0tLVriWAArXeOhJVDffyIw4Uhv5MjX3z5LfyVCgVpPbSHmboGvsUWPG+4tgBCJBnmXjxXykz/BIVD5oOV6ktWAsvC73UPAo+y+3XI+5csEjwUTJvZH0ysRBhWkbSCg==";
+  DevExpress.config({licenseKey: devKey});
+
   gate();
 
   txtBoxUserName = $("#username")
