@@ -54,7 +54,7 @@ function gate() {
 
 function checkSession() {
   if (Cookies.get("login") != "true") {
-    window.location.href = "./src/views/login/login.html";
+    window.location.href = "./login.html";
   }
 }
 
@@ -169,7 +169,8 @@ $(document).ready(function () {
 
       localStorage.setItem("viewPre", null);
       localStorage.setItem("tabTitlePre", null);
-      window.location.href = "./src/views/login/login.html";
+
+      window.location.href = "./login.html";
     }
   });
 

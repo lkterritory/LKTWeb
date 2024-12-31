@@ -1,8 +1,8 @@
 // api.js
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
-const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
-// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
+// const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
+const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -66,7 +66,28 @@ $.ajaxSetup({
 
         $("#errorPopup")
           .dxPopup({
-            title: "http 에러",
+            toolbarItems: [
+              {
+                location: "before", // 헤더의 왼쪽에 배치
+                template: function () {
+                  // 커스텀 이미지 추가
+                  return $("<img>", {
+                    src: "assets/images/AlertStopIcon.png", // 커스텀 이미지 경로
+                    alt: "Error Icon",
+                    css: {
+                      width: "24px",
+                      height: "24px",
+                      marginRight: "8px" // 이미지와 텍스트 간격
+                    }
+                  });
+                }
+              },
+              {
+                text: "http 에러", // 헤더 텍스트
+                location: "center", // 중앙 정렬
+                cssClass: "popup-title-text" // 추가 스타일 적용 가능
+              }
+            ],
             visible: true,
             width: 450,
             height: "auto", // 높이를 자동으로 조절
@@ -103,7 +124,28 @@ $.ajaxSetup({
 
           $("#errorPopup")
             .dxPopup({
-              title: "통신에러",
+              toolbarItems: [
+                {
+                  location: "before", // 헤더의 왼쪽에 배치
+                  template: function () {
+                    // 커스텀 이미지 추가
+                    return $("<img>", {
+                      src: "assets/images/AlertStopIcon.png", // 커스텀 이미지 경로
+                      alt: "Error Icon",
+                      css: {
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "8px" // 이미지와 텍스트 간격
+                      }
+                    });
+                  }
+                },
+                {
+                  text: "통신에러", // 헤더 텍스트
+                  location: "center", // 중앙 정렬
+                  cssClass: "popup-title-text" // 추가 스타일 적용 가능
+                }
+              ],
               visible: true,
               width: 450,
               height: "auto", // 높이를 자동으로 조절

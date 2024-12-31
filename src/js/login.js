@@ -2,10 +2,8 @@ let api;
 let lktStorate;
 
 if (!window.apiModule || !window.lktStorateModule) {
-  window.apiModule = import(`../../js/api/api.js?t=${Date.now()}`);
-  window.lktStorateModule = import(
-    `../../js/util/lktStorage.js?t=${Date.now()}`
-  );
+  window.apiModule = import(`./api/api.js?t=${Date.now()}`);
+  window.lktStorateModule = import(`./util/lktStorage.js?t=${Date.now()}`);
 }
 
 api = (await window.apiModule).default;

@@ -1,9 +1,9 @@
 // api.js
 
 // const baseUrl = "http://10.244.100.71:4132"; // 실서버 pre
-const baseUrl = "http://192.168.26.24:4132"; // 실서버
+// const baseUrl = "http://192.168.26.24:4132"; // 실서버
 
-// const baseUrl = "http://lkt0dev00.cafe24.com:4132"; // 테스트서버
+const baseUrl = "http://lkt0dev00.cafe24.com:4132"; // 테스트서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -41,15 +41,8 @@ $.ajaxSetup({
         }
       })
       .dxPopup("show");
-
-    // // 임시 강제닫기
-    // setTimeout(function () {
-    //   $("#networkPopup").dxPopup("hide");
-    // }, 1);
   },
   complete: function (jqXHR, textStatus) {
-    // {"readyState":4,"responseText":"","status":204,"statusText":"No Content"}
-
     $("#networkPopup").dxPopup("hide");
 
     if (jqXHR.apiUrl.includes(".html") || jqXHR.apiUrl.includes(".json"))
@@ -70,7 +63,28 @@ $.ajaxSetup({
 
         $("#errorPopup")
           .dxPopup({
-            title: "http 에러",
+            toolbarItems: [
+              {
+                location: "before", // 헤더의 왼쪽에 배치
+                template: function () {
+                  // 커스텀 이미지 추가
+                  return $("<img>", {
+                    src: "assets/images/AlertStopIcon.png", // 커스텀 이미지 경로
+                    alt: "Error Icon",
+                    css: {
+                      width: "24px",
+                      height: "24px",
+                      marginRight: "8px" // 이미지와 텍스트 간격
+                    }
+                  });
+                }
+              },
+              {
+                text: "http 에러", // 헤더 텍스트
+                location: "center", // 중앙 정렬
+                cssClass: "popup-title-text" // 추가 스타일 적용 가능
+              }
+            ],
             visible: true,
             width: 450,
             height: "auto", // 높이를 자동으로 조절
@@ -107,7 +121,28 @@ $.ajaxSetup({
 
           $("#errorPopup")
             .dxPopup({
-              title: "통신에러",
+              toolbarItems: [
+                {
+                  location: "before", // 헤더의 왼쪽에 배치
+                  template: function () {
+                    // 커스텀 이미지 추가
+                    return $("<img>", {
+                      src: "assets/images/AlertStopIcon.png", // 커스텀 이미지 경로
+                      alt: "Error Icon",
+                      css: {
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "8px" // 이미지와 텍스트 간격
+                      }
+                    });
+                  }
+                },
+                {
+                  text: "통신에러", // 헤더 텍스트
+                  location: "center", // 중앙 정렬
+                  cssClass: "popup-title-text" // 추가 스타일 적용 가능
+                }
+              ],
               visible: true,
               width: 450,
               height: "auto", // 높이를 자동으로 조절
