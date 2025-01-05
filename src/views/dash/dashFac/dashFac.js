@@ -156,8 +156,7 @@ function searchList() {
   // ];
 
   // loadBar(bodyTmp);
-
-  return;
+  // return;
 
   // end 테스트
 
