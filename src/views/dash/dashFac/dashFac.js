@@ -64,6 +64,9 @@ function onCreate() {
   //return;
 
   searchList();
+  setTimeout(() => {
+    searchList();
+  }, 1000);
 
   intervalList = setInterval(() => {
     searchList();
@@ -77,37 +80,31 @@ function initView() {
   $(".sumbox-con-3-fac").text("0/hr");
   $("#sumbox-con-3-fac-1").text("0/hr");
 
-  let iniData = {
-    facilitiesCode: "0",
-    totalOrderCount: 0,
-    workOrderCount: 0,
-    totalSkuCount: 0,
-    processSkuCount: 0,
-    totalQuantity: 0,
-    processQuantity: 0
-  };
+  // let iniData = {
+  //   facilitiesCode: "0",
+  //   totalOrderCount: 0,
+  //   workOrderCount: 0,
+  //   totalSkuCount: 0,
+  //   processSkuCount: 0,
+  //   totalQuantity: 0,
+  //   processQuantity: 0
+  // };
 
   // let iniData = {
-  //   facilitiesCode: "DAS-01",
-  //   totalOrderCount: 30,
-  //   workOrderCount: 20,
-  //   totalSkuCount: 40,
-  //   processSkuCount: 30,
-  //   totalQuantity: 50,
-  //   processQuantity: 40
+  //   centerCode: "HMOMNI",
+  //   clientCode: "HMOMNI",
+  //   warehouseCode: "HMOMNI",
+  //   totalStoreCount: 0,
+  //   processStoreCount: 0,
+  //   totalSerialShippingContainerCodeCount: 0,
+  //   processSerialShippingContainerCodeCount: 0,
+  //   totalSkuCount: 0,
+  //   processSkuCount: 0,
+  //   totalQuantity: 0,
+  //   processQuantity: 0
   // };
 
-  // let data = {
-  //   facilitiesCode: "DAS-01",
-  //   totalOrderCount: iniData.totalSkuCount,
-  //   workOrderCount: iniData.processSkuCount,
-  //   totalSkuCount: iniData.totalSkuCount,
-  //   workSkuCount: iniData.processSkuCount,
-  //   totalPcs: iniData.totalQuantity,
-  //   workPcs: iniData.processQuantity
-  // };
-
-  loadBar([iniData]);
+  // loadBar([iniData]);
 }
 
 function createRect(width, height, fill) {
@@ -139,6 +136,31 @@ function createText(x, y, fontSize, textAnchor, content) {
 function onActive() {}
 
 function searchList() {
+  // 테스트
+
+  // let bodyTmp = [
+  //   //  변경된 api
+  //   {
+  //     centerCode: "HMOMNI",
+  //     clientCode: "HMOMNI",
+  //     warehouseCode: "HMOMNI",
+  //     totalStoreCount: 50,
+  //     processStoreCount: Math.floor(Math.random() * 50) + 1,
+  //     totalSerialShippingContainerCodeCount: 2,
+  //     processSerialShippingContainerCodeCount: 1,
+  //     totalSkuCount: 4,
+  //     processSkuCount: 0,
+  //     totalQuantity: 50,
+  //     processQuantity: Math.floor(Math.random() * 50) + 1
+  //   }
+  // ];
+
+  // loadBar(bodyTmp);
+
+  return;
+
+  // end 테스트
+
   if (eqpCodeSel == "" || eqpCodeSel == null) {
     return;
   }
@@ -173,178 +195,177 @@ function getFormattedDate() {
 }
 
 function loadBar(data) {
-  //   "lktBody": [   //  변경된 api
-  //   {
-  //     "centerCode": "HMOMNI",
-  //     "clientCode": "HMOMNI",
-  //     "warehouseCode": "HMOMNI",
-  //     "totalStoreCount": 4,
-  //     "processStoreCount": 0,
-  //     "totalSerialShippingContainerCodeCount": 4,
-  //     "processSerialShippingContainerCodeCount": 0,
-  //     "totalSkuCount": 1,
-  //     "processSkuCount": 0,
-  //     "totalQuantity": 27,
-  //     "processQuantity": 6
-  // }
-  // ]
+  data[0].progressStore =
+    (data[0].processStoreCount / data[0].totalStoreCount) * 100;
+  data[0].progressStore = Math.round(data[0].progressStore);
 
-  // data = [{
-  //   centerCode: "LKT",
-  //   clientCode: "LKT",
-  //   warehouseCode: "LKT",
-  //   totalSkuCount: 20,
-  //   processSkuCount: 0,
-  //   totalQuantity: 102,
-  //   processQuantity: 0
-  // }];
+  data[0].progressSSCC =
+    (data[0].processSerialShippingContainerCodeCount /
+      data[0].totalSerialShippingContainerCodeCount) *
+    100;
+  data[0].progressSSCC = Math.round(data[0].progressSSCC);
 
-  //for (let i = 0; i < 1; i++) {
+  data[0].progressSku = (data[0].processSkuCount / data[0].totalSkuCount) * 100;
+  data[0].progressSku = Math.round(data[0].progressSku);
 
-  //   {
-  //     "centerCode": null,
-  //     "clientCode": null,
-  //     "warehouseCode": null,
-  //     "totalSkuCount": 0,
-  //     "processSkuCount": 0,
-  //     "totalQuantity": null,
-  //     "processQuantity": null
-  // }
-
-  // "facilitiesCode": "3D-SORTER#2",
-  // "totalOrderCount": 0,
-  // "workOrderCount": 0,
-  // "totalSkuCount": 0,
-  // "workSkuCount": 0,
-  // "totalPcs": 0,
-  // "workPcs": 0
-
-  data[0] = {
-    facilitiesCode: "DAS-01",
-    totalOrderCount: data[0].totalSkuCount,
-    workOrderCount: data[0].processSkuCount,
-    totalSkuCount: data[0].totalSkuCount,
-    workSkuCount: data[0].processSkuCount,
-    totalPcs: data[0].totalQuantity,
-    workPcs: data[0].processQuantity
-  };
-  data[0].progress = (data[0].workOrderCount / data[0].totalOrderCount) * 100;
-  data[0].progress = Math.round(data[0].progress);
-
-  //data.push(dataTmp);
-  //}
+  data[0].progressQty = (data[0].processQuantity / data[0].totalQuantity) * 100;
+  data[0].progressQty = Math.round(data[0].progressQty);
 
   let item = data[0];
 
-  for (let i = 1; i < 4; i++) {
+  for (let i = 1; i < 5; i++) {
     $(idPrefix + "#progressBar_" + i).dxProgressBar({
       value:
         i == 1
-          ? item.workOrderCount
+          ? item.processStoreCount
           : i == 2
-          ? item.workSkuCount
-          : item.workPcs, // 현재 값
+          ? item.processSerialShippingContainerCodeCount
+          : i == 3
+          ? item.processSkuCount
+          : item.processQuantity, // 현재 값
       min: 0, // 최소값
       max:
         i == 1
-          ? item.totalOrderCount
+          ? item.totalStoreCount
           : i == 2
+          ? item.totalSerialShippingContainerCodeCount
+          : i == 3
           ? item.totalSkuCount
-          : item.totalPcs, // 현재 값, // 최대값
+          : item.totalQuantity, // 현재 값
       showStatus: false, // 기본 텍스트 표시 끄기
+      animation: {
+        // 애니메이션 설정
+        enabled: false // 애니메이션 비활성화
+      },
+      onValueChanged: function (e) {
+        //onContentReady: function (e) {
+        //alert("dd");
+        updateProgressBarText(e, item, i);
+
+        //return;
+      },
       onContentReady: function (e) {
-        // 프로그레스바에 텍스트 추가
-        const current =
-          i == 1
-            ? item.workOrderCount
-            : i == 2
-            ? item.workSkuCount
-            : item.workPcs;
-        const max =
-          i == 1
-            ? item.totalOrderCount
-            : i == 2
-            ? item.totalSkuCount
-            : item.totalPcs;
+        updateProgressBarText(e, item, i);
+      }
+    });
 
-        // 현재 값 왼쪽에 표시
-        $("<div>")
-          .text(current)
-          .addClass("progress-current-text")
-          .css({
-            position: "absolute",
-            left: "10px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: "#ffffff", // 원하는 색상으로 변경
-            fontWeight: "bold"
-          })
-          .appendTo(e.element);
+    // let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
+    // let perRest = 100 - per;
 
-        // 최대 값 오른쪽에 표시
-        $("<div>")
-          .text(max)
-          .addClass("progress-max-text")
-          .css({
-            position: "absolute",
-            right: "10px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: "#000000", // 원하는 색상으로 변경
-            fontWeight: "bold"
-          })
-          .appendTo(e.element);
+    let progressRst =
+      i == 1
+        ? item.progressStore
+        : i == 2
+        ? item.progressSSCC
+        : i == 3
+        ? item.progressSku
+        : item.processQuantity;
+
+    $(idPrefix + "#gaugeContainer_" + i).dxCircularGauge({
+      value: progressRst,
+
+      rangeContainer: {
+        backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
+        width: 20, // rangeContainer의 두께 설정
+        ranges: [
+          {startValue: 0, endValue: progressRst, color: "#3a80f6"}, // 채워진 부분의 색상
+          {startValue: 56, endValue: 100 - progressRst, color: "#e0e0e0"} // 비워진 부분의 색상
+        ]
+      },
+
+      scale: {
+        startValue: 0,
+        endValue: 100,
+        tick: {
+          visible: false
+        },
+        label: {
+          visible: false
+        }
+      },
+
+      //valueIndicator: "none",
+      valueIndicator: {
+        type: "none",
+        color: "#3a80f6",
+        offset: 10000,
+        size: 20
+      },
+
+      geometry: {
+        startAngle: 0,
+        endAngle: 360
+      },
+      centerTemplate: (gauge, container) => {
+        // 루트 요소에 텍스트 추가
+        const rect = createRect(50, 0, "transparent");
+        // alert(gauge.value);
+        const text = createText(10, 200, 40, "start", gauge.value() + "%");
+
+        container.appendChild(rect);
+        container.appendChild(text);
       }
     });
   }
+}
 
-  let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
-  let perRest = 100 - per;
-  $(idPrefix + "#gaugeContainer").dxCircularGauge({
-    value: item.progress,
+function updateProgressBarText(e, item, i) {
+  const $element = $(e.element);
 
-    rangeContainer: {
-      backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
-      width: 20, // rangeContainer의 두께 설정
-      ranges: [
-        {startValue: 0, endValue: per, color: "#3a80f6"}, // 채워진 부분의 색상
-        {startValue: 56, endValue: perRest, color: "#e0e0e0"} // 비워진 부분의 색상
-      ]
-    },
+  // 프로그레스바에 텍스트 추가
+  const current =
+    i == 1
+      ? item.processStoreCount
+      : i == 2
+      ? item.processSerialShippingContainerCodeCount
+      : i == 3
+      ? item.processSkuCount
+      : item.processQuantity;
+  const max =
+    i == 1
+      ? item.totalStoreCount
+      : i == 2
+      ? item.totalSerialShippingContainerCodeCount
+      : i == 3
+      ? item.totalSkuCount
+      : item.totalQuantity;
 
-    scale: {
-      startValue: 0,
-      endValue: 100,
-      tick: {
-        visible: false
-      },
-      label: {
-        visible: false
-      }
-    },
+  let $currentText = $element.find(".progress-current-text");
+  if ($currentText.length) {
+    $currentText.text(current); // 값 업데이트
+  } else {
+    $("<div>")
+      .text(current)
+      .addClass("progress-current-text")
+      .css({
+        position: "absolute",
+        left: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        color: "#ffffff", // 원하는 색상으로 변경
+        fontWeight: "bold"
+      })
+      .appendTo(e.element); // 새로 추가
+  }
 
-    //valueIndicator: "none",
-    valueIndicator: {
-      type: "none",
-      color: "#3a80f6",
-      offset: 10000,
-      size: 20
-    },
-
-    geometry: {
-      startAngle: 0,
-      endAngle: 360
-    },
-    centerTemplate: (gauge, container) => {
-      // 루트 요소에 텍스트 추가
-      const rect = createRect(50, 0, "transparent");
-      // alert(gauge.value);
-      const text = createText(10, 200, 40, "start", gauge.value() + "%");
-
-      container.appendChild(rect);
-      container.appendChild(text);
-    }
-  });
+  // 최대 값 텍스트 업데이트 또는 추가
+  let $maxText = $element.find(".progress-max-text");
+  if ($maxText.length) {
+    $maxText.text(max); // 값 업데이트
+  } else {
+    $("<div>")
+      .text(max)
+      .addClass("progress-max-text")
+      .css({
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        color: "#000000", // 원하는 색상으로 변경
+        fontWeight: "bold"
+      })
+      .appendTo(e.element); // 새로 추가
+  }
 }
 
 function showPopup() {
