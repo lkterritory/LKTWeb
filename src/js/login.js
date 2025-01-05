@@ -290,7 +290,7 @@ function login() {
         Cookies.set("login", "true");
 
         if (response.lktHeader.statusCode == "01") {
-          window.location.href = "../../../index.html";
+          window.location.href = "./index.html";
         } else {
         }
       } catch (ex) {}

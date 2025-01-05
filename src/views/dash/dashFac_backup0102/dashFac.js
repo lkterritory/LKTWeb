@@ -174,19 +174,19 @@ function getFormattedDate() {
 
 function loadBar(data) {
   //   "lktBody": [   //  변경된 api
-  //   {
-  //     "centerCode": "HMOMNI",
-  //     "clientCode": "HMOMNI",
-  //     "warehouseCode": "HMOMNI",
-  //     "totalStoreCount": 4,
-  //     "processStoreCount": 0,
-  //     "totalSerialShippingContainerCodeCount": 4,
-  //     "processSerialShippingContainerCodeCount": 0,
-  //     "totalSkuCount": 1,
-  //     "processSkuCount": 0,
-  //     "totalQuantity": 27,
-  //     "processQuantity": 6
-  // }
+  //     {
+  //         "centerCode": "HMOMNI",
+  //         "clientCode": "HMOMNI",
+  //         "warehouseCode": "HMOMNI",
+  //         "totalStoreCount": 4,
+  //         "processStoreCount": 0,
+  //         "totalSerialShippingContainerCodeCount": 4,
+  //         "processSerialShippingContainerCodeCount": 0,
+  //         "totalSkuCount": 1,
+  //         "processSkuCount": 0,
+  //         "totalQuantity": 27,
+  //         "processQuantity": 6
+  //     }
   // ]
 
   // data = [{

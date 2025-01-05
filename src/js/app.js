@@ -39,10 +39,8 @@ function gate() {
     .server(reqParam)
     .done(function (response) {
       if (response.lktBody.length == 0) {
-        // response.lktBody[0] = {
-        //   authentication:
-        //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
-        // };
+        // response.lktHeader.authentication =
+        //   "ewogICJsa3RIZWFkZXIiOiB7CiAgICAidHlwZSI6ICJsaWNlbnNlIiwKICAgICJjYWxsIjogIkxLVC5MSUNFTlNFIiwKICAgICJzdGF0dXNDb2RlIjogIjAxIiwKICAgICJtZXNzYWdlIjogIiIsCiAgICAiYXV0aGVudGljYXRpb24iOiAiIiwKICAgICJjZW50ZXJDb2RlIjogIkhNT01OSSIsCiAgICAiY2xpZW50Q29kZSI6ICJITU9NTkkiLAogICAgIndhcmVob3VzZUNvZGUiOiAiSE1PTU5JIgogIH0sCiAgImxrdEJvZHkiOiBbCiAgICB7CiAgICAgICJkY2QiOiB7CiAgICAgICAgImhvc3QiOiAiMjExLjExMC4yMjkuMjM5IiwKICAgICAgICAidHlwZSI6ICJNWVNRTCIsCiAgICAgICAgInBvcnQiOiAiMzMwNiIsCiAgICAgICAgInVzZXJuYW1lIjogInNwYyIsCiAgICAgICAgInBhc3N3b3JkIjogIjEwMTBxcHFwITNNIiwKICAgICAgICAiZGF0YWJhc2UiOiAiTEtUIgogICAgICB9LAogICAgICAiaGNkIjogewogICAgICAgICJob3N0IjogIjEyNy4wLjAuMSIKICAgICAgfSwKICAgICAgIm1jZCI6IHsKICAgICAgICAiaG9zdCI6ICIxMjcuMC4wLjEiLAogICAgICAgICJwb3J0IjogIjE4ODMiLAogICAgICAgICJ1c2VybmFtZSI6ICJtYWVyc2siLAogICAgICAgICJwYXNzd29yZCI6ICJtYWVyc2sxMjMjQCEiLAogICAgICAgICJ0b3BpYyI6ICJtYWVyc2siCiAgICAgIH0KICAgIH0KICBdCn0=";
 
         lktStorate.setServerInfo(response.lktHeader);
       }
