@@ -32,6 +32,94 @@ const lktUtil = {
 
     return lktUtil.lktPayload.lktHeader;
   },
+  createDynamicPopupEx(options) {
+    // 기본 옵션 설정
+    const defaultOptions = {
+      title: "기본 팝업", // 기본 타이틀
+      isModi: false, // 기본 수정 여부
+      width: 450,
+      height: "auto",
+      formItems: [], // 기본 폼 항목
+      gridOptions: null, // 그리드 옵션 (기본값 null)
+      onExecute: function () {}, // 실행 버튼 클릭 이벤트 (기본 빈 함수)
+      onCancel: function () {
+        $("#dynamicPopup").dxPopup("hide"); // 취소 시 팝업 닫기
+      }
+    };
+
+    // 사용자 정의 옵션으로 덮어쓰기
+    const popupOptions = Object.assign({}, defaultOptions, options);
+
+    // 팝업 생성
+    $("#dynamicPopup")
+      .dxPopup({
+        title: popupOptions.title,
+        visible: true,
+        width: popupOptions.width,
+        height: popupOptions.height,
+        showCloseButton: false,
+        dragEnabled: true,
+        contentTemplate: function (contentElement) {
+          // 동적 폼 생성 (폼 항목이 있을 경우에만 생성)
+          let formInstance = null;
+          let gridInstance = null;
+          if (popupOptions.formItems && popupOptions.formItems.length > 0) {
+            formInstance = $("<div>")
+              .appendTo(contentElement)
+              .dxForm({
+                formData: {}, // 폼 데이터
+                items: popupOptions.formItems // 폼 아이템 배열
+              })
+              .dxForm("instance");
+          }
+
+          // 동적 그리드 생성 (그리드 옵션이 있을 경우에만 생성)
+          if (popupOptions.gridOptions) {
+            gridInstance = $("<div>")
+              .css({marginTop: "20px"}) // 그리드와 다른 요소 간격
+              .appendTo(contentElement)
+              .dxDataGrid(popupOptions.gridOptions)
+              .dxDataGrid("instance");
+          }
+
+          // 버튼 컨테이너 생성
+          const buttonContainer = $("<div>")
+            .css({
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px"
+            })
+            .appendTo(contentElement);
+
+          // 취소 버튼 추가
+          $("<div>").appendTo(buttonContainer).dxButton({
+            text: "취소",
+            onClick: popupOptions.onCancel
+          });
+
+          // 실행 버튼 추가
+          $("<div>")
+            .appendTo(buttonContainer)
+            .dxButton({
+              text: "실행",
+              type: "default",
+              onClick: function () {
+                const formData = formInstance
+                  ? formInstance.option("formData")
+                  : null;
+
+                // (4) 그리드에서 선택된 행 가져오기
+                let selectedRows = [];
+                if (gridInstance) {
+                  selectedRows = gridInstance.getSelectedRowsData();
+                }
+                popupOptions.onExecute(formData, selectedRows); // 외부에서 전달된 실행 로직 호출
+              }
+            });
+        }
+      })
+      .dxPopup("show");
+  },
   createDynamicPopup(options) {
     // 기본 옵션 설정
     const defaultOptions = {

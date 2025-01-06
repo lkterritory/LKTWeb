@@ -238,7 +238,7 @@ function coresLocationEdit(param) {
 // 권한정보 start
 function coresAuthGet(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/permission-settings?id=" + param,
+    url: baseUrlCommon + "/cores/permission?id=" + param,
     method: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -248,7 +248,7 @@ function coresAuthGet(param) {
 
 function coresAuthAdd(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/permission-settings",
+    url: baseUrlCommon + "/cores/permission",
     method: "POST",
     dataType: "json",
     contentType: "application/json",
@@ -258,7 +258,7 @@ function coresAuthAdd(param) {
 
 function coresAuthEdit(param) {
   return $.ajax({
-    url: baseUrlCommon + "/cores/permission-settings",
+    url: baseUrlCommon + "/cores/permission",
     method: "PATCH",
     dataType: "json",
     contentType: "application/json",

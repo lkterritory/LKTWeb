@@ -68,7 +68,7 @@ function onCreate() {
       dataSource: [], // 서버에서 데이터를 가져와서 할당
       columns: [
         {
-          dataField: "facilitiesCode",
+          dataField: "permissionCode",
           caption: "권한코드",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -76,7 +76,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "workDate",
+          dataField: "permissionName",
           caption: "권한명",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -84,8 +84,8 @@ function onCreate() {
           }
         },
         {
-          dataField: "workBatch",
-          caption: "상태명",
+          dataField: "stateName",
+          caption: "상태",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("상태명"); // 헤더 가운데 정렬
@@ -93,7 +93,7 @@ function onCreate() {
         },
 
         {
-          dataField: "orderNumber",
+          dataField: "addDtm",
           caption: "등록일",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -101,7 +101,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "toteBox",
+          dataField: "addWho",
           caption: "등록자",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -109,7 +109,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "objeBox",
+          dataField: "modDtm",
           caption: "수정일",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -117,7 +117,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "printCode",
+          dataField: "modWho",
           caption: "수정자",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
@@ -139,8 +139,12 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
-      onRowClick: function (e) {
+      // onRowClick: function (e) {
+      //   const selectedRowData = e.data;
+      // }
+      onCellDblClick: function (e) {
         const selectedRowData = e.data;
+        showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -149,6 +153,78 @@ function onCreate() {
 function onActive() {}
 
 function searchList() {
+  // 테스트
+
+  let bodyTmp = [
+    {
+      permissionCode: "admin",
+      permissionName: "관리자",
+      menus: [
+        {
+          menuCode: "MNU_CORES_LOCATIONS"
+        },
+        {
+          menuCode: "MNU_CORES_PERMISSIONS"
+        },
+        {
+          menuCode: "MNU_CORES_SKUS"
+        },
+        {
+          menuCode: "MNU_CORES_USERS"
+        },
+        {
+          menuCode: "MNU_DASHBOARD_OVERALL"
+        },
+        {
+          menuCode: "MNU_DASHBOARD_PICKTOLIGHT"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_EUC"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_LABELS_STATUS"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_ORDERS"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_ORDERS_STATUS"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_PICKTOLIGHT"
+        },
+        {
+          menuCode: "MNU_OUTBOUND_SKUS_STATUS"
+        },
+        {
+          menuCode: "MNU_SECOND_CLASS"
+        }
+      ],
+      stateCode: "01",
+      stateName: "예",
+      addDtm: "2023-11-23 05:11:10",
+      addWho: "SUPER",
+      modDtm: "2023-11-23 05:11:10",
+      modWho: "SUPER"
+    },
+    {
+      permissionCode: "kiosk",
+      permissionName: "현장",
+      menus: [],
+      stateCode: "01",
+      stateName: "예",
+      addDtm: "2023-11-23 05:11:10",
+      addWho: "SUPER",
+      modDtm: "2023-11-23 05:11:10",
+      modWho: "SUPER"
+    }
+  ];
+
+  workOrderGrid.option("dataSource", bodyTmp);
+  return;
+
+  // end 테스트
+
   var obj = {
     lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
     lktBody: [
@@ -174,95 +250,78 @@ function searchList() {
     });
 }
 
-function showPopup(isModi) {
+function showPopup(isModi, row) {
   let formItems = [
     {
-      dataField: "skuCode",
+      dataField: "permissionCode",
       label: {text: "권한코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.permissionCode : "",
+        disabled: isModi
       }
     },
     {
-      dataField: "skuName",
+      dataField: "permissionName",
       label: {text: "권한명"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: ""
+        value: row != null ? row.permissionName : ""
       }
     }
   ];
 
-  $("#dynamicPopup")
-    .dxPopup({
-      title: isModi ? "권한 수정" : "권한 등록",
-      visible: true,
-      width: 400,
-      height: 300,
-      showCloseButton: true,
-      contentTemplate: function (contentElement) {
-        // 동적 폼 생성
-        const formInstance = $("<div>")
-          .appendTo(contentElement)
-          .dxForm({
-            formData: {},
-            items: formItems
-          })
-          .dxForm("instance");
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "실행",
-            onClick: function () {
-              const formData = formInstance.option("formData");
-
-              var param = {
-                lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
-                lktBody: [
-                  {
-                    skuCode: formData.skuCode,
-                    skuName: formData.skuName,
-                    skuBarcode: formData.skuBarcode,
-                    statusCode: "01"
-                  }
-                ]
-              };
-
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-
-        $("<div>")
-          .appendTo(contentElement)
-          .dxButton({
-            text: "취소",
-            onClick: function () {
-              $("#dynamicPopup").dxPopup("hide");
-            }
-          });
-      }
-    })
-    .dxPopup("show");
-
   // 팝업 호출
-  lktUtil.createDynamicPopup({
+  lktUtil.createDynamicPopupEx({
+    width: 600,
     title: isModi ? "권한 수정" : "권한 등록",
     isModi: isModi, // 수정 여부
     formItems: formItems, // 폼 구성
-    onExecute: function (formData) {
+    gridOptions: {
+      dataSource: row ? row.menus : [],
+      columns: [{dataField: "menuCode", caption: "메뉴"}],
+      paging: {enabled: false},
+      showBorders: true,
+      scrolling: {
+        mode: "standard" // or "virtual" | "infinite"
+      },
+      selection: {
+        mode: "multiple", // 멀티셀렉트
+        showCheckBoxesMode: "always" // 체크박스 항상 표시
+      },
+      onContentReady: function (e) {
+        // 그리드가 렌더링된 뒤 전체 선택
+        e.component.selectAll();
+      },
+      columnAutoWidth: true
+    },
+    onExecute: function (formData, row) {
       var param = {
-        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktHeader: lktUtil.getLktHeader("PATCH.CORES.PERMISSION"),
         lktBody: [
           {
-            skuCode: formData.skuCode,
-            skuName: formData.skuName,
-            skuBarcode: formData.skuBarcode,
-            statusCode: "01"
+            permissionCode: formData.permissionCode,
+            permissionName: formData.permissionName,
+            locationCode: formData.locationCode,
+            stateCode: "01",
+            menus: row
           }
         ]
       };
+
+      alert(JSON.stringify(param));
+
+      if (isModi) {
+        apiCommon
+          .coresAuthEdit(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {});
+      } else {
+        apiCommon
+          .coresAuthAdd(JSON.stringify(param))
+          .done(function (response) {})
+          .fail(function () {});
+      }
 
       $("#dynamicPopup").dxPopup("hide");
     },
