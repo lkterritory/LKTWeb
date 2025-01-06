@@ -1,13 +1,13 @@
 let api;
-let lktStorate;
+let lktStorage;
 
-if (!window.apiModule || !window.lktStorateModule) {
+if (!window.apiModule || !window.lktStorageModule) {
   window.apiModule = import(`./api/api.js?t=${Date.now()}`);
-  window.lktStorateModule = import(`./util/lktStorage.js?t=${Date.now()}`);
+  window.lktStorageModule = import(`./util/lktStorage.js?t=${Date.now()}`);
 }
 
 api = (await window.apiModule).default;
-lktStorate = (await window.lktStorateModule).default;
+lktStorage = (await window.lktStorageModule).default;
 
 let tmploginRest = {
   lktOutData: [
@@ -219,7 +219,7 @@ function gate() {
         //     "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ=="
         // };
 
-        lktStorate.setServerInfo(response.lktHeader);
+        lktStorage.setServerInfo(response.lktHeader);
       }
     })
     .fail(function () {
@@ -230,7 +230,7 @@ function gate() {
 function login() {
   // login API 호출
 
-  let serverInfo = lktStorate.getServerInfo();
+  let serverInfo = lktStorage.getServerInfo();
 
   // type: "REQUEST",
   // call: "",
@@ -282,7 +282,7 @@ function login() {
       //   };
       // }
       try {
-        lktStorate.setLoginInfo(response.lktBody[0]);
+        lktStorage.setLoginInfo(response.lktBody[0]);
         // alert(JSON.stringify(response.lktBody[0]));
 
         console.log(JSON.stringify(response.lktBody[0]));
@@ -407,7 +407,7 @@ $(document).ready(function () {
 //     //   "eyJjZW50ZXJDb2RlIjoiTEtUIiwiY2xpZW50Q29kZSI6IkxLVCIsIndhcmVob3VzZUNvZGUiOiJMS1QiLCJkYXRhYmFzZSI6eyJzZXJ2ZXIiOiIyMTEuMTEwLjIyOS4yMzkiLCJwb3J0IjoiMzMwNiIsImRhdGFiYXNlIjoiTEtUIiwidXNlcm5hbWUiOiJzcGMiLCJwYXNzd29yZCI6IjEwMTBxcHFwITNNIiwgImF0dHJpYnV0ZTAxIjoiTVlTUUwifSwid2FzIjp7InNlcnZlciI6IjIxMS4xMTAuMjI5LjIzOSIsInBvcnQiOiIxNDMzIn0sIm1xdHQiOnsic2VydmVyIjoiMjExLjExMC4yMjkuMjM5IiwicG9ydCI6IjE0MzMiLCJ1c2VybmFtZSI6ImxrdDBkYmEwMF9sa3QwMCIsInBhc3N3b3JkIjoiZGxkbmR5ZCEzTSJ9fQ==";
 //     // 임시 authentication 추가 end
 
-//     lktStorate.setServerInfo(authTmp);
+//     lktStorage.setServerInfo(authTmp);
 
 //     let lktBodyTmp = {
 //       centerCode: "HMOMNI",
@@ -417,7 +417,7 @@ $(document).ready(function () {
 //       username: "HMOMNI"
 //     };
 
-//     lktStorate.setLoginInfo(lktBodyTmp);
+//     lktStorage.setLoginInfo(lktBodyTmp);
 
 //     Cookies.set("login", "true");
 

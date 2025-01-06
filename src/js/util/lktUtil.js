@@ -1,4 +1,10 @@
-import lktStorate from "./lktStorage.js";
+let lktStorage;
+
+if (!window.lktStorageModule) {
+  window.lktStorageModule = import(`./util/lktStorage.js?t=${Date.now()}`);
+}
+
+lktStorage = (await window.lktStorageModule).default;
 
 const lktUtil = {
   lktPayload: {
@@ -19,8 +25,9 @@ const lktUtil = {
 
   // 값 반환 함수
   getLktHeader(call) {
-    let loginInfo = lktStorate.getLoginInfo();
-    let serverInfo = lktStorate.getServerInfo();
+    let loginInfo = lktStorage.getLoginInfo();
+
+    let serverInfo = lktStorage.getServerInfo();
 
     lktUtil.lktPayload.lktHeader.call = call;
     lktUtil.lktPayload.lktHeader.centerCode = loginInfo.centerCode;

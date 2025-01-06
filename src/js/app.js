@@ -4,15 +4,15 @@ let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 let loadedModules = [];
 
 let api;
-let lktStorate;
+let lktStorage;
 
-if (!window.apiModule || !window.lktStorateModule) {
+if (!window.apiModule || !window.lktStorageModule) {
   window.apiModule = import(`./api/api.js?t=${Date.now()}`);
-  window.lktStorateModule = import(`./util/lktStorage.js?t=${Date.now()}`);
+  window.lktStorageModule = import(`./util/lktStorage.js?t=${Date.now()}`);
 }
 
 api = (await window.apiModule).default;
-lktStorate = (await window.lktStorateModule).default;
+lktStorage = (await window.lktStorageModule).default;
 
 function gate() {
   // alert("dd");
@@ -42,7 +42,7 @@ function gate() {
         // response.lktHeader.authentication =
         //   "ewogICJsa3RIZWFkZXIiOiB7CiAgICAidHlwZSI6ICJsaWNlbnNlIiwKICAgICJjYWxsIjogIkxLVC5MSUNFTlNFIiwKICAgICJzdGF0dXNDb2RlIjogIjAxIiwKICAgICJtZXNzYWdlIjogIiIsCiAgICAiYXV0aGVudGljYXRpb24iOiAiIiwKICAgICJjZW50ZXJDb2RlIjogIkhNT01OSSIsCiAgICAiY2xpZW50Q29kZSI6ICJITU9NTkkiLAogICAgIndhcmVob3VzZUNvZGUiOiAiSE1PTU5JIgogIH0sCiAgImxrdEJvZHkiOiBbCiAgICB7CiAgICAgICJkY2QiOiB7CiAgICAgICAgImhvc3QiOiAiMjExLjExMC4yMjkuMjM5IiwKICAgICAgICAidHlwZSI6ICJNWVNRTCIsCiAgICAgICAgInBvcnQiOiAiMzMwNiIsCiAgICAgICAgInVzZXJuYW1lIjogInNwYyIsCiAgICAgICAgInBhc3N3b3JkIjogIjEwMTBxcHFwITNNIiwKICAgICAgICAiZGF0YWJhc2UiOiAiTEtUIgogICAgICB9LAogICAgICAiaGNkIjogewogICAgICAgICJob3N0IjogIjEyNy4wLjAuMSIKICAgICAgfSwKICAgICAgIm1jZCI6IHsKICAgICAgICAiaG9zdCI6ICIxMjcuMC4wLjEiLAogICAgICAgICJwb3J0IjogIjE4ODMiLAogICAgICAgICJ1c2VybmFtZSI6ICJtYWVyc2siLAogICAgICAgICJwYXNzd29yZCI6ICJtYWVyc2sxMjMjQCEiLAogICAgICAgICJ0b3BpYyI6ICJtYWVyc2siCiAgICAgIH0KICAgIH0KICBdCn0=";
 
-        lktStorate.setServerInfo(response.lktHeader);
+        lktStorage.setServerInfo(response.lktHeader);
       }
     })
     .fail(function () {
@@ -60,7 +60,7 @@ function createMenu() {
   // menu.json을 로드하고 사이드 메뉴 생성
   $.getJSON("./src/data/menu.json?t=" + Date.now(), function (data) {
     try {
-      let loginInfo = lktStorate.getLoginInfo();
+      let loginInfo = lktStorage.getLoginInfo();
       console.log("loadmenuinfo:", JSON.stringify(loginInfo));
       let menuInfo = loginInfo.lktOutDataDetail;
       let menuReal = [];
