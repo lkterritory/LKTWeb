@@ -55,20 +55,23 @@ window.onClickKioskPrint = function () {
 function onCreate() {
   zebra.setup();
 
-  let mqtest = {
-    payloadString: JSON.stringify({
-      lktHeader: {
-        type: "RESPONSE",
-        ca11: "GET.OUTBOUND BOOTPMENT.PICKIOLIGHT",
-        statuscode: "40",
-        message: "데이터가 없습니다.",
-        authentication: "s",
-        body: []
-      }
-    })
-  };
+  // 테스트
+  // let mqtest = {
+  //   payloadString: JSON.stringify({
+  //     lktHeader: {
+  //       type: "RESPONSE",
+  //       ca11: "GET.OUTBOUND BOOTPMENT.PICKIOLIGHT",
+  //       statuscode: "40",
+  //       message: "데이터가 없습니다.",
+  //       authentication: "s",
+  //       body: []
+  //     }
+  //   })
+  // };
 
-  onMessage(mqtest);
+  // onMessage(mqtest);
+
+  // end 테스트
 
   //eqpCodeSel = "DAS-01";
 
