@@ -19,7 +19,7 @@ let workOrderGrid;
 let resAuth = [];
 
 function onCreate() {
-  searchConditionsAuth();
+  //  searchConditionsAuth();
 
   txtBoxSearch = $(idPrefix + "#txtBoxSearch")
     .dxTextBox({
@@ -133,7 +133,7 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
-      onRowClick: function (e) {
+      onCellDblClick: function (e) {
         const selectedRowData = e.data;
         showPopup(true, selectedRowData);
       }
@@ -176,7 +176,8 @@ function showPopup(isModi, row) {
       label: {text: "사용자 ID"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.username : ""
+        value: row != null ? row.username : "",
+        disabled: isModi
       }
     },
 
@@ -187,7 +188,7 @@ function showPopup(isModi, row) {
       editorOptions: {
         items: [
           {id: "admin", name: "관리자"},
-          {id: "user", name: "사용지1"}
+          {id: "user", name: "사용자1"}
         ],
         displayExpr: "name",
         valueExpr: "id",

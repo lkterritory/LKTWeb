@@ -138,7 +138,7 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
-      onRowClick: function (e) {
+      onCellDblClick: function (e) {
         const selectedRowData = e.data;
         // alert(selectedRowData);
         showPopup(true, selectedRowData);
@@ -182,7 +182,8 @@ function showPopup(isModi, row) {
       label: {text: "마스터코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.masterCode : ""
+        value: row != null ? row.masterCode : "",
+        disabled: isModi
       }
     },
     {

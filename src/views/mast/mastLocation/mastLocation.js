@@ -178,7 +178,7 @@ function onCreate() {
       headerFilter: {
         visible: true // 헤더 필터 드롭다운을 표시
       },
-      onRowClick: function (e) {
+      onCellDblClick: function (e) {
         const selectedRowData = e.data;
         // alert(selectedRowData);
         showPopup(true, selectedRowData);
@@ -222,7 +222,8 @@ function showPopup(isModi, row) {
       label: {text: "로케이션"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.locationCode : ""
+        value: row != null ? row.locationCode : "",
+        disabled: isModi
       }
     },
     {
@@ -234,11 +235,27 @@ function showPopup(isModi, row) {
       }
     },
     {
-      dataField: "storageTemperatureCode",
-      label: {text: "온도대 코드"},
+      dataField: "indicatorCode",
+      label: {text: "표시기"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.storageTemperatureCode : ""
+        value: row != null ? row.indicatorCode : ""
+      }
+    },
+    {
+      dataField: "printConnectionAddress",
+      label: {text: "프린터"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.printConnectionAddress : ""
+      }
+    },
+    {
+      dataField: "storeCode",
+      label: {text: "지점"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: row != null ? row.storeCode : ""
       }
     },
 
@@ -262,72 +279,6 @@ function showPopup(isModi, row) {
     }
   ];
 
-  // $(idPrefix + "#dynamicPopup")
-  //   .dxPopup({
-  //     title: isModi ? "로케이션 수정" : "로케이션 등록",
-  //     visible: true,
-  //     width: 400,
-  //     height: 300,
-  //     showCloseButton: true,
-  //     contentTemplate: function (contentElement) {
-  //       // 동적 폼 생성
-  //       const formInstance = $("<div>")
-  //         .appendTo(contentElement)
-  //         .dxForm({
-  //           formData: {},
-  //           items: formItems
-  //         })
-  //         .dxForm("instance");
-
-  //       $("<div>")
-  //         .appendTo(contentElement)
-  //         .dxButton({
-  //           text: "실행",
-  //           onClick: function () {
-  //             const formData = formInstance.option("formData");
-  //             var param = {
-  //               lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
-  //               lktBody: [
-  //                 {
-  //                   equipmentCode: formData.equipmentCode,
-  //                   storageTemperatureCode: formData.storageTemperatureCode,
-  //                   locationCode: formData.locationCode,
-
-  //                   stateCode: formData.stateCode
-  //                 }
-  //               ]
-  //             };
-
-  //             if (isModi) {
-  //               apiCommon
-  //                 .coresLocationEdit(JSON.stringify(param))
-  //                 .done(function (response) {})
-  //                 .fail(function () {
-  //                   errorPopup.removeClass("hidden");
-  //                 });
-  //             } else {
-  //               apiCommon
-  //                 .coresLocationAdd(JSON.stringify(param))
-  //                 .done(function (response) {})
-  //                 .fail(function () {});
-  //             }
-
-  //             $("#dynamicPopup").dxPopup("hide");
-  //           }
-  //         });
-
-  //       $("<div>")
-  //         .appendTo(contentElement)
-  //         .dxButton({
-  //           text: "취소",
-  //           onClick: function () {
-  //             $("#dynamicPopup").dxPopup("hide");
-  //           }
-  //         });
-  //     }
-  //   })
-  //   .dxPopup("show");
-
   // 팝업 호출
   lktUtil.createDynamicPopup({
     title: isModi ? "로케이션 수정" : "로케이션 등록",
@@ -338,10 +289,12 @@ function showPopup(isModi, row) {
         lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
         lktBody: [
           {
-            equipmentCode: formData.equipmentCode,
-            storageTemperatureCode: formData.storageTemperatureCode,
             locationCode: formData.locationCode,
-
+            equipmentCode: formData.equipmentCode,
+            indicatorCode: formData.indicatorCode,
+            printConnectionAddress: formData.printConnectionAddress,
+            storageTemperatureCode: row.storageTemperatureCode,
+            storeCode: formData.storeCode,
             stateCode: formData.stateCode
           }
         ]

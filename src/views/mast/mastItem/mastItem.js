@@ -196,7 +196,8 @@ function showPopup(isModi, row) {
       label: {text: "싱품코드"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row.skuCode
+        value: row.skuCode,
+        disabled: isModi
       }
     },
     {
