@@ -155,73 +155,73 @@ function onActive() {}
 function searchList() {
   // 테스트
 
-  let bodyTmp = [
-    {
-      permissionCode: "admin",
-      permissionName: "관리자",
-      menus: [
-        {
-          menuCode: "MNU_CORES_LOCATIONS"
-        },
-        {
-          menuCode: "MNU_CORES_PERMISSIONS"
-        },
-        {
-          menuCode: "MNU_CORES_SKUS"
-        },
-        {
-          menuCode: "MNU_CORES_USERS"
-        },
-        {
-          menuCode: "MNU_DASHBOARD_OVERALL"
-        },
-        {
-          menuCode: "MNU_DASHBOARD_PICKTOLIGHT"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_EUC"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_LABELS_STATUS"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_ORDERS"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_ORDERS_STATUS"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_PICKTOLIGHT"
-        },
-        {
-          menuCode: "MNU_OUTBOUND_SKUS_STATUS"
-        },
-        {
-          menuCode: "MNU_SECOND_CLASS"
-        }
-      ],
-      stateCode: "01",
-      stateName: "예",
-      addDtm: "2023-11-23 05:11:10",
-      addWho: "SUPER",
-      modDtm: "2023-11-23 05:11:10",
-      modWho: "SUPER"
-    },
-    {
-      permissionCode: "kiosk",
-      permissionName: "현장",
-      menus: [],
-      stateCode: "01",
-      stateName: "예",
-      addDtm: "2023-11-23 05:11:10",
-      addWho: "SUPER",
-      modDtm: "2023-11-23 05:11:10",
-      modWho: "SUPER"
-    }
-  ];
+  // let bodyTmp = [
+  //   {
+  //     permissionCode: "admin",
+  //     permissionName: "관리자",
+  //     menus: [
+  //       {
+  //         menuCode: "MNU_CORES_LOCATIONS"
+  //       },
+  //       {
+  //         menuCode: "MNU_CORES_PERMISSIONS"
+  //       },
+  //       {
+  //         menuCode: "MNU_CORES_SKUS"
+  //       },
+  //       {
+  //         menuCode: "MNU_CORES_USERS"
+  //       },
+  //       {
+  //         menuCode: "MNU_DASHBOARD_OVERALL"
+  //       },
+  //       {
+  //         menuCode: "MNU_DASHBOARD_PICKTOLIGHT"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_EUC"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_LABELS_STATUS"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_ORDERS"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_ORDERS_STATUS"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_PICKTOLIGHT"
+  //       },
+  //       {
+  //         menuCode: "MNU_OUTBOUND_SKUS_STATUS"
+  //       },
+  //       {
+  //         menuCode: "MNU_SECOND_CLASS"
+  //       }
+  //     ],
+  //     stateCode: "01",
+  //     stateName: "예",
+  //     addDtm: "2023-11-23 05:11:10",
+  //     addWho: "SUPER",
+  //     modDtm: "2023-11-23 05:11:10",
+  //     modWho: "SUPER"
+  //   },
+  //   {
+  //     permissionCode: "kiosk",
+  //     permissionName: "현장",
+  //     menus: [],
+  //     stateCode: "01",
+  //     stateName: "예",
+  //     addDtm: "2023-11-23 05:11:10",
+  //     addWho: "SUPER",
+  //     modDtm: "2023-11-23 05:11:10",
+  //     modWho: "SUPER"
+  //   }
+  // ];
 
-  workOrderGrid.option("dataSource", bodyTmp);
-  return;
+  // workOrderGrid.option("dataSource", bodyTmp);
+  // return;
 
   // end 테스트
 
