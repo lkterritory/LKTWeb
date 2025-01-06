@@ -146,10 +146,11 @@ function searchList() {
   //     warehouseCode: "HMOMNI",
   //     totalStoreCount: 50,
   //     processStoreCount: Math.floor(Math.random() * 50) + 1,
-  //     totalSerialShippingContainerCodeCount: 2,
-  //     processSerialShippingContainerCodeCount: 1,
-  //     totalSkuCount: 4,
-  //     processSkuCount: 0,
+  //     totalSerialShippingContainerCodeCount: 50,
+  //     processSerialShippingContainerCodeCount:
+  //       Math.floor(Math.random() * 50) + 1,
+  //     totalSkuCount: 50,
+  //     processSkuCount: Math.floor(Math.random() * 50) + 1,
   //     totalQuantity: 50,
   //     processQuantity: Math.floor(Math.random() * 50) + 1
   //   }
@@ -198,6 +199,10 @@ function loadBar(data) {
     (data[0].processStoreCount / data[0].totalStoreCount) * 100;
   data[0].progressStore = Math.round(data[0].progressStore);
 
+  console.log("processStoreCount", data[0].processStoreCount);
+  console.log("totalStoreCount", data[0].totalStoreCount);
+  console.log("data[0].progressStore", data[0].progressStore);
+
   data[0].progressSSCC =
     (data[0].processSerialShippingContainerCodeCount /
       data[0].totalSerialShippingContainerCodeCount) *
@@ -239,12 +244,12 @@ function loadBar(data) {
       onValueChanged: function (e) {
         //onContentReady: function (e) {
         //alert("dd");
-        updateProgressBarText(e, item, i);
+        updateProgressBarText(e);
 
         //return;
       },
       onContentReady: function (e) {
-        updateProgressBarText(e, item, i);
+        updateProgressBarText(e);
       }
     });
 
@@ -258,14 +263,15 @@ function loadBar(data) {
         ? item.progressSSCC
         : i == 3
         ? item.progressSku
-        : item.processQuantity;
+        : item.progressQty;
 
+    //alert(progressRst);
     $(idPrefix + "#gaugeContainer_" + i).dxCircularGauge({
       value: progressRst,
 
       rangeContainer: {
         backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
-        width: 20, // rangeContainer의 두께 설정
+        width: 30, // rangeContainer의 두께 설정
         ranges: [
           {startValue: 0, endValue: progressRst, color: "#3a80f6"}, // 채워진 부분의 색상
           {startValue: 56, endValue: 100 - progressRst, color: "#e0e0e0"} // 비워진 부분의 색상
@@ -308,62 +314,49 @@ function loadBar(data) {
   }
 }
 
-function updateProgressBarText(e, item, i) {
+function updateProgressBarText(e) {
   const $element = $(e.element);
 
-  // 프로그레스바에 텍스트 추가
-  const current =
-    i == 1
-      ? item.processStoreCount
-      : i == 2
-      ? item.processSerialShippingContainerCodeCount
-      : i == 3
-      ? item.processSkuCount
-      : item.processQuantity;
-  const max =
-    i == 1
-      ? item.totalStoreCount
-      : i == 2
-      ? item.totalSerialShippingContainerCodeCount
-      : i == 3
-      ? item.totalSkuCount
-      : item.totalQuantity;
+  // 프로그레스 바의 실제 최신 값과 max를 가져온다.
+  const currentValue = e.value; // 현재 값
+  const maxValue = e.component.option("max"); // 최대 값
 
   let $currentText = $element.find(".progress-current-text");
   if ($currentText.length) {
-    $currentText.text(current); // 값 업데이트
+    $currentText.text(currentValue);
   } else {
     $("<div>")
-      .text(current)
+      .text(currentValue)
       .addClass("progress-current-text")
       .css({
         position: "absolute",
         left: "10px",
         top: "50%",
         transform: "translateY(-50%)",
-        color: "#ffffff", // 원하는 색상으로 변경
-        fontWeight: "bold"
+        color: "#ffffff",
+        fontWeight: "bold",
+        fontSize: "20px"
       })
-      .appendTo(e.element); // 새로 추가
+      .appendTo(e.element);
   }
 
-  // 최대 값 텍스트 업데이트 또는 추가
   let $maxText = $element.find(".progress-max-text");
   if ($maxText.length) {
-    $maxText.text(max); // 값 업데이트
+    $maxText.text(maxValue);
   } else {
     $("<div>")
-      .text(max)
+      .text(maxValue)
       .addClass("progress-max-text")
       .css({
         position: "absolute",
         right: "10px",
         top: "50%",
         transform: "translateY(-50%)",
-        color: "#000000", // 원하는 색상으로 변경
-        fontWeight: "bold"
+        color: "#000000",
+        fontWeight: "bold",
+        fontSize: "20px"
       })
-      .appendTo(e.element); // 새로 추가
+      .appendTo(e.element);
   }
 }
 
