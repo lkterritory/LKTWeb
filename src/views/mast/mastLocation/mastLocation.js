@@ -108,6 +108,7 @@ function onCreate() {
         {
           dataField: "locationCode",
           caption: "로케이션",
+          width: 300,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("로케이션"); // 헤더 가운데 정렬
           }
@@ -115,6 +116,7 @@ function onCreate() {
         {
           dataField: "equipmentCode",
           caption: "설비",
+          width: 300,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("설비"); // 헤더 가운데 정렬
           }
@@ -122,6 +124,7 @@ function onCreate() {
         {
           dataField: "indicatorCode",
           caption: "표시기",
+          width: 300,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("표시기"); // 헤더 가운데 정렬
           }
@@ -129,6 +132,7 @@ function onCreate() {
         {
           dataField: "printConnectionAddress",
           caption: "프린터",
+
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("프린터"); // 헤더 가운데 정렬
           }
@@ -137,6 +141,7 @@ function onCreate() {
         {
           dataField: "storeCode",
           caption: "지점",
+          width: 300,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("지점"); // 헤더 가운데 정렬
           }
@@ -144,6 +149,7 @@ function onCreate() {
         {
           dataField: "stateName",
           caption: "상태",
+          width: 100,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("상태"); // 헤더 가운데 정렬
           }
