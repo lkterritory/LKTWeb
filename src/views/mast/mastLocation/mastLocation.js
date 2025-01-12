@@ -179,9 +179,12 @@ function onCreate() {
         visible: true // 헤더 필터 드롭다운을 표시
       },
       onCellDblClick: function (e) {
+        //alert(e.value);
         const selectedRowData = e.data;
-        // alert(selectedRowData);
-        showPopup(true, selectedRowData);
+
+        showPopup(true, selectedRowData, e.column.dataField);
+
+        //showPopup(true, selectedRowData);
       }
     })
     .dxDataGrid("instance");
@@ -215,7 +218,7 @@ function searchList() {
     });
 }
 
-function showPopup(isModi, row) {
+function showPopup(isModi, row, field) {
   let formItems = [
     {
       dataField: "locationCode",
@@ -231,7 +234,8 @@ function showPopup(isModi, row) {
       label: {text: "설비"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.equipmentCode : ""
+        value: row != null ? row.equipmentCode : "",
+        disabled: field != "equipmentCode"
       }
     },
     {
@@ -239,7 +243,8 @@ function showPopup(isModi, row) {
       label: {text: "표시기"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.indicatorCode : ""
+        value: row != null ? row.indicatorCode : "",
+        disabled: field != "indicatorCode"
       }
     },
     {
@@ -247,7 +252,8 @@ function showPopup(isModi, row) {
       label: {text: "프린터"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.printConnectionAddress : ""
+        value: row != null ? row.printConnectionAddress : "",
+        disabled: field != "printConnectionAddress"
       }
     },
     {
@@ -255,7 +261,8 @@ function showPopup(isModi, row) {
       label: {text: "지점"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.storeCode : ""
+        value: row != null ? row.storeCode : "",
+        disabled: field != "storeCode"
       }
     },
 
