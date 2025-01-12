@@ -16,7 +16,29 @@ const idPrefix = "#mast-mastAuth-mastAuth ";
 let txtBoxSearch;
 let workOrderGrid;
 
+let arrMenus = [];
+
+function searchConditionsMenu() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: []
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiCommon
+    .menuSummary(encoded)
+    .done(function (response) {
+      try {
+        arrMenus = response.lktBody;
+      } catch (ex) {}
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
+
 function onCreate() {
+  searchConditionsMenu();
+
   txtBoxSearch = $(idPrefix + "#txtBoxSearch")
     .dxTextBox({
       placeholder: "검색",
@@ -153,6 +175,78 @@ function onCreate() {
 function onActive() {}
 
 function searchList() {
+  /// menu respont 임시
+  //   {
+  //     "lktHeader": {
+  //         "type": "RESPONSE",
+  //         "call": "GET.CORES.MENUS.SUMMARY",
+  //         "statusCode": "01",
+  //         "message": "",
+  //         "authentication": "",
+  //         "centerCode": "HMOMNI",
+  //         "clientCode": "HMOMNI",
+  //         "warehouseCode": "HMOMNI"
+  //     },
+  //     "lktBody": [
+  //         {
+  //             "menuCode": "MNU_DASHBOARD_OVERALL",
+  //             "menuName": "DAS 전체 상황판"
+  //         },
+  //         {
+  //             "menuCode": "MNU_DASHBOARD_PICKTOLIGHT",
+  //             "menuName": "DAS 호기별 상황판"
+  //         },
+  //         {
+  //             "menuCode": "MNU_CORES_SKUS",
+  //             "menuName": "상품 정보"
+  //         },
+  //         {
+  //             "menuCode": "MNU_CORES_USERS",
+  //             "menuName": "사용자 정보"
+  //         },
+  //         {
+  //             "menuCode": "MNU_CORES_PERMISSIONS",
+  //             "menuName": "권한 정보"
+  //         },
+  //         {
+  //             "menuCode": "MNU_CORES_LOCATIONS",
+  //             "menuName": "로케이션 정보"
+  //         },
+  //         {
+  //             "menuCode": "MNU_CORES_CODES",
+  //             "menuName": "기초 정보"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_ORDERS",
+  //             "menuName": "주문관리"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_EUC",
+  //             "menuName": "EUC"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_REPORT",
+  //             "menuName": "보고서"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_ORDERS_STATUS",
+  //             "menuName": "주문 처리 현황"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_SKUS_STATUS",
+  //             "menuName": "상품 처리 현황"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_LABELS_STATUS",
+  //             "menuName": "라벨 처리 현황"
+  //         },
+  //         {
+  //             "menuCode": "MNU_OUTBOUND_PICKTOLIGHT",
+  //             "menuName": "KIOSK"
+  //         }
+  //     ]
+  // }
+
   // 테스트
 
   // let bodyTmp = [
@@ -278,8 +372,14 @@ function showPopup(isModi, row) {
     isModi: isModi, // 수정 여부
     formItems: formItems, // 폼 구성
     gridOptions: {
-      dataSource: row ? row.menus : [],
-      columns: [{dataField: "menuCode", caption: "메뉴"}],
+      keyExpr: "menuCode", // 키 필드 설정
+      // dataSource: row ? row.menus : [],
+      dataSource: arrMenus,
+      columns: [
+        {dataField: "menuName", caption: "메뉴명"},
+        {dataField: "menuCode", caption: "메뉴코드"}
+      ],
+
       paging: {enabled: false},
       showBorders: true,
       scrolling: {
@@ -291,7 +391,18 @@ function showPopup(isModi, row) {
       },
       onContentReady: function (e) {
         // 그리드가 렌더링된 뒤 전체 선택
-        e.component.selectAll();
+
+        let rowSel = row ? row.menus : [];
+
+        //alert(rowSel);
+
+        // menuCode 값만 추출
+        const selectedRowKeys = rowSel.map((item) => item.menuCode);
+        //alert(selectedRowKeys);
+        // 행 선택
+        e.component.selectRows(selectedRowKeys, false); // false는 기존 선택 무시
+
+        // e.component.selectAll();
       },
       columnAutoWidth: true
     },
@@ -309,7 +420,7 @@ function showPopup(isModi, row) {
         ]
       };
 
-      alert(JSON.stringify(param));
+      //alert(JSON.stringify(param));
 
       if (isModi) {
         apiCommon

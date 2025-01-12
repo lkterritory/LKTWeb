@@ -265,6 +265,7 @@ function coresAuthEdit(param) {
     data: param
   });
 }
+
 // 권한정보 end
 
 // 지점정보 start

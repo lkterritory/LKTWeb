@@ -156,6 +156,20 @@ function searchList() {
   //   }
   // ];
 
+  //   {
+  //     "centerCode": "HMOMNI",
+  //     "clientCode": "HMOMNI",
+  //     "warehouseCode": "HMOMNI",
+  //     "totalStoreCount": 0,
+  //     "processStoreCount": 0,
+  //     "totalSerialShippingContainerCodeCount": 0,
+  //     "processSerialShippingContainerCodeCount": 0,
+  //     "totalSkuCount": 6,
+  //     "processSkuCount": 0,
+  //     "totalQuantity": 37,
+  //     "processQuantity": 0
+  // }
+
   // loadBar(bodyTmp);
   // return;
 
@@ -195,25 +209,29 @@ function getFormattedDate() {
 }
 
 function loadBar(data) {
-  data[0].progressStore =
-    (data[0].processStoreCount / data[0].totalStoreCount) * 100;
-  data[0].progressStore = Math.round(data[0].progressStore);
-
   console.log("processStoreCount", data[0].processStoreCount);
   console.log("totalStoreCount", data[0].totalStoreCount);
   console.log("data[0].progressStore", data[0].progressStore);
+
+  data[0].progressStore =
+    (data[0].processStoreCount / data[0].totalStoreCount) * 100;
+  data[0].progressStore = Math.round(data[0].progressStore);
+  data[0].progressStore = data[0].progressStore || 0;
 
   data[0].progressSSCC =
     (data[0].processSerialShippingContainerCodeCount /
       data[0].totalSerialShippingContainerCodeCount) *
     100;
   data[0].progressSSCC = Math.round(data[0].progressSSCC);
+  data[0].progressSSCC = data[0].progressSSCC || 0;
 
   data[0].progressSku = (data[0].processSkuCount / data[0].totalSkuCount) * 100;
   data[0].progressSku = Math.round(data[0].progressSku);
+  data[0].progressSku = data[0].progressSku || 0;
 
   data[0].progressQty = (data[0].processQuantity / data[0].totalQuantity) * 100;
   data[0].progressQty = Math.round(data[0].progressQty);
+  data[0].progressQty = data[0].progressQty || 0;
 
   let item = data[0];
 
