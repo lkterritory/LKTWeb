@@ -36,6 +36,23 @@ window.onClickFac = function () {
 
 function onCreate() {
   initView();
+
+  let iniData = {
+    centerCode: "HMOMNI",
+    clientCode: "HMOMNI",
+    warehouseCode: "HMOMNI",
+    totalStoreCount: 3,
+    processStoreCount: 2,
+    totalSerialShippingContainerCodeCount: 3,
+    processSerialShippingContainerCodeCount: 2,
+    totalSkuCount: 3,
+    processSkuCount: 2,
+    totalQuantity: 3,
+    processQuantity: 2
+  };
+
+  loadBar([iniData]);
+
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
   if (!eqpCodeSel) {
@@ -94,14 +111,14 @@ function initView() {
   //   centerCode: "HMOMNI",
   //   clientCode: "HMOMNI",
   //   warehouseCode: "HMOMNI",
-  //   totalStoreCount: 0,
-  //   processStoreCount: 0,
-  //   totalSerialShippingContainerCodeCount: 0,
-  //   processSerialShippingContainerCodeCount: 0,
-  //   totalSkuCount: 0,
-  //   processSkuCount: 0,
-  //   totalQuantity: 0,
-  //   processQuantity: 0
+  //   totalStoreCount: 999,
+  //   processStoreCount: 888,
+  //   totalSerialShippingContainerCodeCount: 999,
+  //   processSerialShippingContainerCodeCount: 888,
+  //   totalSkuCount: 999,
+  //   processSkuCount: 888,
+  //   totalQuantity: 999,
+  //   processQuantity: 888
   // };
 
   // loadBar([iniData]);
@@ -261,8 +278,10 @@ function loadBar(data) {
       },
       onValueChanged: function (e) {
         //onContentReady: function (e) {
-        //alert("dd");
-        updateProgressBarText(e);
+
+        setTimeout(() => {
+          updateProgressBarText(e);
+        }, 200);
 
         //return;
       },
