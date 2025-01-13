@@ -80,8 +80,32 @@ body {
   width: 100%;
 }
 
+/* 메뉴 고정 버튼 */
+.pin-button {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  margin-left: 210px;
+
+  background: transparent; /* 배경을 투명으로 설정 */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 16px;
+
+  visibility: hidden;
+  opacity: 0.5; /* 흐려 보이게 설정 */
+}
+/* 핀 버튼 활성화 상태 */
+.pin-button.pinned {
+  opacity: 1; /* 고정 상태에서 뚜렷하게 보이도록 설정 */
+}
+
 .side-menu {
-  margin-left: -210px;
+  margin-left: -210px; /* 줄어든 상태 */
   min-width: 250px; /* 최소 너비 설정 */
   width: 250px;
   background-color: #007bff;
@@ -97,18 +121,9 @@ body {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 }
-
-.side-menu:hover {
-  margin-left: 0px;
-  min-width: 250px; /* 최소 너비 설정 */
-  width: 250px;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 0px 10px 0px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+/* 사이드메뉴 보이는 상태 */
+.side-menu.active {
+  margin-left: 0px; /* 나타나도록 설정 */
 }
 
 .side-menu ul {

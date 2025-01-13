@@ -149,6 +149,42 @@ function createMenu() {
 }
 
 $(document).ready(function () {
+  const sideMenu = document.getElementById("sideMenu");
+  const pinButton = document.getElementById("pinButton");
+
+  let isPinned = false; // 메뉴 고정 여부
+
+  // 마우스 오버 시 사이드메뉴 나타나기
+  sideMenu.addEventListener("mouseover", function () {
+    if (!isPinned) {
+      sideMenu.classList.add("active");
+      pinButton.style.visibility = "visible"; // 핀 버튼 보이기
+    }
+  });
+
+  // 마우스 아웃 시 사이드메뉴 숨기기
+  sideMenu.addEventListener("mouseout", function () {
+    if (!isPinned) {
+      sideMenu.classList.remove("active");
+      pinButton.style.visibility = "hidden"; // 핀 버튼 숨기기
+    }
+  });
+
+  // 핀 버튼 클릭 시 메뉴 고정/비고정 상태 전환
+  pinButton.addEventListener("click", function () {
+    isPinned = !isPinned;
+
+    if (isPinned) {
+      sideMenu.classList.add("active"); // 메뉴 고정
+      pinButton.classList.add("pinned"); // 버튼 강조
+      pinButton.style.opacity = 1; // 핀 버튼 투명도 제거
+    } else {
+      sideMenu.classList.remove("active"); // 메뉴 숨기기
+      pinButton.classList.remove("pinned"); // 버튼 기본 상태
+      pinButton.style.opacity = 0.5; // 핀 버튼 흐리게
+    }
+  });
+
   let devKey =
     "ewogICJmb3JtYXQiOiAxLAogICJjdXN0b21lcklkIjogIjBiNGNhZDEzLWI3ZmEtNDljOC05MjI5LWUxYTFjNGQ1ZTViNSIsCiAgIm1heFZlcnNpb25BbGxvd2VkIjogMjQxCn0=.TKB/YEgo0tLVriWAArXeOhJVDffyIw4Uhv5MjX3z5LfyVCgVpPbSHmboGvsUWPG+4tgBCJBnmXjxXykz/BIVD5oOV6ktWAsvC73UPAo+y+3XI+5csEjwUTJvZH0ysRBhWkbSCg==";
   DevExpress.config({licenseKey: devKey});
