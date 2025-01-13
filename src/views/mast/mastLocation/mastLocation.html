@@ -16,6 +16,12 @@
         엑셀다운로드
       </button>
       <button
+        id="btnUpload"
+        class="dx-button btntype-c"
+        data-id="엑셀업로드">
+        엑셀업로드
+      </button>
+      <button
         id="btnSearch"
         class="dx-button btntype-c"
         data-id="조회">
@@ -40,4 +46,10 @@
       id="workOrderGrid"
       class="workOrderGrid"></div>
   </div>
+  <input
+    type="file"
+    id="fileInput"
+    accept=".xlsx"
+    style="display: none"
+    onchange="uploadExcel(this)" />
 </div>

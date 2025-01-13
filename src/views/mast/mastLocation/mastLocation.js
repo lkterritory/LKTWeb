@@ -55,6 +55,16 @@ function onCreate() {
   });
 
   // 버튼 이벤트 처리
+  $(idPrefix + "#btnUpload").dxButton({
+    stylingMode: "contained",
+    type: "default",
+    onClick: function (e) {
+      $("#fileInput").click(); // 숨겨진 파일 선택 input 클릭
+    },
+    width: "100px"
+  });
+
+  // 버튼 이벤트 처리
   $(idPrefix + "#btnSearch").dxButton({
     stylingMode: "contained",
     type: "default",
@@ -333,6 +343,63 @@ function showPopup(isModi, row, field) {
     }
   });
 }
+
+// 엑셀 업로드 함수
+window.uploadExcel = function (fileInput) {
+  const file = fileInput.files[0]; // 업로드된 파일
+  if (!file) return;
+
+  const workbook = new ExcelJS.Workbook();
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const buffer = event.target.result;
+
+    workbook.xlsx.load(buffer).then((workbook) => {
+      const worksheet = workbook.getWorksheet(1); // 첫 번째 워크시트
+
+      const data = [];
+      worksheet.eachRow((row, rowIndex) => {
+        if (rowIndex === 1) {
+          // 첫 번째 행은 헤더로 간주, 필요시 무시
+          console.log("Header Row:", row.values);
+          return;
+        }
+
+        const rowData = row.values;
+        data.push({
+          locationCode: rowData[1], // 첫 번째 열
+          equipmentCode: rowData[2], // 두 번째 열
+          indicatorCode: rowData[3], // 세 번째 열
+          printConnectionAddress: rowData[4], // 네 번째 열
+          storeCode: rowData[5], // 다섯 번째 열
+          storageTemperatureCode: "RT",
+          stateCode: "01"
+        });
+      });
+
+      console.log("Parsed Data:", data);
+
+      fileInput.value = ""; // 파일 선택 초기화
+
+      var param = {
+        lktHeader: lktUtil.getLktHeader("PAGE.LOCATION.GET"),
+        lktBody: data
+      };
+
+      // alert(JSON.stringify(param));
+      // return;
+      apiCommon
+        .coresLocationAdd(JSON.stringify(param))
+        .done(function (response) {
+          searchList();
+        })
+        .fail(function () {});
+    });
+  };
+
+  reader.readAsArrayBuffer(file); // 파일 읽기
+};
 
 export default {
   onCreate,
