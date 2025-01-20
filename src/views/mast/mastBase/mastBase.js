@@ -110,7 +110,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "masterSequnce",
+          dataField: "masterSequence",
           caption: "설명",
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("설명"); // 헤더 가운데 정렬
@@ -229,11 +229,11 @@ function showPopup(isModi, row) {
     },
 
     {
-      dataField: "masterSequnce",
+      dataField: "masterSequence",
       label: {text: "순번"},
       editorType: "dxTextBox",
       editorOptions: {
-        value: row != null ? row.masterSequnce : ""
+        value: row != null ? row.masterSequence : ""
       }
     },
 
@@ -273,7 +273,7 @@ function showPopup(isModi, row) {
             masterTextValue: formData.masterTextValue,
             masterDescription: formData.masterDescription,
             masterParent: formData.masterParent,
-            masterSequnce: formData.masterSequnce,
+            masterSequence: formData.masterSequence,
 
             stateCode: formData.stateCode
           }
