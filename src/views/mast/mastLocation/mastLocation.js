@@ -17,6 +17,25 @@ let txtBoxSearch;
 let workOrderGrid;
 
 function onCreate() {
+  // 외부페이지 적용 테스트
+  // // Define the iframe URL
+  // const iframeUrl = "http://localhost/gnut";
+
+  // // Create iframe element
+  // const iframe = $(`<iframe src="${iframeUrl}" frameborder="0"></iframe>`);
+
+  // // Add styles to iframe
+  // iframe.css({
+  //   width: "100%",
+  //   height: "100%", // Full height
+  //   border: "none",
+  //   overflow: "auto"
+  // });
+
+  // // Append iframe to the target div
+  // $(".work-order-content").append(iframe);
+  // end 외부페이지 적용 테스트 end
+
   txtBoxSearch = $(idPrefix + "#txtBoxSearch")
     .dxTextBox({
       placeholder: "검색",

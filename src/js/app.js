@@ -115,6 +115,7 @@ function createMenu() {
       let view = $(this).data("view");
       let tabTitle = $(this).text();
 
+      //alert(view);
       //
       localStorage.setItem("viewPre", view);
       localStorage.setItem("tabTitlePre", tabTitle);
@@ -261,6 +262,7 @@ function addTab(tabTitle, view) {
 
 // 콘텐츠 로드 함수
 function loadContent(view) {
+  //alert(view);
   $.ajax({
     url: `./src/views/${view}?t=` + Date.now(),
     method: "GET",
@@ -275,7 +277,8 @@ function loadContent(view) {
       moduleTarget.onCreate();
       moduleTarget.onActive();
     },
-    error: function () {
+    error: function (error) {
+      // alert(JSON.stringify(error));
       $("#mainContent").html("Error loading content");
     }
   });
