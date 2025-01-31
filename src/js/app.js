@@ -3,7 +3,7 @@ let loadedTabs = {}; // 탭 로드 상태 및 콘텐츠를 저장하는 객체
 
 let loadedModules = [];
 
-let api;
+let api;//테스트  
 let lktStorage;
 
 if (!window.apiModule || !window.lktStorageModule) {
