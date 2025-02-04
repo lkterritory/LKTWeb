@@ -28,6 +28,9 @@ function onCreate() {
       width: "200px",
       onValueChanged: function (e) {
         //console.log("입력된 값:", e.value);
+      },
+      onEnterKey: function(e) { 
+        searchList();
       }
     })
     .dxTextBox("instance");
