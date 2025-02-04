@@ -92,7 +92,7 @@ function onCreate() {
             .fail(function () {
               // 에러 발생 시 처리
             });
-        } else if (buttonId === "작업시작") {
+        } else if (buttonId === "작업지시") {
           if (rowSel.length <= 0) {
             return;
           }
@@ -496,6 +496,14 @@ function onCreate() {
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "sscc",
+          caption: "SSCC",
+          allowFiltering: false,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("SSCC"); // 헤더 가운데 정렬
           }
         }
       ],
