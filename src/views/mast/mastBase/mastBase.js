@@ -16,6 +16,7 @@ const idPrefix = "#mast-mastBase-mastBase ";
 let txtBoxSearch;
 let workOrderGrid;
 
+
 function onCreate() {
   txtBoxSearch = $(idPrefix + "#txtBoxSearch")
     .dxTextBox({
@@ -148,6 +149,8 @@ function onCreate() {
       }
     })
     .dxDataGrid("instance");
+
+    searchList();
 }
 
 function onActive() {}
@@ -254,7 +257,7 @@ function showPopup(isModi, row) {
         value: row != null ? row.stateCode : "01",
         placeholder: "선택하세요", // 선택 안내 텍스트
         onValueChanged: function (e) {
-          console.log("선택된 값:", e.value); // 선택된 id 값
+          //console.log("선택된 값:", e.value); // 선택된 id 값
         }
       }
     }

@@ -226,6 +226,8 @@ function onCreate() {
       }
     })
     .dxDataGrid("instance");
+
+    searchList();
 }
 
 function onActive() { 
