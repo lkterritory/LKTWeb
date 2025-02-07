@@ -227,7 +227,7 @@ function onCreate() {
     })
     .dxDataGrid("instance");
 
-    searchList();
+   searchList();
 }
 
 function onActive() { 
@@ -355,7 +355,7 @@ function showPopup(isModi, row, field) {
           .fail(function () {});
       } else {
         apiCommon
-          .coresLocationAdd(JSON.stringify(param))
+          .coresLocationEdit(JSON.stringify(param))
           .done(function (response) {})
           .fail(function () {});
       }
@@ -415,7 +415,7 @@ window.uploadExcel = function (fileInput) {
       // alert(JSON.stringify(param));
       // return;
       apiCommon
-        .coresLocationAdd(JSON.stringify(param))
+        .coresLocationEdit(JSON.stringify(param))
         .done(function (response) {
           searchList();
         })
