@@ -714,7 +714,7 @@ function searchList() {
 
         let resBody = response.lktBody[0];
         //let resBodyTmp = {}; //Object.assign(resBody);
-
+      
         // resBodyTmp.
 
         let resBodyTmp = {
@@ -725,10 +725,12 @@ function searchList() {
           processSkuCount: resBody.processSkuCount,
           totalSkuCount: resBody.totalSkuCount,
           processQuantity: resBody.processQuantity,
-          totalQuantity: resBody.totalQuantity
+          totalQuantity: resBody.totalQuantity,
+          processSscc : processSerialShippingContainerCodeCount,
+          totalSscc : totalSerialShippingContainerCodeCount
         };
 
-        // 임시변경 반대로ㅓ
+        // 임시변경 반대로
 
         resBody.processObjectCount = resBodyTmp.totalObjectCount;
         resBody.totalObjectCount = resBodyTmp.processObjectCount;
@@ -736,6 +738,8 @@ function searchList() {
         resBody.totalSkuCount = resBodyTmp.processSkuCount;
         resBody.processQuantity = resBodyTmp.totalQuantity;
         resBody.totalQuantity = resBodyTmp.processQuantity;
+        resBody.processSscc = resBodyTmp.totalSscc;
+        resBody.totalSscc = resBodyTmp.processSscc;
 
         //resBodyTmp =
 
@@ -747,12 +751,20 @@ function searchList() {
         ).textContent = resBody.totalObjectCount; // 총합값
 
         // 품목 값 설정
+        // document.querySelector(
+        //   ".summary-item:nth-child(2) .current"
+        // ).textContent = resBody.processSkuCount; // 현재값
+        // document.querySelector(
+        //   ".summary-item:nth-child(2) .total"
+        // ).textContent = resBody.totalSkuCount; // 총합값
+
+        // SSCC 설정
         document.querySelector(
           ".summary-item:nth-child(2) .current"
-        ).textContent = resBody.processSkuCount; // 현재값
+        ).textContent = resBody.processSscc; // 현재값
         document.querySelector(
           ".summary-item:nth-child(2) .total"
-        ).textContent = resBody.totalSkuCount; // 총합값
+        ).textContent = resBody.totalSscc; // 총합값
 
         // PCS 값 설정
         document.querySelector(
