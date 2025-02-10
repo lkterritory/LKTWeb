@@ -499,7 +499,7 @@ function onCreate() {
           }
         },
         {
-          dataField: "sscc",
+          dataField: "totalSerialShippingContainerCodeCount",
           caption: "SSCC",
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {
