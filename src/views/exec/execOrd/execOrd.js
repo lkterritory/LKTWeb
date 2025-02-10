@@ -115,7 +115,8 @@ function onCreate() {
                   "yyyy-MM-dd"
                 ),
                 workBatch: rowSel[0].workBatch,
-                equipmentCode: rowSel[0].equipmentCode
+                equipmentCode: rowSel[0].equipmentCode,
+                pickingGroup: rowSel[0].pickingGroup
               }
             ]
           };
@@ -319,20 +320,19 @@ function onCreate() {
             headerCell.css(headerCss).text("설비명"); // 헤더 가운데 정렬
           },
           cellTemplate: function (cellElement, cellInfo) {
-            const pickingGroup = cellInfo.data.pickingGroup;
-
-            // if (pickingGroup == "1HM_01") {
-            if (true) {
+            const equipmentCode = cellInfo.value; // equipmentCode 값 가져오기
+            
+            if (equipmentCode === null || equipmentCode === undefined || equipmentCode === "") {
               const selectBox = $("<div>")
                 .dxSelectBox({
                   items: facTmp,
-                  value: cellInfo.value, // 초기 값
+                  value: null, // 초기 값
                   onValueChanged: function (e) {
                     // 데이터 소스 업데이트
                     const dataSource = cellInfo.component.option("dataSource");
                     const rowIndex = cellInfo.rowIndex;
                     const dataField = cellInfo.column.dataField;
-
+        
                     if (dataSource && rowIndex !== undefined) {
                       dataSource[rowIndex][dataField] = e.value; // 데이터 소스 업데이트
                     }
