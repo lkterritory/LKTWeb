@@ -393,13 +393,22 @@ function onCreate() {
           }
         },
         {
-          dataField: "totalSerialShippingContainerCodeCount",
-          caption: "SSCC",
+          dataField: "processSerialShippingContainerCodeCount",
+          caption: "작업 SSCC",
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("SSCC"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("작업중 SSCC"); // 헤더 가운데 정렬
           }
         },
+        {
+          dataField: "totalSerialShippingContainerCodeCount",
+          caption: "총 SSCC",
+          allowFiltering: false,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("total SSCC"); // 헤더 가운데 정렬
+          }
+        },
+        
         {
           dataField: "totalSkuCount",
           caption: "상품건수",
