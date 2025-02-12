@@ -366,6 +366,22 @@ function onCreate() {
           }
         },
         {
+          dataField: "serialShippingContainerCode",
+          caption: "SSCC 코드",
+          width: 70,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("SSCC 코드"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "interfaceReferenceNumber",
+          caption: "ibd",
+          width: 70,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("ibd"); // 헤더 가운데 정렬
+          }
+        },
+        {
           dataField: "skuCode",
           caption: "상품코드",
           width: 200,
@@ -381,27 +397,19 @@ function onCreate() {
           }
         },
         {
-          dataField: "skuBarcode",
-          caption: "바코드",
-          width: 200,
+          dataField: "serialShippingContainerCodeQty",
+          caption: "입수",
+          width: 80,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("바코드"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("입수"); // 헤더 가운데 정렬
           }
         },
         {
           dataField: "objectCount",
-          caption: "지점수",
+          caption: "주문수",
           width: 80,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("지점수"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "planQty",
-          caption: "예상수",
-          width: 80,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("예상수"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("주문수"); // 헤더 가운데 정렬
           }
         },
         {
