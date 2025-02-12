@@ -275,6 +275,10 @@ function onCreate() {
     "background-color": "gray"
   };
 
+  let skuCode;
+  let ibdCode;
+  let ibdSsccData =[];
+
   // DevExtreme DataGrid 설정
   workOrderGrid = $(idPrefix + "#workOrderGrid")
     .dxDataGrid({
@@ -466,7 +470,57 @@ function onCreate() {
           }
         }
       ],
+      onCellClick: function(e) {
 
+        if (e.column.dataField === "interfaceReferenceNumber") {
+            skuCode = e.data.skuCode; 
+            ibdCode = e.data.interfaceReferenceNumber;
+            var obj = {
+              lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.PICKTOLIGHT.MERASK.INTERFACE.REFERENCE.NUMBER"),
+              lktBody: [
+                {
+                  interfaceReferenceNumber: ibdCode,
+                  skuCode: skuCode
+                }
+              ]
+            };
+           var encoded = btoa(JSON.stringify(obj));
+        
+          apiWcs
+            .equipmentPicktolightSscc(encoded)
+            .done(function (response) {
+              try {
+                // response.lktBody =  [
+                //   {
+                //     interfaceReferenceNumber: "1048268055",
+                //     skuCode: "1199712005240002",
+                //     skuName: "RUFFO RELAXED TROUSERS",
+                //       addDtm: "-"
+                //   },
+                //   {
+                //       interfaceReferenceNumber: "1048268055",
+                //       skuCode: "1199712005240004",
+                //       skuName: "RUFFO RELAXED TROUSERSs",
+                //       addDtm: "-"
+                //   }
+                // ]
+                ibdSsccData = response.lktBody
+               
+                let message = ibdSsccData.map(item => 
+                  `ibd: ${item.interfaceReferenceNumber}
+                  상품코드: ${item.skuCode}
+                  상품명: ${item.skuName}
+                  addDtm: ${item.addDtm}<br>`).join("\n");
+
+                DevExpress.ui.dialog.alert(`${message}`, "SSCC");
+              } catch (ex) {}
+            })
+        
+            .fail(function () {});
+      }
+      } ,
+        
+         
       showBorders: true,
       scrolling: {
         mode: "standard" // or "virtual" | "infinite"
@@ -843,7 +897,10 @@ function searchList2() {
         //     statusName: "완ㅇ료",
         //     planDtm: null,
         //     pickDtm: null,
-        //     lktTaskColor: "G"
+        //     lktTaskColor: "G",
+        //     interfaceReferenceNumber: "1048268051",
+        //     serialShippingContainerCode:"9",
+
         //   },
         //   {
         //     lktSequence: 1,
@@ -858,7 +915,10 @@ function searchList2() {
         //     statusName: "완ㅇ료",
         //     planDtm: null,
         //     pickDtm: null,
-        //     lktTaskColor: "Y"
+        //     lktTaskColor: "Y",
+        //     interfaceReferenceNumber: "1048268052",
+        //     serialShippingContainerCode:"9",
+
         //   },
         //   {
         //     lktSequence: 1,
@@ -873,7 +933,10 @@ function searchList2() {
         //     statusName: "완ㅇ료",
         //     planDtm: null,
         //     pickDtm: null,
-        //     lktTaskColor: "R"
+        //     lktTaskColor: "R",
+        //     interfaceReferenceNumber: "1048268053",
+        //     serialShippingContainerCode:"9",
+
         //   },
         //   {
         //     lktSequence: 1,
@@ -888,7 +951,10 @@ function searchList2() {
         //     statusName: "완ㅇ료",
         //     planDtm: null,
         //     pickDtm: null,
-        //     lktTaskColor: "B"
+        //     lktTaskColor: "B",
+        //     interfaceReferenceNumber: "1048268054",
+        //     serialShippingContainerCode:"9",
+
         //   },
         //   {
         //     lktSequence: 1,
@@ -903,7 +969,9 @@ function searchList2() {
         //     statusName: "완료",
         //     planDtm: null,
         //     pickDtm: null,
-        //     lktTaskColor: "W"
+        //     lktTaskColor: "W",
+        //     interfaceReferenceNumber: "1048268055",
+        //     serialShippingContainerCode:"9",
         //   }
         // ];
 
