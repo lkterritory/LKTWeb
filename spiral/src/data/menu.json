@@ -1,7 +1,0 @@
-{
-  "menuItems": [
-    {"title": "작업 이력 조회", "view": "/src/views/work/workList.html"},
-    {"title": "에러 데이터 조회", "view": "/src/views/error/errorList.html"},
-    {"title": "분류 마스터 코드 관리", "view": "/src/views/master/masterCode.html"}
-  ]
-}

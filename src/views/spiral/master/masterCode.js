@@ -1,9 +1,14 @@
+
+function onCreate() {
+  createDataGrid();
+}
+
 let codeData = [] // 데이터 저장 변수
 
 async function fetchData() {
   try {
     const response = await $.ajax({
-      url: '../../data/masterCode.json',
+      url: './src/data/masterCode.json',
       method: 'GET',
       dataType: 'json'
     });
@@ -162,5 +167,10 @@ async function createDataGrid() {
   }
 }
 
-// 데이터 그리드 초기화
-createDataGrid();
+function onActive() {}
+
+export default {
+  onCreate,
+  onActive
+};
+

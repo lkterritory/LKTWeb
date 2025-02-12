@@ -53,6 +53,24 @@
           "view": "field/fieldKiosk/fieldKiosk.html"
         }
       ]
+    },
+    {
+      "title": "Spiral",
+      "submenus": [
+        {
+          "title": "작업 현황",
+          "view": "spiral/work/workList.html"
+        },
+        {
+          "title": "에러 현황",
+          "view": "spiral/error/errorList.html"
+          
+        },
+        {
+          "title": "마스터코드관리",
+          "view": "spiral/master/masterCode.html"
+        }
+      ]
     }
   ]
 }

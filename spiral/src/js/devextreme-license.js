@@ -1,3 +1,0 @@
-let devKey =
-"ewogICJmb3JtYXQiOiAxLAogICJjdXN0b21lcklkIjogIjBiNGNhZDEzLWI3ZmEtNDljOC05MjI5LWUxYTFjNGQ1ZTViNSIsCiAgIm1heFZlcnNpb25BbGxvd2VkIjogMjQyCn0=.DHoax9mc/2ak9GH34z8FyqG9GR8R0hnSvFtVJ12TKIf6L1/U+en9jOoO0AXyJTTfuV+OBAp82j7gj2Bj7MhLRr0GqLq0MEnAaKJLQ0tpI3n5ig+xHvTi3ERTSToRAIpvhP/k9g==";
-DevExpress.config({licenseKey: devKey});

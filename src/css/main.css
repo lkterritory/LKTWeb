@@ -74,12 +74,21 @@ body {
   font-family: "Spoqa Han Sans Neo" !important;
 }
 
+.dx-toolbar .dx-toolbar-item{
+  display: inline-block;
+ 
+}
+.dx-toolbar-before {
+  padding-left: 20px;
+}
+.dx-toolbar-after{
+  padding-right: 20px;
+}
 .container {
   display: flex;
   height: 100vh; /* 수정: 전체 화면을 채우도록 변경 */
   width: 100%;
 }
-
 /* 메뉴 고정 버튼 */
 .pin-button {
   position: relative;
@@ -105,7 +114,7 @@ body {
 }
 
 .side-menu {
-  margin-left: -210px; /* 줄어든 상태 */
+  /*margin-left: -210px;*/ /* 줄어든 상태 */
   min-width: 250px; /* 최소 너비 설정 */
   width: 250px;
   background-color: #007bff;
@@ -138,10 +147,13 @@ body {
   border-bottom: 1px solid #006fe6;
 }
 
-.side-menu ul li:hover {
+.side-menu ul li.on, .side-menu ul li:hover {
   background-color: #0056b3;
 }
 
+.side-menu ul li a{
+  color:#fff;
+}
 .side-menu ul .submenu {
   display: none;
   list-style: none;

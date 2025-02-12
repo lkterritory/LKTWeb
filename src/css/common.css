@@ -71,7 +71,7 @@
   color: #333;
   line-height: inherit;
   /* height: calc(100vh - 190px); */
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .dx-datagrid-headers .dx-header-row .dx-datagrid-action {
