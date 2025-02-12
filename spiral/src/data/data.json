@@ -1,0 +1,38 @@
+[
+  {
+    "ID": 1,
+    "SSCC": 173217305838735000,
+    "PID": "PID000001",
+    "STATUS_1": "Success",
+    "CREATED_AT_1": "2024-01-20 12:23:21",
+    "STATUS_2": "Success",
+    "CREATED_AT_2": "2024-01-20 12:23:21",
+    "STATUS_3": "Success",
+    "CREATED_AT_3": "2024-01-20 12:23:21",
+    "STATUS_4": "Success",
+    "CREATED_AT_4": "2024-01-20 12:23:21",
+    "ACTL_DEST_FLOOR": "2F",
+    "TIME_ARRIVAL": "2024-01-20 12:31:01",
+     "FROM_SYSTEM" : "SMS",
+    "TO_SYSTEM" : "BCR"
+  },
+  {
+    "ID": 2,
+    "SSCC": 173217305838735000,
+    "PID": "PID000002",
+    "STATUS_1": "Success",
+    "CREATED_AT_1": "2024-01-20 12:23:21",
+    "STATUS_2": "Success",
+    "CREATED_AT_2": "2024-01-20 12:23:21",
+    "STATUS_3": "Fail",
+    "CREATED_AT_3": "2024-01-20 12:23:21",
+    "ERROR_MESSAGE_3": "응답 없음 오류",
+    "STATUS_4": "Fail",
+    "CREATED_AT_4": "2024-01-20 12:23:21",
+    "ERROR_MESSAGE_4": "응답 없음 오류",
+    "ACTL_DEST_FLOOR": "2F",
+    "TIME_ARRIVAL": "2024-01-20 12:31:01",
+    "FROM_SYSTEM" : "SMS",
+    "TO_SYSTEM" : "BCR"
+  }
+]

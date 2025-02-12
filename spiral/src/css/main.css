@@ -1,0 +1,346 @@
+@font-face {
+  font-family: "hd-harmony";
+  font-weight: 700;
+  src: local("hd-harmony-B"),
+    url("../../assets/fonts/hd-harmony-B.woff")
+      format("woff2"),
+    url("../../assets/fonts/hd-harmony-B.woff")
+      format("woff"),
+    url("../../assets/fonts/hd-harmony-B.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "hd-harmony";
+  font-weight: 500;
+  src: local("hd-harmony-M"),
+    url("../../assets/fonts/hd-harmony-M.woff")
+      format("woff2"),
+    url("../../assets/fonts/hd-harmony-M.woff")
+      format("woff"),
+    url("../../assets/fonts/hd-harmony-M.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "hd-harmony";
+  font-weight: 500;
+  src: local("hd-harmony-L"),
+    url("../../assets/fonts/hd-harmony-L.woff")
+      format("woff2"),
+    url("../../assets/fonts/hd-harmony-L.woff")
+      format("woff"),
+    url("../../assets/fonts/hd-harmony-L.ttf")
+      format("truetype");
+}
+
+
+
+/* 기본 스타일 */
+html,
+body {
+  font-family: "hd-harmony" !important;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #bbd5ff;
+  /* font-family: Arial, sans-serif; */
+}
+
+.dx-widget, .dx-datagrid {
+  font-family: "hd-harmony" !important;
+}
+
+.dx-toolbar .dx-toolbar-item{
+  display: inline-block;
+ 
+}
+.dx-toolbar-before {
+  padding-left: 20px;
+}
+.dx-toolbar-after{
+  padding-right: 20px;
+}
+.container {
+  display: flex;
+  height: 100vh; /* 수정: 전체 화면을 채우도록 변경 */
+  width: 100%;
+}
+/* 메뉴 고정 버튼 */
+.pin-button {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  margin-left: 210px;
+
+  background: transparent; /* 배경을 투명으로 설정 */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 16px;
+
+  visibility: hidden;
+  opacity: 0.5; /* 흐려 보이게 설정 */
+}
+/* 핀 버튼 활성화 상태 */
+.pin-button.pinned {
+  opacity: 1; /* 고정 상태에서 뚜렷하게 보이도록 설정 */
+}
+
+.side-menu {
+  /*margin-left: -210px;*/ /* 줄어든 상태 */
+  min-width: 250px; /* 최소 너비 설정 */
+  width: 250px;
+  background-color: #007bff;
+  color: white;
+  margin-top: 10px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: margin-left 0.3s ease; /* 애니메이션 추가 */
+
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+/* 사이드메뉴 보이는 상태 */
+.side-menu.active {
+  margin-left: 0px; /* 나타나도록 설정 */
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu ul li {
+  padding: 15px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #006fe6;
+}
+
+.side-menu ul li.on, .side-menu ul li:hover {
+  background-color: #0056b3;
+}
+
+.side-menu ul li a{
+  color:#fff;
+}
+.side-menu ul .submenu {
+  display: none;
+  list-style: none;
+  padding-left: 20px;
+  background-color: #0056b3;
+}
+
+.side-menu ul .submenu li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #004a99;
+}
+
+.side-menu ul .submenu li:hover {
+  background-color: #003f7a;
+}
+
+/* 탭 컨테이너 */
+#tabContainer {
+  display: flex;
+  align-items: center;
+
+  padding: 0px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+}
+
+/* 개별 탭 스타일 */
+.tab {
+  height: 45px;
+  width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px;
+  margin: 0px;
+  font-size: 14px;
+  color: #8aa0c9;
+  background-color: #f8fbff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  /* border: 1px #e2ecf9; */
+
+  border: 1px solid #e2ecf9 !important;
+}
+
+.tab.start {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.tab.middle {
+}
+
+.tab.last {
+  /* border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px; */
+}
+
+.tab.active {
+  background-color: #1549dd; /* 활성화된 탭 색상 */
+  color: white;
+
+  border: 1px solid #1549dd !important;
+}
+
+/* 닫기 버튼 스타일 */
+.tab.close-tab {
+  margin-left: 10px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 닫기 버튼 스타일 */
+.close-tab {
+  margin-left: 10px;
+}
+
+/* 메인 콘텐츠 영역 */
+#mainContent {
+  padding-top: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+}
+
+.content {
+  display: flex;
+
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  width: 100%;
+  overflow: hidden;
+}
+
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: white;
+  width: 100%;
+}
+
+.content-view {
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.side-menu-header {
+  display: flex;
+  flex-direction: column;
+  /* height: 500px; */
+}
+
+.title-header {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  font-weight: normal;
+  font-size: 30px;
+  margin-top: 50px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  font-weight: normal;
+
+  margin-top: 20px;
+}
+
+.logout-button {
+  display: flex !important;
+  justify-content: center !important;
+
+  color: white !important;
+  background-color: #0d2eb3 !important;
+  width: 50px !important;
+  height: 20px !important;
+  z-index: 100 !important;
+  border-radius: 30px !important;
+  font-size: 10px;
+
+  margin-top: -10px !important;
+}
+
+.user-name {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  font-weight: normal;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+#dynamicPopup .dx-button:nth-child(2) .dx-button-content {
+  background-color: #28a745 !important; /* 원하는 배경색 */
+}
+
+/* 반응형 스타일 */
+/* @media (max-width: 768px) {
+  .side-menu {
+    width: 60px;
+  }
+
+  .side-menu ul li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .side-menu ul li:hover .submenu {
+    display: none;
+    position: absolute;
+    left: 60px;
+    top: 0;
+    width: 180px;
+  }
+
+  .submenu {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .side-menu {
+    width: 250px;
+  }
+
+  .side-menu ul li:hover .submenu {
+    display: none;
+  }
+} */

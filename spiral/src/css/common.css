@@ -1,0 +1,151 @@
+/* 공통 퍼블 관련 */
+/* 전체 레이아웃 설정 */
+.work-order-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%; /* 전체 화면을 기준으로 높이 설정 */
+}
+
+#workOrderGrid {
+  height: 100%;
+  width: 100%;
+}
+
+.workOrderGridHalf {
+  height: 50% !important;
+}
+
+#filterForm {
+  display: flex;
+
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+
+  flex-shrink: 0; /* 콘텐츠 크기에 맞게 변하지만, 남은 공간을 차지하지 않음 */
+}
+
+.filter-item {
+  margin-right: 7px;
+}
+
+#contentForm {
+  flex-grow: 1; /* 남은 공간을 모두 차지 */
+  height: calc(100vh - 190px);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+
+  gap: 10px;
+}
+
+#dtBoxWork,
+#selBoxBatch {
+  margin-right: 15px;
+}
+
+#buttonsContainer {
+  display: flex;
+  margin-left: auto; /* 버튼들을 오른쪽으로 정렬 */
+}
+
+#buttonsContainer .dx-button {
+  margin-left: 10px; /* 각 버튼의 왼쪽에만 간격 추가 */
+}
+
+#buttonsContainer .dx-button:first-child {
+  margin-left: 0; /* 첫 번째 버튼은 왼쪽 간격 없음 */
+}
+
+/* .dx-button {
+  width: 100%;
+} */
+
+.dx-datagrid {
+  color: #333;
+  line-height: inherit;
+  /* height: calc(100vh - 190px); */
+  /* overflow-y: scroll; */
+}
+
+.dx-datagrid-headers .dx-header-row .dx-datagrid-action {
+  text-align: center;
+}
+
+/* 선택된 행의 배경 색상을 변경 */
+.dx-row .dx-selection {
+  /*background-color: #0000c2 !important; 원하는 색상으로 변경*/
+  /* background-color: #d7aa48 !important;  */
+
+  background-color: #555555 !important;
+  color: #ffffff; /* 선택된 행의 텍스트 색상 */
+}
+
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td {
+  /*background-color: #0000c2 !important; 원하는 색상으로 변경*/
+  background-color: #555555 !important; /* 원하는 색상으로 변경 */
+  color: #ffffff; /* 선택된 행의 텍스트 색상 */
+}
+
+.dx-datagrid-rowsview .dx-row {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.dx-datagrid-borders
+  > .dx-datagrid-rowsview.dx-last-row-border
+  tbody:last-child
+  > .dx-data-row:nth-last-child(2),
+.dx-datagrid-borders
+  > .dx-datagrid-rowsview.dx-last-row-border
+  tbody:last-child
+  > .dx-data-row:nth-last-child(2)
+  > td {
+  border-bottom-width: 1px;
+}
+
+/* 기본 타입의 모든 dx-button 스타일 변경 */
+.btntype-a {
+  background-color: #90be3b !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-a:hover {
+  background-color: #7fad2a !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-b {
+  background-color: #20aac5 !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-b:hover {
+  background-color: #0f99b4 !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-c {
+  background-color: #ffffff !important;
+  color: #7189a6 !important;
+  border-color: #dbe9f9 !important;
+}
+
+.btntype-c:hover {
+  background-color: #eeeeee !important; /* 버튼 배경 색상 */
+  color: #ffffff !important; /* 버튼 텍스트 색상 */
+  border-color: #dbe9f9 !important;
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "ID": 1,
+    "CHANNEL_CD": "W458",
+    "CHANNEL_NM": "H&M ONLINE",
+    "CREATED_BY": "admin",
+    "CREATED_AT": "2024-01-20 12:23:21",
+    "UPDATED_BY": "admin",
+    "UPDATED_AT": "2024-01-20 12:23:21",
+    "StateID": 1
+  },
+  {
+    "ID": 2,
+    "CHANNEL_CD": "W454",
+    "CHANNEL_NM": "H&M OFFLINE",
+    "CREATED_BY": "admin",
+    "CREATED_AT": "2024-01-20 12:23:21",
+    "UPDATED_BY": "admin",
+    "UPDATED_AT": "2024-01-20 12:23:21",
+    "StateID": 2
+  }
+]

@@ -1,0 +1,30 @@
+.dx-field{
+  margin:0;
+  font-family: 'hd-harmony';
+}
+.dx-field-label{
+  padding:0;
+}
+
+.search-date, .search-field{
+
+  display: flex;
+  align-items: center;
+  
+}
+.search-date-label, .search-field-label{
+  float: none;
+  width: auto;
+  padding:0 40px;
+}
+.search-field-label{
+  padding-left: 0;
+}
+.search-date-calendar, .search-field-box{
+  
+  float: none;
+}
+td[role=columnheader] {  
+  text-align: center!important;
+  vertical-align: middle !important;
+}  
