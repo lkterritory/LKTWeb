@@ -393,6 +393,14 @@ function onCreate() {
           }
         },
         {
+          dataField: "totalSerialShippingContainerCodeCount",
+          caption: "SSCC",
+          allowFiltering: false,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("SSCC"); // 헤더 가운데 정렬
+          }
+        },
+        {
           dataField: "totalSkuCount",
           caption: "상품건수",
           allowFiltering: false,
@@ -496,14 +504,6 @@ function onCreate() {
           allowFiltering: false,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("완료일자"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "totalSerialShippingContainerCodeCount",
-          caption: "SSCC",
-          allowFiltering: false,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("SSCC"); // 헤더 가운데 정렬
           }
         }
       ],
