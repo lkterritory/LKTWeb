@@ -2,7 +2,7 @@
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
 const baseUrlWcs = "http://192.168.26.24:2014"; // 실서버
-// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
+ //const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -395,6 +395,16 @@ function equipmentPicktolightInput(param) {
   });
 }
 
+function equipmentPicktolightSscc(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/picktolight/merask/interface-reference-number?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
 function equipmentPicktolightStatus(param) {
   return $.ajax({
     url: baseUrlWcs + "/outbound/equipment/picktolight/status?id=" + param,
@@ -482,7 +492,49 @@ function statusLabelsPrintPatch(param) {
   });
 }
 
-//
+//AGV - KIOSK 작업현황
+function statusKioskAvg(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/automatic-guided-vehicle/status?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+//AGV - PAD 로케이션 상황판
+function dashboardsPdaLocation(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/automatic-guided-vehicle/locations/tasks/status?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+//AGV - PDA 주문 & 박스 매핑
+function mappingPdaOrdersBox(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/automatic-guided-vehicle/orders/boxs/mapping",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+//AGV - 상품 및 주문 매핑
+function mappingSkusOrders(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/equipment/automatic-guided-vehicle/task-start",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
 
 export default {
   workbatch,
@@ -512,6 +564,7 @@ export default {
   dashboardsPickToLightInstances,
 
   equipmentPicktolightInput,
+  equipmentPicktolightSscc,
   equipmentPicktolightStatus,
   equipmentLabel,
   equipmentLabelPatch,
@@ -519,5 +572,11 @@ export default {
   statusLabels,
   statusLabelsPrintCount,
   statusLabelsPrint,
-  statusLabelsPrintPatch
+  statusLabelsPrintPatch,
+
+  statusKioskAvg,
+  dashboardsPdaLocation,
+  mappingPdaOrdersBox,
+  mappingSkusOrders
+  
 };

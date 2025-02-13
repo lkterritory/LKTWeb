@@ -1,0 +1,36 @@
+.filterFormKiosk{
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 20px;
+}
+.boxcode-section, .location-section, .message-section  {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 400px;
+}
+
+.boxcode-section label, .location-section label, .message-section label{
+  margin-right: 10px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.sorter-code-title{
+  width: 20%;
+}
+#txtBoxBarcode, #txtLocBarcode {
+  width: 400px;
+  padding: 5px;
+  font-size: 14px;
+  flex-grow: 1;
+}
+

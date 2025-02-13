@@ -1,0 +1,365 @@
+.dashboard-container-fac {
+  /* padding-top: 20px; */
+  width: 100%;
+  /* max-width: 800px; */
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+#workOrderGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 박스 간격 */
+  margin-bottom: 10px;
+}
+
+.grid-item {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.box-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.box-content {
+  font-size: 16px;
+  margin-top: 5px;
+  color: #666;
+}
+
+.box-footer {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #999;
+}
+
+/* 🔹 20개마다 간격 추가 */
+.gap-section {
+  width: 100%; 
+  height: 50px; 
+  display: flex; 
+  flex: 0 0 auto;
+}
+
+.title-fac {
+  margin-left: 10px;
+  font-size: 2vw;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.sumbox-fac {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5vw;
+  height: 40%;
+  background-color: rgb(67, 163, 215);
+
+  border: 1px solid #d0e0f6;
+  border-radius: 10px;
+  background-color: #fafbff;
+}
+
+.sumbox-title-fac {
+  display: flex;
+  flex-direction: row;
+
+  height: 20%;
+
+  border-bottom: 1px solid #d0e0f6;
+}
+
+.sumbox-title-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 40%;
+
+  border-right: 1px solid #d0e0f6;
+}
+
+.sumbox-title-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 25%;
+  border-right: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-fac {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.sumbox-title-3-sub-fac {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  height: 50%;
+  border-bottom: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-sub-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 50%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-title-3-sub-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 50%;
+}
+
+.sumbox-con-fac {
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+}
+
+.sumbox-con-1-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 40%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-con-2-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 25%;
+  border-left: 1px solid #d0e0f6;
+}
+
+.sumbox-con-3-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+.sumbox-con-4-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+.sumbox-con-4-fac {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 20%;
+}
+
+/* .subtitle-fac {
+  display: flex;
+  width: 100%;
+  height: 10px;
+} */
+
+.subtitle-fac {
+  display: flex;
+  width: 100%;
+  /* height: 10px; */
+  font-size: 1vw;
+}
+
+.card-content-fac {
+  flex-grow: 1;
+
+  border: 1px solid #d0e0f6;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #fafbff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-direction: row;
+
+  margin-top: 10px;
+}
+
+.card-stats-fac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.stat-row-fac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #e0e0e0; */
+  /* padding: 5px; */
+  border-radius: 10px;
+  height: 25%;
+  flex-direction: row;
+}
+
+.stat-label-fac {
+  font-weight: bold;
+  color: #000000;
+
+  width: 80px;
+  flex-shrink: 0;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 가로 가운데 정렬 */
+
+  background-color: #ffffff;
+
+  border: 1px solid #d0e0f6;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.stat-value-fac {
+  font-weight: bold;
+  color: white;
+  background-color: #3a80f6;
+  padding: 5px 10px;
+  border-radius: 5px 0 0 5px;
+}
+
+.stat-ma-fac {
+  font-weight: bold;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 0 5px 5px 0;
+}
+
+.gauge-container-fac {
+  width: 40%;
+  height: 95%;
+  position: relative;
+  flex-grow: 1;
+}
+
+.progress-bar-container-fac {
+  position: relative;
+  width: 260px;
+  height: 80%;
+  background-color: #e0e0e0;
+  flex-grow: 1;
+
+  border: 1px solid #d0e0f6;
+  /* border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px; */
+  border-radius: 10px;
+  background-color: #eaeaea;
+}
+.progress-label-fac {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  font-size: 14px;
+  color: white;
+}
+
+.progress-bar-fac {
+  height: 100%;
+}
+
+.dx-progressbar-container {
+  height: 100%;
+}
+
+.dx-trackbar-wrapper.dx-progressbar-wrapper.dx-position-bottom-left {
+  height: 100%;
+}
+
+.dx-progressbar-range-container {
+  height: 100%;
+}
+
+.dx-progressbar-range {
+  position: relative;
+  border: 1px solid #3a80f6;
+  background-color: #3a80f6;
+  margin-top: -1px;
+  box-sizing: content-box;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.progress-current-text {
+  color: white; /* 프로그레스 바 안쪽 텍스트 색상 */
+  font-weight: bold;
+}
+
+.progress-max-text {
+  color: black; /* 프로그레스 바 오른쪽 텍스트 색상 */
+  font-weight: bold;
+}
+
+.dx-progressbar-container {
+  height: 100% !important;
+}
+
+/* 셀렉트박스의 기본 스타일 */
+#locationSelect {
+  width: 200px; /* 셀렉트박스의 너비 */
+  padding: 8px 12px; /* 패딩 추가 */
+  font-size: 14px; /* 글자 크기 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  border: 1px solid #ccc; /* 테두리 */
+  background-color: #fff; /* 배경 색상 */
+  color: #333; /* 글자 색상 */
+  transition: all 0.3s ease; /* 애니메이션 효과 */
+}
+
+/* 셀렉트박스를 선택했을 때 스타일 */
+#locationSelect:focus {
+  border-color: #007bff; /* 테두리 색상 */
+  outline: none; /* 선택된 상태에서 outline 제거 */
+}
+
+/* 옵션에 대한 스타일 */
+#locationSelect option {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+/* 옵션 선택 시 스타일 */
+#locationSelect option:selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* 셀렉트박스 컨테이너에 여백 추가 */
+.select-container {
+  margin: 20px 0;
+}

@@ -1,0 +1,57 @@
+<link
+  rel="stylesheet"
+  href="./src/views/avg/sorterKiosk/sorterKiosk.css?a=3" />
+
+  <div class="work-order-content">
+    <div class="headerFormKiosk">
+     
+      <div class="title"><span></span></div>
+  
+      <button
+        id="btnSetting"
+        class="btntype-c">
+        설정
+      </button>
+    </div>
+  
+    <div class="middleFormKiosk">
+      <div class="summary-item">
+        <div class="label">상품</div>
+        <div class="value">
+          <div
+          id="gaugeContainer_1"
+          class="gauge-container-fac"></div>
+          
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="label">주문</div>
+        <div class="value">
+          <div
+              id="gaugeContainer_2"
+              class="gauge-container-fac"></div>
+          
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="label">입수</div>
+        <div class="value">
+          <div
+              id="gaugeContainer_3"
+              class="gauge-container-fac"></div>
+          
+        </div>
+      </div>
+    </div>
+  
+    <div class="filterFormKiosk">
+      <div class="barcode-section">
+        <div id="txtBoxBarcode"></div>
+      </div>
+    </div>
+  
+    <div id="mqttMessageContainer">
+    </div>
+    
+  </div>
+
