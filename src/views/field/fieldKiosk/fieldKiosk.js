@@ -277,7 +277,6 @@ function onCreate() {
 
   let skuCode;
   let ibdCode;
-  let ibdSsccData =[];
 
   // DevExtreme DataGrid 설정
   workOrderGrid = $(idPrefix + "#workOrderGrid")
@@ -372,7 +371,7 @@ function onCreate() {
         {
           dataField: "serialShippingContainerCode",
           caption: "SSCC 코드",
-          width: 70,
+          width: 200,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("SSCC 코드"); // 헤더 가운데 정렬
           }
@@ -380,7 +379,7 @@ function onCreate() {
         {
           dataField: "interfaceReferenceNumber",
           caption: "ibd",
-          width: 70,
+          width: 200,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("ibd"); // 헤더 가운데 정렬
           }
@@ -493,26 +492,55 @@ function onCreate() {
                 // response.lktBody =  [
                 //   {
                 //     interfaceReferenceNumber: "1048268055",
-                //     skuCode: "1199712005240002",
+                //     skuCode: "1089266010240013",
                 //     skuName: "RUFFO RELAXED TROUSERS",
+                //     serialShippingContainerCode:"123456",
                 //       addDtm: "-"
                 //   },
                 //   {
-                //       interfaceReferenceNumber: "1048268055",
-                //       skuCode: "1199712005240004",
-                //       skuName: "RUFFO RELAXED TROUSERSs",
+                //     interfaceReferenceNumber: "1048268055",
+                //     skuCode: "1089266010240013",
+                //     skuName: "RUFFO RELAXED TROUSERS",
+                //     serialShippingContainerCode:"123456",
                 //       addDtm: "-"
-                //   }
+                //   },
                 // ]
-                ibdSsccData = response.lktBody
+                 let ibdSsccData = response.lktBody
+  
+                  // 기존 팝업이 있으면 제거
+                  if ($('#ibdPopup').length) {
+                      $('#ibdPopup').remove();
+                  }
                
-                let message = ibdSsccData.map(item => 
-                  `ibd: ${item.interfaceReferenceNumber}
-                  상품코드: ${item.skuCode}
-                  상품명: ${item.skuName}
-                  addDtm: ${item.addDtm}<br>`).join("\n");
-
-                DevExpress.ui.dialog.alert(`${message}`, "SSCC");
+                  let popup = $('<div id="ibdPopup">').appendTo('body');
+                  popup.dxPopup({
+                    shading: true,
+                    closeOnOutsideClick: true,
+                    title: "IBD_REF_NUMBER: " + ibdCode,
+                    width: 800,
+                    height: 400,
+                    visible: true,
+                    showCloseButton: true,
+                    onHidden: function() {
+                      popup.remove(); // 팝업이 닫힐 때 제거
+                  },
+                  contentTemplate: function(contentElement) {
+                    contentElement.append('<div id="dataGrid"></div>');
+                    $('#dataGrid').dxDataGrid({
+                        dataSource: ibdSsccData,
+                        allowColumnResizing: true,
+                        columnResizingMode: "nextColumn",
+                        columns: [
+                            { dataField: "interfaceReferenceNumber", caption: "IBD", width: "120" },
+                            { dataField: "skuCode", caption: "상품코드", width: "180"  },
+                            { dataField: "skuName", caption: "상품명" },
+                            { dataField: "serialShippingContainerCode", caption: "SSCC", width: "120" },
+                            { dataField: "addDtm", caption: "addDtm", width: "180", width: "120" }
+                        ],
+                        showBorders: true
+                    });
+                  }
+                });
               } catch (ex) {}
             })
         

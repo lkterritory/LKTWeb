@@ -393,11 +393,12 @@ function onCreate() {
           }
         },
         {
-          dataField: "processSerialShippingContainerCodeCount",
-          caption: "작업 SSCC",
+          dataField: "totalSkuCount",
+          caption: "상품건수",
           allowFiltering: false,
+          minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업 SSCC"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("상품건수"); // 헤더 가운데 정렬
           }
         },
         {
@@ -408,17 +409,6 @@ function onCreate() {
             headerCell.css(headerCss).text("총 SSCC"); // 헤더 가운데 정렬
           }
         },
-        
-        {
-          dataField: "totalSkuCount",
-          caption: "상품건수",
-          allowFiltering: false,
-          minWidth: 90,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("상품건수"); // 헤더 가운데 정렬
-          }
-        },
-
         {
           dataField: "totalPcs",
           caption: "낱개수량",
@@ -453,6 +443,14 @@ function onCreate() {
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
+          }
+        },
+        {
+          dataField: "processSerialShippingContainerCodeCount",
+          caption: "작업 SSCC",
+          allowFiltering: false,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("작업 SSCC"); // 헤더 가운데 정렬
           }
         },
         {
