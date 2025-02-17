@@ -302,7 +302,8 @@ function loadBar(data) {
         // 루트 요소에 텍스트 추가
         const rect = createRect(50, 0, "transparent");
         // alert(gauge.value);
-        const text = createText(10, 200, 30, "start", gauge.value() + "%");
+        const value = gauge.value() || 0;
+        const text = createText(10, 200, 30, "start", value + "%");
 
         container.appendChild(rect);
         container.appendChild(text);
@@ -384,7 +385,10 @@ function searchList() {
     lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.STATUS"),
     lktBody: [
       {
-        equipmentCode: eqpCodeSel
+        equipmentCode: "3D-Sorter",
+        equipmentLine: "SS001",
+        equipmentZone: "",
+        storageTemperatureCode: ""
       }
     ]
   };

@@ -15,32 +15,38 @@ let data = [];
 
 
 
-let intervalList = null;
+let apiData = [];
 let selectedValue = "";
-
+let isFirstLoad = true; // 첫 로드 여부 확인
 
 function onCreate() {
+  $("#networkPopup").remove();
 
-  $("#networkPopup").remove(); // 팝업 끄기
+  searchList(true);
 
-  searchList();
-
-  $("#locationSelect").on("change", function () {
-    selectedValue = $(this).val();
-    console.log("선택된 값:", selectedValue);
-    searchList(); // 선택된 값에 따라 리스트 업데이트
+  $("#selectLocationBtn").dxButton({
+    text: "로케이션 선택",
+    stylingMode: "contained",
+    type: "default",
+    width: 150,
+    onClick: function () {
+      showPrefixPopup(extractLocationPrefixes(apiData));
+    }
   });
 
-  // 3초마다 호출
-  setInterval(searchList, 3000)
-
+  setInterval(() => searchList(false), 3000);
 }
 
-//데이터 호출
-function searchList() {
+
+function searchList(isFirst) {
   var obj = {
     lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.LOCATIONS.TASKS.STATUS"),
-    lktBody: [{ "locationZone": "X01" }]
+    lktBody: [{ 
+      equipmentCode: "3D-Sorter",
+      equipmentLine: "SS001",
+      equipmentZone: "",
+      storageTemperatureCode: ""
+    }]
   };
 
   var encoded = btoa(JSON.stringify(obj));
@@ -48,21 +54,23 @@ function searchList() {
   apiWcs.dashboardsPdaLocation(encoded)
     .done(function (response) {
       try {
-        let data = response.lktBody;
        
+        apiData = response.lktBody;
+        //console.log(apiData)
+        let prefixes = extractLocationPrefixes(apiData);
 
-        // locationCode의 앞 3글자만 추출하고 중복 제거 후 배열로 반환
-        let prefixes = extractLocationPrefixes(data);
-
-        // 셀렉트박스 생성
-        createSelectBox(prefixes);
-
-        // 선택된 값이 있을 경우에만 데이터 업데이트
-        if (selectedValue) {
-          updateBoxes(data, selectedValue);
-        } else {
-          $("#workOrderGrid").empty(); // 선택되지 않은 경우 초기화
+        // 페이지 최초 로드 시 팝업을 띄운다 (isFirst = true)
+        if (isFirst && !selectedValue) {
+          showPrefixPopup(prefixes);
         }
+       
+        // 선택된 값이 있을 경우 데이터 업데이트
+        if (selectedValue) {
+          updateBoxes(apiData, selectedValue);
+        } else {
+          $("#workOrderGrid").empty(); // 선택하지 않은 경우 화면을 초기화
+        }
+
       } catch (ex) {
         console.error(ex);
       }
@@ -72,16 +80,70 @@ function searchList() {
     });
 }
 
+// Prefix 목록 추출
+function extractLocationPrefixes(data) {
+ 
+  let prefixes = new Set();
+  data.forEach(item => {
+    if (item.locationCode) {
+      let prefix = item.locationCode.substring(0, 3);
+      if (prefix >= '101' && prefix <= '116') {
+        prefixes.add(prefix);
+      }
+    }
+  });
+  return Array.from(prefixes);
+}
+
+// "로케이션 선택" 버튼 클릭 시 팝업 띄우기
+function showPrefixPopup(prefixes) {
+  let message = prefixes.length > 0 ? "" : "로케이션 데이터가 없습니다.";
+
+  $("#prefixPopup").dxPopup({
+    title: "로케이션 선택",
+    shading: true,
+    hideOnOutsideClick: true,
+    contentTemplate: function(contentElement) {
+      contentElement.append("<p>" + message + "</p>");
+
+      if (prefixes.length > 0) {
+        $("<div>").attr("id", "prefixSelectBox").appendTo(contentElement);
+
+        $("#prefixSelectBox").dxSelectBox({
+          dataSource: prefixes,
+          placeholder: "선택하세요",
+          width: "100%",
+          onValueChanged: function(e) {
+            if (e.value) {
+              selectedValue = e.value;
+              updateBoxes(apiData, selectedValue);
+
+              let popupInstance = $("#prefixPopup").dxPopup("instance");
+              popupInstance.hide();
+            }
+          }
+        });
+      }
+    },
+    width: 400,
+    height: "auto",
+    showCloseButton: true,
+    dragEnabled: true,
+    visible: true
+  }).dxPopup("instance").show();
+}
+
+// 선택된 Prefix로 locationCode 목록을 화면에 출력하는 함수
 function updateBoxes(data, selectedValue) {
   let container = $("#workOrderGrid");
   container.empty();
   let html = '';
+  
+  let filteredCodes = data.filter(item => item.locationCode.startsWith(selectedValue));
 
-  let filteredData = data.filter(item => item.locationCode.startsWith(selectedValue));
-
-  console.log(filteredData);
-
-  filteredData.forEach((item, index) => {
+    html += `<div class="location-number"> 로케이션 : ${selectedValue}</div>`;
+  
+    filteredCodes.forEach((item, index) => {
     if (index % 20 === 0 && index !== 0) {
       html += `<div class="gap-section"></div>`;
     }
@@ -101,41 +163,16 @@ function updateBoxes(data, selectedValue) {
       </div>
     `;
 
-    if ((index + 1) % 4 === 0 || index === filteredData.length - 1) {
+    if ((index + 1) % 4 === 0 || index === filteredCodes.length - 1) {
       html += `</div>`;
     }
-});
-
-container.append(html);
-}
-
-function extractLocationPrefixes(data) {
-  let prefixes = [];
-
-  data.forEach(item => {
-    let prefix = item.locationCode.substring(0, 3);
-    if (prefix >= 'S01' && prefix <= 'S16' && !prefixes.includes(prefix)) {
-      prefixes.push(prefix);
-    }
   });
-  return prefixes;
-}
 
-function createSelectBox(prefixes) {
-  let selectBox = $("#locationSelect");
-  selectBox.empty();
-  selectBox.append('<option value="">선택하세요</option>');
-
-  prefixes.forEach(prefix => {
-    selectBox.append(`<option value="${prefix}" ${selectedValue === prefix ? 'selected' : ''}>${prefix}</option>`);
-
-  });
+  container.append(html);
 }
 
 
 function onActive(){}
-
-
 
 function onDestroy() {
   if (intervalList) {

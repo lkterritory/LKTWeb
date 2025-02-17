@@ -1,4 +1,7 @@
-.dashboard-container-fac {
+#mainContent{
+height: 80%;
+}
+.work-order-content {
   /* padding-top: 20px; */
   width: 100%;
   /* max-width: 800px; */
@@ -6,9 +9,11 @@
 
   display: flex;
   flex-direction: column;
+ 
+}
+.middleFormKiosk{
   overflow-y: scroll;
 }
-
 #workOrderGrid {
   display: flex;
   flex-wrap: nowrap;
@@ -362,4 +367,17 @@
 /* 셀렉트박스 컨테이너에 여백 추가 */
 .select-container {
   margin: 20px 0;
+}
+
+
+.headerFormKiosk{
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px 0;
+}
+
+.location-number{
+  font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 40px;
 }

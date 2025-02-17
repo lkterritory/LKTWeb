@@ -38,7 +38,7 @@ let textBoxInstance
 let locationCodeInstance 
 let boxCodeInstance
 function onCreate() {
- 
+  
 
   $(".title span").text("PDA01");
 
@@ -113,14 +113,18 @@ function searchList() {
       }
     ]
   };
-
   apiWcs
     .mappingPdaOrdersBox(JSON.stringify(obj))
     .done(function (response) {
       try {       
-       
-        codeMessage = response.lktHeader.message
-        console.log(codeMessage)
+        console.log(response.lktHeader)
+        console.log(boxCode, locCode)
+        
+        // 초기값을 빈 문자열로 설정
+        textBoxInstance.option("value", "");
+        
+        codeMessage = response.lktHeader.message ?? "null";
+        
         textBoxInstance.option("value", codeMessage);
         boxCodeInstance.option("value","");
         locationCodeInstance.option("value","");
