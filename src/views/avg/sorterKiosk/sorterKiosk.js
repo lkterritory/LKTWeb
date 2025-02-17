@@ -39,7 +39,7 @@ let workOrderGrid;
 
 let resEquipmentCode;
 
-let eqpCodeSel = ""; /// 선택된 설비
+let eqpCodeSel = "3D-Sorter"; /// 선택된 설비
 // mqtt_topic_sub: "lktomli/DAS-1", // 구독
 //   mqtt_topic_pub: "lktomli", // 발행
 
@@ -60,7 +60,7 @@ function onCreate() {
 
   $("#networkPopup").remove(); // 팝업 끄기
 
-  eqpCodeSel = localStorage.getItem("eqpCodeSel");
+ // eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
   if (!eqpCodeSel) {
     eqpCodeSel = "";
@@ -109,8 +109,8 @@ function onCreate() {
               {
                 storageTemperatureCode: "",
                 equipmentCode: eqpCodeSel,
-                equipmentLine: eqpCodeSel,
-                equipmentZone: eqpCodeSel,
+                equipmentLine: "SS001",
+                equipmentZone: "",
                 inputValue: e.component.option("value")
               }
             ]
