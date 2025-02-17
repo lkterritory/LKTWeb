@@ -20,6 +20,11 @@ const lktMqtt = {
 
   // MQTT 클라이언트 연결
   fncStartMqtt(paramOnMessageArrived) {
+    if (paramOnMessageArrived == null) {
+      this.mqttClient = null;
+      return;
+    }
+
     if (this.mqttClient != null && this.mqttClient.isConnected()) {
       return;
       //this.mqttClient = null;

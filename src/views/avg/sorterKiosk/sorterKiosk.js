@@ -57,10 +57,9 @@ window.onClickKioskPrint = function () {
 function onCreate() {
   zebra.setup();
 
-
   $("#networkPopup").remove(); // 팝업 끄기
 
- // eqpCodeSel = localStorage.getItem("eqpCodeSel");
+  // eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
   if (!eqpCodeSel) {
     eqpCodeSel = "";
@@ -68,6 +67,7 @@ function onCreate() {
     // mq연결
     lktMqtt.mqtt_topic_pub = "lktomni";
     lktMqtt.mqtt_topic_sub = "lktomni/" + eqpCodeSel;
+    lktMqtt.fncStartMqtt(null);
     lktMqtt.fncStartMqtt(onMessage);
   }
 
@@ -94,8 +94,6 @@ function onCreate() {
       onEnterKey: function (e) {
         if (e.event.key === "Enter") {
           //console.log(e.component.option("value"));
-
-          
 
           setTimeout(() => {
             searchList();
@@ -124,8 +122,6 @@ function onCreate() {
     })
     .dxTextBox("instance");
 
-  
-
   let headerCss = {
     display: "flex",
     "justify-content": "center",
@@ -141,9 +137,6 @@ function onCreate() {
     "text-align": "center",
     "background-color": "gray"
   };
-
-
-
 
   searchList();
 
@@ -202,10 +195,7 @@ function createText(x, y, fontSize, textAnchor, content) {
   return text;
 }
 
-
-
 function loadBar(data) {
- 
   let item = data[0];
   item.progressStore = (item.processObjectCount / item.totalObjectCount) * 100;
   item.progressStore = Math.round(item.progressStore) || 0;
@@ -215,8 +205,6 @@ function loadBar(data) {
 
   item.progressQty = (item.processQuantity / item.totalQuantity) * 100;
   item.progressQty = Math.round(item.progressQty) || 0;
-
-  
 
   for (let i = 1; i < 5; i++) {
     $(idPrefix + "#progressBar_" + i).dxProgressBar({
@@ -312,7 +300,6 @@ function loadBar(data) {
   }
 }
 
-
 function selectPrint() {
   // if (isPrintFind()) {
 
@@ -378,11 +365,12 @@ function selectPrint() {
 
 function onActive() {}
 
-
 function searchList() {
   //  initView();
   var obj = {
-    lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.STATUS"),
+    lktHeader: lktUtil.getLktHeader(
+      "GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.STATUS"
+    ),
     lktBody: [
       {
         equipmentCode: "3D-Sorter",
@@ -398,7 +386,6 @@ function searchList() {
     .statusKioskAvg(encoded)
     .done(function (response) {
       try {
-       
         // response.lktBody = [{
         //   processObjectCount: 10,
         //   processSkuCount: 20,
@@ -407,14 +394,13 @@ function searchList() {
         //   totalSkuCount: 40,
         //   totalQuantity: 32
         // }]
-        statusData = response.lktBody
+        statusData = response.lktBody;
         loadBar(statusData);
       } catch (ex) {}
     })
 
     .fail(function () {});
 }
-
 
 // EQUIPMENT_TYPE, STORAGE_TEMPERATURE, USE_STATE_CODE
 function searchConditionsCode(aMasterCode) {
@@ -670,24 +656,21 @@ function onMessage(message) {
     console.log("recv mqtt:" + message.payloadString);
     let recvMq = JSON.parse(message.payloadString);
 
-    
     let recvDate = recvMq.lktBody[0]; // 첫 번째 데이터만 가져옴
 
-    
-    setTimeout(function() {
+    setTimeout(function () {
       let messageContainer = document.getElementById("mqttMessageContainer");
       let newMessage = document.createElement("div");
-        newMessage.classList.add("mqtt-message"); // 스타일을 위한 클래스
-        newMessage.innerHTML = `
+      newMessage.classList.add("mqtt-message"); // 스타일을 위한 클래스
+      newMessage.innerHTML = `
           <p><strong>상품명:</strong> ${recvDate.equipmentCode}</p>
           <p><strong>작업중 수량:</strong> ${recvDate.processObjectCount}</p>
           <p><strong>총 수량:</strong> ${recvDate.totalObjectCount}</p>
         `;
 
-        // 새로운 메시지를 컨테이너에 추가
-        messageContainer.appendChild(newMessage);
-    },100)
-
+      // 새로운 메시지를 컨테이너에 추가
+      messageContainer.appendChild(newMessage);
+    }, 100);
 
     if (recvMq.lktHeader.statusCode != "01") {
       let msgTmp = recvMq.lktHeader.message;
