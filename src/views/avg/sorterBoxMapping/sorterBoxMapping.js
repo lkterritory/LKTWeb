@@ -101,15 +101,14 @@ function onCreate() {
 function onActive() {}
 
 
-
 function searchList() {
   //  initView();
   var obj = {
     lktHeader: lktUtil.getLktHeader("PATCH.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.ORDERS.BOXS.MAPPING"),
     lktBody: [
       {
-        lktToteCode: boxCode,
-        lktBoxCode: locCode
+        locationCode: locCode,
+        lktToteCode: boxCode
       }
     ]
   };

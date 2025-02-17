@@ -109,7 +109,7 @@ function onCreate() {
               {
                 storageTemperatureCode: "",
                 equipmentCode: eqpCodeSel,
-                equipmentLine: "SS001",
+                equipmentLine: "SS004",
                 equipmentZone: "",
                 inputValue: e.component.option("value")
               }
