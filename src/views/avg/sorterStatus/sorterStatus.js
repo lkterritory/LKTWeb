@@ -1,6 +1,9 @@
 let apiWcs;
 let lktUtil;
 
+let intervalList = null;
+let intervalPrintMq = null;
+
 if (!window.apiWcsModule || !window.lktUtilModule) {
   window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
   window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
@@ -43,7 +46,7 @@ function searchList(isFirst) {
     lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.LOCATIONS.TASKS.STATUS"),
     lktBody: [{ 
       equipmentCode: "3D-Sorter",
-      equipmentLine: "SS001",
+      equipmentLine: "SS004",
       equipmentZone: "",
       storageTemperatureCode: ""
     }]
@@ -178,6 +181,11 @@ function onDestroy() {
   if (intervalList) {
     clearInterval(intervalList);
     intervalList = null;
+  }
+
+  if (intervalPrintMq) {
+    clearInterval(intervalPrintMq);
+    intervalPrintMq = null;
   }
 }
 
