@@ -7,7 +7,8 @@ let lktMqtt;
 let intervalList = null;
 let intervalPrintMq = null;
 
-import zebra from "../../../scripts/utils/printer/zebra/index.js?a=1";
+
+// import zebra from "../../../scripts/utils/printer/zebra/index.js?a=1";
 
 // import zebra from "../../../src /utils/printer/zebra";
 
@@ -30,6 +31,7 @@ apiCommon = (await window.apiCommonModule).default;
 lktUtil = (await window.lktUtilModule).default;
 lktMqtt = (await window.lktMqttModule).default;
 
+const idPrefix = "#avg-sorterBoxMapping-sorterBoxMapping ";
 
 let boxCode;
 let locCode;
@@ -40,10 +42,10 @@ let boxCodeInstance
 function onCreate() {
   
 
-  $(".title span").text("PDA01");
+  $(idPrefix + ".title span").text("PDA01");
 
 
-  boxCodeInstance = $("#txtBoxBarcode")
+  boxCodeInstance = $(idPrefix + "#txtBoxBarcode")
   .dxTextBox({
     placeholder: "박스코드 스캔",
     value: "",
@@ -58,19 +60,19 @@ function onCreate() {
     },
     onEnterKey: function(e) {
       if (/^H\d{4}$/.test(boxCode)) { // h0001 ~ h9999 형태의 값인지 확인
-        $("#txtLocBarcode").dxTextBox("instance").focus();
+        $(idPrefix + "#txtLocBarcode").dxTextBox("instance").focus();
       } else {
         locCode = boxCode
        
-        $("#txtLocBarcode").dxTextBox("instance").option("value", locCode);
-        $("#txtBoxBarcode").dxTextBox("instance").option("value", "");
+        $(idPrefix + "#txtLocBarcode").dxTextBox("instance").option("value", locCode);
+        $(idPrefix + "#txtBoxBarcode").dxTextBox("instance").option("value", "");
         
       }
     }
   })
   .dxTextBox("instance");
 
-  locationCodeInstance = $("#txtLocBarcode")
+  locationCodeInstance = $(idPrefix + "#txtLocBarcode")
   .dxTextBox({
     placeholder: "로케이션 코드 스캔",
     value: "",
@@ -86,7 +88,7 @@ function onCreate() {
   })
   .dxTextBox("instance");
 
-   textBoxInstance = $("#message")
+   textBoxInstance = $(idPrefix + "#message")
     .dxTextBox({
         value: "",
         width: "300px",

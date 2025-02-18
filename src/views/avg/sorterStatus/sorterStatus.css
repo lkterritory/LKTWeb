@@ -1,26 +1,7 @@
-#mainContent{
-height: 80%;
-}
-.work-order-content {
-  /* padding-top: 20px; */
-  width: 100%;
-  /* max-width: 800px; */
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
- 
-}
-.middleFormKiosk{
+.middleFormSatus{
+  height: 80%;
   overflow-y: scroll;
 }
-#workOrderGrid {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  align-items: center;
-}
-
 .grid-row {
   display: flex;
   justify-content: center;
@@ -370,7 +351,7 @@ height: 80%;
 }
 
 
-.headerFormKiosk{
+.headerFormSatus{
   display: flex;
   justify-content: flex-end;
   margin: 30px 0;
@@ -380,4 +361,5 @@ height: 80%;
   font-size: 18px;
     font-weight: bold;
     margin-bottom: 40px;
+    text-align: center;
 }

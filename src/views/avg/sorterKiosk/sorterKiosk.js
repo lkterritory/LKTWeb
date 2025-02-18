@@ -32,7 +32,7 @@ lktMqtt = (await window.lktMqttModule).default;
 
 let dvList = [];
 
-const idPrefix = "#avg-fieldKiosk-fieldKiosk ";
+const idPrefix = "#avg-sorterKiosk-sorterKiosk ";
 
 let txtBoxSearch;
 let workOrderGrid;
@@ -45,19 +45,19 @@ let eqpCodeSel = ""; /// 선택된 설비
 
 let statusData;
 let receivedData = [];
-window.onClickKioskPrint = function () {
-  zebra.setup();
+// window.onClickKioskPrint = function () {
+//   zebra.setup();
 
-  $(".printstate").css({
-    color: "red", // 텍스트 색상
-    fontWeight: "bold" // 텍스트 굵게
-  });
-};
+//   $(".printstate").css({
+//     color: "red", // 텍스트 색상
+//     fontWeight: "bold" // 텍스트 굵게
+//   });
+// };
 
 function onCreate() {
-  zebra.setup();
+  //zebra.setup();
 
-  $("#networkPopup").remove(); // 팝업 끄기
+  $(idPrefix + "#networkPopup").remove(); // 팝업 끄기
 
   // eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
@@ -74,7 +74,7 @@ function onCreate() {
   $(".title span").text(eqpCodeSel);
 
   // 버튼 이벤트 처리
-  $("#btnSetting").dxButton({
+  $(idPrefix + "#btnSetting").dxButton({
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
@@ -84,7 +84,7 @@ function onCreate() {
     width: "100px"
   });
 
-  txtBoxSearch = $("#txtBoxBarcode")
+  txtBoxSearch = $(idPrefix + "#txtBoxBarcode")
     .dxTextBox({
       placeholder: "바코드",
       value: "",
@@ -116,7 +116,7 @@ function onCreate() {
 
           lktMqtt.fncMqttDoSend(JSON.stringify(reqPayload));
 
-          $("#txtBoxBarcode input").select();
+          $(idPrefix + "#txtBoxBarcode input").select();
         }
       }
     })
@@ -150,24 +150,24 @@ function onCreate() {
     searchList();
   }, 5000); // 5초에 한번
 
-  intervalPrintMq = setInterval(() => {
-    dvList = zebra.getDeviceList();
-    console.log("printList:" + dvList);
+  // intervalPrintMq = setInterval(() => {
+  //   dvList = zebra.getDeviceList();
+  //   console.log("printList:" + dvList);
 
-    if (dvList.length > 0)
-      $(".printstate").css({
-        color: "green", // 텍스트 색상
-        fontWeight: "bold" // 텍스트 굵게
-      });
-    else
-      $(".printstate").css({
-        color: "red", // 텍스트 색상
-        fontWeight: "bold" // 텍스트 굵게
-      });
+  //   if (dvList.length > 0)
+  //     $(".printstate").css({
+  //       color: "green", // 텍스트 색상
+  //       fontWeight: "bold" // 텍스트 굵게
+  //     });
+  //   else
+  //     $(".printstate").css({
+  //       color: "red", // 텍스트 색상
+  //       fontWeight: "bold" // 텍스트 굵게
+  //     });
 
-    lktMqtt.fncStartMqtt(onMessage);
-    selectPrint();
-  }, 5000); // 5초에 한번
+  //   lktMqtt.fncStartMqtt(onMessage);
+  //   //selectPrint();
+  // }, 5000); // 5초에 한번
 }
 function createRect(width, height, fill) {
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -251,7 +251,7 @@ function loadBar(data) {
         : item.progressQty;
 
     //alert(progressRst);
-    $("#gaugeContainer_" + i).dxCircularGauge({
+    $(idPrefix + "#gaugeContainer_" + i).dxCircularGauge({
       value: progressRst,
       width: "200",
       rangeContainer: {
@@ -374,7 +374,7 @@ function searchList() {
     lktBody: [
       {
         equipmentCode: "3D-Sorter",
-        equipmentLine: "SS001",
+        equipmentLine: eqpCodeSel,
         equipmentZone: "",
         storageTemperatureCode: ""
       }

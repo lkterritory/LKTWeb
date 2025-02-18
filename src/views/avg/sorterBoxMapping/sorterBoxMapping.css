@@ -1,4 +1,20 @@
-.filterFormKiosk{
+
+.headerBoxMapping {
+  display: flex;
+
+  align-items: center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+
+  flex-direction: row;
+
+  text-align: center;
+
+  flex-shrink: 0; /* 콘텐츠 크기에 맞게 변하지만, 남은 공간을 차지하지 않음 */
+}
+.boxMappingContainer{
   height: 80vh;
   display: flex;
   align-items: center;
@@ -11,23 +27,29 @@
   justify-content: center;
   gap: 20px;
 }
-.boxcode-section, .location-section, .message-section  {
+
+.boxMappingContainer .boxcode-section,
+.boxMappingContainer .location-section,
+.boxMappingContainer .message-section  {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   width: 400px;
 }
 
-.boxcode-section label, .location-section label, .message-section label{
+.boxMappingContainer .boxcode-section label,
+.boxMappingContainer .location-section label,
+.boxMappingContainer .message-section label{
   margin-right: 10px;
   font-size: 14px;
   flex-shrink: 0;
 }
 
-.sorter-code-title{
+.boxMappingContainer .sorter-code-title{
   width: 20%;
 }
-#txtBoxBarcode, #txtLocBarcode {
+.boxMappingContainer #txtBoxBarcode,
+.boxMappingContainer #txtLocBarcode {
   width: 400px;
   padding: 5px;
   font-size: 14px;

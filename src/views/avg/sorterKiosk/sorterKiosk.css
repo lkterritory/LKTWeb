@@ -1,4 +1,4 @@
-.headerFormKiosk {
+.headerFormAvgKiosk {
   display: flex;
 
   align-items: center;
@@ -20,7 +20,7 @@
   flex-grow: 1;
 }
 
-.middleFormKiosk {
+.middleFormAvgKiosk {
   display: flex;
   flex-direction: row;
 
@@ -33,7 +33,7 @@
   flex-shrink: 0;
 }
 
-.filterFormKiosk {
+.filterFormAvgKiosk {
   display: flex;
   flex-direction: row;
 
@@ -46,7 +46,7 @@
   flex-shrink: 0;
 }
 
-#contentFormKiosk {
+#contentFormAvgKiosk {
   flex-grow: 1;
   height: calc(100vh - 400px);
   margin-top: 10px;
@@ -115,7 +115,7 @@
   cursor: pointer;
 }
 
-.filterFormKiosk {
+.filterFormAvgKiosk {
   display: flex;
 
   align-items: center;

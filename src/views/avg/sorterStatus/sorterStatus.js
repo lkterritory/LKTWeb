@@ -16,7 +16,7 @@ lktUtil = (await window.lktUtilModule).default;
 
 let data = [];
 
-
+const idPrefix = "#avg-sorterStatus-sorterStatus ";
 
 let apiData = [];
 let selectedValue = "";
@@ -27,7 +27,7 @@ function onCreate() {
 
   searchList(true);
 
-  $("#selectLocationBtn").dxButton({
+  $(idPrefix + "#selectLocationBtn").dxButton({
     text: "로케이션 선택",
     stylingMode: "contained",
     type: "default",
@@ -46,7 +46,7 @@ function searchList(isFirst) {
     lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.AUTOMATIC.GUIDED.VEHICLE.LOCATIONS.TASKS.STATUS"),
     lktBody: [{ 
       equipmentCode: "3D-Sorter",
-      equipmentLine: "SS004",
+      equipmentLine: "SS" + selectedValue,
       equipmentZone: "",
       storageTemperatureCode: ""
     }]
@@ -57,7 +57,6 @@ function searchList(isFirst) {
   apiWcs.dashboardsPdaLocation(encoded)
     .done(function (response) {
       try {
-       
         apiData = response.lktBody;
         //console.log(apiData)
         let prefixes = extractLocationPrefixes(apiData);
@@ -102,7 +101,7 @@ function extractLocationPrefixes(data) {
 function showPrefixPopup(prefixes) {
   let message = prefixes.length > 0 ? "" : "로케이션 데이터가 없습니다.";
 
-  $("#prefixPopup").dxPopup({
+  $(idPrefix + "#prefixPopup").dxPopup({
     title: "로케이션 선택",
     shading: true,
     hideOnOutsideClick: true,
@@ -112,7 +111,7 @@ function showPrefixPopup(prefixes) {
       if (prefixes.length > 0) {
         $("<div>").attr("id", "prefixSelectBox").appendTo(contentElement);
 
-        $("#prefixSelectBox").dxSelectBox({
+        $(idPrefix + "#prefixSelectBox").dxSelectBox({
           dataSource: prefixes,
           placeholder: "선택하세요",
           width: "100%",
@@ -138,7 +137,7 @@ function showPrefixPopup(prefixes) {
 
 // 선택된 Prefix로 locationCode 목록을 화면에 출력하는 함수
 function updateBoxes(data, selectedValue) {
-  let container = $("#workOrderGrid");
+  let container = $(idPrefix + "#workOrderGrid");
   container.empty();
   let html = '';
   
