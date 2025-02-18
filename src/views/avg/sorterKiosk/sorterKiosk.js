@@ -39,7 +39,7 @@ let workOrderGrid;
 
 let resEquipmentCode;
 
-let eqpCodeSel = "3D-Sorter"; /// 선택된 설비
+let eqpCodeSel = ""; /// 선택된 설비
 // mqtt_topic_sub: "lktomli/DAS-1", // 구독
 //   mqtt_topic_pub: "lktomli", // 발행
 
@@ -105,10 +105,10 @@ function onCreate() {
             ),
             lktBody: [
               {
-                storageTemperatureCode: "",
-                equipmentCode: eqpCodeSel,
-                equipmentLine: "SS004",
+                equipmentCode: "3D-Sorter",
+                equipmentLine: eqpCodeSel,
                 equipmentZone: "",
+                storageTemperatureCode: "",
                 inputValue: e.component.option("value")
               }
             ]
@@ -417,16 +417,10 @@ function searchConditionsCode(aMasterCode) {
   //   });
 
   let bodyTmp = [
-    {equipmentCode: "DAS-01"},
-    {equipmentCode: "DAS-02"},
-    {equipmentCode: "DAS-03"},
-    {equipmentCode: "DAS-04"},
-    {equipmentCode: "DAS-05"},
-    {equipmentCode: "DAS-06"},
-    {equipmentCode: "DAS-07"},
-    {equipmentCode: "DAS-08"},
-    {equipmentCode: "DAS-09"},
-    {equipmentCode: "DAS-10"}
+    {equipmentCode: "SS001"},
+    {equipmentCode: "SS002"},
+    {equipmentCode: "SS003"},
+    {equipmentCode: "SS004"}
   ];
 
   // 임시 호기정보 설비정보
