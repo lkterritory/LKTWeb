@@ -28,11 +28,11 @@ function onCreate() {
 
   if (storedValue) {
     selectedValue = storedValue;
-    searchList(true); // 기존 값으로 데이터 로드
+    updateBoxes(apiData, selectedValue); // API 호출 없이 UI 업데이트만
   } else {
-    searchList(true);
     showPrefixPopup(); // 저장된 값이 없으면 팝업 띄우기
   }
+
 
 
   $(idPrefix + "#selectLocationBtn").dxButton({
@@ -41,11 +41,15 @@ function onCreate() {
     type: "default",
     width: 150,
     onClick: function () {
-      showPrefixPopup(extractLocationPrefixes(apiData));
+      showPrefixPopup();
     }
   });
 
-  setInterval(() => searchList(false), 3000);
+  setInterval(() => {
+    if (selectedValue) {
+      searchList(false); // 선택된 값이 있을 때만 주기적으로 API 호출
+    }
+  }, 3000);
 }
 
 
@@ -137,7 +141,7 @@ function showPrefixPopup() {
           if (e.value) {
             selectedValue = e.value;
             localStorage.setItem("selectedLocation", e.value); // 선택한 값 저장
-            updateBoxes(apiData, selectedValue);
+            searchList(true); 
 
             let popupInstance = $("#prefixPopup").dxPopup("instance");
             popupInstance.hide();
