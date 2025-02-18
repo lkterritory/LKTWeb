@@ -57,9 +57,7 @@ let receivedData = [];
 function onCreate() {
   //zebra.setup();
 
-  $(idPrefix + "#networkPopup").remove(); // 팝업 끄기
-
-  // eqpCodeSel = localStorage.getItem("eqpCodeSel");
+  eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
   if (!eqpCodeSel) {
     eqpCodeSel = "";

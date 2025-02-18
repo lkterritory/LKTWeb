@@ -24,8 +24,16 @@ let isFirstLoad = true; // 첫 로드 여부 확인
 
 function onCreate() {
   $("#networkPopup").remove();
+  let storedValue = localStorage.getItem("selectedLocation");
 
-  searchList(true);
+  if (storedValue) {
+    selectedValue = storedValue;
+    searchList(true); // 기존 값으로 데이터 로드
+  } else {
+    searchList(true);
+    showPrefixPopup(); // 저장된 값이 없으면 팝업 띄우기
+  }
+
 
   $(idPrefix + "#selectLocationBtn").dxButton({
     text: "로케이션 선택",
@@ -57,6 +65,17 @@ function searchList(isFirst) {
   apiWcs.dashboardsPdaLocation(encoded)
     .done(function (response) {
       try {
+        // response.lktBody =[{
+        //   "equipmentCode": "3D-SORTER",
+        //   "locationCode": "102001",
+        //   "locationName": "102001",
+        //   "lktOrderNumber": "AGV2024123000000320500000534651",
+        //   "lktToteCode": "H0002",
+        //   "objectColor": "G",
+        //   "statusCode": "10",
+        //   "statusName": "피킹 완료"
+        //   },
+        // ]
         apiData = response.lktBody;
         //console.log(apiData)
         let prefixes = extractLocationPrefixes(apiData);
@@ -98,34 +117,33 @@ function extractLocationPrefixes(data) {
 }
 
 // "로케이션 선택" 버튼 클릭 시 팝업 띄우기
-function showPrefixPopup(prefixes) {
-  let message = prefixes.length > 0 ? "" : "로케이션 데이터가 없습니다.";
+function showPrefixPopup() {
+  let fixedPrefixes = Array.from({ length: 16 }, (_, i) => (101 + i).toString()); // 101~116 배열 생성
+  let storedValue = localStorage.getItem("selectedLocation") || ""; // 저장된 값 가져오기
 
   $(idPrefix + "#prefixPopup").dxPopup({
     title: "로케이션 선택",
     shading: true,
     hideOnOutsideClick: true,
     contentTemplate: function(contentElement) {
-      contentElement.append("<p>" + message + "</p>");
+      $("<div>").attr("id", "prefixSelectBox").appendTo(contentElement);
 
-      if (prefixes.length > 0) {
-        $("<div>").attr("id", "prefixSelectBox").appendTo(contentElement);
+      $(idPrefix + "#prefixSelectBox").dxSelectBox({
+        dataSource: fixedPrefixes, // 고정된 101~116 값 사용
+        placeholder: "선택하세요",
+        value: storedValue, // 로컬스토리지에서 불러온 값 설정
+        width: "100%",
+        onValueChanged: function(e) {
+          if (e.value) {
+            selectedValue = e.value;
+            localStorage.setItem("selectedLocation", e.value); // 선택한 값 저장
+            updateBoxes(apiData, selectedValue);
 
-        $(idPrefix + "#prefixSelectBox").dxSelectBox({
-          dataSource: prefixes,
-          placeholder: "선택하세요",
-          width: "100%",
-          onValueChanged: function(e) {
-            if (e.value) {
-              selectedValue = e.value;
-              updateBoxes(apiData, selectedValue);
-
-              let popupInstance = $("#prefixPopup").dxPopup("instance");
-              popupInstance.hide();
-            }
+            let popupInstance = $("#prefixPopup").dxPopup("instance");
+            popupInstance.hide();
           }
-        });
-      }
+        }
+      });
     },
     width: 400,
     height: "auto",
