@@ -16,6 +16,7 @@ $.ajaxSetup({
       settings.url.includes("outbound/equipment/picktolight/status") ||
       settings.url.includes("outbound/equipment/label") ||
       settings.url.includes("outbound/equipment/picktolight/label-print") ||
+      settings.url.includes("outbound/equipment/automatic-guided-vehicle/status") ||
       settings.url.includes(".html") ||
       settings.url.includes(".json")
     ) {

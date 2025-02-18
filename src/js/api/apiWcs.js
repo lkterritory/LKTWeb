@@ -15,6 +15,7 @@ $.ajaxSetup({
       settings.url.includes("outbound/equipment/picktolight/status") ||
       settings.url.includes("outbound/equipment/label") ||
       settings.url.includes("outbound/equipment/picktolight/label-print") ||
+      settings.url.includes("outbound/equipment/automatic-guided-vehicle/status") ||
       settings.url.includes(".html") ||
       settings.url.includes(".json")
     ) {
@@ -536,6 +537,74 @@ function mappingSkusOrders(param) {
   });
 }
 
+
+
+
+//spiral 
+
+//작업 이력 조회
+function historyListGet(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/intf/history-list/get",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+//에러 데이터 조회
+function errorListGet(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/intf/error-list/get",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
+//분류 마스터 코드 관리
+function destListGet(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/master/dest-list/get",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+//분류 마스터 코드 중복 확인
+function destDuplicateCheck(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/master/dest-duplicate/check",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+//분류 마스터 코드 생성
+function destInsert(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/master/dest-insert",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+//분류 마스터 코드 저장 
+function destUpdate(param) {
+  return $.ajax({
+    url: "http://localhost:9000/sms/be/master/dest-update",
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+
 export default {
   workbatch,
 
@@ -577,6 +646,8 @@ export default {
   statusKioskAvg,
   dashboardsPdaLocation,
   mappingPdaOrdersBox,
-  mappingSkusOrders
+  mappingSkusOrders,
+
+  historyListGet
   
 };
