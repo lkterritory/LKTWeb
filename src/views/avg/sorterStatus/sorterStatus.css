@@ -1,6 +1,8 @@
-.middleFormSatus{
-  height: 80%;
-  overflow-y: scroll;
+.grid-container{
+  display: flex ;
+  justify-content: center;
+  gap: 80px;
+
 }
 .grid-row {
   display: flex;

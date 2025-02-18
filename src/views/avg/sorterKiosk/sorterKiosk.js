@@ -144,9 +144,13 @@ function onCreate() {
     // searchList2();
   }
 
+  
+  
   intervalList = setInterval(() => {
-    searchList();
-  }, 5000); // 5초에 한번
+    if (eqpCodeSel) {
+      searchList(); 
+    }
+  }, 3000);
 
   // intervalPrintMq = setInterval(() => {
   //   dvList = zebra.getDeviceList();

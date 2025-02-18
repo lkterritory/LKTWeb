@@ -45,11 +45,13 @@ function onCreate() {
     }
   });
 
-  setInterval(() => {
+  intervalList = setInterval(() => {
     if (selectedValue) {
       searchList(false); // 선택된 값이 있을 때만 주기적으로 API 호출
     }
   }, 3000);
+
+  searchList();
 }
 
 
@@ -165,14 +167,19 @@ function updateBoxes(data, selectedValue) {
   
   let filteredCodes = data.filter(item => item.locationCode.startsWith(selectedValue));
 
-    html += `<div class="location-number"> 로케이션 : ${selectedValue}</div>`;
-  
-    filteredCodes.forEach((item, index) => {
-    if (index % 20 === 0 && index !== 0) {
-      html += `<div class="gap-section"></div>`;
+  html += `<div class="location-number"> 로케이션 : ${selectedValue}</div>`;
+  html += `<div class="grid-container">`; 
+
+  let rowCount = 0;
+  filteredCodes.forEach((item, index) => {
+    if (index % 20 === 0) {
+      if (index !== 0) html += `</div>`; 
+      html += `<div class="grid-section">`; 
     }
-    if (index % 4 === 0) {
+    
+    if (index % 5 === 0) {
       html += `<div class="grid-row">`;
+      rowCount++;
     }
 
     let bgColor = item.objectColor === "G" ? "green" :
@@ -187,10 +194,13 @@ function updateBoxes(data, selectedValue) {
       </div>
     `;
 
-    if ((index + 1) % 4 === 0 || index === filteredCodes.length - 1) {
+    if ((index + 1) % 5 === 0 || index === filteredCodes.length - 1) {
       html += `</div>`;
     }
   });
+
+  if (filteredCodes.length > 0) html += `</div>`; 
+  html += `</div>`; 
 
   container.append(html);
 }

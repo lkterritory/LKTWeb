@@ -114,7 +114,7 @@ body {
 }
 
 .side-menu {
-  /*margin-left: -210px;*/ /* 줄어든 상태 */
+  margin-left: -210px; /* 줄어든 상태 */
   min-width: 250px; /* 최소 너비 설정 */
   width: 250px;
   background-color: #007bff;
