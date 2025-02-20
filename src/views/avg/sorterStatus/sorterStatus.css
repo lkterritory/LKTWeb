@@ -2,8 +2,31 @@
   display: flex ;
   justify-content: center;
   gap: 80px;
+  padding: 40px 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-shrink: 0;
+  justify-content: center;
 
 }
+
+.location-number{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
+  background-color: #fafbff;
+  border-radius: 10px;
+  border: 1px solid #e2ecf9 !important;
+  flex-direction: row;
+  text-align: center;
+  flex-shrink: 0;
+}
+
 .grid-row {
   display: flex;
   justify-content: center;
@@ -357,11 +380,4 @@
   display: flex;
   justify-content: flex-end;
   margin: 30px 0;
-}
-
-.location-number{
-  font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 40px;
-    text-align: center;
 }
