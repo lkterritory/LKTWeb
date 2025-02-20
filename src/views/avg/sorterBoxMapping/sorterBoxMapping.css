@@ -1,4 +1,6 @@
-
+#avg-sorterBoxMapping-sorterBoxMapping .work-order-content{
+    gap: 20px;
+}
 .headerBoxMapping {
   display: flex;
 
@@ -15,10 +17,10 @@
   flex-shrink: 0; /* 콘텐츠 크기에 맞게 변하지만, 남은 공간을 차지하지 않음 */
 }
 .boxMappingContainer{
-  height: 80vh;
+  /* height: 80vh; */
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 40px 10px;
   background-color: #fafbff;
   border-radius: 10px;
   border: 1px solid #e2ecf9 !important;
@@ -31,10 +33,13 @@
 .boxMappingContainer .boxcode-section,
 .boxMappingContainer .location-section,
 .boxMappingContainer .message-section  {
+  width: 100%;
+  max-width: 400px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  width: 400px;
+  flex-direction: column;
+  /* width: 400px; */
 }
 
 .boxMappingContainer .boxcode-section label,
@@ -46,11 +51,12 @@
 }
 
 .boxMappingContainer .sorter-code-title{
-  width: 20%;
+  width: 100%;
+  text-align: center;
 }
 .boxMappingContainer #txtBoxBarcode,
 .boxMappingContainer #txtLocBarcode {
-  width: 400px;
+  width: 60%;
   padding: 5px;
   font-size: 14px;
   flex-grow: 1;
