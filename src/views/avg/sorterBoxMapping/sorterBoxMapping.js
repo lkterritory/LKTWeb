@@ -162,14 +162,14 @@ function preventFocusOnOtherElements() {
   });
 
   // 다른 곳을 클릭했을 때, 포커스가 이동하지 않도록 방지
-  $(document).on('mousedown', function(e) {
+  $(idPrefix + ".boxMappingContainer").on('mousedown', function(e) {
     if (!(isBoxFocused || isLocationFocused)) {
       e.preventDefault();
     }
   });
 
   // 포커스가 바뀌면 포커스 상태 초기화
-  $(document).on('focusin', function(e) {
+  $(idPrefix + ".boxMappingContainer").on('focusin', function(e) {
     if ($(e.target).is(boxCodeInstance.element())) {
       isBoxFocused = true;
       isLocationFocused = false; // 로케이션 코드 포커스 해제
