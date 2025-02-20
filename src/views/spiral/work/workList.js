@@ -1,4 +1,5 @@
 
+const idPrefix = "#spiral-work-workList ";
 
 function onCreate() {
   createCalendar();
@@ -7,11 +8,11 @@ function onCreate() {
 
 
 function createDataGrid(){
-  $('#simple').dxTextBox({
+  $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
   });
 
-  $('#default-contained').dxButton({
+  $(idPrefix + '#searchButton').dxButton({
     stylingMode: 'contained',
     text: 'Contained',
     type: 'default',
@@ -21,7 +22,7 @@ function createDataGrid(){
     },
   });
 
-  $('#workOrderGrid').dxDataGrid({
+  $(idPrefix + '#workOrderGrid').dxDataGrid({
     dataSource: './src/data/data.json',
     keyExpr: 'ID',
     columns: [
@@ -93,7 +94,7 @@ function createCalendar(){
     new Date(now.getTime() + msInDay * 3),
   ];
 
-  $('#range-selection').dxDateRangeBox({
+  $(idPrefix + '#calendarContainer').dxDateRangeBox({
     value: initialValue,
     onValueChanged: showSelectedDays,
   });
@@ -114,7 +115,7 @@ function createCalendar(){
       daysCount = (endDate - startDate) / msInDay + 1;
     }
     
-    $('#days-selected').text(daysCount);
+    $(idPrefix + '#days-selected').text(daysCount);
   }
 
   showSelectedDays({ value: initialValue });
@@ -122,8 +123,23 @@ function createCalendar(){
 
 function onActive() {}
 
+function onDestroy() {
+  // alert("dest");
+
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+
+  if (intervalPrintMq) {
+    clearInterval(intervalPrintMq);
+    intervalPrintMq = null;
+  }
+}
+
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };
 

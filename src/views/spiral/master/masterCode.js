@@ -1,3 +1,4 @@
+const idPrefix = "#spiral-master-masterCode ";
 
 function onCreate() {
   createDataGrid();
@@ -32,7 +33,7 @@ async function createDataGrid() {
     data: codeData,  // 데이터를 ArrayStore로 관리
   });
 
-  const dataGrid = $('#workOrderGrid').dxDataGrid({
+  const dataGrid = $(idPrefix + '#workOrderGrid').dxDataGrid({
     dataSource: masterCode,
     keyExpr: 'ID',
     showBorders: true,

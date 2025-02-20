@@ -1,3 +1,4 @@
+const idPrefix = "#spiral-error-errorList ";
 
 
 function onCreate() {
@@ -6,11 +7,11 @@ function onCreate() {
 }
 
 function createDataGrid(){
-  $('#simple').dxTextBox({
+  $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
   });
 
-  $('#default-contained').dxButton({
+  $(idPrefix + '#searchButton').dxButton({
     stylingMode: 'contained',
     text: 'Contained',
     type: 'default',
@@ -20,9 +21,9 @@ function createDataGrid(){
     },
   });
   
-  $('#workOrderGrid').dxDataGrid({
+  $(idPrefix + '#workOrderGrid').dxDataGrid({
     dataSource: './src/data/data.json',
-    keyExpr: 'ID',
+  
     columns: [
       {caption: 'No',dataField: 'ID'},
       'SSCC',
@@ -49,7 +50,7 @@ function createCalendar(){
     new Date(now.getTime() + msInDay * 3),
   ];
 
-  $('#range-selection').dxDateRangeBox({
+  $(idPrefix + '#calendarContainer').dxDateRangeBox({
     value: initialValue,
     onValueChanged: showSelectedDays,
   });
@@ -70,7 +71,7 @@ function createCalendar(){
       daysCount = (endDate - startDate) / msInDay + 1;
     }
     
-    $('#days-selected').text(daysCount);
+    $(idPrefix + '#days-selected').text(daysCount);
   }
 
   showSelectedDays({ value: initialValue });
