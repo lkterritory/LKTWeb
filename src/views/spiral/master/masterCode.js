@@ -1,3 +1,7 @@
+let intervalList = null;
+let intervalPrintMq = null;
+
+
 const idPrefix = "#spiral-master-masterCode ";
 
 function onCreate() {
@@ -35,7 +39,6 @@ async function createDataGrid() {
 
   const dataGrid = $(idPrefix + '#workOrderGrid').dxDataGrid({
     dataSource: masterCode,
-    keyExpr: 'ID',
     showBorders: true,
     paging: { enabled: false },
     selection: {
@@ -169,9 +172,22 @@ async function createDataGrid() {
 }
 
 function onActive() {}
+function onDestroy() {
+  // alert("dest");
 
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+
+  if (intervalPrintMq) {
+    clearInterval(intervalPrintMq);
+    intervalPrintMq = null;
+  }
+}
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };
 

@@ -1,3 +1,7 @@
+let intervalList = null;
+let intervalPrintMq = null;
+
+
 const idPrefix = "#spiral-error-errorList ";
 
 
@@ -78,9 +82,22 @@ function createCalendar(){
 }
 
 function onActive() {}
+function onDestroy() {
+  // alert("dest");
 
+  if (intervalList) {
+    clearInterval(intervalList);
+    intervalList = null;
+  }
+
+  if (intervalPrintMq) {
+    clearInterval(intervalPrintMq);
+    intervalPrintMq = null;
+  }
+}
 export default {
   onCreate,
-  onActive
+  onActive,
+  onDestroy
 };
 

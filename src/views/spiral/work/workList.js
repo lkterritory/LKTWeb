@@ -1,3 +1,5 @@
+let intervalList = null;
+let intervalPrintMq = null;
 
 const idPrefix = "#spiral-work-workList ";
 
@@ -24,7 +26,6 @@ function createDataGrid(){
 
   $(idPrefix + '#workOrderGrid').dxDataGrid({
     dataSource: './src/data/data.json',
-    keyExpr: 'ID',
     columns: [
       {caption: 'No',dataField: 'ID',},
       'SSCC','PID',
