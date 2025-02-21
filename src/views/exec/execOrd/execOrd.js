@@ -33,6 +33,7 @@ function onCreate() {
         console.log("새로운 날짜 값:", e.value); // 변경된 값 출력
 
         searchConditions();
+        searchList();
       }
     })
     .dxDateBox("instance");
@@ -49,6 +50,9 @@ function onCreate() {
       width: "200px",
       onValueChanged: function (e) {
         console.log("선택된 값 ID:", e.value); // 선택된 ID 출력
+        if (e.value) {
+          searchList(); // 선택된 작업차수에 따라 데이터를 자동으로 조회
+        }
       }
     })
     .dxSelectBox("instance");
@@ -285,7 +289,7 @@ function onCreate() {
         {
           dataField: "workBatch",
           caption: "작업차수",
-          minWidth: 90,
+          minWidth: 120,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
           }
@@ -302,7 +306,7 @@ function onCreate() {
         {
           dataField: "pickingGroup",
           caption: "피킹그룹",
-          width: 180,
+          width: 150,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("피킹그룹"); // 헤더 가운데 정렬
           },
@@ -530,7 +534,8 @@ function onCreate() {
       }
     })
     .dxDataGrid("instance");
-
+  
+    searchList();
   searchConditions();
   // searchConditions2();
 

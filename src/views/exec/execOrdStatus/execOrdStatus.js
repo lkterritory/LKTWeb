@@ -23,7 +23,10 @@ function onCreate() {
       type: "date",
       displayFormat: "yyyy-MM-dd",
       value: new Date(),
-      width: "200px"
+      width: "200px",
+      onValueChanged: function () {
+        searchList();
+      }
     })
     .dxDateBox("instance");
   //new Date(dtBoxWork.option("value")).toISOString().split("T")[0];
@@ -39,6 +42,9 @@ function onCreate() {
       width: "200px",
       onValueChanged: function (e) {
         console.log("선택된 값 ID:", e.value); // 선택된 ID 출력
+        if (e.value) {
+          searchList(); // 선택된 작업차수에 따라 데이터를 자동으로 조회
+        }
       }
     })
     .dxSelectBox("instance");
@@ -368,6 +374,8 @@ function onCreate() {
       }
     })
     .dxDataGrid("instance");
+
+     searchList();
 }
 
 function onActive() {}

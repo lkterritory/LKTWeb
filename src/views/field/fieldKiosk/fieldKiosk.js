@@ -387,7 +387,7 @@ function onCreate() {
         {
           dataField: "ibdCount",
           caption: "Cnt 수량",
-          width: 200,
+          width: 90,
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("Cnt 수량"); // 헤더 가운데 정렬
           }
