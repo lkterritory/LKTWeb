@@ -234,6 +234,24 @@ function coresLocationEdit(param) {
     data: param
   });
 }
+function coresLocationMapping(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/locations/mapping",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
+function coresLocationIndicator(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/locations/indicator",
+    method: "PATCH",
+    dataType: "json",
+    contentType: "application/json",
+    data: param
+  });
+}
 // 로케이션정보 end
 
 // 권한정보 start
@@ -470,6 +488,8 @@ export default {
   coresLocationGet,
   coresLocationAdd,
   coresLocationEdit,
+  coresLocationMapping,
+  coresLocationIndicator,
   coresAuthGet,
   coresAuthAdd,
   coresAuthEdit,

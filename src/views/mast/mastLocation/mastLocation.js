@@ -218,6 +218,10 @@ function onCreate() {
       },
       onCellDblClick: function (e) {
         //alert(e.value);
+        if (e.column.dataField === "equipmentCode" || e.column.dataField === "printConnectionAddress" || e.column.dataField === "stateName") {
+          return; // 해당 열 클릭 시 팝업을 열지 않음
+        }
+        
         const selectedRowData = e.data;
 
         showPopup(true, selectedRowData, e.column.dataField);
@@ -347,8 +351,52 @@ function showPopup(isModi, row, field) {
           }
         ]
       };
+      // "표시기" 수정 API 호출
+      if (isModi && field === "indicatorCode") {
+        var indicatorParam = {
+          lktHeader: lktUtil.getLktHeader("PAGE.PATCH.CORES.LOCATIONS.INDICATOR"),
+          lktBody: [
+            {
+              currentIndicator: row.indicatorCode, 
+              changeIndicator: formData.indicatorCode 
+            }
+          ]
+        };
 
-      if (isModi) {
+        apiCommon
+          .coresLocationIndicator(JSON.stringify(indicatorParam)) 
+          .done(function (response) {
+            searchList();
+          })
+          .fail(function () {
+            // 실패 시 처리
+          });
+      }
+       // "지점" 수정 API 호출
+      else if (isModi && field === "storeCode"){
+        var storeParam = {
+          lktHeader: lktUtil.getLktHeader("PAGE.PATCH.CORES.LOCATIONS.MAPPING"),
+          lktBody: [
+            {
+              equipmentCode: formData.equipmentCode,
+              locationCode: formData.locationCode,
+              storeCode: formData.storeCode,
+              stateCode: formData.stateCode,
+              storageTemperatureCode: row.storageTemperatureCode
+            }
+          ]
+        };
+
+        apiCommon
+          .coresLocationMapping(JSON.stringify(storeParam)) 
+          .done(function (response) {
+            searchList();
+          })
+          .fail(function () {
+            // 실패 시 처리
+          });
+      }
+      else if (isModi) {
         apiCommon
           .coresLocationEdit(JSON.stringify(param))
           .done(function (response) {})
