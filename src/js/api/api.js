@@ -1,7 +1,7 @@
 // api.js
 
 // const baseUrl = "http://10.244.100.71:4132"; // 실서버 pre
-const baseUrl = "http://192.168.26.24:4132"; // 실서버
+ const baseUrl = "http://192.168.26.20:4132"; // 실서버
 
 // const baseUrl = "http://lkt0dev00.cafe24.com:4132"; // 테스트서버
 
