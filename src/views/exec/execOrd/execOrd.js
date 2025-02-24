@@ -633,7 +633,9 @@ function searchList() {
         workDate: DevExpress.localization.formatDate(
           dtBoxWork.option("value"),
           "yyyy-MM-dd"
-        )
+        ),
+        workBatch: selBoxBatch.option("value") 
+       
       }
     ]
   };

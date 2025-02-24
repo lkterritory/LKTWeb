@@ -93,13 +93,13 @@ function onCreate() {
             headerCell.css(headerCss).text("아이디"); // 헤더 가운데 정렬
           }
         },
-        {
-          dataField: "storageTemperatureCode",
-          caption: "온도대",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
-          }
-        },
+        // {
+        //   dataField: "storageTemperatureCode",
+        //   caption: "온도대",
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
+        //   }
+        // },
         {
           dataField: "permissionName",
           caption: "권한명",
