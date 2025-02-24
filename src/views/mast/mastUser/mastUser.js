@@ -274,7 +274,7 @@ function showPopup(isModi, row) {
     onExecute: function (formData) {
       // 실행 버튼 클릭 이벤트 처리
       const param = {
-        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.SKUS"),
+        lktHeader: lktUtil.getLktHeader("PAGE.POST.CORES.USERS"),
         lktBody: [
           {
             username: formData.username,
