@@ -285,6 +285,16 @@ function coresAuthEdit(param) {
   });
 }
 
+function coresAuthSummaryEdit(param) {
+  return $.ajax({
+    url: baseUrlCommon + "/cores/permission/summary?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
 // 권한정보 end
 
 // 지점정보 start
@@ -493,6 +503,7 @@ export default {
   coresAuthGet,
   coresAuthAdd,
   coresAuthEdit,
+  coresAuthSummaryEdit,
   coresStoresGet,
   coresStoresAdd,
   coresStoresEdit,

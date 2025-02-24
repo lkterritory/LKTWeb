@@ -493,6 +493,27 @@ function statusLabelsPrintPatch(param) {
   });
 }
 
+//지점별 작업 현황
+function statusStores(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/stores?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+//지점별 작업 현황 상세
+function statusStoresDetail(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/status/stores/detail?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
 //AGV - KIOSK 작업현황
 function statusKioskAvg(param) {
   return $.ajax({
@@ -642,6 +663,9 @@ export default {
   statusLabelsPrintCount,
   statusLabelsPrint,
   statusLabelsPrintPatch,
+
+  statusStores,
+  statusStoresDetail,
 
   statusKioskAvg,
   dashboardsPdaLocation,

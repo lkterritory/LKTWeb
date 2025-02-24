@@ -503,14 +503,17 @@ function onCreate() {
                 //     skuCode: "1089266010240013",
                 //     skuName: "RUFFO RELAXED TROUSERS",
                 //     serialShippingContainerCode:"123456",
-                //       addDtm: "-"
+                //     serialShippingContainerCodeQuantity: 20,
+                //     serialShippingContainerCodeUseYN: "X"
+
                 //   },
                 //   {
                 //     interfaceReferenceNumber: "1048268055",
                 //     skuCode: "1089266010240013",
                 //     skuName: "RUFFO RELAXED TROUSERS",
                 //     serialShippingContainerCode:"123456",
-                //       addDtm: "-"
+                //     serialShippingContainerCodeQuantity: 20,
+                //     serialShippingContainerCodeUseYN: "O"
                 //   },
                 // ]
                  let ibdSsccData = response.lktBody
@@ -537,13 +540,16 @@ function onCreate() {
                     $('#dataGrid').dxDataGrid({
                         dataSource: ibdSsccData,
                         allowColumnResizing: true,
-                        columnResizingMode: "nextColumn",
+                        columnAutoWidth: true,
                         columns: [
-                            { dataField: "interfaceReferenceNumber", caption: "IBD", width: "120" },
-                            { dataField: "skuCode", caption: "상품코드", width: "180"  },
-                            { dataField: "skuName", caption: "상품명" },
-                            { dataField: "serialShippingContainerCode", caption: "SSCC", width: "120" },
-                            { dataField: "addDtm", caption: "addDtm", width: "180", width: "120" }
+                            { dataField: "interfaceReferenceNumber", caption: "IBD"},
+                            { dataField: "serialShippingContainerCode", caption: "SSCC"},
+                            { dataField: "skuCode", caption: "상품코드", width:"140px"},
+                            { dataField: "skuName", caption: "상품명", width:"160px" },
+                            { dataField: "serialShippingContainerCodeQuantity", caption: "입수량", alignment:"left", width:"80px"},
+                            { dataField: "serialShippingContainerCodeUseYN", caption: "사용", alignment:"left", width:"60px"}
+                            
+                            //{ dataField: "addDtm", caption: "addDtm", width: "180", width: "120" }
                         ],
                         showBorders: true
                     });

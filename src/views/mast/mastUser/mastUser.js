@@ -101,13 +101,6 @@ function onCreate() {
           }
         },
         {
-          dataField: "storageTemperatureName",
-          caption: "온도대",
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("온도대"); // 헤더 가운데 정렬
-          }
-        },
-        {
           dataField: "permissionName",
           caption: "권한명",
           headerCellTemplate: function (headerCell) {
@@ -185,22 +178,71 @@ function showPopup(isModi, row) {
         disabled: isModi
       }
     },
-
+    {
+      dataField: "userpassword",
+      label: {text: "사용자 비밀번호"},
+      editorType: "dxTextBox",
+      editorOptions: {
+        mode: "password",
+      },
+    },
     {
       dataField: "permissionCode",
       label: {text: "권한"},
       editorType: "dxSelectBox",
       editorOptions: {
-        items: [
-          {id: "admin", name: "관리자"},
-          {id: "user", name: "사용자1"}
-        ],
+        items:[],
         displayExpr: "name",
         valueExpr: "id",
         value: row != null ? row.permissionCode : "",
         placeholder: "선택하세요",
         onValueChanged: function (e) {
           console.log("선택된 값:", e.value); // 선택된 id 값
+        },
+        onInitialized : function(e){
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.PERMISSION.SUMMARY"),
+            lktBody: [
+              {
+                value: txtBoxSearch.option("value")
+              }
+            ]
+          };
+        
+          var encoded = btoa(JSON.stringify(obj));
+        
+          apiCommon
+            .coresAuthSummaryEdit(encoded)
+            .done(function (response) {
+              try { 
+                // response.lktBody =  [
+                //   {
+                //     "permissionCode": "1",
+                //     "permissionName": "관리자",
+                //     "statusCode": "01",
+                //     "statusName": "예"
+                //   },
+                //   {
+                //     "permissionCode": "2",
+                //     "permissionName": "사용자",
+                //     "statusCode": "01",
+                //     "statusName": "예"
+                //   }
+                // ]
+                permissionData = response.lktBody
+
+                let permissionItems = permissionData.map(item => ({
+                  id: item.permissionCode, 
+                  name: item.permissionName 
+                }));
+                
+                console.log(response.lktBody)
+                e.component.option("items", permissionItems);
+              } catch (ex) {}
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
         }
       }
     },
@@ -236,6 +278,7 @@ function showPopup(isModi, row) {
         lktBody: [
           {
             username: formData.username,
+            userpassword: formData.userpassword,
             permissionCode: formData.permissionCode,
             stateCode: formData.stateCode
           }
