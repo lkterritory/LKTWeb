@@ -204,7 +204,7 @@ function showPopup(isModi, row) {
             lktHeader: lktUtil.getLktHeader("PAGE.GET.CORES.PERMISSION.SUMMARY"),
             lktBody: [
               {
-                value: txtBoxSearch.option("value")
+                permissionCode : ""
               }
             ]
           };
@@ -229,7 +229,7 @@ function showPopup(isModi, row) {
                 //     "statusName": "예"
                 //   }
                 // ]
-                permissionData = response.lktBody
+                let permissionData = response.lktBody
 
                 let permissionItems = permissionData.map(item => ({
                   id: item.permissionCode, 
