@@ -25,6 +25,7 @@ function onCreate() {
       value: new Date(),
       width: "200px",
       onValueChanged: function (e) {
+        searchConditions();
         searchList();
       }
     })
@@ -54,6 +55,7 @@ function onCreate() {
     stylingMode: "contained",
     type: "default",
     onClick: function (e) {
+      searchConditions();
       searchList();
     },
     width: "100px"
@@ -269,9 +271,10 @@ function onCreate() {
 
 
     searchList();
+    searchConditions(); 
 }
 
-function onActive() {}
+
 
 function searchList() {
   var obj = {
@@ -281,8 +284,8 @@ function searchList() {
         workDate: DevExpress.localization.formatDate(
           dtBoxWork.option("value"),
           "yyyy-MM-dd"
-        )
-        //workBatch: selBoxBatch.option("value")
+        ),
+        workBatch: selBoxBatch.option("value")
       }
     ]
   };
@@ -379,6 +382,30 @@ function searchListDetail(row) {
       // 에러 발생 시 처리
     });
 }
+function searchConditions() {
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        workDate: DevExpress.localization.formatDate(
+          dtBoxWork.option("value"),
+          "yyyy-MM-dd"
+        )
+      }
+    ]
+  };
+  var encoded = btoa(JSON.stringify(obj));
+  apiWcs
+    .workbatch(encoded)
+    .done(function (response) {
+      try {
+        selBoxBatch.option("items", response.lktBody);
+      } catch (ex) {}
+    })
+    .fail(function () {});
+}
+
+function onActive() {}
 
 export default {
   onCreate,
