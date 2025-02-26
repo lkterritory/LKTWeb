@@ -449,23 +449,23 @@ function onCreate() {
         //     headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
         //   }
         // },
-        {
-          dataField: "processSerialShippingContainerCodeCount",
-          caption: "작업 SSCC",
-          allowFiltering: false,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업 SSCC"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "processPcs",
-          caption: "작업낱개수량",
-          allowFiltering: false,
-          minWidth: 90,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
-          }
-        },
+        // {
+        //   dataField: "processSerialShippingContainerCodeCount",
+        //   caption: "작업 SSCC",
+        //   allowFiltering: false,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("작업 SSCC"); // 헤더 가운데 정렬
+        //   }
+        // },
+        // {
+        //   dataField: "processPcs",
+        //   caption: "작업낱개수량",
+        //   allowFiltering: false,
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("작업낱개수량"); // 헤더 가운데 정렬
+        //   }
+        // },
         {
           dataField: "rateOfProcess",
           caption: "진행율",
