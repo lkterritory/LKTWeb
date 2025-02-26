@@ -180,18 +180,18 @@ function onCreate() {
         },
         {
           dataField: "workBatch",
-          caption: "작업차수",
+          caption: "DAS호기",
           minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업차수"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("DAS호기"); // 헤더 가운데 정렬
           }
         },
         {
           dataField: "orderNumber",
-          caption: "주문번호",
+          caption: "지점코드",
           // minWidth: 90,
           headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("주문번호"); // 헤더 가운데 정렬
+            headerCell.css(headerCss).text("지점코드"); // 헤더 가운데 정렬
           }
         },
         {

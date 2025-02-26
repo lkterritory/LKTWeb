@@ -422,33 +422,33 @@ function onCreate() {
             headerCell.css(headerCss).text("낱개수량"); // 헤더 가운데 정렬
           }
         },
-        {
-          dataField: "processOrderCount",
-          caption: "작업주문건수",
-          allowFiltering: false,
-          minWidth: 90,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업주문건수"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "processStoreCount",
-          caption: "작업지점수",
-          allowFiltering: false,
-          minWidth: 90,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업지점수"); // 헤더 가운데 정렬
-          }
-        },
-        {
-          dataField: "processSkuCount",
-          caption: "작업품목수량",
-          allowFiltering: false,
-          minWidth: 90,
-          headerCellTemplate: function (headerCell) {
-            headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
-          }
-        },
+        // {
+        //   dataField: "processOrderCount",
+        //   caption: "작업주문건수",
+        //   allowFiltering: false,
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("작업주문건수"); // 헤더 가운데 정렬
+        //   }
+        // },
+        // {
+        //   dataField: "processStoreCount",
+        //   caption: "작업지점수",
+        //   allowFiltering: false,
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("작업지점수"); // 헤더 가운데 정렬
+        //   }
+        // },
+        // {
+        //   dataField: "processSkuCount",
+        //   caption: "작업품목수량",
+        //   allowFiltering: false,
+        //   minWidth: 90,
+        //   headerCellTemplate: function (headerCell) {
+        //     headerCell.css(headerCss).text("작업품목수량"); // 헤더 가운데 정렬
+        //   }
+        // },
         {
           dataField: "processSerialShippingContainerCodeCount",
           caption: "작업 SSCC",
