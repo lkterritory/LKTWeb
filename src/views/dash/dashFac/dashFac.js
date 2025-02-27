@@ -40,47 +40,13 @@ window.onClickFac = function () {
 
 function onCreate() {
   initView();
-  fetchDailyChartData();
-  fetchWeeklyChartData();
 
- $(idPrefix + '#todayChart').dxChart({
-  dataSource : dailyData, 
-  series: {
-    argumentField: 'hourCode',
-    valueField: 'processQuantity',
-    type: 'bar',
-    color: '#0098FF',
-    name: 'Qty', 
-  },
-  title: '당일 시간당 작업량',
-  legend: {
-    visible: true,   // 범례 보이기
-    horizontalAlignment: 'left', 
-    font: {
-      size: 14,
-      color: '#333' 
-    }
-  }
-});
-$(idPrefix + '#weekChart').dxChart({
-  dataSource : weeklyData,
-  series: {
-    argumentField: 'dayofweekName',
-    valueField: 'processQuantity',
-    type: 'bar',
-    color: '#0098FF',
-    name: 'Qty', 
-  },
-  title: '주 당 작업량',
-  legend: {
-    visible: true,   // 범례 보이기
-    horizontalAlignment: 'left', 
-    font: {
-      size: 14,
-      color: '#333' 
-    }
-  }
-});
+  // 데이터가 준비된 후 차트를 그리도록 수정
+  fetchDailyChartData().then(() => {
+    fetchWeeklyChartData().then(() => {
+      loadCharts(); // 차트가 준비된 후 호출
+    });
+  });
 
 
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
@@ -161,21 +127,21 @@ function searchList() {
       initView();
 
       try {
-        // response.lktBody = [
-        //   {
-        //     centerCode: "HMOMNI",
-        //     clientCode: "HMOMNI",
-        //     warehouseCode: "HMOMNI",
-        //     totalStoreCount: 999, //PO
-        //     processStoreCount: 888,
-        //     totalSerialShippingContainerCodeCount: 999, //SSCC
-        //     processSerialShippingContainerCodeCount: 888,
-        //     // totalSkuCount: 999,
-        //     // processSkuCount: 888,
-        //     totalQuantity: 999, // Qty
-        //     processQuantity: 888
-        //   }        
-        // ]
+        response.lktBody = [
+          {      
+            centerCode: "HMOMNI",
+            clientCode: "HMOMNI",
+            warehouseCode: "HMOMNI",
+            totalInterfaceReferenceCount: 999, //PO
+            processInterfaceReferenceCount: 888,
+            totalSerialShippingContainerCodeCount: 999, //SSCC
+            processSerialShippingContainerCodeCount: 888,
+            // totalSkuCount: 999,
+            // processSkuCount: 888,
+            totalQuantity: 999, // Qty
+            processQuantity: 888
+          }        
+        ]
         loadBar(response.lktBody);
       } catch (ex) {}
     })
@@ -217,24 +183,28 @@ function fetchDailyChartData() {
   //   { "hourCode": 24,"processQuantity": 10},
     
   // ]
-   var obj = {
-    lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.DAILY.PRODUCTIVITY"),
-    lktBody: [{equipmentCode: eqpCodeSel}]
-  };
+  return new Promise((resolve, reject) => {
+    var obj = {
+      lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.DAILY.PRODUCTIVITY"),
+      lktBody: [{equipmentCode: eqpCodeSel}]
+    };
 
-  var encoded = btoa(JSON.stringify(obj));
+    var encoded = btoa(JSON.stringify(obj));
 
-  apiWcs
-    .dashboardsPickToLightDaily(encoded)
-    .done(function (response) {
-       try {
-        dailyData = response.lktBody;
-        //console.log(dailyData)
-      } catch (ex) {}
-    })
-    .fail(function () {
-      // 에러 발생 시 처리
-    });
+    apiWcs
+      .dashboardsPickToLightDaily(encoded)
+      .done(function (response) {
+        try {
+          dailyData = response.lktBody;
+          resolve(); // 차트 데이터 로딩 완료
+        } catch (ex) {
+          reject(ex); // 에러 발생 시 reject
+        }
+      })
+      .fail(function () {
+        reject("Daily chart data fetch failed.");
+      });
+  });
 }
 
 // 상황판 주간 차트
@@ -285,24 +255,70 @@ function fetchWeeklyChartData() {
   //   }
   // ]
 
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.WEEKLY.PRODUCTIVITY"),
-    lktBody: [{equipmentCode: eqpCodeSel}]
-  };
+  return new Promise((resolve, reject) => {
+    var obj = {
+      lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.WEEKLY.PRODUCTIVITY"),
+      lktBody: [{equipmentCode: eqpCodeSel}]
+    };
 
-  var encoded = btoa(JSON.stringify(obj));
+    var encoded = btoa(JSON.stringify(obj));
 
-  apiWcs
-    .dashboardsPickToLightWeekly(encoded)
-    .done(function (response) {
-      try {
-        weeklyData = response.lktBody;
-        //console.log(weeklyData)
-      } catch (ex) {}
-    })
-    .fail(function () {
-      // 에러 발생 시 처리
-    });
+    apiWcs
+      .dashboardsPickToLightWeekly(encoded)
+      .done(function (response) {
+        try {
+          weeklyData = response.lktBody;
+          resolve(); // 차트 데이터 로딩 완료
+        } catch (ex) {
+          reject(ex); // 에러 발생 시 reject
+        }
+      })
+      .fail(function () {
+        reject("Weekly chart data fetch failed.");
+      });
+  });
+}
+
+function loadCharts() {
+  $(idPrefix + '#todayChart').dxChart({
+    dataSource: dailyData,
+    series: {
+      argumentField: 'hourCode',
+      valueField: 'processQuantity',
+      type: 'bar',
+      color: '#0098FF',
+      name: 'Qty',
+    },
+    title: '당일 시간당 작업량',
+    legend: {
+      visible: true,   // 범례 보이기
+      horizontalAlignment: 'left',
+      font: {
+        size: 14,
+        color: '#333'
+      }
+    }
+  });
+
+  $(idPrefix + '#weekChart').dxChart({
+    dataSource: weeklyData,
+    series: {
+      argumentField: 'dayofweekName',
+      valueField: 'processQuantity',
+      type: 'bar',
+      color: '#0098FF',
+      name: 'Qty',
+    },
+    title: '주 당 작업량',
+    legend: {
+      visible: true,   // 범례 보이기
+      horizontalAlignment: 'left',
+      font: {
+        size: 14,
+        color: '#333'
+      }
+    }
+  });
 }
 
 function getFormattedDate() {
@@ -317,13 +333,14 @@ function calculateProgress(processed, total) {
   return total ? Math.round((processed / total) * 100) : 0;
 }
 
+      
 function loadBar(data) {
 
   let item = data[0];
 
-  item.progressStore = calculateProgress(item.processStoreCount, item.totalStoreCount);
+  item.progressPo = calculateProgress(item.processInterfaceReferenceCount, item.totalInterfaceReferenceCount);
   item.progressSSCC = calculateProgress(item.processSerialShippingContainerCodeCount, item.totalSerialShippingContainerCodeCount);
-  item.progressSku = calculateProgress(item.processSkuCount, item.totalSkuCount);
+  //item.progressSku = calculateProgress(item.processSkuCount, item.totalSkuCount);
   item.progressQty = calculateProgress(item.processQuantity, item.totalQuantity);
 
   let totalSSCC = item.totalSerialShippingContainerCodeCount;
@@ -334,14 +351,14 @@ function loadBar(data) {
     $(idPrefix + "#progressBar_" + i).dxProgressBar({
       value:
         i == 1
-          ? item.processStoreCount
+          ? item.processInterfaceReferenceCount
           : i == 2
           ? item.processSerialShippingContainerCodeCount
           : item.processQuantity, // 현재 값
       min: 0, // 최소값
       max:
         i == 1
-          ? item.totalStoreCount
+          ? item.totalInterfaceReferenceCount
           : i == 2
           ? item.totalSerialShippingContainerCodeCount
           : item.totalQuantity, // 현재 값
