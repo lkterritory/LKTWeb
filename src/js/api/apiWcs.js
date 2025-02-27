@@ -2,7 +2,7 @@
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
 const baseUrlWcs = "http://192.168.26.20:2014"; // 실서버
- //const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
+// const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
@@ -385,6 +385,28 @@ function dashboardsPickToLightInstances(param) {
   });
 }
 
+// 호기별 상황판 (일별 생산성)
+function dashboardsPickToLightWeekly(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/dashboard/pick-to-light/weekly-productivity?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
+// 호기별 상황판 (주간 생산성)
+function dashboardsPickToLightDaily(param) {
+  return $.ajax({
+    url: baseUrlWcs + "/outbound/dashboard/pick-to-light/daily-productivity?id=" + param,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    data: {}
+  });
+}
+
 // 키오스크
 function equipmentPicktolightInput(param) {
   return $.ajax({
@@ -652,6 +674,8 @@ export default {
   dashboardsOverallStatus,
 
   dashboardsPickToLightInstances,
+  dashboardsPickToLightWeekly,
+  dashboardsPickToLightDaily,
 
   equipmentPicktolightInput,
   equipmentPicktolightSscc,
