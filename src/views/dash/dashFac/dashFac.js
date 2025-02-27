@@ -127,21 +127,21 @@ function searchList() {
       initView();
 
       try {
-        response.lktBody = [
-          {      
-            centerCode: "HMOMNI",
-            clientCode: "HMOMNI",
-            warehouseCode: "HMOMNI",
-            totalInterfaceReferenceCount: 999, //PO
-            processInterfaceReferenceCount: 888,
-            totalSerialShippingContainerCodeCount: 999, //SSCC
-            processSerialShippingContainerCodeCount: 888,
-            // totalSkuCount: 999,
-            // processSkuCount: 888,
-            totalQuantity: 999, // Qty
-            processQuantity: 888
-          }        
-        ]
+        // response.lktBody = [
+        //   {      
+        //     centerCode: "HMOMNI",
+        //     clientCode: "HMOMNI",
+        //     warehouseCode: "HMOMNI",
+        //     totalInterfaceReferenceCount: 999, //PO
+        //     processInterfaceReferenceCount: 888,
+        //     totalSerialShippingContainerCodeCount: 999, //SSCC
+        //     processSerialShippingContainerCodeCount: 888,
+        //     // totalSkuCount: 999,
+        //     // processSkuCount: 888,
+        //     totalQuantity: 999, // Qty
+        //     processQuantity: 888
+        //   }        
+        // ]
         loadBar(response.lktBody);
       } catch (ex) {}
     })
