@@ -30,8 +30,8 @@ let eqpCodeSel = ""; /// 선택된 설비
 
 let intervalList = null;
 
-let dailyData;
-let weeklyData;
+let dailyData = [];
+let weeklyData = [];
 
 
 window.onClickFac = function () {
@@ -41,12 +41,7 @@ window.onClickFac = function () {
 function onCreate() {
   initView();
 
-  // 데이터가 준비된 후 차트를 그리도록 수정
-  fetchDailyChartData().then(() => {
-    fetchWeeklyChartData().then(() => {
-      loadCharts(); // 차트가 준비된 후 호출
-    });
-  });
+
 
 
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
@@ -69,6 +64,65 @@ function onCreate() {
   intervalList = setInterval(() => {
     searchList();
   }, 10000); // 10초에 한번
+}
+
+function loadDailyChart() {
+  $(idPrefix + '#todayChart').dxChart({
+    dataSource: dailyData,
+    series: {
+      argumentField: 'hourCode',
+      valueField: 'processQuantity',
+      type: 'bar',
+      color: '#0098FF',
+      name: 'PCS',
+    },
+    title: '당일 시간당 작업량',
+    legend: {
+      visible: true,
+      horizontalAlignment: 'left',
+      font: {
+        size: 14,
+        color: '#333'
+      }
+    },
+    argumentAxis: {
+      label: {
+        rotate: 0, 
+        overlappingBehavior: 'hide', 
+      },
+      tickInterval: 1, 
+    }
+  });
+}
+
+
+function loadWeeklyChart() {
+  $(idPrefix + '#weekChart').dxChart({
+    dataSource: weeklyData,
+    series: {
+      argumentField: 'dayofWeekDate',
+      valueField: 'processQuantity',
+      type: 'bar',
+      color: '#0098FF',
+      name: 'PCS',
+    },
+    title: '주 당 작업량',
+    legend: {
+      visible: true,
+      horizontalAlignment: 'left',
+      font: {
+        size: 14,
+        color: '#333'
+      }
+    },
+    argumentAxis: {
+      label: {
+        rotate: 0, 
+        overlappingBehavior: 'hide', 
+      },
+      tickInterval: 1,
+    }
+  });
 }
 
 function initView() {
@@ -110,6 +164,15 @@ function createText(x, y, fontSize, textAnchor, content) {
 function onActive() {}
 
 function searchList() {
+
+  // 데이터가 준비된 후 차트를 그리도록 수정
+  fetchDailyChartData().then(() => {
+    fetchWeeklyChartData().then(() => {
+      loadDailyChart();  // 당일 차트 그리기
+      loadWeeklyChart(); // 주간 차트 그리기
+    });
+  });
+
   if (eqpCodeSel == "" || eqpCodeSel == null) {
     return;
   }
@@ -149,8 +212,7 @@ function searchList() {
       // 에러 발생 시 처리
     });
 
-  fetchDailyChartData();
-  fetchWeeklyChartData();
+
 }
 
 // 상황판 시간별 차트
@@ -196,12 +258,15 @@ function fetchDailyChartData() {
       .done(function (response) {
         try {
           dailyData = response.lktBody;
-          resolve(); // 차트 데이터 로딩 완료
+          //console.log('Daily Data:', dailyData); // 데이터 확인용
+          resolve(); // 데이터 로딩 완료 후 차트 호출
         } catch (ex) {
-          reject(ex); // 에러 발생 시 reject
+          console.error('Error fetching daily data:', ex);
+          reject(ex);
         }
       })
       .fail(function () {
+        console.error("Daily chart data fetch failed.");
         reject("Daily chart data fetch failed.");
       });
   });
@@ -268,58 +333,21 @@ function fetchWeeklyChartData() {
       .done(function (response) {
         try {
           weeklyData = response.lktBody;
-          resolve(); // 차트 데이터 로딩 완료
+          //console.log('Weekly Data:', weeklyData); // 데이터 확인용
+          resolve(); // 데이터 로딩 완료 후 차트 호출
         } catch (ex) {
-          reject(ex); // 에러 발생 시 reject
+          console.error('Error fetching weekly data:', ex);
+          reject(ex);
         }
       })
       .fail(function () {
+        console.error("Weekly chart data fetch failed.");
         reject("Weekly chart data fetch failed.");
       });
   });
 }
 
-function loadCharts() {
-  $(idPrefix + '#todayChart').dxChart({
-    dataSource: dailyData,
-    series: {
-      argumentField: 'hourCode',
-      valueField: 'processQuantity',
-      type: 'bar',
-      color: '#0098FF',
-      name: 'Qty',
-    },
-    title: '당일 시간당 작업량',
-    legend: {
-      visible: true,   // 범례 보이기
-      horizontalAlignment: 'left',
-      font: {
-        size: 14,
-        color: '#333'
-      }
-    }
-  });
 
-  $(idPrefix + '#weekChart').dxChart({
-    dataSource: weeklyData,
-    series: {
-      argumentField: 'dayofweekName',
-      valueField: 'processQuantity',
-      type: 'bar',
-      color: '#0098FF',
-      name: 'Qty',
-    },
-    title: '주 당 작업량',
-    legend: {
-      visible: true,   // 범례 보이기
-      horizontalAlignment: 'left',
-      font: {
-        size: 14,
-        color: '#333'
-      }
-    }
-  });
-}
 
 function getFormattedDate() {
   const today = new Date();
