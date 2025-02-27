@@ -16,27 +16,12 @@
   flex-shrink: 0;
 }
 
-/* <div class="title-fac">DAS 현황판</div>
-<div class="sumbox-fac">
-  <div class="sumbox-title-fac">
-    <div class="sumbox-title-1-fac"></div>
-    <div class="sumbox-title-2-fac"></div>
-    <div class="sumbox-title-3-fac">
-      <div class="sumbox-title-3-sub-fac"></div>
-      <div class="sumbox-title-3-sub-fac">
-        <div class="sumbox-title-3-sub-1-fac"></div>
-        <div class="sumbox-title-3-sub-2-fac"></div>
-      </div>
-    </div>
-  </div>
-  <div class="sumbox-con-fac">
-    <div class="sumbox-con-1-fac"></div>
-    <div class="sumbox-con-2-fac"></div>
-    <div class="sumbox-con-3-fac"></div>
-    <div class="sumbox-con-3-fac"></div>
-  </div>
-</div> */
-
+.chart_container{
+  display: flex;
+}
+#todayChart, #weekChart{
+  width: 50%;
+}
 .sumbox-fac {
   display: flex;
   flex-direction: column;
@@ -177,14 +162,19 @@
 
   margin-top: 10px;
 }
-
+.dxg-value-indicator{
+  display: none !important;
+}
 .card-stats-fac {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
+  width: 70%;
   height: 100%;
   flex-shrink: 0;
+}
+.chart_cnt{
+  width: 30%;
 }
 
 .stat-row-fac {

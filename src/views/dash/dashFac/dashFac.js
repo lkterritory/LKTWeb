@@ -30,28 +30,58 @@ let eqpCodeSel = ""; /// 선택된 설비
 
 let intervalList = null;
 
+let dailyData;
+let weeklyData;
+
+
 window.onClickFac = function () {
   showPopup();
 };
 
 function onCreate() {
   initView();
+  fetchDailyChartData();
+  fetchWeeklyChartData();
 
-  let iniData = {
-    centerCode: "HMOMNI",
-    clientCode: "HMOMNI",
-    warehouseCode: "HMOMNI",
-    totalStoreCount: 3,
-    processStoreCount: 2,
-    totalSerialShippingContainerCodeCount: 3,
-    processSerialShippingContainerCodeCount: 2,
-    totalSkuCount: 3,
-    processSkuCount: 2,
-    totalQuantity: 3,
-    processQuantity: 2
-  };
+ $(idPrefix + '#todayChart').dxChart({
+  dataSource : dailyData, 
+  series: {
+    argumentField: 'hourCode',
+    valueField: 'processQuantity',
+    type: 'bar',
+    color: '#0098FF',
+    name: 'Qty', 
+  },
+  title: '당일 시간당 작업량',
+  legend: {
+    visible: true,   // 범례 보이기
+    horizontalAlignment: 'left', 
+    font: {
+      size: 14,
+      color: '#333' 
+    }
+  }
+});
+$(idPrefix + '#weekChart').dxChart({
+  dataSource : weeklyData,
+  series: {
+    argumentField: 'dayofweekName',
+    valueField: 'processQuantity',
+    type: 'bar',
+    color: '#0098FF',
+    name: 'Qty', 
+  },
+  title: '주 당 작업량',
+  legend: {
+    visible: true,   // 범례 보이기
+    horizontalAlignment: 'left', 
+    font: {
+      size: 14,
+      color: '#333' 
+    }
+  }
+});
 
-  loadBar([iniData]);
 
   eqpCodeSel = localStorage.getItem("eqpCodeSel");
 
@@ -64,21 +94,6 @@ function onCreate() {
   }
 
   $(".title-fac").text(eqpCodeSel);
-
-  // let dataTmp = [
-  //   {
-  //     centerCode: "LKT",
-  //     clientCode: "LKT",
-  //     warehouseCode: "LKT",
-  //     totalSkuCount: 10,
-  //     processSkuCount: 20,
-  //     totalQuantity: 102,
-  //     processQuantity: 300
-  //   }
-  // ];
-  // loadBar(dataTmp);
-
-  //return;
 
   searchList();
   setTimeout(() => {
@@ -97,31 +112,7 @@ function initView() {
   $(".sumbox-con-3-fac").text("0/hr");
   $("#sumbox-con-3-fac-1").text("0/hr");
 
-  // let iniData = {
-  //   facilitiesCode: "0",
-  //   totalOrderCount: 0,
-  //   workOrderCount: 0,
-  //   totalSkuCount: 0,
-  //   processSkuCount: 0,
-  //   totalQuantity: 0,
-  //   processQuantity: 0
-  // };
 
-  // let iniData = {
-  //   centerCode: "HMOMNI",
-  //   clientCode: "HMOMNI",
-  //   warehouseCode: "HMOMNI",
-  //   totalStoreCount: 999,
-  //   processStoreCount: 888,
-  //   totalSerialShippingContainerCodeCount: 999,
-  //   processSerialShippingContainerCodeCount: 888,
-  //   totalSkuCount: 999,
-  //   processSkuCount: 888,
-  //   totalQuantity: 999,
-  //   processQuantity: 888
-  // };
-
-  // loadBar([iniData]);
 }
 
 function createRect(width, height, fill) {
@@ -153,45 +144,6 @@ function createText(x, y, fontSize, textAnchor, content) {
 function onActive() {}
 
 function searchList() {
-  // 테스트
-
-  // let bodyTmp = [
-  //   //  변경된 api
-  //   {
-  //     centerCode: "HMOMNI",
-  //     clientCode: "HMOMNI",
-  //     warehouseCode: "HMOMNI",
-  //     totalStoreCount: 50,
-  //     processStoreCount: Math.floor(Math.random() * 50) + 1,
-  //     totalSerialShippingContainerCodeCount: 50,
-  //     processSerialShippingContainerCodeCount:
-  //       Math.floor(Math.random() * 50) + 1,
-  //     totalSkuCount: 50,
-  //     processSkuCount: Math.floor(Math.random() * 50) + 1,
-  //     totalQuantity: 50,
-  //     processQuantity: Math.floor(Math.random() * 50) + 1
-  //   }
-  // ];
-
-  //   {
-  //     "centerCode": "HMOMNI",
-  //     "clientCode": "HMOMNI",
-  //     "warehouseCode": "HMOMNI",
-  //     "totalStoreCount": 0,
-  //     "processStoreCount": 0,
-  //     "totalSerialShippingContainerCodeCount": 0,
-  //     "processSerialShippingContainerCodeCount": 0,
-  //     "totalSkuCount": 6,
-  //     "processSkuCount": 0,
-  //     "totalQuantity": 37,
-  //     "processQuantity": 0
-  // }
-
-  // loadBar(bodyTmp);
-  // return;
-
-  // end 테스트
-
   if (eqpCodeSel == "" || eqpCodeSel == null) {
     return;
   }
@@ -209,7 +161,143 @@ function searchList() {
       initView();
 
       try {
+        // response.lktBody = [
+        //   {
+        //     centerCode: "HMOMNI",
+        //     clientCode: "HMOMNI",
+        //     warehouseCode: "HMOMNI",
+        //     totalStoreCount: 999, //PO
+        //     processStoreCount: 888,
+        //     totalSerialShippingContainerCodeCount: 999, //SSCC
+        //     processSerialShippingContainerCodeCount: 888,
+        //     // totalSkuCount: 999,
+        //     // processSkuCount: 888,
+        //     totalQuantity: 999, // Qty
+        //     processQuantity: 888
+        //   }        
+        // ]
         loadBar(response.lktBody);
+      } catch (ex) {}
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+
+  fetchDailyChartData();
+  fetchWeeklyChartData();
+}
+
+// 상황판 시간별 차트
+function fetchDailyChartData() {
+
+  // dailyData =  [
+  //   { "hourCode": 1,"processQuantity": 10},
+  //   { "hourCode": 2,"processQuantity": 20},
+  //   { "hourCode": 3,"processQuantity": 30},
+  //   { "hourCode": 4,"processQuantity": 40},
+  //   { "hourCode": 5,"processQuantity": 50},
+  //   { "hourCode": 6,"processQuantity": 60},
+  //   { "hourCode": 7,"processQuantity": 70},
+  //   { "hourCode": 8,"processQuantity": 80},
+  //   { "hourCode": 9,"processQuantity": 90},
+  //   { "hourCode": 10,"processQuantity": 100},
+  //   { "hourCode": 11,"processQuantity": 110},
+  //   { "hourCode": 12,"processQuantity": 120},
+  //   { "hourCode": 13,"processQuantity": 130},
+  //   { "hourCode": 14,"processQuantity": 140},
+  //   { "hourCode": 15,"processQuantity": 130},
+  //   { "hourCode": 16,"processQuantity": 120},
+  //   { "hourCode": 17,"processQuantity": 110},
+  //   { "hourCode": 18,"processQuantity": 100},
+  //   { "hourCode": 19,"processQuantity": 90},
+  //   { "hourCode": 20,"processQuantity": 60},
+  //   { "hourCode": 21,"processQuantity": 30},
+  //   { "hourCode": 22,"processQuantity": 20},
+  //   { "hourCode": 23,"processQuantity": 20},
+  //   { "hourCode": 24,"processQuantity": 10},
+    
+  // ]
+   var obj = {
+    lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.DAILY.PRODUCTIVITY"),
+    lktBody: [{equipmentCode: eqpCodeSel}]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .dashboardsPickToLightDaily(encoded)
+    .done(function (response) {
+       try {
+        dailyData = response.lktBody;
+        //console.log(dailyData)
+      } catch (ex) {}
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
+
+// 상황판 주간 차트
+function fetchWeeklyChartData() {
+
+  // weeklyData =  [
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "일",
+  //     "dayofweekDate": "2025-02-22",
+  //     "processQuantity": 10
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "월",
+  //     "dayofweekDate": "2025-02-23",
+  //     "processQuantity": 20
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "화",
+  //     "dayofweekDate": "2025-02-24",
+  //     "processQuantity": 30
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "수",
+  //     "dayofweekDate": "2025-02-25",
+  //     "processQuantity": 40
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "목",
+  //     "dayofweekDate": "2025-02-26",
+  //     "processQuantity": 50
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "금",
+  //     "dayofweekDate": "2025-02-27",
+  //     "processQuantity": 60
+  //   },
+  //   {
+  //     "dayofweekCode": 0,
+  //     "dayofweekName": "토",
+  //     "dayofweekDate": "2025-02-28",
+  //     "processQuantity": 70
+  //   }
+  // ]
+
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.DASHBOARD.PICKTOLIGHT.WEEKLY.PRODUCTIVITY"),
+    lktBody: [{equipmentCode: eqpCodeSel}]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .dashboardsPickToLightWeekly(encoded)
+    .done(function (response) {
+      try {
+        weeklyData = response.lktBody;
+        //console.log(weeklyData)
       } catch (ex) {}
     })
     .fail(function () {
@@ -225,42 +313,30 @@ function getFormattedDate() {
   return `${year}-${month}-${day}`;
 }
 
+function calculateProgress(processed, total) {
+  return total ? Math.round((processed / total) * 100) : 0;
+}
+
 function loadBar(data) {
-  console.log("processStoreCount", data[0].processStoreCount);
-  console.log("totalStoreCount", data[0].totalStoreCount);
-  console.log("data[0].progressStore", data[0].progressStore);
-
-  data[0].progressStore =
-    (data[0].processStoreCount / data[0].totalStoreCount) * 100;
-  data[0].progressStore = Math.round(data[0].progressStore);
-  data[0].progressStore = data[0].progressStore || 0;
-
-  data[0].progressSSCC =
-    (data[0].processSerialShippingContainerCodeCount /
-      data[0].totalSerialShippingContainerCodeCount) *
-    100;
-  data[0].progressSSCC = Math.round(data[0].progressSSCC);
-  data[0].progressSSCC = data[0].progressSSCC || 0;
-
-  data[0].progressSku = (data[0].processSkuCount / data[0].totalSkuCount) * 100;
-  data[0].progressSku = Math.round(data[0].progressSku);
-  data[0].progressSku = data[0].progressSku || 0;
-
-  data[0].progressQty = (data[0].processQuantity / data[0].totalQuantity) * 100;
-  data[0].progressQty = Math.round(data[0].progressQty);
-  data[0].progressQty = data[0].progressQty || 0;
 
   let item = data[0];
 
-  for (let i = 1; i < 5; i++) {
+  item.progressStore = calculateProgress(item.processStoreCount, item.totalStoreCount);
+  item.progressSSCC = calculateProgress(item.processSerialShippingContainerCodeCount, item.totalSerialShippingContainerCodeCount);
+  item.progressSku = calculateProgress(item.processSkuCount, item.totalSkuCount);
+  item.progressQty = calculateProgress(item.processQuantity, item.totalQuantity);
+
+  let totalSSCC = item.totalSerialShippingContainerCodeCount;
+  let processSSCC = item.processSerialShippingContainerCodeCount;
+  let progressSSCC = totalSSCC ? Math.round((processSSCC / totalSSCC) * 100) : 0;
+  
+  for (let i = 1; i < 4; i++) {
     $(idPrefix + "#progressBar_" + i).dxProgressBar({
       value:
         i == 1
           ? item.processStoreCount
           : i == 2
           ? item.processSerialShippingContainerCodeCount
-          : i == 3
-          ? item.processSkuCount
           : item.processQuantity, // 현재 값
       min: 0, // 최소값
       max:
@@ -268,8 +344,6 @@ function loadBar(data) {
           ? item.totalStoreCount
           : i == 2
           ? item.totalSerialShippingContainerCodeCount
-          : i == 3
-          ? item.totalSkuCount
           : item.totalQuantity, // 현재 값
       showStatus: false, // 기본 텍스트 표시 끄기
       animation: {
@@ -289,66 +363,53 @@ function loadBar(data) {
         updateProgressBarText(e);
       }
     });
-
-    // let per = Math.round((item.workOrderCount / item.totalOrderCount) * 100, 0);
-    // let perRest = 100 - per;
-
-    let progressRst =
-      i == 1
-        ? item.progressStore
-        : i == 2
-        ? item.progressSSCC
-        : i == 3
-        ? item.progressSku
-        : item.progressQty;
-
-    //alert(progressRst);
-    $(idPrefix + "#gaugeContainer_" + i).dxCircularGauge({
-      value: progressRst,
-
-      rangeContainer: {
-        backgroundColor: "#e0e0e0", // 채워지지 않은 부분의 색상
-        width: 30, // rangeContainer의 두께 설정
-        ranges: [
-          {startValue: 0, endValue: progressRst, color: "#3a80f6"}, // 채워진 부분의 색상
-          {startValue: 56, endValue: 100 - progressRst, color: "#e0e0e0"} // 비워진 부분의 색상
-        ]
-      },
-
-      scale: {
-        startValue: 0,
-        endValue: 100,
-        tick: {
-          visible: false
-        },
-        label: {
-          visible: false
-        }
-      },
-
-      //valueIndicator: "none",
-      valueIndicator: {
-        type: "none",
-        color: "#3a80f6",
-        offset: 10000,
-        size: 20
-      },
-
-      geometry: {
-        startAngle: 0,
-        endAngle: 360
-      },
-      centerTemplate: (gauge, container) => {
-        // 루트 요소에 텍스트 추가
-        const rect = createRect(50, 0, "transparent");
-        // alert(gauge.value);
-        const text = createText(10, 200, 40, "start", gauge.value() + "%");
-
-        container.appendChild(rect);
-        container.appendChild(text);
-      }
-    });
   }
+
+  //ctn 기준 진행률
+  $(idPrefix + '#gauge').dxCircularGauge({
+    scale :{
+      startValue: 0,
+      endValue: totalSSCC,
+      tick: {
+        visible: false // 눈금 표시 안함
+      },
+      label: {
+        visible: false // 눈금 라벨 표시 안함
+      }
+    },
+    width:"100%",
+    title: {
+      text: "Ctn 기준 진행률",
+      font: {
+        size: 28,
+      },
+    },
+    rangeContainer: {
+      width: 30, 
+      backgroundColor: "#e0e0e0", 
+      ranges: [
+        { 
+          startValue: totalSSCC - processSSCC,
+          endValue: totalSSCC,
+          color: "#0098FF"
+        }  // 반시계방향으로 채우기 (100에서 0까지)
+      ]
+    },
+    geometry: {
+      startAngle: 90, // 시작 각도
+      endAngle: -270 
+    },
+    value: progressSSCC ,
+    centerTemplate : (gauge, container) => {
+      const rect = createRect(50, 0 , "transparent");
+      const text = createText(10, 200, 40, "start", gauge.value()+ "%");
+
+      container.appendChild(rect);
+      container.appendChild(text);
+    }
+    
+  });
+  
 }
 
 function updateProgressBarText(e) {

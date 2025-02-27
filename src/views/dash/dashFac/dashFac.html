@@ -9,41 +9,15 @@
       onclick="onClickFac()">
       DAS 현황판
     </div>
-    <div class="sumbox-fac">
-      <div class="sumbox-title-fac">
-        <div class="sumbox-title-2-fac">지점</div>
-        <div class="sumbox-title-2-fac">SSCC</div>
-        <div class="sumbox-title-2-fac">제품</div>
-        <div class="sumbox-title-2-fac">PCS</div>
-      </div>
-      <div class="sumbox-con-fac">
-        <div class="sumbox-con-2-fac">
-          <div
-            id="gaugeContainer_1"
-            class="gauge-container-fac"></div>
-        </div>
-        <div class="sumbox-con-2-fac">
-          <div
-            id="gaugeContainer_2"
-            class="gauge-container-fac"></div>
-        </div>
-        <div class="sumbox-con-2-fac">
-          <div
-            id="gaugeContainer_3"
-            class="gauge-container-fac"></div>
-        </div>
-        <div class="sumbox-con-2-fac">
-          <div
-            id="gaugeContainer_4"
-            class="gauge-container-fac"></div>
-        </div>
-      </div>
+    <div class="chart_container">
+      <div id="todayChart"></div>
+      <div id="weekChart"></div>
     </div>
 
     <div class="card-content-fac">
       <div class="card-stats-fac">
         <div class="stat-row-fac">
-          <span class="stat-label-fac">지점</span>
+          <span class="stat-label-fac">PO</span>
           <div class="progress-bar-container-fac">
             <div
               id="progressBar_1"
@@ -51,7 +25,7 @@
           </div>
         </div>
         <div class="stat-row-fac">
-          <span class="stat-label-fac">SSCC</span>
+          <span class="stat-label-fac">Ctn</span>
           <div class="progress-bar-container-fac">
             <div
               id="progressBar_2"
@@ -59,22 +33,17 @@
           </div>
         </div>
         <div class="stat-row-fac">
-          <span class="stat-label-fac">제품</span>
+          <span class="stat-label-fac">Qty</span>
           <div class="progress-bar-container-fac">
             <div
               id="progressBar_3"
               class="progress-bar-fac"></div>
           </div>
         </div>
-        <div class="stat-row-fac">
-          <span class="stat-label-fac">PCS</span>
-          <div class="progress-bar-container-fac">
-            <div
-              id="progressBar_4"
-              class="progress-bar-fac"></div>
-          </div>
-        </div>
       </div>
-    </div>
+      <div class="chart_cnt">
+          <div id="gauge"></div>
+      </div>          
+    </div>    
   </div>
 </div>
