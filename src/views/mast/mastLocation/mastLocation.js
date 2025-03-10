@@ -422,6 +422,14 @@ window.uploadExcel = function (fileInput) {
   const file = fileInput.files[0]; // 업로드된 파일
   if (!file) return;
 
+  // ✅ 파일 업로드 확인 팝업
+  DevExpress.ui.dialog.confirm("선택한 파일을 업로드하시겠습니까?", "엑셀 업로드 확인").done(function (dialogResult) {
+    if (!dialogResult) {
+      fileInput.value = ""; // ✅ 사용자가 취소하면 파일 선택 초기화
+      DevExpress.ui.notify("업로드가 취소되었습니다.", "warning", 2000);
+      return;
+    }
+
   const workbook = new ExcelJS.Workbook();
   const reader = new FileReader();
 
@@ -465,6 +473,7 @@ window.uploadExcel = function (fileInput) {
       apiCommon
         .coresLocationEdit(JSON.stringify(param))
         .done(function (response) {
+          console.log(response.lktBody)
           searchList();
         })
         .fail(function () {});
@@ -472,6 +481,7 @@ window.uploadExcel = function (fileInput) {
   };
 
   reader.readAsArrayBuffer(file); // 파일 읽기
+});
 };
 
 export default {
