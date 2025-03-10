@@ -1,17 +1,78 @@
+let apiWcs;
+let lktUtil;
+
+if (!window.apiWcsModule || !window.lktUtilModule) {
+  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+}
+
+apiWcs = (await window.apiWcsModule).default;
+lktUtil = (await window.lktUtilModule).default;
+
+let workOrderGrid;
 let intervalList = null;
 let intervalPrintMq = null;
 
 const idPrefix = "#spiral-work-workList ";
 
+
+let selectedStartDate = null;
+let selectedEndDate = null;
+
+let searchTextValue = "";
+let extractedData = [];
+
 function onCreate() {
+ 
   createCalendar();
   createDataGrid();
+  searchList()
 }
 
+function searchList(){
 
+  var obj = {
+    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
+    lktBody: [
+      {
+        requestDateFrom: selectedStartDate,
+        requestDateTo: selectedEndDate,
+        sscc: searchTextValue,
+      }
+    ]
+  };
+
+  var encoded = btoa(JSON.stringify(obj));
+
+  apiWcs
+    .historyListGet(encoded)
+    .done(function (response) {
+      try {
+        let wrokDataList = response.lktBody;
+        extractedData = wrokDataList.flatMap(obj => obj.data || []); 
+
+        console.log(extractedData)
+
+        if (workOrderGrid) {
+          workOrderGrid.option("dataSource", extractedData);
+          workOrderGrid.refresh(); 
+        }
+      } catch (ex) {}
+    })
+    .fail(function () {
+      // 에러 발생 시 처리
+    });
+}
 function createDataGrid(){
   $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
+    onValueChanged: function (e) {
+      searchTextValue = e.value; 
+      console.log("📢 입력된 값:", searchTextValue); 
+      if (e.value) {
+        searchList(); 
+      }
+    }
   });
 
   $(idPrefix + '#searchButton').dxButton({
@@ -20,63 +81,63 @@ function createDataGrid(){
     type: 'default',
     width: 120,
     onClick() {
-      DevExpress.ui.notify('The Contained button was clicked');
+      searchList();
     },
   });
 
-  $(idPrefix + '#workOrderGrid').dxDataGrid({
-    dataSource: './src/data/data.json',
+  workOrderGrid = $(idPrefix + '#workOrderGrid').dxDataGrid({
+    dataSource: [],
     columns: [
-      {caption: 'No',dataField: 'ID',},
-      'SSCC','PID',
+      //{caption: 'No',dataField: 'ID',},
+      'sscc','pid',
       {
         caption: 'BCR > SMS',
         columns: [
-          {caption: '상태', dataField: 'STATUS_1', },
-          {caption: '인터페이스 시간​', dataField: 'CREATED_AT_1'}
+          {caption: '상태', dataField: 'status1', },
+          {caption: '인터페이스 시간​', dataField: 'createdAt1'}
         ]
       },
       {
         caption: 'SMS > WMS',
         columns: [
-          { caption: '상태', dataField: 'STATUS_2'},
-          { caption: '인터페이스 시간​', dataField: 'CREATED_AT_2'}
+          { caption: '상태', dataField: 'status2'},
+          { caption: '인터페이스 시간​', dataField: 'createdAt2'}
         ]
       },
       { 
         caption: 'WMS > SMS', 
         columns: [
-          {caption: '상태', dataField: 'STATUS_3'},
-          {caption: '인터페이스 시간​', dataField: 'CREATED_AT_3'}
+          {caption: '상태', dataField: 'status3'},
+          {caption: '인터페이스 시간​', dataField: 'createdAt3'}
         ]
       }, 
       {
         caption: 'SMS > BCR',
         columns: [
-          {caption: '상태', dataField: 'STATUS_4'},
-          {caption: '인터페이스 시간​', dataField: 'CREATED_AT_4'}
+          {caption: '상태', dataField: 'status4'},
+          {caption: '인터페이스 시간​', dataField: 'createdAt4'}
         ]
       },
-      {caption: '도착층', dataField: 'ACTL_DEST_FLOOR'},
-      {caption: '도착시간', dataField: 'TIME_ARRIVAL'}
+      {caption: '도착층', dataField: 'actlDestFloor'},
+      {caption: '도착시간', dataField: 'timeArrival'}
     ],
     showBorders: true,
     
-    // //fail일 경우 에러 툴팁 출력
-    // onCellPrepared: function (e) {
-    //   if (e.rowType === "data" && e.column.dataField.startsWith("STATUS") && e.value === "Fail") {
-    //     e.cellElement.mouseover(function (arg) {
-    //         tooltipInstance.option("contentTemplate", function (contentElement) {
-    //             contentElement.html(
-    //                 `<div> ${e.data.ERROR_MESSAGE_4}</div>`);
-    //         });
-    //         tooltipInstance.show(arg.target);
-    //     });
-    //     e.cellElement.mouseout(function (arg) {
-    //         tooltipInstance.hide();
-    //     });
-    //   }
-    // } 
+    //fail일 경우 에러 툴팁 출력
+    onCellPrepared: function (e) {
+      if (e.rowType === "data" && e.column.dataField.startsWith("status") && e.value === "Fail") {
+        e.cellElement.mouseover(function (arg) {
+            tooltipInstance.option("contentTemplate", function (contentElement) {
+                contentElement.html(
+                    `<div> ${e.data.errorMessage}</div>`);
+            });
+            tooltipInstance.show(arg.target);
+        });
+        e.cellElement.mouseout(function (arg) {
+            tooltipInstance.hide();
+        });
+      }
+    } 
 
   });
   //에러 툴팁
@@ -85,6 +146,8 @@ function createDataGrid(){
   }).dxTooltip("instance");
 
 }
+
+
 
 //캘린더
 function createCalendar(){
@@ -97,8 +160,21 @@ function createCalendar(){
 
   $(idPrefix + '#calendarContainer').dxDateRangeBox({
     value: initialValue,
-    onValueChanged: showSelectedDays,
+    onValueChanged: function(e) {
+      updateSelectedDates(e); 
+      
+      if(selectedStartDate && selectedEndDate){
+        searchList();
+      }
+    }
   });
+
+  // kr 시간으로 변경
+  function formatDateToLocal(date) {
+    let offset = date.getTimezoneOffset() * 60000; 
+    let localDate = new Date(date.getTime() - offset); 
+    return localDate.toISOString().split('T')[0]; 
+  }
 
   function getCurrentMonthRange() {
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -109,17 +185,23 @@ function createCalendar(){
     return { min, max };
   }
 
-  function showSelectedDays({ value: [startDate, endDate] }) {
-
+  function updateSelectedDates({ value: [startDate, endDate] }) {
+   
     let daysCount = 0;
     if (startDate && endDate) {
       daysCount = (endDate - startDate) / msInDay + 1;
     }
-    
+    startDate = startDate ? formatDateToLocal(startDate) : null;
+    endDate = endDate ? formatDateToLocal(endDate) : null;
+
+    selectedStartDate = startDate;
+    selectedEndDate = endDate;
+
     $(idPrefix + '#days-selected').text(daysCount);
+
   }
 
-  showSelectedDays({ value: initialValue });
+  updateSelectedDates({ value: initialValue });
 }
 
 function onActive() {}
