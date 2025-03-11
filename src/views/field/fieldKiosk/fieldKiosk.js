@@ -660,7 +660,7 @@ function onCreate() {
 
     lktMqtt.fncStartMqtt(onMessage);
     selectPrint();
-  }, 5000); // 5초에 한번
+  }, 1000); // 1초에 한번
 }
 
 function selectPrint() {
