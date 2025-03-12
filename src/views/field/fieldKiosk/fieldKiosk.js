@@ -726,7 +726,7 @@ function selectPrint() {
                 .equipmentLabelPatch(JSON.stringify(obj))
                 .done(function (response) {
                   try {
-                    if (lktHeader.statusCode == "01") {
+                    if (response.lktHeader.statusCode == "01") {
                       // 정상 응답일때
                       // 해당 라벨 출력시작
                       console.log("labelIp:" + resBody.labelIp);
