@@ -477,22 +477,23 @@ function onCreate() {
           }
         }
       ],
-      onCellClick: function(e) {
-
+      onCellClick: function (e) {
         if (e.column.dataField === "interfaceReferenceNumber") {
-            skuCode = e.data.skuCode; 
-            ibdCode = e.data.interfaceReferenceNumber;
-            var obj = {
-              lktHeader: lktUtil.getLktHeader("GET.OUTBOUND.EQUIPMENT.PICKTOLIGHT.MERASK.INTERFACE.REFERENCE.NUMBER"),
-              lktBody: [
-                {
-                  interfaceReferenceNumber: ibdCode,
-                  skuCode: skuCode
-                }
-              ]
-            };
-           var encoded = btoa(JSON.stringify(obj));
-        
+          skuCode = e.data.skuCode;
+          ibdCode = e.data.interfaceReferenceNumber;
+          var obj = {
+            lktHeader: lktUtil.getLktHeader(
+              "GET.OUTBOUND.EQUIPMENT.PICKTOLIGHT.MERASK.INTERFACE.REFERENCE.NUMBER"
+            ),
+            lktBody: [
+              {
+                interfaceReferenceNumber: ibdCode,
+                skuCode: skuCode
+              }
+            ]
+          };
+          var encoded = btoa(JSON.stringify(obj));
+
           apiWcs
             .equipmentPicktolightSscc(encoded)
             .done(function (response) {
@@ -516,53 +517,73 @@ function onCreate() {
                 //     serialShippingContainerCodeUseYN: "O"
                 //   },
                 // ]
-                 let ibdSsccData = response.lktBody
-  
-                  // 기존 팝업이 있으면 제거
-                  if ($('#ibdPopup').length) {
-                      $('#ibdPopup').remove();
-                  }
-               
-                  let popup = $('<div id="ibdPopup">').appendTo('body');
-                  popup.dxPopup({
-                    shading: true,
-                    closeOnOutsideClick: true,
-                    title: "IBD_REF_NUMBER: " + ibdCode,
-                    width: 800,
-                    height: 400,
-                    visible: true,
-                    showCloseButton: true,
-                    onHidden: function() {
-                      popup.remove(); // 팝업이 닫힐 때 제거
+                let ibdSsccData = response.lktBody;
+
+                // 기존 팝업이 있으면 제거
+                if ($("#ibdPopup").length) {
+                  $("#ibdPopup").remove();
+                }
+
+                let popup = $('<div id="ibdPopup">').appendTo("body");
+                popup.dxPopup({
+                  shading: true,
+                  closeOnOutsideClick: true,
+                  title: "IBD_REF_NUMBER: " + ibdCode,
+                  width: 800,
+                  height: 400,
+                  visible: true,
+                  showCloseButton: true,
+                  onHidden: function () {
+                    popup.remove(); // 팝업이 닫힐 때 제거
                   },
-                  contentTemplate: function(contentElement) {
+                  contentTemplate: function (contentElement) {
                     contentElement.append('<div id="dataGrid"></div>');
-                    $('#dataGrid').dxDataGrid({
-                        dataSource: ibdSsccData,
-                        allowColumnResizing: true,
-                        columnAutoWidth: true,
-                        columns: [
-                            { dataField: "interfaceReferenceNumber", caption: "IBD"},
-                            { dataField: "serialShippingContainerCode", caption: "SSCC"},
-                            { dataField: "skuCode", caption: "상품코드", width:"140px"},
-                            { dataField: "skuName", caption: "상품명", width:"160px" },
-                            { dataField: "serialShippingContainerCodeQuantity", caption: "입수량", alignment:"left", width:"80px"},
-                            { dataField: "serialShippingContainerCodeUseYN", caption: "사용", alignment:"left", width:"60px"}
-                            
-                            //{ dataField: "addDtm", caption: "addDtm", width: "180", width: "120" }
-                        ],
-                        showBorders: true
+                    $("#dataGrid").dxDataGrid({
+                      dataSource: ibdSsccData,
+                      allowColumnResizing: true,
+                      columnAutoWidth: true,
+                      columns: [
+                        {dataField: "interfaceReferenceNumber", caption: "IBD"},
+                        {
+                          dataField: "serialShippingContainerCode",
+                          caption: "SSCC"
+                        },
+                        {
+                          dataField: "skuCode",
+                          caption: "상품코드",
+                          width: "140px"
+                        },
+                        {
+                          dataField: "skuName",
+                          caption: "상품명",
+                          width: "160px"
+                        },
+                        {
+                          dataField: "serialShippingContainerCodeQuantity",
+                          caption: "입수량",
+                          alignment: "left",
+                          width: "80px"
+                        },
+                        {
+                          dataField: "serialShippingContainerCodeUseYN",
+                          caption: "사용",
+                          alignment: "left",
+                          width: "60px"
+                        }
+
+                        //{ dataField: "addDtm", caption: "addDtm", width: "180", width: "120" }
+                      ],
+                      showBorders: true
                     });
                   }
                 });
               } catch (ex) {}
             })
-        
+
             .fail(function () {});
-      }
-      } ,
-        
-         
+        }
+      },
+
       showBorders: true,
       scrolling: {
         mode: "standard" // or "virtual" | "infinite"
@@ -663,10 +684,13 @@ function onCreate() {
   }, 1000); // 1초에 한번
 }
 
+let intervalIdPrint = null; // 라벨프린트 루프
 function selectPrint() {
   // if (isPrintFind()) {
 
   if (dvList.length <= 0) return;
+
+  if (intervalIdPrint != null) return; // 라벨프린트 루프가 끝나기전에는 조회하지 않는다.
 
   if (true) {
     var obj = {
@@ -684,36 +708,47 @@ function selectPrint() {
       .done(function (response) {
         try {
           if (response.lktBody.length > 0) {
-            let resBody = response.lktBody[0];
+            intervalIdPrint = setInterval(() => {
+              // 라벨목록을 받으면 0.2초텀 돌기
+              let resBody = response.lktBody[nIdx];
+              var obj = {
+                lktHeader: lktUtil.getLktHeader(
+                  "PAGE.outbound.WCS.MIDDLE.CATEGORIES"
+                ),
+                lktBody: [
+                  {
+                    labelNumber: resBody.labelNumber
+                  }
+                ]
+              };
 
-            // 라벨 출력시작
-            console.log("labelIp:" + resBody.labelIp);
-            console.log("write:" + resBody.labelZpl);
-            zebra.writeToSelectedPrinter(resBody.labelIp, resBody.labelZpl);
-            // 라벨 출력완료
+              apiWcs
+                .equipmentLabelPatch(JSON.stringify(obj))
+                .done(function (response) {
+                  try {
+                    if (lktHeader.statusCode == "01") {
+                      // 정상 응답일때
+                      // 해당 라벨 출력시작
+                      console.log("labelIp:" + resBody.labelIp);
+                      console.log("write:" + resBody.labelZpl);
+                      zebra.writeToSelectedPrinter(
+                        resBody.labelIp,
+                        resBody.labelZpl
+                      );
+                    }
+                    // 라벨 출력완료
+                  } catch (ex) {}
+                })
+                .fail(function () {});
 
-            // 출력완료후 후처리
+              nIdx++;
 
-            //return; //  출력패치 임시정지
-            var obj = {
-              lktHeader: lktUtil.getLktHeader(
-                "PAGE.outbound.WCS.MIDDLE.CATEGORIES"
-              ),
-              lktBody: [
-                {
-                  labelNumber: resBody.labelNumber
-                }
-              ]
-            };
-
-            apiWcs
-              .equipmentLabelPatch(JSON.stringify(obj))
-              .done(function (response) {
-                try {
-                } catch (ex) {}
-              })
-
-              .fail(function () {});
+              if (nIdx >= response.lktBody.length) {
+                // 다돌면
+                clearInterval(intervalIdPrint); // 라벨프린트 반복 종료
+                intervalIdPrint = null;
+              }
+            }, 200);
           }
         } catch (ex) {}
       })
@@ -818,7 +853,7 @@ function searchList() {
 
         let resBody = response.lktBody[0];
         //let resBodyTmp = {}; //Object.assign(resBody);
-      
+
         // resBodyTmp.
 
         let resBodyTmp = {
@@ -829,7 +864,7 @@ function searchList() {
           processSkuCount: resBody.processSkuCount,
           totalSkuCount: resBody.totalSkuCount,
           processQuantity: resBody.processQuantity,
-          totalQuantity: resBody.totalQuantity,
+          totalQuantity: resBody.totalQuantity
           // processSscc : processSerialShippingContainerCodeCount,
           // totalSscc : totalSerialShippingContainerCodeCount
         };
