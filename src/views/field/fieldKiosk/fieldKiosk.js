@@ -708,6 +708,7 @@ function selectPrint() {
       .done(function (response) {
         try {
           if (response.lktBody.length > 0) {
+            let nIdx = 0;
             intervalIdPrint = setInterval(() => {
               // 라벨목록을 받으면 0.2초텀 돌기
               let resBody = response.lktBody[nIdx];
