@@ -72,22 +72,16 @@ function createDataGrid(){
   });
 }
 function searchList(){
-
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [
-      {
-        requestDateFrom: selectedStartDate || "", 
-        requestDateTo: selectedEndDate || "",
-        sscc: searchTextValue || "",
-      }
-    ]
+  
+  const requestBody = {
+    requestDateFrom: selectedStartDate || "", 
+    requestDateTo: selectedEndDate || "",
+    sscc: searchTextValue || "",
   };
 
-  var encoded = btoa(JSON.stringify(obj));
 
   apiWcs
-    .errorListGet(encoded)
+    .errorListGet(requestBody)
     .done(function (response) {
       try {
         

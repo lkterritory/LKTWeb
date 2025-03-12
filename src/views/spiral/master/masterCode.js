@@ -76,7 +76,7 @@ function onCreate() {
         return;
       }
   
-      // ✅ 삭제 확인 메시지 표시
+      // 삭제 확인 메시지 표시
       DevExpress.ui.dialog.confirm("선택한 항목을 삭제하시겠습니까?", "삭제 확인").done(function (dialogResult) {
         if (dialogResult) {
           deleteMasterCode(selectedRow);
@@ -186,24 +186,17 @@ function onCreate() {
 function onActive() {}
 
 function searchList() {
-  
-  var obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [
-      {
-        channelCd: channelCdSearch.option("value"),
-        channelNm: channelNmSearch.option("value")
-      }
-    ]
-  };
 
-  var encoded = btoa(JSON.stringify(obj));
+  const requestBody = {
+    channelCd: channelCdSearch.option("value") || "",
+    channelNm: channelNmSearch.option("value") || ""
+  }
 
   apiWcs
-    .masterDestListGet(encoded)
+    .masterDestListGet(requestBody)
     .done(function (response) {
       try {
-        let sampleData = response.lktBody;
+        let sampleData = response.lktBody || "";
         console.log(sampleData);
         masterCodeData = sampleData.flatMap(obj => obj.data || []); 
 
@@ -295,19 +288,14 @@ function showPopup(isModi, row) {
         return;
       }
       if (isModi) {
-        var param = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [{
-            data: [{
-              actionType: "U",   //"U" 업데이트, "D" 삭제
-              channelCd: row.channelCd,
-              channelNm: row.channelNm,
-              destFloor: row.destFloor,
-            }]
-          }]
+        const requestBody = {
+          actionType: "U",   //"U" 업데이트, "D" 삭제
+          channelCd: row.channelCd || "",
+          channelNm: row.channelNm || "",
+          destFloor: row.destFloor || ""
         };
         apiWcs
-          .masterDestUpdate(JSON.stringify(param))
+          .masterDestUpdate(requestBody)
           .done(function (response) {
             try {
               let sampleData = response.lktBody;
@@ -317,19 +305,14 @@ function showPopup(isModi, row) {
           })
           .fail(function () {});
       } else {
-        var param = {
-          lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-          lktBody: [
-            {
-              channelCd: formData.channelCd,
-              channelNm: formData.channelNm,
-              destFloor: formData.destFloor,
-            }
-          ]
-        };
+        const requestBody = {
+          channelCd: formData.channelCd || "",
+          channelNm: formData.channelNm || "",
+          destFloor: formData.destFloor || ""
+        }; 
 
         apiWcs
-          .masterDestInsert(JSON.stringify(param))
+          .masterDestInsert(requestBody)
           .done(function (response) {
             try {
               let sampleData = response.lktBody;
@@ -350,24 +333,19 @@ function showPopup(isModi, row) {
 }
  // ✅ 중복 확인 API 요청 함수
  function checkDuplicate(channelCd, destFloor) {
-  if (!channelCd || !destFloor) {
+  if (!channelCd?.trim() || !destFloor) {
     DevExpress.ui.notify("채널코드와 도착층을 입력하세요.", "warning", 2000);
     return;
   }
-
-  let obj = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{
-      channelCd: channelCd,
-      destFloor: destFloor
-    }]
+  const requestBody = {
+    channelCd: channelCd || "",
+    destFloor: destFloor || ""
   };
 
   apiWcs
-    .masterDestDuplicateCheck(JSON.stringify(obj))
+    .masterDestDuplicateCheck(requestBody)
     .done(function (response) {
-      let sampleData = response.lktBody
-      let isDuplicate = sampleData.data?.[0]?.isDuplicate;
+      let isDuplicate = response?.lktBody?.data?.[0]?.isDuplicate;
 
       if (isDuplicate) {
         DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
@@ -384,26 +362,30 @@ function showPopup(isModi, row) {
 
 //삭제 api
 function deleteMasterCode(row){
-  var param = {
-    lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-    lktBody: [{
-      data: [{
-        actionType: "D",   //"U" 업데이트, "D" 삭제
-        channelCd: row.channelCd,
-        channelNm: row.channelNm,
-        destFloor: row.destFloor,
-      }]
-    }]
+  if (!row?.channelCd) {
+    DevExpress.ui.notify("삭제할 항목을 선택하세요.", "warning", 2000);
+    return;
+  }
+  
+  const requestBody = {
+    actionType: "D",   //"U" 업데이트, "D" 삭제
+    channelCd: row.channelCd || "",
+    channelNm: row.channelNm || "",
+    destFloor: row.destFloor || "",
   };
   apiWcs
-    .masterDestUpdate(JSON.stringify(param))
+    .masterDestUpdate(requestBody)
     .done(function (response) {
-      try {
+      if (response?.lktBody) {
         searchList();
         DevExpress.ui.notify("삭제가 완료되었습니다.", "success", 2000);
-      } catch (ex) {}
+      } else {
+        DevExpress.ui.notify("삭제 실패. 다시 시도해주세요.", "error", 2000);
+      }
     })
-    .fail(function () {});
+    .fail(function () {
+      DevExpress.ui.notify("서버 오류 발생. 삭제에 실패했습니다.", "error", 2000);
+    });
 }
 
 export default {
