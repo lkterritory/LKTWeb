@@ -18,6 +18,17 @@ let arrMenus = [];
 
 
 function onCreate() {
+
+  $("#errorPopup").dxPopup({
+    title: "에러 발생",
+    width: 400,
+    height: 250,
+    visible: false,
+    dragEnabled: true,
+    showCloseButton: true
+  });
+
+
   channelCdSearch = $(idPrefix + "#channelCdSearch")
     .dxTextBox({
       placeholder: "채널코드",
@@ -187,10 +198,13 @@ function onActive() {}
 
 function searchList() {
 
-  const requestBody = {
+  const requestData = {
     channelCd: channelCdSearch.option("value") || "",
     channelNm: channelNmSearch.option("value") || ""
   }
+
+  const requestBody = JSON.stringify(requestData)
+
 
   apiWcs
     .masterDestListGet(requestBody)
@@ -203,8 +217,26 @@ function searchList() {
         workOrderGrid.option("dataSource", masterCodeData);
       } catch (ex) {}
     })
-    .fail(function () {
-      // 에러 발생 시 처리
+   .fail(function (jqXHR) {
+      let errorMessage = "알 수 없는 오류가 발생했습니다.";
+      let errorCode = "ERROR";
+  
+      try {
+          const response = jqXHR.responseJSON;
+          if (response) {
+              errorMessage = response.message || errorMessage;
+              errorCode = response.code || jqXHR.status;
+          }
+      } catch (e) {}
+  
+      // 에러 메시지를 팝업에 표시
+      $("#errorMessage").html(`
+          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>코드:</strong> ${errorCode}</p>
+          <p><strong>메시지:</strong> ${errorMessage}</p>
+      `);
+  
+      $("#errorPopup").dxPopup("instance").show();
     });
 }
 
@@ -288,12 +320,15 @@ function showPopup(isModi, row) {
         return;
       }
       if (isModi) {
-        const requestBody = {
+        const requestData = {
           actionType: "U",   //"U" 업데이트, "D" 삭제
           channelCd: row.channelCd || "",
           channelNm: row.channelNm || "",
           destFloor: row.destFloor || ""
         };
+
+        const requestBody = JSON.stringify(requestData)
+
         apiWcs
           .masterDestUpdate(requestBody)
           .done(function (response) {
@@ -303,13 +338,34 @@ function showPopup(isModi, row) {
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
           })
-          .fail(function () {});
+          .fail(function (jqXHR) {
+            let errorMessage = "알 수 없는 오류가 발생했습니다.";
+            let errorCode = "ERROR";
+        
+            try {
+                const response = jqXHR.responseJSON;
+                if (response) {
+                    errorMessage = response.message || errorMessage;
+                    errorCode = response.code || jqXHR.status;
+                }
+            } catch (e) {}
+        
+            // 에러 메시지를 팝업에 표시
+            $("#errorMessage").html(`
+                <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+                <p><strong>코드:</strong> ${errorCode}</p>
+                <p><strong>메시지:</strong> ${errorMessage}</p>
+            `);
+        
+            $("#errorPopup").dxPopup("instance").show();
+          });
       } else {
-        const requestBody = {
+        const requestData = {
           channelCd: formData.channelCd || "",
           channelNm: formData.channelNm || "",
           destFloor: formData.destFloor || ""
         }; 
+        const requestBody = JSON.stringify(requestData)
 
         apiWcs
           .masterDestInsert(requestBody)
@@ -320,7 +376,27 @@ function showPopup(isModi, row) {
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
           })
-          .fail(function () {});
+          .fail(function (jqXHR) {
+            let errorMessage = "알 수 없는 오류가 발생했습니다.";
+            let errorCode = "ERROR";
+        
+            try {
+                const response = jqXHR.responseJSON;
+                if (response) {
+                    errorMessage = response.message || errorMessage;
+                    errorCode = response.code || jqXHR.status;
+                }
+            } catch (e) {}
+        
+            // 에러 메시지를 팝업에 표시
+            $("#errorMessage").html(`
+                <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+                <p><strong>코드:</strong> ${errorCode}</p>
+                <p><strong>메시지:</strong> ${errorMessage}</p>
+            `);
+        
+            $("#errorPopup").dxPopup("instance").show();
+          });
       }
 
       $("#dynamicPopup").dxPopup("hide");
@@ -337,26 +413,49 @@ function showPopup(isModi, row) {
     DevExpress.ui.notify("채널코드와 도착층을 입력하세요.", "warning", 2000);
     return;
   }
-  const requestBody = {
+  const requestData = {
     channelCd: channelCd || "",
     destFloor: destFloor || ""
   };
 
+  const requestBody = JSON.stringify(requestData)
+
   apiWcs
     .masterDestDuplicateCheck(requestBody)
     .done(function (response) {
-      let isDuplicate = response?.lktBody?.data?.[0]?.isDuplicate;
+      try {
+        let isDuplicate = response?.lktBody?.data?.[0]?.isDuplicate;
 
-      if (isDuplicate) {
-        DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
-        isDuplicateChecked = false;
-      } else {
-        DevExpress.ui.notify("사용 가능합니다.", "success", 2000);
+        if (isDuplicate) {
+          DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
+          isDuplicateChecked = false;
+        } else {
+          DevExpress.ui.notify("사용 가능합니다.", "success", 2000);
         isDuplicateChecked = true;
       }
+      } catch (e) {}
+      
     })
-    .fail(function () {
-      DevExpress.ui.notify("서버 오류 발생. 다시 시도해주세요.", "error", 2000);
+    .fail(function (jqXHR) {
+      let errorMessage = "알 수 없는 오류가 발생했습니다.";
+      let errorCode = "ERROR";
+  
+      try {
+          const response = jqXHR.responseJSON;
+          if (response) {
+              errorMessage = response.message || errorMessage;
+              errorCode = response.code || jqXHR.status;
+          }
+      } catch (e) {}
+  
+      // 에러 메시지를 팝업에 표시
+      $("#errorMessage").html(`
+          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>코드:</strong> ${errorCode}</p>
+          <p><strong>메시지:</strong> ${errorMessage}</p>
+      `);
+  
+      $("#errorPopup").dxPopup("instance").show();
     });
 }
 
@@ -367,24 +466,47 @@ function deleteMasterCode(row){
     return;
   }
   
-  const requestBody = {
+  const requestData = {
     actionType: "D",   //"U" 업데이트, "D" 삭제
     channelCd: row.channelCd || "",
     channelNm: row.channelNm || "",
     destFloor: row.destFloor || "",
   };
+  const requestBody = JSON.stringify(requestData)
+
+
   apiWcs
     .masterDestUpdate(requestBody)
     .done(function (response) {
-      if (response?.lktBody) {
-        searchList();
-        DevExpress.ui.notify("삭제가 완료되었습니다.", "success", 2000);
-      } else {
-        DevExpress.ui.notify("삭제 실패. 다시 시도해주세요.", "error", 2000);
-      }
+      try {
+        if (response?.lktBody) {
+          searchList();
+          DevExpress.ui.notify("삭제가 완료되었습니다.", "success", 2000);
+        } else {
+          DevExpress.ui.notify("삭제 실패. 다시 시도해주세요.", "error", 2000);
+        }
+      } catch (e) {}
     })
-    .fail(function () {
-      DevExpress.ui.notify("서버 오류 발생. 삭제에 실패했습니다.", "error", 2000);
+    .fail(function (jqXHR) {
+      let errorMessage = "알 수 없는 오류가 발생했습니다.";
+      let errorCode = "ERROR";
+  
+      try {
+          const response = jqXHR.responseJSON;
+          if (response) {
+              errorMessage = response.message || errorMessage;
+              errorCode = response.code || jqXHR.status;
+          }
+      } catch (e) {}
+  
+      // 에러 메시지를 팝업에 표시
+      $("#errorMessage").html(`
+          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>코드:</strong> ${errorCode}</p>
+          <p><strong>메시지:</strong> ${errorMessage}</p>
+      `);
+  
+      $("#errorPopup").dxPopup("instance").show();
     });
 }
 

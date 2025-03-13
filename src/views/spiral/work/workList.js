@@ -31,12 +31,24 @@ function onCreate() {
 
 function searchList(){
 
-  const requestBody = {
+ 
+  $("#errorPopup").dxPopup({
+    title: "에러 발생",
+    width: 400,
+    height: 250,
+    visible: false,
+    dragEnabled: true,
+    showCloseButton: true
+  });
+
+  const requestData = {
     requestDateFrom: selectedStartDate || "",
     requestDateTo: selectedEndDate || "",
     sscc: searchTextValue || ""
   };
 
+  const requestBody = JSON.stringify(requestData)
+  
   apiWcs
     .historyListGet(requestBody)
     .done(function (response) {
@@ -52,9 +64,28 @@ function searchList(){
         }
       } catch (ex) {}
     })
-    .fail(function () {
-      // 에러 발생 시 처리
+    .fail(function (jqXHR) {
+      let errorMessage = "알 수 없는 오류가 발생했습니다.";
+      let errorCode = "ERROR";
+  
+      try {
+          const response = jqXHR.responseJSON;
+          if (response) {
+              errorMessage = response.message || errorMessage;
+              errorCode = response.code || jqXHR.status;
+          }
+      } catch (e) {}
+  
+      // 에러 메시지를 팝업에 표시
+      $("#errorMessage").html(`
+          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>코드:</strong> ${errorCode}</p>
+          <p><strong>메시지:</strong> ${errorMessage}</p>
+      `);
+  
+      $("#errorPopup").dxPopup("instance").show();
     });
+    
 }
 function createDataGrid(){
   $(idPrefix + '#searchBox').dxTextBox({
