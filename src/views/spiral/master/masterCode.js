@@ -210,28 +210,31 @@ function searchList() {
     .masterDestListGet(requestBody)
     .done(function (response) {
       try {
-        let sampleData = response.lktBody || "";
+        let sampleData = response.lktBody || [];
         console.log(sampleData);
         masterCodeData = sampleData.flatMap(obj => obj.data || []); 
 
         workOrderGrid.option("dataSource", masterCodeData);
       } catch (ex) {}
     })
-   .fail(function (jqXHR) {
+    .fail(function (jqXHR) {
+      let errorStatus = 'Failed';
       let errorMessage = "알 수 없는 오류가 발생했습니다.";
       let errorCode = "ERROR";
-  
+
       try {
-          const response = jqXHR.responseJSON;
-          if (response) {
-              errorMessage = response.message || errorMessage;
-              errorCode = response.code || jqXHR.status;
-          }
+        if (jqXHR.responseJSON) {
+          let response = jqXHR.responseJSON;
+          
+          errorStatus = response.status || errorStatus;
+          errorCode = response.code || errorCode;
+          errorMessage = response.message || errorMessage;
+        }
       } catch (e) {}
   
       // 에러 메시지를 팝업에 표시
       $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>상태:</strong> ${errorStatus}</p>
           <p><strong>코드:</strong> ${errorCode}</p>
           <p><strong>메시지:</strong> ${errorMessage}</p>
       `);
@@ -333,26 +336,29 @@ function showPopup(isModi, row) {
           .masterDestUpdate(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.lktBody;
+              let sampleData = response.lktBody || [];
   
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
           })
           .fail(function (jqXHR) {
+            let errorStatus = 'Failed';
             let errorMessage = "알 수 없는 오류가 발생했습니다.";
             let errorCode = "ERROR";
-        
+      
             try {
-                const response = jqXHR.responseJSON;
-                if (response) {
-                    errorMessage = response.message || errorMessage;
-                    errorCode = response.code || jqXHR.status;
-                }
+              if (jqXHR.responseJSON) {
+                let response = jqXHR.responseJSON;
+                
+                errorStatus = response.status || errorStatus;
+                errorCode = response.code || errorCode;
+                errorMessage = response.message || errorMessage;
+              }
             } catch (e) {}
         
             // 에러 메시지를 팝업에 표시
             $("#errorMessage").html(`
-                <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+                <p><strong>상태:</strong> ${errorStatus}</p>
                 <p><strong>코드:</strong> ${errorCode}</p>
                 <p><strong>메시지:</strong> ${errorMessage}</p>
             `);
@@ -371,26 +377,29 @@ function showPopup(isModi, row) {
           .masterDestInsert(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.lktBody;
+              let sampleData = response.lktBody || [];
   
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
           })
           .fail(function (jqXHR) {
+            let errorStatus = 'Failed';
             let errorMessage = "알 수 없는 오류가 발생했습니다.";
             let errorCode = "ERROR";
-        
+      
             try {
-                const response = jqXHR.responseJSON;
-                if (response) {
-                    errorMessage = response.message || errorMessage;
-                    errorCode = response.code || jqXHR.status;
-                }
+              if (jqXHR.responseJSON) {
+                let response = jqXHR.responseJSON;
+                
+                errorStatus = response.status || errorStatus;
+                errorCode = response.code || errorCode;
+                errorMessage = response.message || errorMessage;
+              }
             } catch (e) {}
         
             // 에러 메시지를 팝업에 표시
             $("#errorMessage").html(`
-                <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+                <p><strong>상태:</strong> ${errorStatus}</p>
                 <p><strong>코드:</strong> ${errorCode}</p>
                 <p><strong>메시지:</strong> ${errorMessage}</p>
             `);
@@ -437,20 +446,23 @@ function showPopup(isModi, row) {
       
     })
     .fail(function (jqXHR) {
+      let errorStatus = 'Failed';
       let errorMessage = "알 수 없는 오류가 발생했습니다.";
       let errorCode = "ERROR";
-  
+
       try {
-          const response = jqXHR.responseJSON;
-          if (response) {
-              errorMessage = response.message || errorMessage;
-              errorCode = response.code || jqXHR.status;
-          }
+        if (jqXHR.responseJSON) {
+          let response = jqXHR.responseJSON;
+          
+          errorStatus = response.status || errorStatus;
+          errorCode = response.code || errorCode;
+          errorMessage = response.message || errorMessage;
+        }
       } catch (e) {}
   
       // 에러 메시지를 팝업에 표시
       $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>상태:</strong> ${errorStatus}</p>
           <p><strong>코드:</strong> ${errorCode}</p>
           <p><strong>메시지:</strong> ${errorMessage}</p>
       `);
@@ -488,20 +500,23 @@ function deleteMasterCode(row){
       } catch (e) {}
     })
     .fail(function (jqXHR) {
+      let errorStatus = 'Failed';
       let errorMessage = "알 수 없는 오류가 발생했습니다.";
       let errorCode = "ERROR";
-  
+
       try {
-          const response = jqXHR.responseJSON;
-          if (response) {
-              errorMessage = response.message || errorMessage;
-              errorCode = response.code || jqXHR.status;
-          }
+        if (jqXHR.responseJSON) {
+          let response = jqXHR.responseJSON;
+          
+          errorStatus = response.status || errorStatus;
+          errorCode = response.code || errorCode;
+          errorMessage = response.message || errorMessage;
+        }
       } catch (e) {}
   
       // 에러 메시지를 팝업에 표시
       $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${response.status || "Failed"}</p>
+          <p><strong>상태:</strong> ${errorStatus}</p>
           <p><strong>코드:</strong> ${errorCode}</p>
           <p><strong>메시지:</strong> ${errorMessage}</p>
       `);
