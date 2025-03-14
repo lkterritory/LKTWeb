@@ -1,42 +1,27 @@
-let apiWcs;
-let lktUtil;
 
-if (!window.apiWcsModule || !window.lktUtilModule) {
-  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
-  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+let apiSpiral;
+
+if (!window.apiSpiralModule) {
+  window.apiSpiralModule = import(`../../../js/api/apiSpiral.js?t=${Date.now()}`);
 }
 
-apiWcs = (await window.apiWcsModule).default;
-lktUtil = (await window.lktUtilModule).default;
+apiSpiral = (await window.apiSpiralModule).default;
 
 
-let intervalList = null;
-let intervalPrintMq = null;
 
-let workOrderGrid;
 const idPrefix = "#spiral-error-errorList ";
 
 let selectedStartDate = null;
 let selectedEndDate = null;
 
 let searchTextValue = "";
-let extractedData = [];
-
-
+let workOrderGrid;
 
 function onCreate() {
-  createCalendar();
-  createDataGrid();
-  searchList();
-}
-
-
-function createDataGrid(){
   $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
     onValueChanged: function (e) {
       searchTextValue = e.value || "";
-      console.log("📢 입력된 값:", searchTextValue); 
       if (e.value) {
         searchList(); 
       }
@@ -52,9 +37,10 @@ function createDataGrid(){
       searchList();
    },
   });
-  
-  workOrderGrid = $(idPrefix + '#workOrderGrid').dxDataGrid({
-    dataSource: [],
+
+  workOrderGrid = $(idPrefix + '#workOrderGrid')
+    .dxDataGrid({
+      dataSource: [],
   
     columns: [
       //{caption: 'No',dataField: 'ID'},
@@ -69,12 +55,16 @@ function createDataGrid(){
     ],
     showBorders: true,
     
-  });
+  }) .dxDataGrid("instance");
+  createCalendar();
+  
+  searchList();
 }
+
+
 function searchList(){
 
   $("#errorPopup").dxPopup({
-    title: "에러 발생",
     width: 400,
     height: 250,
     visible: false,
@@ -90,21 +80,21 @@ function searchList(){
 
   const requestBody = JSON.stringify(requestData)
 
-  apiWcs
+  apiSpiral
     .errorListGet(requestBody)
     .done(function (response) {
       try {
-        
-        let errorDataList = response.lktBody;
-        extractedData = errorDataList.flatMap(obj => obj.data || []); 
-
-        console.log("변환된 데이터:", extractedData); 
-
+        let sampleData = response.data || [];
+        console.log(sampleData);
+        // 데이터 그리드에 데이터 설정
         if (workOrderGrid) {
-          workOrderGrid.option("dataSource", extractedData);
-          workOrderGrid.refresh(); 
-        }
-      } catch (ex) {}
+          workOrderGrid.option("dataSource", sampleData);  // 데이터 그리드에 데이터 연결
+          workOrderGrid.refresh();  // 그리드 갱신
+      }
+        
+      } catch (ex) {
+        console.error(" 데이터 처리 중 오류 발생:", ex);
+      }
     })
     .fail(function (jqXHR) {
       let errorStatus = 'Failed';
@@ -188,22 +178,9 @@ function createCalendar(){
 }
 
 function onActive() {}
-function onDestroy() {
-  // alert("dest");
 
-  if (intervalList) {
-    clearInterval(intervalList);
-    intervalList = null;
-  }
-
-  if (intervalPrintMq) {
-    clearInterval(intervalPrintMq);
-    intervalPrintMq = null;
-  }
-}
 export default {
   onCreate,
   onActive,
-  onDestroy
 };
 

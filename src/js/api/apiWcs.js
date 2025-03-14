@@ -2,7 +2,6 @@
 
 // const baseUrlWcs = "http://10.244.100.71:2014"; // 실서버
 const baseUrlWcs = "http://192.168.26.20:2014"; // 실서버
-const baseUrlSms = "http://192.168.26.24:9000"; // 스파이럴
 
 // const baseUrlWcs = "http://lkt0dev00.cafe24.com:2014"; // 테스트 서버
 
@@ -585,70 +584,6 @@ function mappingSkusOrders(param) {
 
 
 
-//spiral 
-
-//작업 이력 조회
-function historyListGet(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/intf/history-list/get",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
-
-//에러 데이터 조회
-function errorListGet(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/intf/error-list/get",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
-
-//분류 마스터 코드 조회
-function masterDestListGet(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/master/dest-list/get",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
-//분류 마스터 코드 중복 확인
-function masterDestDuplicateCheck(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/master/dest-duplicate/check",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
-//분류 마스터 코드 생성
-function masterDestInsert(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/master/dest-insert",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
-//분류 마스터 코드 저장 
-function masterDestUpdate(param) {
-  return $.ajax({
-    url: baseUrlSms + "/sms/be/master/dest-update",
-    method: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: param
-  });
-}
 
 
 
@@ -699,13 +634,5 @@ export default {
   dashboardsPdaLocation,
   mappingPdaOrdersBox,
   mappingSkusOrders,
-
-  historyListGet,
-  errorListGet,
-
-  masterDestListGet,
-  masterDestDuplicateCheck,
-  masterDestInsert,
-  masterDestUpdate
   
 };

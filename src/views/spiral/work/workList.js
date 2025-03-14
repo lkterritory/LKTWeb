@@ -1,17 +1,13 @@
-let apiWcs;
-let lktUtil;
 
-if (!window.apiWcsModule || !window.lktUtilModule) {
-  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
-  window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
+let apiSpiral;
+
+if (!window.apiSpiralModule) {
+  window.apiSpiralModule = import(`../../../js/api/apiSpiral.js?t=${Date.now()}`);
 }
 
-apiWcs = (await window.apiWcsModule).default;
-lktUtil = (await window.lktUtilModule).default;
+apiSpiral = (await window.apiSpiralModule).default;
 
 let workOrderGrid;
-let intervalList = null;
-let intervalPrintMq = null;
 
 const idPrefix = "#spiral-work-workList ";
 
@@ -33,7 +29,6 @@ function searchList(){
 
  
   $("#errorPopup").dxPopup({
-    title: "에러 발생",
     width: 400,
     height: 250,
     visible: false,
@@ -49,22 +44,21 @@ function searchList(){
 
   const requestBody = JSON.stringify(requestData)
   
-  apiWcs
+  apiSpiral
     .historyListGet(requestBody)
     .done(function (response) {
       try {
-        let workDataList = response.lktBody || [];
-        extractedData = workDataList.flatMap(obj => obj.data || []); 
-
-        console.log(extractedData)
+        console.log(response)
+        let workDataList = response.data || [];      
 
         if (workOrderGrid) {
-          workOrderGrid.option("dataSource", extractedData);
+          workOrderGrid.option("dataSource", workDataList);
           workOrderGrid.refresh(); 
         }
       } catch (ex) {}
     })
     .fail(function (jqXHR) {
+      console.log("API 실패 응답:", jqXHR); // 에러 응답을 콘솔에서 확인
       let errorStatus = 'Failed';
       let errorMessage = "알 수 없는 오류가 발생했습니다.";
       let errorCode = "ERROR";
@@ -72,7 +66,7 @@ function searchList(){
       try {
         if (jqXHR.responseJSON) {
           let response = jqXHR.responseJSON;
-          
+
           errorStatus = response.status || errorStatus;
           errorCode = response.code || errorCode;
           errorMessage = response.message || errorMessage;
@@ -166,7 +160,7 @@ function createDataGrid(){
       }
     } 
 
-  });
+  }).dxDataGrid("instance");;
   //에러 툴팁
   let tooltipInstance = $("#tooltipContainer").dxTooltip({
     position: "right"

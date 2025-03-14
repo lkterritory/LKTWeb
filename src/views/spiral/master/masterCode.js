@@ -1,12 +1,13 @@
-let apiWcs;
+
+let apiSpiral;
 let lktUtil;
 
-if (!window.apiWcsModule || !window.lktUtilModule) {
-  window.apiWcsModule = import(`../../../js/api/apiWcs.js?t=${Date.now()}`);
+if (!window.apiSpiralModule || !window.lktUtilModule) {
+  window.apiSpiralModule = import(`../../../js/api/apiSpiral.js?t=${Date.now()}`);
   window.lktUtilModule = import(`../../../js/util/lktUtil.js?t=${Date.now()}`);
 }
 
-apiWcs = (await window.apiWcsModule).default;
+apiSpiral = (await window.apiSpiralModule).default;
 lktUtil = (await window.lktUtilModule).default;
 
 const idPrefix = "#spiral-master-masterCode ";
@@ -206,15 +207,14 @@ function searchList() {
   const requestBody = JSON.stringify(requestData)
 
 
-  apiWcs
+  apiSpiral
     .masterDestListGet(requestBody)
     .done(function (response) {
       try {
-        let sampleData = response.lktBody || [];
-        console.log(sampleData);
-        masterCodeData = sampleData.flatMap(obj => obj.data || []); 
-
-        workOrderGrid.option("dataSource", masterCodeData);
+        let sampleData = response.data || [];
+        
+        workOrderGrid.option("dataSource", sampleData);
+        console.log(response);
       } catch (ex) {}
     })
     .fail(function (jqXHR) {
@@ -332,11 +332,11 @@ function showPopup(isModi, row) {
 
         const requestBody = JSON.stringify(requestData)
 
-        apiWcs
+        apiSpiral
           .masterDestUpdate(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.lktBody || [];
+              let sampleData = response.data || [];
   
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
@@ -373,11 +373,11 @@ function showPopup(isModi, row) {
         }; 
         const requestBody = JSON.stringify(requestData)
 
-        apiWcs
+        apiSpiral
           .masterDestInsert(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.lktBody || [];
+              let sampleData = response.data || [];
   
               workOrderGrid.option("dataSource", sampleData);
             } catch (ex) {}
@@ -429,11 +429,11 @@ function showPopup(isModi, row) {
 
   const requestBody = JSON.stringify(requestData)
 
-  apiWcs
+  apiSpiral
     .masterDestDuplicateCheck(requestBody)
     .done(function (response) {
       try {
-        let isDuplicate = response?.lktBody?.data?.[0]?.isDuplicate;
+        let isDuplicate = response?.data?.[0]?.isDuplicate;
 
         if (isDuplicate) {
           DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
@@ -487,11 +487,11 @@ function deleteMasterCode(row){
   const requestBody = JSON.stringify(requestData)
 
 
-  apiWcs
+  apiSpiral
     .masterDestUpdate(requestBody)
     .done(function (response) {
       try {
-        if (response?.lktBody) {
+        if (response?.data) {
           searchList();
           DevExpress.ui.notify("삭제가 완료되었습니다.", "success", 2000);
         } else {
