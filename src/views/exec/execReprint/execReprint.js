@@ -209,6 +209,14 @@ function onCreate() {
           headerCellTemplate: function (headerCell) {
             headerCell.css(headerCss).text("프린터IP"); // 헤더 가운데 정렬
           }
+        },
+        {
+          dataField: "addDtm",
+          caption: "지시일자",
+          // minWidth: 90,
+          headerCellTemplate: function (headerCell) {
+            headerCell.css(headerCss).text("지시일자"); // 헤더 가운데 정렬
+          }
         }
       ],
 
