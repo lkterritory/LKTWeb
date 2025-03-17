@@ -16,18 +16,10 @@ let channelCdSearch, channelNmSearch;
 let workOrderGrid;
 
 let arrMenus = [];
-
+let isDuplicateChecked = false; // 중복 확인 여부
 
 function onCreate() {
 
-  $("#errorPopup").dxPopup({
-    title: "에러 발생",
-    width: 400,
-    height: 250,
-    visible: false,
-    dragEnabled: true,
-    showCloseButton: true
-  });
 
 
   channelCdSearch = $(idPrefix + "#channelCdSearch")
@@ -215,31 +207,14 @@ function searchList() {
         
         workOrderGrid.option("dataSource", sampleData);
         console.log(response);
+
+
+  
       } catch (ex) {}
     })
-    .fail(function (jqXHR) {
-      let errorStatus = 'Failed';
-      let errorMessage = "알 수 없는 오류가 발생했습니다.";
-      let errorCode = "ERROR";
-
-      try {
-        if (jqXHR.responseJSON) {
-          let response = jqXHR.responseJSON;
-          
-          errorStatus = response.status || errorStatus;
-          errorCode = response.code || errorCode;
-          errorMessage = response.message || errorMessage;
-        }
-      } catch (e) {}
+    .fail(function (e) {
+     
   
-      // 에러 메시지를 팝업에 표시
-      $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${errorStatus}</p>
-          <p><strong>코드:</strong> ${errorCode}</p>
-          <p><strong>메시지:</strong> ${errorMessage}</p>
-      `);
-  
-      $("#errorPopup").dxPopup("instance").show();
     });
 }
 
@@ -247,7 +222,7 @@ function showPopup(isModi, row) {
   let channelCdValue = row ? row.channelCd : ""; 
   let channelNmValue = row ? row.channelNm : ""; 
   let destFloorValue = row ? row.destFloor : ""; 
-  let isDuplicateChecked = false; // 중복 확인 여부
+
 
   let formItems = [
     {
@@ -318,16 +293,24 @@ function showPopup(isModi, row) {
     isModi: isModi, // 수정 여부
     formItems: formItems, // 폼 구성
     onExecute: function (formData, row) {
+      if (!row) {
+        row = workOrderGrid.getSelectedRowsData()[0] || null;
+      }
+
       if (!isModi && !isDuplicateChecked) {
         DevExpress.ui.notify("중복 확인을 먼저 진행하세요.", "warning", 2000);
         return;
       }
       if (isModi) {
         const requestData = {
-          actionType: "U",   //"U" 업데이트, "D" 삭제
-          channelCd: row.channelCd || "",
-          channelNm: row.channelNm || "",
-          destFloor: row.destFloor || ""
+          data: [
+            {
+              actionType: "U",   //"U" 업데이트, "D" 삭제
+              channelCd: row.channelCd || "", 
+              channelNm: row.channelNm || "",
+              destFloor: row.destFloor || ""
+            }
+          ]
         };
 
         const requestBody = JSON.stringify(requestData)
@@ -336,34 +319,13 @@ function showPopup(isModi, row) {
           .masterDestUpdate(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.data || [];
-  
-              workOrderGrid.option("dataSource", sampleData);
+              //console.log(response);
+              searchList();
             } catch (ex) {}
           })
-          .fail(function (jqXHR) {
-            let errorStatus = 'Failed';
-            let errorMessage = "알 수 없는 오류가 발생했습니다.";
-            let errorCode = "ERROR";
-      
-            try {
-              if (jqXHR.responseJSON) {
-                let response = jqXHR.responseJSON;
-                
-                errorStatus = response.status || errorStatus;
-                errorCode = response.code || errorCode;
-                errorMessage = response.message || errorMessage;
-              }
-            } catch (e) {}
+          .fail(function (e) {
+          
         
-            // 에러 메시지를 팝업에 표시
-            $("#errorMessage").html(`
-                <p><strong>상태:</strong> ${errorStatus}</p>
-                <p><strong>코드:</strong> ${errorCode}</p>
-                <p><strong>메시지:</strong> ${errorMessage}</p>
-            `);
-        
-            $("#errorPopup").dxPopup("instance").show();
           });
       } else {
         const requestData = {
@@ -377,34 +339,12 @@ function showPopup(isModi, row) {
           .masterDestInsert(requestBody)
           .done(function (response) {
             try {
-              let sampleData = response.data || [];
-  
-              workOrderGrid.option("dataSource", sampleData);
+              //console.log(response);
+              searchList();
             } catch (ex) {}
           })
-          .fail(function (jqXHR) {
-            let errorStatus = 'Failed';
-            let errorMessage = "알 수 없는 오류가 발생했습니다.";
-            let errorCode = "ERROR";
-      
-            try {
-              if (jqXHR.responseJSON) {
-                let response = jqXHR.responseJSON;
-                
-                errorStatus = response.status || errorStatus;
-                errorCode = response.code || errorCode;
-                errorMessage = response.message || errorMessage;
-              }
-            } catch (e) {}
+          .fail(function (e) {
         
-            // 에러 메시지를 팝업에 표시
-            $("#errorMessage").html(`
-                <p><strong>상태:</strong> ${errorStatus}</p>
-                <p><strong>코드:</strong> ${errorCode}</p>
-                <p><strong>메시지:</strong> ${errorMessage}</p>
-            `);
-        
-            $("#errorPopup").dxPopup("instance").show();
           });
       }
 
@@ -433,56 +373,44 @@ function showPopup(isModi, row) {
     .masterDestDuplicateCheck(requestBody)
     .done(function (response) {
       try {
-        let isDuplicate = response?.data?.[0]?.isDuplicate;
-
+        let isDuplicate = response?.data?.isDuplicate
+        console.log('api', response.data)
         if (isDuplicate) {
-          DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
           isDuplicateChecked = false;
+          DevExpress.ui.notify("중복된 데이터가 존재합니다.", "error", 2000);
         } else {
+          isDuplicateChecked = true;
           DevExpress.ui.notify("사용 가능합니다.", "success", 2000);
-        isDuplicateChecked = true;
-      }
+         }
       } catch (e) {}
       
     })
-    .fail(function (jqXHR) {
-      let errorStatus = 'Failed';
-      let errorMessage = "알 수 없는 오류가 발생했습니다.";
-      let errorCode = "ERROR";
-
-      try {
-        if (jqXHR.responseJSON) {
-          let response = jqXHR.responseJSON;
-          
-          errorStatus = response.status || errorStatus;
-          errorCode = response.code || errorCode;
-          errorMessage = response.message || errorMessage;
-        }
-      } catch (e) {}
+    .fail(function (e) {
+      
   
-      // 에러 메시지를 팝업에 표시
-      $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${errorStatus}</p>
-          <p><strong>코드:</strong> ${errorCode}</p>
-          <p><strong>메시지:</strong> ${errorMessage}</p>
-      `);
-  
-      $("#errorPopup").dxPopup("instance").show();
     });
 }
 
 //삭제 api
 function deleteMasterCode(row){
+  if (!row) {
+      row = workOrderGrid.getSelectedRowsData()[0] || null;
+  }
+
   if (!row?.channelCd) {
     DevExpress.ui.notify("삭제할 항목을 선택하세요.", "warning", 2000);
     return;
   }
   
   const requestData = {
-    actionType: "D",   //"U" 업데이트, "D" 삭제
-    channelCd: row.channelCd || "",
-    channelNm: row.channelNm || "",
-    destFloor: row.destFloor || "",
+    data: [
+      {
+        actionType: "D", // "D" 삭제
+        channelCd: row.channelCd || "", 
+        channelNm: row.channelNm || "",
+        destFloor: row.destFloor || ""
+      }
+    ]
   };
   const requestBody = JSON.stringify(requestData)
 
@@ -499,29 +427,9 @@ function deleteMasterCode(row){
         }
       } catch (e) {}
     })
-    .fail(function (jqXHR) {
-      let errorStatus = 'Failed';
-      let errorMessage = "알 수 없는 오류가 발생했습니다.";
-      let errorCode = "ERROR";
-
-      try {
-        if (jqXHR.responseJSON) {
-          let response = jqXHR.responseJSON;
-          
-          errorStatus = response.status || errorStatus;
-          errorCode = response.code || errorCode;
-          errorMessage = response.message || errorMessage;
-        }
-      } catch (e) {}
+    .fail(function (e) {
+     
   
-      // 에러 메시지를 팝업에 표시
-      $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${errorStatus}</p>
-          <p><strong>코드:</strong> ${errorCode}</p>
-          <p><strong>메시지:</strong> ${errorMessage}</p>
-      `);
-  
-      $("#errorPopup").dxPopup("instance").show();
     });
 }
 

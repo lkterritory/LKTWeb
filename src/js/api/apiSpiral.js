@@ -37,9 +37,20 @@ $.ajaxSetup({
       //console.log("API 응답:", jqXHR);
 
       // HTTP 상태 코드가 200이 아닐 경우 (실패 처리)
-      if (jqXHR.status !== 200) {
-        let msgTmp =
-            `api: ${jqXHR.apiUrl}\r\nstatus: ${jqXHR.status}\r\nmessage: ${jqXHR.statusText}`;
+      if (jqXHR.status !== 200 ) {
+         // 기본 메시지
+          let errorMessage = `api: ${jqXHR.apiUrl}\r\nstatus: ${jqXHR.status}\r\nmessage: ${jqXHR.statusText}`;
+          
+          // jqXHR.responseJSON이 존재하는 경우에만 해당 데이터를 표시
+          if (jqXHR.responseJSON) {
+            const { status, code, message } = jqXHR.responseJSON;
+            // responseJSON에서 status, code, message가 있으면 해당 내용을 출력
+            errorMessage = `
+              status: ${status || 'No status'}<br>
+              code: ${code || 'No code'}<br>
+              message: ${message || 'No message'}
+            `;
+          }
 
           $("#errorPopup").dxPopup({
             toolbarItems: [
@@ -73,8 +84,8 @@ $.ajaxSetup({
                 "line-height": "1.5",
                 "word-wrap": "break-word",
                 "overflow-wrap": "break-word",
-                "white-space": "pre-wrap"
-              }).text(msgTmp).appendTo(contentElement);
+                "white-space": "normal"
+              }).html(errorMessage).appendTo(contentElement);
             }
           }).dxPopup("show");
 

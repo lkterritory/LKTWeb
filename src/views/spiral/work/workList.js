@@ -57,30 +57,9 @@ function searchList(){
         }
       } catch (ex) {}
     })
-    .fail(function (jqXHR) {
-      console.log("API 실패 응답:", jqXHR); // 에러 응답을 콘솔에서 확인
-      let errorStatus = 'Failed';
-      let errorMessage = "알 수 없는 오류가 발생했습니다.";
-      let errorCode = "ERROR";
-
-      try {
-        if (jqXHR.responseJSON) {
-          let response = jqXHR.responseJSON;
-
-          errorStatus = response.status || errorStatus;
-          errorCode = response.code || errorCode;
-          errorMessage = response.message || errorMessage;
-        }
-      } catch (e) {}
+    .fail(function (e) {
+     
   
-      // 에러 메시지를 팝업에 표시
-      $("#errorMessage").html(`
-          <p><strong>상태:</strong> ${errorStatus}</p>
-          <p><strong>코드:</strong> ${errorCode}</p>
-          <p><strong>메시지:</strong> ${errorMessage}</p>
-      `);
-  
-      $("#errorPopup").dxPopup("instance").show();
     });
     
 }
@@ -228,17 +207,7 @@ function createCalendar(){
 function onActive() {}
 
 function onDestroy() {
-  // alert("dest");
 
-  if (intervalList) {
-    clearInterval(intervalList);
-    intervalList = null;
-  }
-
-  if (intervalPrintMq) {
-    clearInterval(intervalPrintMq);
-    intervalPrintMq = null;
-  }
 }
 
 export default {
