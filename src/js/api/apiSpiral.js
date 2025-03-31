@@ -1,4 +1,4 @@
-const baseUrlSms = "http://192.168.26.24:9000"; // 스파이럴//spiral 
+const baseUrlSms = "http://192.168.26.20:9000"; // 스파이럴//spiral 
 
 $.ajaxSetup({
   beforeSend: function (jqXHR, settings) {
