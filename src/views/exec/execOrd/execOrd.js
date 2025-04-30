@@ -146,8 +146,11 @@ function onCreate() {
                   dtBoxWork.option("value"),
                   "yyyy-MM-dd"
                 ),
-                workBatch: rowSel[0].workBatch
+                workBatch: rowSel[0].workBatch,
+                pickingGroup: rowSel[0].pickingGroup,
+
               }
+
             ]
           };
 
