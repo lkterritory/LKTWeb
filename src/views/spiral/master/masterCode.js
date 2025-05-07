@@ -306,9 +306,9 @@ function showPopup(isModi, row) {
           data: [
             {
               actionType: "U",   //"U" 업데이트, "D" 삭제
-              channelCd: row.channelCd || "", 
-              channelNm: row.channelNm || "",
-              destFloor: row.destFloor || ""
+              channelCd: formData.channelCd || "", 
+              channelNm: formData.channelNm || "",
+              destFloor: formData.destFloor || ""
             }
           ]
         };
@@ -418,13 +418,9 @@ function deleteMasterCode(row){
   apiSpiral
     .masterDestUpdate(requestBody)
     .done(function (response) {
-      try {
-        if (response?.data) {
-          searchList();
+     try {
+        searchList();
           DevExpress.ui.notify("삭제가 완료되었습니다.", "success", 2000);
-        } else {
-          DevExpress.ui.notify("삭제 실패. 다시 시도해주세요.", "error", 2000);
-        }
       } catch (e) {}
     })
     .fail(function (e) {

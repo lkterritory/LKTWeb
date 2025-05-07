@@ -138,30 +138,31 @@ function onCreate() {
               // 에러 발생 시 처리
             });
         } else if (buttonId === "차수 작업완료") {
-          var obj = {
-            lktHeader: lktUtil.getLktHeader("PAGE.OUTBOUNDS.WCS.ORDERS"),
-            lktBody: [
-              {
-                workDate: DevExpress.localization.formatDate(
-                  dtBoxWork.option("value"),
-                  "yyyy-MM-dd"
-                ),
-                workBatch: rowSel[0].workBatch,
-                pickingGroup: rowSel[0].pickingGroup,
+          DevExpress.ui.notify("오픈예정입니다.", "warning", 2000);
+          // var obj = {
+          //   lktHeader: lktUtil.getLktHeader("OUTBOUND.WCS.OPERATION.COMPLETED"),
+          //   lktBody: [
+          //     {
+          //       workDate: DevExpress.localization.formatDate(
+          //         dtBoxWork.option("value"),
+          //         "yyyy-MM-dd"
+          //       ),
+          //       workBatch: rowSel[0].workBatch,
+          //       pickingGroup: rowSel[0].pickingGroup,
 
-              }
+          //     }
 
-            ]
-          };
+          //   ]
+          // };
 
-          apiWcs
-            .wcsOperationcCompleted(JSON.stringify(obj))
-            .done(function (response) {
-              searchList();
-            })
-            .fail(function () {
-              // 에러 발생 시 처리
-            });
+          // apiWcs
+          //   .wcsOperationcCompleted(JSON.stringify(obj))
+          //   .done(function (response) {
+          //     searchList();
+          //   })
+          //   .fail(function () {
+          //     // 에러 발생 시 처리
+          //   });
         } else if (buttonId === "전체 작업완료") {
           //전체 작업완료
           var obj = {

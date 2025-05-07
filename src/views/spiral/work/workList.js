@@ -18,57 +18,30 @@ let selectedEndDate = null;
 let searchTextValue = "";
 let extractedData = [];
 
+let dtBoxWork;
+let searchBox;
+
 function onCreate() {
  
-  createCalendar();
-  createDataGrid();
-  searchList()
-}
 
-function searchList(){
 
- 
-  $("#errorPopup").dxPopup({
-    width: 400,
-    height: 250,
-    visible: false,
-    dragEnabled: true,
-    showCloseButton: true
-  });
-
-  const requestData = {
-    requestDateFrom: selectedStartDate || "",
-    requestDateTo: selectedEndDate || "",
-    sscc: searchTextValue || ""
-  };
-
-  const requestBody = JSON.stringify(requestData)
-  
-  apiSpiral
-    .historyListGet(requestBody)
-    .done(function (response) {
-      try {
-        console.log(response)
-        let workDataList = response.data || [];      
-
-        if (workOrderGrid) {
-          workOrderGrid.option("dataSource", workDataList);
-          workOrderGrid.refresh(); 
-        }
-      } catch (ex) {}
+  dtBoxWork = $(idPrefix + "#dtBoxWork")
+    .dxDateBox({
+      type: "date",
+      displayFormat: "yyyy-MM-dd",
+      value: new Date(),
+      width: "200px",
+      onValueChanged: function () {
+        searchList();
+      }
     })
-    .fail(function (e) {
-     
+    .dxDateBox("instance");
+
   
-    });
-    
-}
-function createDataGrid(){
-  $(idPrefix + '#searchBox').dxTextBox({
+  searchBox = $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
     onValueChanged: function (e) {
-      searchTextValue = e.value; 
-      console.log("📢 입력된 값:", searchTextValue); 
+      searchTextValue = e.value;  
       if (e.value) {
         searchList(); 
       }
@@ -89,37 +62,104 @@ function createDataGrid(){
     dataSource: [],
     columns: [
       //{caption: 'No',dataField: 'ID',},
-      'sscc','pid',
+      {
+        caption: 'sscc', 
+        dataField: 'sscc',
+        headerFilter: {
+          search: { enabled: true } 
+        }
+      },
+      {
+        caption: 'pid', 
+        dataField: 'pid',
+        headerFilter: {
+          search: { enabled: true } 
+        }
+      },
       {
         caption: 'BCR > SMS',
         columns: [
-          {caption: '상태', dataField: 'status1', },
-          {caption: '인터페이스 시간​', dataField: 'createdAt1'}
+          {
+            caption: '상태', 
+            dataField: 'status1',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+           },
+          {
+            caption: '인터페이스 시간​', 
+            dataField: 'createdAt1',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+          }
         ]
       },
       {
         caption: 'SMS > WMS',
         columns: [
-          { caption: '상태', dataField: 'status2'},
-          { caption: '인터페이스 시간​', dataField: 'createdAt2'}
+          { 
+            caption: '상태', 
+            dataField: 'status2',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+          },
+          { 
+            caption: '인터페이스 시간​', 
+            dataField: 'createdAt2',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+          }
         ]
       },
       { 
         caption: 'WMS > SMS', 
         columns: [
-          {caption: '상태', dataField: 'status3'},
-          {caption: '인터페이스 시간​', dataField: 'createdAt3'}
+          {
+            caption: '상태', 
+            dataField: 'status3'
+          },
+          {
+            caption: '인터페이스 시간​', 
+            dataField: 'createdAt3',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+          }
         ]
       }, 
       {
         caption: 'SMS > BCR',
         columns: [
-          {caption: '상태', dataField: 'status4'},
-          {caption: '인터페이스 시간​', dataField: 'createdAt4'}
+          {
+            caption: '상태', 
+            dataField: 'status4'
+          },
+          {
+            caption: '인터페이스 시간​',
+            dataField: 'createdAt4',
+            headerFilter: {
+              search: { enabled: true } 
+            }
+          }
         ]
       },
-      {caption: '도착층', dataField: 'actlDestFloor'},
-      {caption: '도착시간', dataField: 'timeArrival'}
+      {
+        caption: '도착층', 
+        dataField: 'actlDestFloor',
+        headerFilter: {
+          search: { enabled: true } 
+        }
+      },
+      {
+        caption: '도착시간', 
+        dataField: 'timeArrival',
+        headerFilter: {
+          search: { enabled: true } 
+        }
+      }
     ],
     showBorders: true,
     
@@ -145,64 +185,48 @@ function createDataGrid(){
     position: "right"
   }).dxTooltip("instance");
 
+  searchList();
+}
+
+function searchList(){
+
+
+  const requestData = {
+    requestDateFrom:  DevExpress.localization.formatDate(
+      $("#dtBoxWork").dxDateBox("instance").option("value"),
+      "yyyy-MM-dd"
+    ),
+    requestDateTo:DevExpress.localization.formatDate(
+      $("#dtBoxWork").dxDateBox("instance").option("value"),
+      "yyyy-MM-dd"
+    ),
+    sscc: searchTextValue || "",
+  };
+
+  const requestBody = JSON.stringify(requestData)
+  
+  apiSpiral
+    .historyListGet(requestBody)
+    .done(function (response) {
+      try {
+        console.log(response)
+        let workDataList = response.data || [];      
+
+        if (workOrderGrid) {
+          workOrderGrid.option("dataSource", workDataList);
+          workOrderGrid.refresh(); 
+        }
+      } catch (ex) {}
+    })
+    .fail(function (e) {
+     
+  
+    });
+    
 }
 
 
 
-//캘린더
-function createCalendar(){
-  const msInDay = 1000 * 60 * 60 * 24;
-  const now = new Date();
-  const initialValue = [
-    new Date(now.getTime() - msInDay * 3),
-    new Date(now.getTime() + msInDay * 3),
-  ];
-
-  $(idPrefix + '#calendarContainer').dxDateRangeBox({
-    value: initialValue,
-    onValueChanged: function(e) {
-      updateSelectedDates(e); 
-      
-      if(selectedStartDate && selectedEndDate){
-        searchList();
-      }
-    }
-  });
-
-  // kr 시간으로 변경
-  function formatDateToLocal(date) {
-    let offset = date.getTimezoneOffset() * 60000; 
-    let localDate = new Date(date.getTime() - offset); 
-    return localDate.toISOString().split('T')[0]; 
-  }
-
-  function getCurrentMonthRange() {
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-
-    const min = new Date(now.setDate(1));
-    const max = new Date(now.setDate(lastDay));
-
-    return { min, max };
-  }
-
-  function updateSelectedDates({ value: [startDate, endDate] }) {
-   
-    let daysCount = 0;
-    if (startDate && endDate) {
-      daysCount = (endDate - startDate) / msInDay + 1;
-    }
-    startDate = startDate ? formatDateToLocal(startDate) : null;
-    endDate = endDate ? formatDateToLocal(endDate) : null;
-
-    selectedStartDate = startDate;
-    selectedEndDate = endDate;
-
-    $(idPrefix + '#days-selected').text(daysCount);
-
-  }
-
-  updateSelectedDates({ value: initialValue });
-}
 
 function onActive() {}
 
@@ -215,4 +239,5 @@ export default {
   onActive,
   onDestroy
 };
+
 

@@ -16,9 +16,24 @@ let selectedEndDate = null;
 
 let searchTextValue = "";
 let workOrderGrid;
+let dtBoxWork;
+let searchBox;
 
 function onCreate() {
-  $(idPrefix + '#searchBox').dxTextBox({
+
+  dtBoxWork = $(idPrefix + "#dtBoxWork")
+  .dxDateBox({
+    type: "date",
+    displayFormat: "yyyy-MM-dd",
+    value: new Date(),
+    width: "200px",
+    onValueChanged: function () {
+      searchList();
+    }
+  })
+  .dxDateBox("instance");
+
+  searchBox = $(idPrefix + '#searchBox').dxTextBox({
     inputAttr: { 'aria-label': 'SSCC' },
     onValueChanged: function (e) {
       searchTextValue = e.value || "";
@@ -56,7 +71,6 @@ function onCreate() {
     showBorders: true,
     
   }) .dxDataGrid("instance");
-  createCalendar();
   
   searchList();
 }
@@ -64,17 +78,16 @@ function onCreate() {
 
 function searchList(){
 
-  $("#errorPopup").dxPopup({
-    width: 400,
-    height: 250,
-    visible: false,
-    dragEnabled: true,
-    showCloseButton: true
-  });
 
-  const requestData = {
-    requestDateFrom: selectedStartDate || "", 
-    requestDateTo: selectedEndDate || "",
+   const requestData = {
+    requestDateFrom:  DevExpress.localization.formatDate(
+      $("#dtBoxWork").dxDateBox("instance").option("value"),
+      "yyyy-MM-dd"
+    ),
+    requestDateTo:DevExpress.localization.formatDate(
+      $("#dtBoxWork").dxDateBox("instance").option("value"),
+      "yyyy-MM-dd"
+    ),
     sscc: searchTextValue || "",
   };
 
@@ -102,65 +115,16 @@ function searchList(){
     });
 }
 
-//캘린더
-function createCalendar(){
-  const msInDay = 1000 * 60 * 60 * 24;
-  const now = new Date();
-  const initialValue = [
-    new Date(now.getTime() - msInDay * 3),
-    new Date(now.getTime() + msInDay * 3),
-  ];
 
-  $(idPrefix + '#calendarContainer').dxDateRangeBox({
-    value: initialValue,
-    onValueChanged: function(e) {
-      updateSelectedDates(e); 
-      
-      if(selectedStartDate && selectedEndDate){
-        searchList();
-      }
-    }
-  });
-
-  // kr 시간으로 변경
-  function formatDateToLocal(date) {
-    let offset = date.getTimezoneOffset() * 60000; 
-    let localDate = new Date(date.getTime() - offset); 
-    return localDate.toISOString().split('T')[0]; 
-  }
-
-  function getCurrentMonthRange() {
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-
-    const min = new Date(now.setDate(1));
-    const max = new Date(now.setDate(lastDay));
-
-    return { min, max };
-  }
-
-  function updateSelectedDates({ value: [startDate, endDate] }) {
-   
-    let daysCount = 0;
-    if (startDate && endDate) {
-      daysCount = (endDate - startDate) / msInDay + 1;
-    }
-    startDate = startDate ? formatDateToLocal(startDate) : null;
-    endDate = endDate ? formatDateToLocal(endDate) : null;
-
-    selectedStartDate = startDate;
-    selectedEndDate = endDate;
-
-    $(idPrefix + '#days-selected').text(daysCount);
-
-  }
-
-  updateSelectedDates({ value: initialValue });
-}
 
 function onActive() {}
+function onDestroy() {}
 
 export default {
   onCreate,
   onActive,
+  onDestroy,
+
 };
+
 
