@@ -138,31 +138,75 @@ function onCreate() {
               // 에러 발생 시 처리
             });
         } else if (buttonId === "차수 작업완료") {
-          DevExpress.ui.notify("오픈예정입니다.", "warning", 2000);
-          // var obj = {
-          //   lktHeader: lktUtil.getLktHeader("OUTBOUND.WCS.OPERATION.COMPLETED"),
-          //   lktBody: [
-          //     {
-          //       workDate: DevExpress.localization.formatDate(
-          //         dtBoxWork.option("value"),
-          //         "yyyy-MM-dd"
-          //       ),
-          //       workBatch: rowSel[0].workBatch,
-          //       pickingGroup: rowSel[0].pickingGroup,
+          
+          var obj = {
+            lktHeader: lktUtil.getLktHeader("OUTBOUND.WCS.OPERATION.COMPLETED"),
+            lktBody: [
+              {
+                workDate: DevExpress.localization.formatDate(
+                  dtBoxWork.option("value"),
+                  "yyyy-MM-dd"
+                ),
+                workBatch: rowSel[0].workBatch,
+                pickingGroup: rowSel[0].pickingGroup,
 
-          //     }
+              }
 
-          //   ]
-          // };
+            ]
+          };
 
-          // apiWcs
-          //   .wcsOperationcCompleted(JSON.stringify(obj))
-          //   .done(function (response) {
-          //     searchList();
-          //   })
-          //   .fail(function () {
-          //     // 에러 발생 시 처리
-          //   });
+          apiWcs
+            .wcsOperationcCompleted(JSON.stringify(obj))
+            .done(function (response) {
+              let statusCode = response.lktHeader.statusCode
+              
+              if(statusCode === "01"){
+                $("#dynamicPopup").dxPopup({
+                  width: 400,
+                  height:120,
+                  showTitle: false,         // 타이틀 제거
+                  showCloseButton: false,   // 오른쪽 상단 닫기(X) 버튼 제거
+                  visible: true,
+                  dragEnabled: false,
+                  closeOnOutsideClick: false,
+                  contentTemplate: function (contentElement) {
+                    $(contentElement).append(
+                      $("<div>")
+                        .addClass("popup-message")
+                        .text("작업을 완료했습니다.")
+                        .css({
+                          "text-align": "center",
+                          "padding": "0",
+                          "font-size": "16px",
+                          "font-weight" : "bold",
+                          "line-height": "30px",
+                        })
+                    );
+                  },
+                  toolbarItems: [
+                    {
+                      widget: "dxButton",
+                      toolbar: "bottom",
+                      location: "right",
+                      options: {
+                        text: "확인",
+                        type: "default",
+                        stylingMode: "contained",
+                        onClick: function () {
+                          $("#dynamicPopup").dxPopup("hide");
+                          searchList();
+                        },
+                      },
+                    }
+                  ]
+                });
+               
+              }  
+                          
+            })
+            .fail(function () {
+              // 에러 발생 시 처리
+            });
         } else if (buttonId === "전체 작업완료") {
           //전체 작업완료
           var obj = {
