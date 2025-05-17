@@ -161,14 +161,14 @@ function onCreate() {
               let statusCode = response.lktHeader.statusCode
               
               if(statusCode === "01"){
-                $("#dynamicPopup").dxPopup({
+                $("#alertPopup").dxPopup({
                   width: 400,
                   height:120,
                   showTitle: false,         // 타이틀 제거
                   showCloseButton: false,   // 오른쪽 상단 닫기(X) 버튼 제거
                   visible: true,
                   dragEnabled: false,
-                  closeOnOutsideClick: false,
+                  hideOnOutsideClick: false,
                   contentTemplate: function (contentElement) {
                     $(contentElement).append(
                       $("<div>")
@@ -193,7 +193,7 @@ function onCreate() {
                         type: "default",
                         stylingMode: "contained",
                         onClick: function () {
-                          $("#dynamicPopup").dxPopup("hide");
+                          $("#alertPopup").dxPopup("hide");
                           searchList();
                         },
                       },
